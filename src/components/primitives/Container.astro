@@ -1,0 +1,36 @@
+---
+/**
+ * Container: centres content at a max width.
+ * Props: size 'default' (1200) | 'narrow' (1100) | 'full'; as (tag); class.
+ * Tokens: --container-max, --container-narrow.
+ * Motion hooks: none.
+ */
+import type { HTMLTag } from 'astro/types';
+
+interface Props {
+  size?: 'default' | 'narrow' | 'full';
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const { size = 'default', as: Tag = 'div', class: className, ...rest } = Astro.props;
+---
+
+<Tag class:list={['container', `container--${size}`, className]} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .container {
+      width: 100%;
+      margin-inline: auto;
+    }
+    .container--default {
+      max-width: var(--container-max);
+    }
+    .container--narrow {
+      max-width: var(--container-narrow);
+    }
+  }
+</style>

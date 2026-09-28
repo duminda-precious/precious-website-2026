@@ -6,5 +6,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://precious.studio',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Dev pages (/dev/*) are never indexed.
+      filter: (page) => !page.includes('/dev/'),
+    }),
+  ],
 });

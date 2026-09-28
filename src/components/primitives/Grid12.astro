@@ -1,0 +1,38 @@
+---
+/**
+ * Grid12: the 12-column asymmetric grid (Work section).
+ * Collapses to one column below md (760px), as in the prototype.
+ * Place children with <GridItem span start stagger>.
+ * Props: as, class.
+ * Tokens: --grid-columns, --grid-gap-row, --grid-gap-col.
+ * Motion hooks: none.
+ */
+import type { HTMLTag } from 'astro/types';
+
+interface Props {
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const { as: Tag = 'div', class: className, ...rest } = Astro.props;
+---
+
+<Tag class:list={['grid12', className]} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .grid12 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--grid-gap-row) var(--grid-gap-col);
+      align-items: start;
+    }
+    @media (min-width: 47.5rem) {
+      .grid12 {
+        grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      }
+    }
+  }
+</style>

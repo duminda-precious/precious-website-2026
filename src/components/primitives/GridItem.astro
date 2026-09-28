@@ -1,0 +1,46 @@
+---
+/**
+ * GridItem: a cell in Grid12.
+ * Props: span (1–12), start (1–12, optional), stagger (drops the item by
+ *        --grid-offset-stagger on desktop, like the prototype's w3 card), as, class.
+ * Below md every item spans the full width with no offset.
+ * Tokens: --grid-offset-stagger.
+ */
+import type { HTMLTag } from 'astro/types';
+
+interface Props {
+  span: number;
+  start?: number;
+  stagger?: boolean;
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const { span, start, stagger = false, as: Tag = 'div', class: className, ...rest } = Astro.props;
+const column = start ? `${start} / span ${span}` : `span ${span}`;
+---
+
+<Tag
+  class:list={['grid-item', { 'grid-item--stagger': stagger }, className]}
+  style={`--grid-item-column: ${column}`}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .grid-item {
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+    @media (min-width: 47.5rem) {
+      .grid-item {
+        grid-column: var(--grid-item-column);
+      }
+      .grid-item--stagger {
+        margin-top: var(--grid-offset-stagger);
+      }
+    }
+  }
+</style>

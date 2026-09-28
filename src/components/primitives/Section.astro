@@ -1,0 +1,72 @@
+---
+/**
+ * Section: vertical rhythm, side gutter and theme for a page band.
+ * Props:
+ *   id, theme ('light' | 'dark' | 'ink'), padding ('default' | 'tight' | 'none'),
+ *   surface (paint the theme's page surface; off = transparent),
+ *   stage (adds data-theme-stage so the M2 theme switch reacts to it),
+ *   divider (top hairline), as, class, labelledby.
+ * Tokens: --section-py, --section-py-tight, --gutter, --surface-page, --border-subtle.
+ * Motion hooks: data-theme-stage="<theme>" when stage is set.
+ */
+interface Props {
+  id?: string;
+  theme?: 'light' | 'dark' | 'ink';
+  padding?: 'default' | 'tight' | 'none';
+  surface?: boolean;
+  stage?: boolean;
+  divider?: boolean;
+  as?: 'section' | 'header' | 'footer' | 'div' | 'aside';
+  class?: string;
+  labelledby?: string;
+  [key: string]: unknown;
+}
+const {
+  id,
+  theme,
+  padding = 'default',
+  surface = false,
+  stage = false,
+  divider = false,
+  as: Tag = 'section',
+  class: className,
+  labelledby,
+  ...rest
+} = Astro.props;
+---
+
+<Tag
+  id={id}
+  data-theme={theme}
+  data-theme-stage={stage ? (theme ?? 'dark') : undefined}
+  aria-labelledby={labelledby}
+  class:list={[
+    'section',
+    `section--pad-${padding}`,
+    { 'section--surface': surface, 'section--divider': divider },
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .section {
+      padding-inline: var(--gutter);
+    }
+    .section--pad-default {
+      padding-block: var(--section-py);
+    }
+    .section--pad-tight {
+      padding: var(--section-py-tight);
+    }
+    .section--surface {
+      background: var(--surface-page);
+    }
+    .section--divider {
+      border-top: var(--border-width) solid var(--border-subtle);
+    }
+  }
+</style>

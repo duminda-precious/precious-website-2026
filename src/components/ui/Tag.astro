@@ -1,0 +1,37 @@
+---
+/**
+ * Tag: small outlined uppercase label (case study situation: REDESIGN, …).
+ * Content is written in normal case in content files; CSS uppercases it.
+ * Props: as, class.
+ * Tokens: --tag-border, --radius-pill, --text-label, --tracking-label, --space-*.
+ * Motion hooks: none.
+ */
+import type { HTMLTag } from 'astro/types';
+
+interface Props {
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const { as: Tag = 'span', class: className, ...rest } = Astro.props;
+---
+
+<Tag class:list={['tag', className]} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .tag {
+      display: inline-block;
+      align-self: flex-start;
+      padding: var(--space-2) var(--space-10);
+      border: var(--border-width) solid var(--tag-border);
+      border-radius: var(--radius-pill);
+      font-size: var(--text-label);
+      letter-spacing: var(--tracking-label);
+      line-height: var(--leading-ui);
+      text-transform: uppercase;
+    }
+  }
+</style>

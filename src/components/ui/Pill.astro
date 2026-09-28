@@ -1,0 +1,66 @@
+---
+/**
+ * Pill: rounded badge or small control.
+ *   variant 'outline' → Clutch rating badge
+ *   variant 'solid'   → "Sound on" control on the showreel (use as="button")
+ * Props: variant, as ('span' | 'a' | 'button'), href, class, plus any attribute
+ *        (e.g. aria-pressed, data-motion="sound-toggle").
+ * Tokens: --border-strong, --pill-solid-bg, --pill-solid-fg, --radius-pill,
+ *         --text-caption, --space-*, --tap-min.
+ * Motion hooks: pass data-motion through props.
+ */
+interface Props {
+  variant?: 'outline' | 'solid';
+  as?: 'span' | 'a' | 'button';
+  href?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { variant = 'outline', as: Tag = 'span', href, class: className, ...rest } = Astro.props;
+const typeAttr = Tag === 'button' ? { type: 'button' as const } : {};
+---
+
+<Tag
+  class:list={['pill', `pill--${variant}`, { 'pill--interactive': Tag !== 'span' }, className]}
+  href={Tag === 'a' ? href : undefined}
+  {...typeAttr}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-6);
+      border-radius: var(--radius-pill);
+      font-size: var(--text-caption);
+      line-height: var(--leading-ui);
+      white-space: nowrap;
+    }
+    .pill--outline {
+      padding: var(--space-6) var(--space-14);
+      border: var(--border-width) solid var(--border-strong);
+    }
+    .pill--solid {
+      padding: var(--space-8) var(--space-14);
+      background: var(--pill-solid-bg);
+      color: var(--pill-solid-fg);
+    }
+    .pill--interactive {
+      position: relative;
+    }
+    .pill--interactive::after {
+      content: '';
+      position: absolute;
+      inset: 50% 0 auto;
+      min-height: var(--tap-min);
+      transform: translateY(-50%);
+    }
+    .pill--interactive:hover {
+      opacity: var(--hover-opacity);
+    }
+  }
+</style>

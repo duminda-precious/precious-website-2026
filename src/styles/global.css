@@ -1,0 +1,8 @@
+/* Entry stylesheet. Layer order decides precedence (later wins).
+   Component <style> blocks wrap their rules in @layer components. */
+@layer reset, tokens, base, components, utilities;
+
+@import './reset.css';
+@import './tokens.css';
+@import './base.css';
+@import './utilities.css';

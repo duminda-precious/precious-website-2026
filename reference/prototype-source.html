@@ -1,0 +1,163 @@
+<!--
+  Precious Studio homepage prototype (reference only, not served).
+  Extracted from the bundled "Precious Studio Homepage.html" supplied by Duminda, 2026-09-29.
+  The bundler wrapper and React runtime were removed; markup, styles and the motion script are unchanged.
+  The marquee in the original renders the three testimonial cards twice; only one set is kept here.
+  Role: sections and layouts must stay similar; the site is a responsive, tokenised rebuild of this.
+-->
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0;background:#fff;color:#141414;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:hover{opacity:.7}summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}body{background:#111}@keyframes tk{to{transform:translateX(calc(-50% - 5px))}}.tk{animation:tk 60s linear infinite}.tk:hover{animation-play-state:paused}@media(prefers-reduced-motion:reduce){.tk{animation:none}}.w8{grid-column:1/span 8}.w4{grid-column:9/span 4}.w6{grid-column:1/span 6}.w3{grid-column:8/span 3;margin-top:120px}@media(max-width:760px){.w8,.w4,.w6,.w3{grid-column:1/-1;margin-top:0}}.sx{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1),opacity .3s}.sc:hover .sx,.sc:focus-within .sx{grid-template-rows:1fr;opacity:1}details[open] .pl{transform:rotate(45deg)}</style>
+</head>
+<body>
+
+<div id="page" style="position:relative;z-index:1;background-color:#fff;border-radius:0;transition:background-color .9s cubic-bezier(.4,0,.2,1)">
+<nav id="nav" style="position:sticky;top:0;z-index:5;background:rgba(255,255,255,.92);transition:background-color .8s ease,color .8s ease,border-color .8s ease;backdrop-filter:blur(8px);display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px clamp(20px,4vw,48px);border-bottom:1px solid #eee;flex-wrap:wrap">
+<a href="#" style="font-weight:700;letter-spacing:.04em;font-size:17px">PRECIOUS ✕ STUDIO</a>
+<div style="display:flex;gap:22px;align-items:center;font-size:13px;flex-wrap:wrap"><a href="#work">Work</a><a href="#approach">Approach</a><a href="#clients">Clients</a><a href="#faq">FAQ</a><a href="#call" style="background:#141414;color:#fff;padding:9px 16px;border-radius:4px">Book a call</a></div>
+</nav>
+
+<header id="hero" style="height:400vh;position:relative">
+<div style="position:sticky;top:0;height:100vh;overflow:hidden;perspective:1000px">
+<div id="l1" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:0 24px;text-align:center;will-change:transform,filter,opacity">
+<h1 id="h1r" style="white-space:nowrap;margin:0;font-size:clamp(48px,9vw,120px);line-height:.95;letter-spacing:-.035em;font-weight:500;"><span style="display:block;white-space:nowrap">We design</span><span style="display:block;white-space:nowrap">how your</span><span style="display:block;white-space:nowrap">product feels.</span></h1>
+</div>
+<div id="l2" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 24px;text-align:center;opacity:0;will-change:transform,filter,opacity">
+<p id="l2t" style="white-space:nowrap;margin:0;font-size:clamp(36px,6vw,80px);line-height:1;letter-spacing:-.03em;font-weight:500;"><span style="display:block;white-space:nowrap">Most products look fine.</span><span style="display:block;white-space:nowrap">Few feel good.</span></p>
+</div>
+<div id="l3" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(20px,4vw,48px);opacity:0;will-change:transform,filter,opacity">
+<div style="width:min(100%,1200px);aspect-ratio:16/9;max-height:100%;background:repeating-linear-gradient(45deg,#ececec 0 8px,#f6f6f6 8px 16px);border-radius:6px;position:relative;display:flex;align-items:center;justify-content:center;font:12px ui-monospace,Menlo,monospace;color:#777">showreel · autoplay, muted<span style="position:absolute;right:16px;bottom:16px;background:#fff;color:#141414;padding:8px 14px;border-radius:99px;font:13px 'Helvetica Neue',Arial,sans-serif">Sound on</span></div>
+</div>
+</div>
+</header>
+
+<section id="work" style="background:transparent;color:#f2eeee;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px)">
+<div style="max-width:1200px;margin:0 auto">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px"><div><h2 style="margin:0;font-size:clamp(32px,4.5vw,56px);font-weight:500;letter-spacing:-.02em">The proof is in how it moves.</h2><p style="margin:12px 0 0;color:#b9aeae;font-size:18px;max-width:44ch">Real projects, shipped. Each one plays, because a still can't show feel.</p></div><a href="#" style="font-size:13px;letter-spacing:.06em">SEE OUR WORK →</a></div>
+<div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:56px 28px;align-items:start">
+<article class="w8" style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:16/10;background:repeating-linear-gradient(45deg,#2a1c1c 0 8px,#221616 8px 16px);border-radius:6px;display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#8a7c7c">case video</div><span style="align-self:flex-start;border:1px solid #6a5a5a;border-radius:99px;padding:3px 10px;font-size:11px;letter-spacing:.05em">REDESIGN</span><h3 style="margin:0;font-size:22px;font-weight:500">Lumin Fitness</h3><p style="margin:0;color:#b9aeae;font-size:15px;line-height:1.45">Great in-studio tech, an app a tier behind → an app that feels as good as the studio.</p><a href="#" style="font-size:14px;border-bottom:1px solid;align-self:flex-start">View case study →</a></article>
+<article class="w4" style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:4/5;background:repeating-linear-gradient(45deg,#2a1c1c 0 8px,#221616 8px 16px);border-radius:6px;display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#8a7c7c">case video</div><span style="align-self:flex-start;border:1px solid #6a5a5a;border-radius:99px;padding:3px 10px;font-size:11px;letter-spacing:.05em">EXTEND MY TEAM</span><h3 style="margin:0;font-size:22px;font-weight:500">[Project]</h3><p style="margin:0;color:#b9aeae;font-size:15px;line-height:1.45">[Problem] → [outcome].</p><a href="#" style="font-size:14px;border-bottom:1px solid;align-self:flex-start">View case study →</a></article>
+<article class="w6" style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#2a1c1c 0 8px,#221616 8px 16px);border-radius:6px;display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#8a7c7c">case video</div><span style="align-self:flex-start;border:1px solid #6a5a5a;border-radius:99px;padding:3px 10px;font-size:11px;letter-spacing:.05em">BUILD FROM ZERO</span><h3 style="margin:0;font-size:22px;font-weight:500">[Project]</h3><p style="margin:0;color:#b9aeae;font-size:15px;line-height:1.45">[Problem] → [outcome].</p><a href="#" style="font-size:14px;border-bottom:1px solid;align-self:flex-start">View case study →</a></article>
+<article class="w3" style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#2a1c1c 0 8px,#221616 8px 16px);border-radius:6px;display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#8a7c7c">case video</div><span style="align-self:flex-start;border:1px solid #6a5a5a;border-radius:99px;padding:3px 10px;font-size:11px;letter-spacing:.05em">REDESIGN</span><h3 style="margin:0;font-size:22px;font-weight:500">[Project]</h3><p style="margin:0;color:#b9aeae;font-size:15px;line-height:1.45">[Problem] → [outcome].</p><a href="#" style="font-size:14px;border-bottom:1px solid;align-self:flex-start">View case study →</a></article>
+</div>
+</div>
+</section>
+
+<section id="clients" style="padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px)">
+<div style="max-width:1200px;margin:0 auto">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px"><h2 style="margin:0;font-size:clamp(32px,4.5vw,56px);font-weight:500;letter-spacing:-.02em;max-width:14ch">What working with us feels like.</h2><span style="border:1px solid #ddd;border-radius:99px;padding:6px 14px;font-size:13px">Clutch ★★★★★ 4.9</span></div>
+</div>
+<div style="overflow:hidden;margin:0 calc(-1 * clamp(20px,4vw,48px))"><div class="tk" style="display:flex;gap:10px;width:max-content">
+<!-- Card set (rendered twice in the original for a seamless loop) -->
+<figure style="margin:0;flex:none;width:min(82vw,900px);min-height:440px;background:#f0f0f0;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;box-sizing:border-box"><div style="height:44px;width:200px;background:repeating-linear-gradient(45deg,#e2e2e2 0 6px,#ebebeb 6px 12px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#777">KnomadixAI</div><div style="display:flex;flex-direction:column;gap:28px"><blockquote style="margin:0;font-size:clamp(18px,1.9vw,26px);line-height:1.45;max-width:36em">"We're a conversational AI platform. Precious understood our complex design requirements well. They moved fast without compromising quality. They were able to dive in quickly to understand our needs, goals, and complex requirements. They were communicative, friendly, and always available. Their understanding and high-quality design are truly exceptional."</blockquote><figcaption style="display:flex;flex-direction:column;gap:4px"><b style="font-size:17px;font-weight:600">Ramesh Balan</b><span style="color:#888;font-size:15px">Founder &amp; CEO, Vericora AI</span></figcaption></div></figure>
+<figure style="margin:0;flex:none;width:min(82vw,900px);min-height:440px;background:#f0f0f0;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;box-sizing:border-box"><div style="height:44px;width:200px;background:repeating-linear-gradient(45deg,#e2e2e2 0 6px,#ebebeb 6px 12px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#777">[Client logo]</div><div style="display:flex;flex-direction:column;gap:28px"><blockquote style="margin:0;font-size:clamp(18px,1.9vw,26px);line-height:1.45;max-width:36em">"[Real client quote, one or two sentences.]"</blockquote><figcaption style="display:flex;flex-direction:column;gap:4px"><b style="font-size:17px;font-weight:600">[Name]</b><span style="color:#888;font-size:15px">[Role, Company]</span></figcaption></div></figure>
+<figure style="margin:0;flex:none;width:min(82vw,900px);min-height:440px;background:#f0f0f0;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;box-sizing:border-box"><div style="height:44px;width:200px;background:repeating-linear-gradient(45deg,#e2e2e2 0 6px,#ebebeb 6px 12px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#777">[Client logo]</div><div style="display:flex;flex-direction:column;gap:28px"><blockquote style="margin:0;font-size:clamp(18px,1.9vw,26px);line-height:1.45;max-width:36em">"[Real client quote, one or two sentences.]"</blockquote><figcaption style="display:flex;flex-direction:column;gap:4px"><b style="font-size:17px;font-weight:600">[Name]</b><span style="color:#888;font-size:15px">[Role, Company]</span></figcaption></div></figure>
+</div></div>
+<div style="max-width:1200px;margin:0 auto"><div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:56px 0;font-size:15px;color:#555;letter-spacing:.03em"><span>ENDEAVOR</span><span>QBE</span><span>Xoogler</span><span>XSELL</span><span>KnomadixAI</span><span>Mitsubishi</span></div>
+<div style="display:flex;justify-content:center"><a href="#call" style="background:#141414;color:#fff;padding:14px 26px;border-radius:4px;font-size:15px">Book a call</a></div>
+</div>
+</section>
+
+<section style="padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);border-top:1px solid #eee">
+<div style="max-width:1100px;margin:0 auto;text-align:center">
+<h2 style="margin:0;font-size:clamp(28px,3.5vw,44px);font-weight:500;letter-spacing:-.02em">One team instead of five hires.</h2>
+<p style="margin:12px 0 56px;color:#666;font-size:16px">You get all of them, senior, working as one, for the cost of a single hire</p>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(90px,.7fr) minmax(0,1fr);align-items:center;font-size:14px;color:#444">
+<div style="display:flex;flex-direction:column;gap:18px;position:relative;z-index:1"><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Researcher</div><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Product designer</div><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">System designer</div></div>
+<div style="background:linear-gradient(90deg,#fff 0%,#bdbdbd 100%);border-radius:0 14px 14px 0;padding:34px 18px;display:flex;flex-direction:column;gap:18px;margin-left:-8px"><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Motion designer</div><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Frontend engineer</div></div>
+<div style="position:relative;height:100%;display:flex;align-items:center"><div style="height:14px;background:#c4c4c4;width:100%"></div><span style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);font-size:12px;background:#c4c4c4;padding:2px 4px">Personalized AI engine</span></div>
+<div style="display:flex;flex-direction:column;gap:18px;border-left:14px solid #c4c4c4;border-radius:22px 0 0 22px;padding-left:0"><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Full Transparency</div><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Some benefit</div><div style="background:#e2e2e2;border-radius:14px;padding:18px 10px">Weekly Deliveries</div></div>
+</div>
+</div>
+</section>
+
+<section id="approach" style="color:#eef2ef;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);background-color:#FFFFFF">
+<div style="max-width:1200px;margin:0 auto">
+<h2 style="margin:0 0 40px;font-size:clamp(32px,4.5vw,56px);font-weight:500;letter-spacing:-.02em;text-align:center;color:#000000">Where are you starting from?</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
+<div class="sc" tabindex="0" style="display:flex;flex-direction:column;border-radius:6px;overflow:hidden;aspect-ratio:4/5;cursor:pointer"><div style="flex:1;min-height:0;background:repeating-linear-gradient(45deg,#1d3a2d 0 8px,#183226 8px 16px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#7d978a">photo / loop</div><div style="background:#d9f07a;color:#141414;padding:22px;display:flex;flex-direction:column;gap:0"><h3 style="margin:0;font-size:22px;font-weight:500">Extend my team</h3><div class="sx"><div style="overflow:hidden;display:flex;flex-direction:column;gap:8px"><div style="height:4px"></div><p style="margin:0;font-size:15px;color:#3a4a20">Your designers are stretched thin.</p><p style="margin:0;font-size:15px">→ Senior people join and ship with you.</p></div></div></div></div>
+<div class="sc" tabindex="0" style="display:flex;flex-direction:column;border-radius:6px;overflow:hidden;aspect-ratio:4/5;cursor:pointer"><div style="flex:1;min-height:0;background:repeating-linear-gradient(45deg,#1d3a2d 0 8px,#183226 8px 16px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#7d978a">photo / loop</div><div style="background:#1f3d30;padding:22px;display:flex;flex-direction:column;gap:0"><h3 style="margin:0;font-size:22px;font-weight:500">Redesign</h3><div class="sx"><div style="overflow:hidden;display:flex;flex-direction:column;gap:8px"><div style="height:4px"></div><p style="margin:0;font-size:15px;color:#b5c7bd">It works, but it feels clunky.</p><p style="margin:0;font-size:15px">→ Same product. People enjoy using it.</p></div></div></div></div>
+<div class="sc" tabindex="0" style="display:flex;flex-direction:column;border-radius:6px;overflow:hidden;aspect-ratio:4/5;cursor:pointer"><div style="flex:1;min-height:0;background:repeating-linear-gradient(45deg,#1d3a2d 0 8px,#183226 8px 16px);display:flex;align-items:center;justify-content:center;font:12px ui-monospace,monospace;color:#7d978a">photo / loop</div><div style="background:#f2f2ee;color:#141414;padding:22px;display:flex;flex-direction:column;gap:0"><h3 style="margin:0;font-size:22px;font-weight:500">Build from zero</h3><div class="sx"><div style="overflow:hidden;display:flex;flex-direction:column;gap:8px"><div style="height:4px"></div><p style="margin:0;font-size:15px;color:#555">You have an idea and a deadline.</p><p style="margin:0;font-size:15px">→ A first version that feels finished.</p></div></div></div></div>
+</div>
+</div>
+</section>
+
+<section style="padding:clamp(20px,3vw,40px)">
+<div style="color:#fff;border-radius:6px;padding:clamp(32px,6vw,72px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px;max-width:1200px;margin:0 auto;background-color:#000000">
+<div><h2 style="margin:0;font-size:clamp(28px,3.5vw,44px);font-weight:500;letter-spacing:-.02em;line-height:1.05">Different starting points. The same process.</h2><p style="margin:14px 0 0;font-size:17px">One senior team. AI handles the volume. People handle the feel.</p><p style="margin:32px 0 0;font-size:15px">Have your own designers? <a href="#" style="border-bottom:1px solid">Meet the AI Design Agent →</a></p></div>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:18px;font-size:17px">
+<li style="border-top:1px solid rgba(255,255,255,.7);padding-top:12px"><b style="font-weight:600">A 20-minute call.</b> See if we fit.</li>
+<li style="border-top:1px solid rgba(255,255,255,.7);padding-top:12px"><b style="font-weight:600">A two-week sprint.</b> If it doesn't feel better, you don't pay.</li>
+<li style="border-top:1px solid rgba(255,255,255,.7);padding-top:12px"><b style="font-weight:600">An ongoing team.</b> From $4,500/month, month-to-month.</li>
+</ol>
+</div>
+</section>
+
+<section id="faq" style="padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px)">
+<div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px">
+<h2 style="margin:0;font-size:clamp(32px,4.5vw,56px);font-weight:500;letter-spacing:-.02em">Asked, answered.</h2>
+<div style="display:flex;flex-direction:column;font-size:16px">
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">What does "how it feels" actually mean?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">How your product moves, responds, and makes people feel while they use it. We design that along with the screens.</p></details>
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">What does it cost?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">An ongoing team starts at $4,500 a month, month-to-month. If the first sprint doesn't feel better, you don't pay.</p></details>
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">Do you write real code?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">Yes. We build the front end, so what ships is what we designed.</p></details>
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">How fast can we start?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">After a 20-minute call, we can plan your first two-week sprint.</p></details>
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">Can you handle complex, technical products?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">Yes. Many of our clients are AI companies with complex products.</p></details>
+<details style="border-bottom:1px solid #e4e4e4;padding:18px 0"><summary style="display:flex;justify-content:space-between;gap:16px">What if it's not working out?<span class="pl" style="color:#ee6a3c;transition:transform .2s">+</span></summary><p style="margin:10px 0 0;color:#555;line-height:1.5">You can stop any month. There's no long contract.</p></details>
+</div>
+</div>
+</section>
+
+</div>
+<div id="spacer" style="height:100vh"></div>
+<footer id="call" style="position:fixed;left:0;right:0;bottom:0;z-index:0;background:#111;color:#eee;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px) 32px">
+<div style="max-width:1200px;margin:0 auto">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:40px">
+<div style="grid-column:span 2;min-width:0"><h2 style="margin:0;font-size:clamp(36px,5vw,64px);font-weight:500;letter-spacing:-.025em;line-height:1;max-width:13ch">Make your product feel worth paying for.</h2><div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:28px"><a href="#" style="background:#ee6a3c;color:#fff;padding:14px 26px;border-radius:4px;font-size:15px">Book a call</a></div></div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#aaa"><span style="color:#eee;font-size:12px;letter-spacing:.06em">STUDIO</span><a href="#work">Work</a><a href="#approach">Approach</a><a href="#">AI Design Agent</a><a href="#">About</a></div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#aaa"><span style="color:#eee;font-size:12px;letter-spacing:.06em">MORE</span><a href="#">Careers</a><a href="#">Contact</a><a href="#">Clutch</a></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:80px;border-top:1px solid #333;padding-top:24px"><span style="font-size:12px;color:#777">© Precious Studio · Austin, TX</span><span style="font-size:clamp(28px,6vw,72px);font-weight:700;letter-spacing:.02em;line-height:1">PRECIOUS ✕ STUDIO</span></div>
+</div>
+</footer>
+
+<script>
+// Original motion logic (React component in the bundle), rewritten as plain JS with identical math.
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const hero = $('hero'), l1 = $('l1'), l2 = $('l2'), l3 = $('l3'), h1r = $('h1r'), l2t = $('l2t');
+  const work = $('work'), page = $('page'), spacer = $('spacer'), foot = $('call'), nav = $('nav');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let raf = 0, dark;
+  const set = (el, s, b, o) => { el.style.transform = `scale(${s})`; el.style.filter = b > .1 ? `blur(${b}px)` : 'none'; el.style.opacity = o; };
+  function update() {
+    spacer.style.height = foot.offsetHeight + 'px';
+    foot.style.position = foot.offsetHeight > innerHeight ? 'relative' : 'fixed';
+    spacer.style.display = foot.style.position === 'fixed' ? 'block' : 'none';
+    const wr = work.getBoundingClientRect(), vh = innerHeight, d = wr.top < vh * .55 && wr.bottom > vh * .45;
+    if (d !== dark) {
+      dark = d;
+      page.style.backgroundColor = d ? '#160a0a' : '#fff';
+      nav.style.backgroundColor = d ? 'rgba(22,10,10,.9)' : 'rgba(255,255,255,.92)';
+      nav.style.color = d ? '#f2eeee' : '#141414';
+      nav.style.borderBottomColor = d ? '#2a1c1c' : '#eee';
+    }
+    const r = hero.getBoundingClientRect(), span = r.height - innerHeight;
+    const p = Math.min(1, Math.max(0, -r.top / span));
+    const k = (a, b) => { const t = Math.min(1, Math.max(0, (p - a) / (b - a))); return t * t * (3 - 2 * t); };
+    if (reduced) { set(l1, 1, 0, p < .33 ? 1 : 0); set(l2, 1, 0, p >= .33 && p < .6 ? 1 : 0); set(l3, 1, 0, p >= .6 ? 1 : 0); return; }
+    const a = k(.02, .3); set(l1, 1 + a * 1.6, a * 18, 1 - a);
+    h1r.style.wordSpacing = (a * 2).toFixed(3) + 'em'; h1r.style.lineHeight = (0.95 + a * 0.35).toFixed(3);
+    const bIn = k(.12, .36), bOut = k(.45, .62);
+    set(l2, .55 + .45 * bIn + bOut * 1.4, (1 - bIn) * 14 + bOut * 18, bIn * (1 - bOut));
+    l2t.style.wordSpacing = (bOut * 2).toFixed(3) + 'em'; l2t.style.lineHeight = (1 + bOut * 0.35).toFixed(3);
+    const c = k(.55, .85); set(l3, .35 + .65 * c, (1 - c) * 12, c);
+  }
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+</body></html>

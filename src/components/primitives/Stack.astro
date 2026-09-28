@@ -1,0 +1,38 @@
+---
+/**
+ * Stack: vertical flow with a token gap.
+ * Props: gap (space token suffix, e.g. "10" → --space-10), align, as, class.
+ * Tokens: --space-*.
+ * Motion hooks: none.
+ */
+import type { HTMLTag } from 'astro/types';
+import { flexValue, type SpaceToken } from './space';
+
+interface Props {
+  gap?: SpaceToken;
+  align?: 'stretch' | 'start' | 'center' | 'end';
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const { gap = '16', align = 'stretch', as: Tag = 'div', class: className, ...rest } = Astro.props;
+---
+
+<Tag
+  class:list={['stack', className]}
+  style={`--stack-gap: var(--space-${gap}); --stack-align: ${flexValue(align)}`}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--stack-gap);
+      align-items: var(--stack-align);
+    }
+  }
+</style>

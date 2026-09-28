@@ -1,0 +1,91 @@
+---
+/**
+ * Button: the one conversion element (Book a call) and other solid actions.
+ * Renders <a> when href is set, otherwise <button>.
+ * Props:
+ *   variant 'solid-ink' (nav, clients) | 'solid-accent' (footer CTA)
+ *   size    'sm' (nav) | 'md'
+ *   href, type, track (→ data-track, e.g. "book-call"), external, class
+ * Tokens: --cta-bg, --cta-fg, --cta-accent-bg, --cta-accent-fg, --radius-sm,
+ *         --text-caption, --text-body-sm, --space-*, --tap-min, --hover-opacity.
+ * Motion hooks: none (hover is the global opacity token, M9).
+ */
+interface Props {
+  variant?: 'solid-ink' | 'solid-accent';
+  size?: 'sm' | 'md';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  track?: string;
+  external?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  variant = 'solid-ink',
+  size = 'md',
+  href,
+  type = 'button',
+  track,
+  external = false,
+  class: className,
+  ...rest
+} = Astro.props;
+const classes = ['button', `button--${variant}`, `button--${size}`, className];
+const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+{href ? (
+  <a href={href} class:list={classes} data-track={track} {...externalAttrs} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class:list={classes} data-track={track} {...rest}>
+    <slot />
+  </button>
+)}
+
+<style>
+  @layer components {
+    .button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-none);
+      white-space: nowrap;
+    }
+    .button:hover {
+      opacity: var(--hover-opacity);
+    }
+
+    .button--solid-ink {
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+    }
+    .button--solid-accent {
+      background: var(--cta-accent-bg);
+      color: var(--cta-accent-fg);
+    }
+
+    .button--sm {
+      padding: var(--space-10) var(--space-16);
+      font-size: var(--text-caption);
+    }
+    /* Keep the visual size from the prototype but give touch a 44px hit area. */
+    .button--sm::after {
+      content: '';
+      position: absolute;
+      inset: 50% 0 auto;
+      min-height: var(--tap-min);
+      transform: translateY(-50%);
+    }
+
+    .button--md {
+      min-height: var(--tap-min);
+      padding: var(--space-14) var(--space-26);
+      font-size: var(--text-body-sm);
+    }
+  }
+</style>

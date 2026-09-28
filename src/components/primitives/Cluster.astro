@@ -1,0 +1,54 @@
+---
+/**
+ * Cluster: horizontal, wrapping row with a token gap (nav links, logo row, headers).
+ * Props: gap, rowGap (space token suffixes), justify, align, wrap, as, class.
+ * Tokens: --space-*.
+ * Motion hooks: none.
+ */
+import type { HTMLTag } from 'astro/types';
+import { flexValue, type SpaceToken } from './space';
+
+interface Props {
+  gap?: SpaceToken;
+  rowGap?: SpaceToken;
+  justify?: 'start' | 'center' | 'end' | 'between';
+  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
+  wrap?: boolean;
+  as?: HTMLTag;
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  gap = '16',
+  rowGap,
+  justify = 'start',
+  align = 'center',
+  wrap = true,
+  as: Tag = 'div',
+  class: className,
+  ...rest
+} = Astro.props;
+const style = [
+  `--cluster-gap: var(--space-${gap})`,
+  `--cluster-row-gap: var(--space-${rowGap ?? gap})`,
+  `--cluster-justify: ${flexValue(justify)}`,
+  `--cluster-align: ${flexValue(align)}`,
+  `--cluster-wrap: ${wrap ? 'wrap' : 'nowrap'}`,
+].join('; ');
+---
+
+<Tag class:list={['cluster', className]} style={style} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  @layer components {
+    .cluster {
+      display: flex;
+      flex-wrap: var(--cluster-wrap);
+      gap: var(--cluster-row-gap) var(--cluster-gap);
+      justify-content: var(--cluster-justify);
+      align-items: var(--cluster-align);
+    }
+  }
+</style>

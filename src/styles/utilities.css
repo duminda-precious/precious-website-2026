@@ -1,0 +1,23 @@
+/* Single-purpose helpers. Kept small on purpose. */
+@layer utilities {
+  .visually-hidden:not(:focus):not(:active) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}

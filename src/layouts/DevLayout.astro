@@ -1,0 +1,30 @@
+---
+/**
+ * DevLayout: bare shell for /dev/* pages. Loads the design system, never indexed,
+ * excluded from the sitemap (see astro.config.mjs).
+ * Props: title.
+ */
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Pin cascade-layer order before any bundled stylesheet (the minifier drops the statement in global.css). -->
+    <style is:inline>
+      @layer reset, tokens, base, components, utilities;
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · Precious Studio (dev)</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

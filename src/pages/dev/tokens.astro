@@ -1,0 +1,766 @@
+---
+/**
+ * /dev/tokens: the whole design system on one page, for building and for
+ * verifying the phase-2 rebrand. Dev-only (noindex, not in sitemap).
+ * Copy on this page is reference/sample text, not site content.
+ */
+import DevLayout from '../../layouts/DevLayout.astro';
+import Container from '../../components/primitives/Container.astro';
+import Section from '../../components/primitives/Section.astro';
+import Grid12 from '../../components/primitives/Grid12.astro';
+import GridItem from '../../components/primitives/GridItem.astro';
+import Stack from '../../components/primitives/Stack.astro';
+import Cluster from '../../components/primitives/Cluster.astro';
+import Button from '../../components/ui/Button.astro';
+import TextLink from '../../components/ui/TextLink.astro';
+import Tag from '../../components/ui/Tag.astro';
+import Pill from '../../components/ui/Pill.astro';
+import MediaFrame from '../../components/ui/MediaFrame.astro';
+
+const primitives = {
+  Neutrals: [
+    'white',
+    'grey-25',
+    'grey-50',
+    'grey-75',
+    'grey-100',
+    'grey-125',
+    'grey-150',
+    'grey-175',
+    'grey-200',
+    'grey-300',
+    'grey-350',
+    'grey-400',
+    'grey-450',
+    'grey-500',
+    'grey-550',
+    'grey-600',
+    'grey-650',
+    'grey-800',
+    'ink-900',
+    'ink-950',
+    'black',
+  ],
+  Maroon: [
+    'maroon-50',
+    'maroon-300',
+    'maroon-500',
+    'maroon-700',
+    'maroon-850',
+    'maroon-900',
+    'maroon-950',
+  ],
+  Forest: ['forest-50', 'forest-300', 'forest-400', 'forest-800', 'forest-850', 'forest-900'],
+  Accents: ['orange-500', 'lime-300', 'olive-800', 'stone-50'],
+};
+
+const semantic = [
+  'surface-page',
+  'surface-raised',
+  'surface-muted',
+  'surface-inverse',
+  'text-primary',
+  'text-secondary',
+  'text-tertiary',
+  'text-muted',
+  'text-on-inverse',
+  'text-strong',
+  'border-subtle',
+  'border-default',
+  'border-strong',
+  'accent',
+  'cta-bg',
+  'cta-fg',
+  'cta-accent-bg',
+  'cta-accent-fg',
+  'focus-ring',
+  'tag-border',
+  'placeholder-stripe-a',
+  'placeholder-stripe-b',
+  'placeholder-fg',
+];
+
+// [foreground, background, label, size hint]; "large" = ≥24px or ≥18.66px bold
+const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
+  ['text-primary', 'surface-page', 'Body text', 'normal'],
+  ['text-secondary', 'surface-page', 'Secondary text (FAQ answers, sublines)', 'normal'],
+  ['text-tertiary', 'surface-page', 'Tertiary text (team subline)', 'normal'],
+  ['text-muted', 'surface-raised', 'Quote role on card', 'normal'],
+  ['text-muted', 'surface-page', 'Muted text (copyright)', 'normal'],
+  ['cta-fg', 'cta-bg', 'Ink button', 'normal'],
+  ['cta-accent-fg', 'cta-accent-bg', 'Accent button', 'normal'],
+  ['accent', 'surface-page', 'Accent on page (FAQ +)', 'large'],
+  ['placeholder-fg', 'placeholder-stripe-a', 'Placeholder label', 'normal'],
+  ['gate-1-fg', 'gate-1-bg', 'Gate 1 title', 'large'],
+  ['gate-1-pain', 'gate-1-bg', 'Gate 1 pain line', 'normal'],
+  ['gate-2-fg', 'gate-2-bg', 'Gate 2 title', 'large'],
+  ['gate-2-pain', 'gate-2-bg', 'Gate 2 pain line', 'normal'],
+  ['gate-3-pain', 'gate-3-bg', 'Gate 3 pain line', 'normal'],
+  ['team-chip-fg', 'team-chip-bg', 'Team chip', 'normal'],
+];
+
+const typeScale = [
+  [
+    'display-1',
+    'We design how your product feels.',
+    'var(--leading-display)',
+    'var(--tracking-display)',
+  ],
+  ['display-2', 'Most products look fine.', 'var(--leading-none)', 'var(--tracking-display-2)'],
+  [
+    'heading-1',
+    'The proof is in how it moves.',
+    'var(--leading-heading)',
+    'var(--tracking-heading)',
+  ],
+  [
+    'heading-2',
+    'One team instead of five hires.',
+    'var(--leading-heading)',
+    'var(--tracking-heading)',
+  ],
+  [
+    'heading-cta',
+    'Make your product feel worth paying for.',
+    'var(--leading-none)',
+    'var(--tracking-heading-cta)',
+  ],
+  ['wordmark', 'PRECIOUS ✕ STUDIO', 'var(--leading-none)', 'var(--tracking-wordmark)'],
+  [
+    'quote',
+    'Precious understood our complex design requirements well.',
+    'var(--leading-snug)',
+    'var(--tracking-normal)',
+  ],
+  ['heading-3', 'Lumin Fitness', 'var(--leading-heading)', 'var(--tracking-normal)'],
+  [
+    'lead',
+    "Real projects, shipped. Each one plays, because a still can't show feel.",
+    'var(--leading-body)',
+    'var(--tracking-normal)',
+  ],
+  [
+    'body-lg',
+    'One senior team. AI handles the volume. People handle the feel.',
+    'var(--leading-body)',
+    'var(--tracking-normal)',
+  ],
+  [
+    'body',
+    'How your product moves, responds, and makes people feel while they use it.',
+    'var(--leading-body)',
+    'var(--tracking-normal)',
+  ],
+  [
+    'body-sm',
+    'Great in-studio tech, an app a tier behind → an app that feels as good as the studio.',
+    'var(--leading-snug)',
+    'var(--tracking-normal)',
+  ],
+  ['ui', 'View case study', 'var(--leading-body)', 'var(--tracking-normal)'],
+  ['caption', 'Work · Approach · Clients · FAQ', 'var(--leading-body)', 'var(--tracking-normal)'],
+  ['micro', '© Precious Studio · Austin, TX', 'var(--leading-body)', 'var(--tracking-normal)'],
+  ['label', 'EXTEND MY TEAM', 'var(--leading-body)', 'var(--tracking-label)'],
+];
+
+const spaces = [
+  '2',
+  '4',
+  '6',
+  '8',
+  '10',
+  '12',
+  '14',
+  '16',
+  '18',
+  '20',
+  '22',
+  '24',
+  '26',
+  '28',
+  '32',
+  '34',
+  '40',
+  '48',
+  '56',
+  '64',
+  '80',
+  '120',
+];
+const layoutTokens = [
+  'section-py',
+  'section-py-tight',
+  'gutter',
+  'inset-card',
+  'inset-panel',
+  'grid-gap-row',
+  'grid-gap-col',
+  'grid-offset-stagger',
+];
+const radii = ['sm', 'md', 'lg', 'xl', 'pill'];
+const durations = ['fast', 'base', 'reveal', 'theme', 'page'];
+const eases = ['standard', 'out-soft', 'linear'];
+const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
+---
+
+<DevLayout title="Design tokens">
+  <div class="dev" id="dev-root" data-theme="light">
+    <header class="dev-bar">
+      <Container>
+        <Cluster justify="between" gap="16">
+          <strong class="dev-brand">Design system · /dev/tokens</strong>
+          <Cluster gap="8" role="group" aria-label="Preview theme">
+            <span class="dev-muted">Theme</span>
+            {['light', 'dark', 'ink'].map((t) => (
+              <button
+                class="dev-toggle"
+                type="button"
+                data-set-theme={t}
+                aria-pressed={t === 'light' ? 'true' : 'false'}
+              >
+                {t}
+              </button>
+            ))}
+          </Cluster>
+        </Cluster>
+      </Container>
+    </header>
+
+    <main>
+      <!-- COLOUR: PRIMITIVES -->
+      <Section padding="tight">
+        <Container>
+          <Stack gap="24">
+            <h2 class="dev-h">1 · Colour primitives</h2>
+            <p class="dev-muted">
+              Raw values from the prototype. Components never use these directly.
+            </p>
+            {Object.entries(primitives).map(([group, names]) => (
+              <Stack gap="10">
+                <h3 class="dev-h3">{group}</h3>
+                <div class="swatches">
+                  {names.map((n) => (
+                    <figure class="swatch">
+                      <div class="swatch__chip" style={`background: var(--color-${n})`} />
+                      <figcaption>
+                        <code>--color-{n}</code>
+                        <span class="swatch__value" data-read-var={`--color-${n}`} />
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </Stack>
+            ))}
+          </Stack>
+        </Container>
+      </Section>
+
+      <!-- COLOUR: SEMANTIC -->
+      <Section padding="tight" surface>
+        <Container>
+          <Stack gap="24">
+            <h2 class="dev-h">2 · Semantic colour (switch theme above)</h2>
+            <div class="swatches">
+              {semantic.map((n) => (
+                <figure class="swatch">
+                  <div class="swatch__chip" style={`background: var(--${n})`} />
+                  <figcaption>
+                    <code>--{n}</code>
+                    <span class="swatch__value" data-read-var={`--${n}`} />
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+
+            <h3 class="dev-h3">Contrast (WCAG 2.x, live for the current theme)</h3>
+            <div class="table-wrap">
+              <table class="contrast">
+                <thead>
+                  <tr>
+                    <th>Pair</th>
+                    <th>Sample</th>
+                    <th>Ratio</th>
+                    <th>AA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contrastPairs.map(([fg, bg, label, size]) => (
+                    <tr
+                      data-contrast-fg={`--${fg}`}
+                      data-contrast-bg={`--${bg}`}
+                      data-contrast-size={size}
+                    >
+                      <td>
+                        {label}
+                        <br />
+                        <code>
+                          --{fg} / --{bg}
+                        </code>
+                      </td>
+                      <td>
+                        <span
+                          class="contrast__sample"
+                          style={`color: var(--${fg}); background: var(--${bg})`}
+                        >
+                          Aa
+                        </span>
+                      </td>
+                      <td class="contrast__ratio">–</td>
+                      <td class="contrast__result">–</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Stack>
+        </Container>
+      </Section>
+
+      <!-- TYPE -->
+      <Section padding="tight">
+        <Container>
+          <Stack gap="24">
+            <h2 class="dev-h">3 · Typography</h2>
+            <p class="dev-muted">
+              Family <code>--font-sans</code> (Helvetica Neue stack) and <code>--font-mono</code>.
+              Weights 400 / 500 / 600 / 700. Resize the window to see the fluid sizes.
+            </p>
+            {typeScale.map(([name, sample, leading, tracking]) => (
+              <div class="type-row">
+                <code class="type-row__name">--text-{name}</code>
+                <p
+                  class="type-row__sample"
+                  style={`font-size: var(--text-${name}); line-height: ${leading}; letter-spacing: ${tracking}`}
+                >
+                  {sample}
+                </p>
+              </div>
+            ))}
+          </Stack>
+        </Container>
+      </Section>
+
+      <!-- SPACE, LAYOUT, RADII -->
+      <Section padding="tight" surface>
+        <Container>
+          <Stack gap="24">
+            <h2 class="dev-h">4 · Spacing, layout, radii</h2>
+            <div class="bars">
+              {spaces.map((s) => (
+                <div class="bar-row">
+                  <code>--space-{s}</code>
+                  <span class="bar" style={`width: var(--space-${s})`} />
+                </div>
+              ))}
+            </div>
+            <h3 class="dev-h3">Layout (fluid; live value)</h3>
+            <div class="bars">
+              {layoutTokens.map((s) => (
+                <div class="bar-row">
+                  <code>--{s}</code>
+                  <span class="bar" style={`width: var(--${s})`} />
+                  <span class="swatch__value" data-measure-var={`--${s}`} />
+                </div>
+              ))}
+            </div>
+            <h3 class="dev-h3">Radii</h3>
+            <Cluster gap="24">
+              {radii.map((r) => (
+                <Stack gap="8" align="center">
+                  <span class="radius-box" style={`border-radius: var(--radius-${r})`} />
+                  <code>--radius-{r}</code>
+                </Stack>
+              ))}
+            </Cluster>
+          </Stack>
+        </Container>
+      </Section>
+
+      <!-- MOTION -->
+      <Section padding="tight">
+        <Container>
+          <Stack gap="24">
+            <h2 class="dev-h">5 · Motion (Premium: calm, no overshoot)</h2>
+            <p class="dev-muted">
+              Hover a track to play the token. Reduced motion disables these demos.
+            </p>
+            <h3 class="dev-h3">Durations (with --ease-standard)</h3>
+            {durations.map((d) => (
+              <div class="motion-row">
+                <code>--dur-{d}</code>
+                <div
+                  class="motion-track"
+                  style={`--demo-dur: var(--dur-${d}); --demo-ease: var(--ease-standard)`}
+                >
+                  <span class="motion-dot" />
+                </div>
+              </div>
+            ))}
+            <h3 class="dev-h3">Easings (at --dur-page)</h3>
+            {eases.map((e) => (
+              <div class="motion-row">
+                <code>--ease-{e}</code>
+                <div
+                  class="motion-track"
+                  style={`--demo-dur: var(--dur-page); --demo-ease: var(--ease-${e})`}
+                >
+                  <span class="motion-dot" />
+                </div>
+              </div>
+            ))}
+            <p class="dev-muted">
+              Also: <code>--dur-marquee</code> 60s linear, <code>--hover-opacity</code> 0.7,
+              smoothstep for scrubbed progress (src/motion/tokens.ts).
+            </p>
+          </Stack>
+        </Container>
+      </Section>
+
+      <!-- COMPONENTS -->
+      <Section padding="tight" surface>
+        <Container>
+          <Stack gap="40">
+            <h2 class="dev-h">6 · Components</h2>
+
+            <Stack gap="12">
+              <h3 class="dev-h3">Button</h3>
+              <Cluster gap="16">
+                <Button size="sm" href="#" track="book-call">
+                  Book a call
+                </Button>
+                <Button href="#" track="book-call">
+                  Book a call
+                </Button>
+                <Button variant="solid-accent" href="#" track="book-call">
+                  Book a call
+                </Button>
+                <Button variant="solid-accent" size="sm">
+                  Button element
+                </Button>
+              </Cluster>
+            </Stack>
+
+            <Stack gap="12">
+              <h3 class="dev-h3">TextLink</h3>
+              <Cluster gap="24">
+                <TextLink href="#" track="case-study">
+                  View case study
+                </TextLink>
+                <TextLink href="#" size="sm">
+                  Meet the AI Design Agent
+                </TextLink>
+                <TextLink href="#" variant="caps">
+                  See our work
+                </TextLink>
+              </Cluster>
+            </Stack>
+
+            <Stack gap="12">
+              <h3 class="dev-h3">Tag and Pill</h3>
+              <Cluster gap="16">
+                <Tag>Redesign</Tag>
+                <Tag>Extend my team</Tag>
+                <Tag>Build from zero</Tag>
+                <Pill>Clutch ★★★★★ 4.9</Pill>
+                <Pill variant="solid" as="button" aria-pressed="false">
+                  Sound on
+                </Pill>
+              </Cluster>
+            </Stack>
+
+            <Stack gap="12">
+              <h3 class="dev-h3">MediaFrame: tone auto (follows theme)</h3>
+              <div class="media-grid">
+                {aspects.map((a) => (
+                  <Stack gap="6">
+                    <MediaFrame aspect={a} label="case video" />
+                    <code>{a}</code>
+                  </Stack>
+                ))}
+              </div>
+              <h3 class="dev-h3">MediaFrame: forest (gate) and logo</h3>
+              <div class="media-grid">
+                <MediaFrame aspect="4/5" tone="forest" label="photo / loop" />
+                <div class="logo-demo">
+                  <MediaFrame aspect="16/9" tone="logo" label="[Client logo]" rounded={false} />
+                </div>
+                <MediaFrame aspect="16/9" label="showreel · autoplay, muted">
+                  <Pill variant="solid" as="button" class="reel-pill">
+                    Sound on
+                  </Pill>
+                </MediaFrame>
+              </div>
+            </Stack>
+
+            <Stack gap="12">
+              <h3 class="dev-h3">Grid12 + GridItem (Work layout: 8/4, then 6/3 staggered)</h3>
+              <Grid12>
+                <GridItem span={8}>
+                  <MediaFrame aspect="16/10" label="span 8" />
+                </GridItem>
+                <GridItem span={4} start={9}>
+                  <MediaFrame aspect="4/5" label="span 4 · start 9" />
+                </GridItem>
+                <GridItem span={6}>
+                  <MediaFrame aspect="4/3" label="span 6" />
+                </GridItem>
+                <GridItem span={3} start={8} stagger>
+                  <MediaFrame aspect="3/4" label="span 3 · start 8 · stagger" />
+                </GridItem>
+              </Grid12>
+            </Stack>
+          </Stack>
+        </Container>
+      </Section>
+    </main>
+  </div>
+</DevLayout>
+
+<script>
+  const root = document.getElementById('dev-root')!;
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-set-theme]');
+
+  function parseColor(value: string): [number, number, number] | null {
+    // Resolve any CSS colour to rgb() via a probe element.
+    const probe = document.createElement('span');
+    probe.style.color = value;
+    root.appendChild(probe);
+    const rgb = getComputedStyle(probe).color;
+    probe.remove();
+    const m = rgb.match(/[\d.]+/g);
+    return m && m.length >= 3 ? [Number(m[0]), Number(m[1]), Number(m[2])] : null;
+  }
+
+  function luminance([r, g, b]: [number, number, number]) {
+    const c = [r, g, b].map((v) => {
+      const s = v / 255;
+      return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * c[0]! + 0.7152 * c[1]! + 0.0722 * c[2]!;
+  }
+
+  function refresh() {
+    const styles = getComputedStyle(root);
+    root.querySelectorAll<HTMLElement>('[data-read-var]').forEach((el) => {
+      el.textContent = styles.getPropertyValue(el.dataset.readVar!).trim();
+    });
+    root.querySelectorAll<HTMLElement>('[data-measure-var]').forEach((el) => {
+      const probe = document.createElement('div');
+      probe.style.width = `var(${el.dataset.measureVar})`;
+      root.appendChild(probe);
+      el.textContent = `${Math.round(probe.getBoundingClientRect().width)}px`;
+      probe.remove();
+    });
+    root.querySelectorAll<HTMLTableRowElement>('[data-contrast-fg]').forEach((row) => {
+      const fg = parseColor(styles.getPropertyValue(row.dataset.contrastFg!).trim());
+      const bg = parseColor(styles.getPropertyValue(row.dataset.contrastBg!).trim());
+      if (!fg || !bg) return;
+      const [hi, lo] = [luminance(fg), luminance(bg)].sort((a, b) => b - a) as [number, number];
+      const ratio = (hi + 0.05) / (lo + 0.05);
+      const need = row.dataset.contrastSize === 'large' ? 3 : 4.5;
+      row.querySelector('.contrast__ratio')!.textContent = `${ratio.toFixed(2)}:1`;
+      const result = row.querySelector('.contrast__result')!;
+      result.textContent = ratio >= need ? 'Pass' : `Fail (needs ${need})`;
+      result.classList.toggle('is-fail', ratio < need);
+    });
+  }
+
+  toggles.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      root.dataset.theme = btn.dataset.setTheme!;
+      toggles.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      refresh();
+    }),
+  );
+  addEventListener('resize', refresh);
+  refresh();
+</script>
+
+<style>
+  @layer components {
+    .dev {
+      min-height: 100svh;
+      background: var(--surface-page);
+      transition: background-color var(--dur-page) var(--ease-standard);
+    }
+    .dev-bar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-nav);
+      padding: var(--space-12) var(--gutter);
+      background: var(--surface-nav);
+      backdrop-filter: blur(var(--nav-blur));
+      border-bottom: var(--border-width) solid var(--border-subtle);
+      font-size: var(--text-caption);
+    }
+    .dev-brand {
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-brand);
+    }
+    .dev-toggle {
+      min-height: var(--tap-min);
+      padding: 0 var(--space-12);
+      border: var(--border-width) solid var(--border-strong);
+      border-radius: var(--radius-pill);
+      text-transform: capitalize;
+    }
+    .dev-toggle[aria-pressed='true'] {
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+      border-color: var(--cta-bg);
+    }
+    .dev-h {
+      font-size: var(--text-heading-2);
+      letter-spacing: var(--tracking-heading);
+    }
+    .dev-h3 {
+      font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+    }
+    .dev-muted {
+      color: var(--text-secondary);
+      font-size: var(--text-ui);
+    }
+    code {
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+      gap: var(--space-16);
+    }
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .swatch__chip {
+      aspect-ratio: 3 / 2;
+      border-radius: var(--radius-md);
+      border: var(--border-width) solid var(--border-default);
+    }
+    .swatch figcaption {
+      display: flex;
+      flex-direction: column;
+    }
+    .swatch__value {
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+      color: var(--text-secondary);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+    .contrast {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-ui);
+    }
+    .contrast th,
+    .contrast td {
+      padding: var(--space-8) var(--space-12);
+      border-bottom: var(--border-width) solid var(--border-default);
+      text-align: left;
+      vertical-align: middle;
+    }
+    .contrast__sample {
+      display: inline-block;
+      padding: var(--space-4) var(--space-12);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-lead);
+    }
+    .is-fail {
+      color: var(--accent);
+      font-weight: var(--weight-semibold);
+    }
+
+    .type-row {
+      display: grid;
+      gap: var(--space-8);
+      padding-bottom: var(--space-16);
+      border-bottom: var(--border-width) solid var(--border-subtle);
+    }
+    .type-row__name {
+      color: var(--text-secondary);
+    }
+    .type-row__sample {
+      font-weight: var(--weight-medium);
+      overflow-wrap: anywhere;
+    }
+
+    .bars {
+      display: grid;
+      gap: var(--space-6);
+    }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 11rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--space-12);
+    }
+    .bar {
+      display: block;
+      height: var(--space-10);
+      max-width: 100%;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+    }
+    .radius-box {
+      display: block;
+      width: var(--space-80);
+      height: var(--space-56);
+      background: var(--surface-muted);
+      border: var(--border-width) solid var(--border-strong);
+    }
+
+    .motion-row {
+      display: grid;
+      grid-template-columns: 11rem minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-12);
+    }
+    .motion-track {
+      position: relative;
+      height: var(--space-32);
+      border-radius: var(--radius-pill);
+      background: var(--surface-muted);
+    }
+    .motion-dot {
+      position: absolute;
+      top: var(--space-4);
+      left: var(--space-4);
+      width: var(--space-24);
+      height: var(--space-24);
+      border-radius: var(--radius-pill);
+      background: var(--accent);
+      transition: left var(--demo-dur) var(--demo-ease);
+    }
+    .motion-track:hover .motion-dot {
+      left: calc(100% - var(--space-28));
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .motion-dot,
+      .dev {
+        transition: none;
+      }
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+      gap: var(--space-16);
+      align-items: start;
+    }
+    .logo-demo {
+      width: 12.5rem;
+    }
+    .reel-pill {
+      position: absolute;
+      right: var(--space-16);
+      bottom: var(--space-16);
+    }
+  }
+</style>
