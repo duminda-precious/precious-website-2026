@@ -106,5 +106,20 @@ const seo = Astro.props;
         transition: none;
       }
     }
+
+    /* M10: minimal cross-fade between routes (phase 2 replaces it). The nav and
+       footer are named, non-animated groups so they don't flash. */
+    :global(::view-transition-old(root)),
+    :global(::view-transition-new(root)) {
+      animation-duration: var(--dur-base);
+      animation-timing-function: var(--ease-standard);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      :global(::view-transition-group(*)),
+      :global(::view-transition-old(*)),
+      :global(::view-transition-new(*)) {
+        animation: none !important;
+      }
+    }
   }
 </style>

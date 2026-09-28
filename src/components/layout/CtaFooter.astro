@@ -23,7 +23,14 @@ import { site } from '../../config/site';
 import { ui } from '../../config/ui';
 ---
 
-<footer id="call" class="footer" data-theme="ink" data-motion="footer-reveal">
+<footer
+  id="call"
+  class="footer"
+  data-theme="ink"
+  data-motion="footer-reveal"
+  transition:name="site-footer"
+  transition:animate="none"
+>
   <Grid12 class="footer__top">
     <div class="footer__cta">
       <h2 class="footer__heading">{ui.footer.headline}</h2>

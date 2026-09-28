@@ -27,7 +27,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
 ];
 ---
 
-<header class="nav" data-nav>
+<header class="nav" data-nav transition:name="site-nav" transition:animate="none">
   <a class="nav__brand" href="/" aria-label={ui.brandHomeLabel}>
     <span aria-hidden="true">{site.wordmark}</span>
   </a>
