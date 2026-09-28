@@ -1,0 +1,69 @@
+---
+/**
+ * StubLayout: placeholder for inner pages being rebuilt (plan §3.1).
+ * H1, one line, a link home, full nav and footer, real SEO. noindex by default.
+ * Props: seo (title, description, noindex), heading, message (defaults to ui.stub.message),
+ *        showBookCall (adds the Book a call button, used by 404 and Contact).
+ * Slot: default (extra content under the message, e.g. contact details).
+ * Tokens: --text-heading-1, --tracking-heading, --text-lead, --text-secondary, --space-*.
+ */
+import SiteShell from './SiteShell.astro';
+import Section from '../primitives/Section.astro';
+import Container from '../primitives/Container.astro';
+import Stack from '../primitives/Stack.astro';
+import Cluster from '../primitives/Cluster.astro';
+import Button from '../ui/Button.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { SeoProps } from './Seo.astro';
+import { footerCta } from '../../config/navigation';
+import { ui } from '../../config/ui';
+
+interface Props {
+  seo: Pick<SeoProps, 'title' | 'description' | 'noindex'>;
+  heading: string;
+  message?: string;
+  showBookCall?: boolean;
+}
+const { seo, heading, message = ui.stub.message, showBookCall = false } = Astro.props;
+---
+
+<SiteShell {...seo} noindex={seo.noindex ?? true}>
+  <Section labelledby="page-title">
+    <Container>
+      <Stack gap="24" class="stub">
+        <h1 id="page-title" class="stub__title">
+          {heading}
+        </h1>
+        <p class="stub__message">{message}</p>
+        <slot />
+        <Cluster gap="24">
+          {showBookCall && (
+            <Button href={footerCta.href} track={footerCta.track} external={footerCta.external}>
+              {footerCta.label}
+            </Button>
+          )}
+          <TextLink href="/" arrow={false}>
+            {ui.stub.backHome}
+          </TextLink>
+        </Cluster>
+      </Stack>
+    </Container>
+  </Section>
+</SiteShell>
+
+<style>
+  @layer components {
+    .stub {
+      min-height: 50svh;
+      justify-content: center;
+    }
+    .stub__title {
+      font-size: var(--text-heading-1);
+      letter-spacing: var(--tracking-heading);
+    }
+    .stub__message {
+      font-size: var(--text-lead);
+      color: var(--text-secondary);
+    }
+  }
+</style>

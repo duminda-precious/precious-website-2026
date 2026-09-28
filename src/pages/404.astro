@@ -1,0 +1,9 @@
+---
+import StubLayout from '../components/layout/StubLayout.astro';
+import { getPage } from '../lib/content';
+import { ui } from '../config/ui';
+
+const page = await getPage('404');
+---
+
+<StubLayout seo={page.seo} heading={page.heading} message={ui.notFound.message} showBookCall />

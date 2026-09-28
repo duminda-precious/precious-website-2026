@@ -1,0 +1,93 @@
+---
+/**
+ * SiteShell: the document for every public page.
+ *   <head> (layer order, SEO) → skip link → page wrapper (nav + main) → footer.
+ * The page wrapper sits above the footer (z-index) with an opaque background,
+ * which is what the Step 8 curtain reveal needs.
+ *
+ * Props: SEO props (title, description, noindex, type, image, canonical).
+ * Slots: default (main content), "head" (extra head tags), "jsonld".
+ * Tokens: --page-bg, --z-page, --z-skip, --dur-page, --ease-standard.
+ * Motion hooks: data-page (theme switch target, M2), data-motion="footer-reveal" on the footer (M3).
+ */
+import '../../styles/global.css';
+import Seo, { type SeoProps } from './Seo.astro';
+import Nav from './Nav.astro';
+import CtaFooter from './CtaFooter.astro';
+import { site } from '../../config/site';
+import { ui } from '../../config/ui';
+
+type Props = SeoProps;
+const seo = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Pin cascade-layer order before any bundled stylesheet. -->
+    <style is:inline>
+      @layer reset, tokens, base, components, utilities;
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo {...seo}>
+      <slot name="jsonld" slot="jsonld" />
+    </Seo>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {ui.skipLink}
+    </a>
+
+    <div class="page" data-page>
+      <Nav />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+    </div>
+
+    <CtaFooter />
+  </body>
+</html>
+
+<style>
+  @layer components {
+    .skip-link {
+      position: fixed;
+      top: var(--space-8);
+      left: var(--space-8);
+      z-index: var(--z-skip);
+      padding: var(--space-12) var(--space-16);
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-ui);
+      transform: translateY(-200%);
+    }
+    .skip-link:focus-visible {
+      transform: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: var(--z-page);
+      background-color: var(--page-bg);
+      transition: background-color var(--dur-page) var(--ease-standard);
+    }
+    .page[data-page-theme='dark'] {
+      background-color: var(--page-bg-dark);
+    }
+
+    main:focus {
+      outline: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .page {
+        transition: none;
+      }
+    }
+  }
+</style>

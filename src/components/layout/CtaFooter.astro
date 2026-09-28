@@ -1,0 +1,153 @@
+---
+/**
+ * CtaFooter: the closing CTA + footer nav + wordmark (section "call").
+ * Static in normal flow for now; Step 8 adds the curtain reveal (fixed behind
+ * the page, with a spacer) via data-motion="footer-reveal".
+ * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
+ * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
+ *         --text-heading-cta, --tracking-heading-cta, --measure-heading-cta, --text-wordmark,
+ *         --tracking-wordmark, --text-micro, --tracking-caps, --z-footer, --space-*.
+ * Motion hooks: data-motion="footer-reveal" (M3).
+ */
+import Button from '../ui/Button.astro';
+import Container from '../primitives/Container.astro';
+import { footerCta, visibleFooterNav } from '../../config/navigation';
+import { site } from '../../config/site';
+import { ui } from '../../config/ui';
+---
+
+<footer id="call" class="footer" data-theme="ink" data-motion="footer-reveal">
+  <Container>
+    <div class="footer__grid">
+      <div class="footer__cta">
+        <h2 class="footer__heading">{ui.footer.headline}</h2>
+        <div class="footer__actions">
+          <Button
+            variant="solid-accent"
+            href={footerCta.href}
+            track={footerCta.track}
+            external={footerCta.external}
+          >
+            {footerCta.label}
+          </Button>
+        </div>
+      </div>
+
+      {visibleFooterNav.map((col) => {
+        const headingId = `footer-${col.heading.toLowerCase()}`;
+        return (
+          <nav class="footer__col" aria-labelledby={headingId}>
+            <p id={headingId} class="footer__col-heading">
+              {col.heading}
+            </p>
+            <ul class="footer__links">
+              {col.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        );
+      })}
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__legal">
+        © {site.name} · {site.location}
+      </p>
+      <p class="footer__wordmark" aria-hidden="true">
+        {site.wordmark}
+      </p>
+    </div>
+  </Container>
+</footer>
+
+<style>
+  @layer components {
+    .footer {
+      position: relative;
+      z-index: var(--z-footer);
+      padding: var(--section-py) var(--gutter) var(--space-32);
+      background: var(--surface-page);
+      color: var(--text-primary);
+    }
+
+    .footer__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+      gap: var(--space-40);
+    }
+    /* Spans two columns like the prototype, but never forces an implicit
+       second column when only one fits. */
+    .footer__cta {
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+    @media (min-width: 30rem) {
+      .footer__cta {
+        grid-column: span 2;
+      }
+    }
+
+    .footer__heading {
+      max-width: var(--measure-heading-cta);
+      font-size: var(--text-heading-cta);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-heading-cta);
+      line-height: var(--leading-none);
+    }
+    .footer__actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-24);
+      margin-top: var(--space-28);
+    }
+
+    .footer__col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      font-size: var(--text-ui);
+    }
+    .footer__col-heading {
+      font-size: var(--text-micro);
+      letter-spacing: var(--tracking-caps);
+      text-transform: uppercase;
+    }
+    .footer__links {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      list-style: none;
+      color: var(--text-secondary);
+    }
+
+    .footer__bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-16);
+      margin-top: var(--space-80);
+      padding-top: var(--space-24);
+      border-top: var(--border-width) solid var(--border-subtle);
+    }
+    .footer__legal {
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+    }
+    .footer__wordmark {
+      font-size: var(--text-wordmark);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-wordmark);
+      line-height: var(--leading-none);
+    }
+  }
+</style>

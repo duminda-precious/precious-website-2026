@@ -1,0 +1,20 @@
+---
+/** Journal post template route: one page per published post (none yet). */
+import type { GetStaticPaths } from 'astro';
+import StubLayout from '../../components/layout/StubLayout.astro';
+import { getJournal } from '../../lib/content';
+import { site } from '../../config/site';
+
+export const getStaticPaths = (async () => {
+  const entries = await getJournal();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { title, description } = entry.data;
+---
+
+<StubLayout
+  seo={{ title: `${title} · ${site.name}`, description, noindex: true }}
+  heading={title}
+/>

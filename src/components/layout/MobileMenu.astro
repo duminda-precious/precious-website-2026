@@ -1,0 +1,209 @@
+---
+/**
+ * MobileMenu: Menu button + full-screen overlay below md (plan §3.2).
+ * Built on a modal <dialog>: the rest of the page is inert while open (focus
+ * trap), Esc closes it natively, focus returns to the Menu button, and the page
+ * scroll is locked. Visual treatment is deliberately minimal (phase 2 styles it).
+ * Props: none (links from src/config/navigation.ts).
+ * Tokens: --surface-page, --text-primary, --gutter, --space-*, --text-heading-1,
+ *         --text-caption, --tap-min, --radius-pill, --border-strong, --dur-base, --ease-standard.
+ * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions).
+ */
+import Button from '../ui/Button.astro';
+import { primaryNav, navCta } from '../../config/navigation';
+import { site } from '../../config/site';
+import { ui } from '../../config/ui';
+---
+
+<div class="menu-root" data-menu-root>
+  <button
+    class="menu-button"
+    type="button"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    data-menu-open
+  >
+    {ui.menu.open}
+  </button>
+
+  <dialog id="mobile-menu" class="menu" aria-label={ui.menu.label} data-menu-dialog>
+    <div class="menu__inner">
+      <div class="menu__top">
+        <a class="menu__brand" href="/" aria-label={ui.brandHomeLabel} data-menu-link>
+          <span aria-hidden="true">{site.wordmark}</span>
+        </a>
+        <button class="menu-button" type="button" data-menu-close>
+          {ui.menu.close}
+        </button>
+      </div>
+
+      <nav aria-label={ui.primaryNavLabel}>
+        <ul class="menu__list">
+          {primaryNav.map((link) => (
+            <li>
+              <a class="menu__link" href={link.href} data-menu-link>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="menu__cta">
+        <Button href={navCta.href} track={navCta.track} data-menu-link>
+          {navCta.label}
+        </Button>
+      </div>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const DESKTOP = '(min-width: 47.5rem)';
+
+  function initMenus() {
+    document
+      .querySelectorAll<HTMLElement>('[data-menu-root]:not([data-menu-ready])')
+      .forEach((root) => {
+        root.dataset.menuReady = '';
+        const openBtn = root.querySelector<HTMLButtonElement>('[data-menu-open]')!;
+        const dialog = root.querySelector<HTMLDialogElement>('[data-menu-dialog]')!;
+        const controller = new AbortController();
+        const { signal } = controller;
+
+        const open = () => {
+          dialog.showModal();
+          openBtn.setAttribute('aria-expanded', 'true');
+          document.documentElement.classList.add('is-scroll-locked');
+        };
+        const close = () => {
+          if (dialog.open) dialog.close();
+        };
+
+        openBtn.addEventListener('click', open, { signal });
+        root.querySelector('[data-menu-close]')!.addEventListener('click', close, { signal });
+        // Esc fires "cancel" then "close"; every close path ends here.
+        dialog.addEventListener(
+          'close',
+          () => {
+            openBtn.setAttribute('aria-expanded', 'false');
+            document.documentElement.classList.remove('is-scroll-locked');
+            openBtn.focus({ preventScroll: true });
+          },
+          { signal },
+        );
+        // Following a link closes the menu; the navigation itself proceeds.
+        root
+          .querySelectorAll('[data-menu-link]')
+          .forEach((link) => link.addEventListener('click', close, { signal }));
+        // Growing past the breakpoint while open leaves no visible way to close it, so close.
+        matchMedia(DESKTOP).addEventListener('change', (e) => e.matches && close(), { signal });
+
+        // Tear down before a View Transitions swap (plan §2 lifecycle rule).
+        document.addEventListener(
+          'astro:before-swap',
+          () => {
+            close();
+            controller.abort();
+          },
+          { once: true },
+        );
+      });
+  }
+
+  initMenus();
+  document.addEventListener('astro:page-load', initMenus);
+</script>
+
+<style>
+  @layer components {
+    .menu-root {
+      display: contents;
+    }
+    .menu-button {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      padding: 0 var(--space-16);
+      border: var(--border-width) solid currentColor;
+      border-radius: var(--radius-pill);
+      font-size: var(--text-caption);
+    }
+    .menu-button:hover {
+      opacity: var(--hover-opacity);
+    }
+
+    @media (min-width: 47.5rem) {
+      .menu-root > .menu-button {
+        display: none;
+      }
+    }
+
+    .menu {
+      width: 100%;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: var(--surface-page);
+      color: var(--text-primary);
+    }
+    .menu::backdrop {
+      background: transparent;
+    }
+    .menu[open] {
+      animation: menu-in var(--dur-base) var(--ease-standard);
+    }
+    @keyframes menu-in {
+      from {
+        opacity: 0;
+      }
+    }
+
+    .menu__inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+      min-height: 100%;
+      padding: var(--space-16) var(--gutter) var(--space-40);
+    }
+    .menu__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-16);
+    }
+    .menu__brand {
+      font-size: var(--text-body-lg);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-brand);
+      white-space: nowrap;
+    }
+    .menu__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      list-style: none;
+    }
+    .menu__link {
+      display: block;
+      padding-block: var(--space-4);
+      font-size: var(--text-heading-1);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-heading);
+      line-height: var(--leading-heading);
+    }
+    .menu__cta {
+      margin-top: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .menu[open] {
+        animation: none;
+      }
+    }
+  }
+</style>

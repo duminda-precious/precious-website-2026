@@ -1,0 +1,20 @@
+---
+/** Job template route: one page per published role (none yet). */
+import type { GetStaticPaths } from 'astro';
+import StubLayout from '../../components/layout/StubLayout.astro';
+import { getJobs } from '../../lib/content';
+import { site } from '../../config/site';
+
+export const getStaticPaths = (async () => {
+  const entries = await getJobs();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { title, summary } = entry.data;
+---
+
+<StubLayout
+  seo={{ title: `${title} · ${site.name}`, description: summary, noindex: true }}
+  heading={title}
+/>

@@ -166,6 +166,7 @@
     --grid-gap-col: var(--space-28);
     --grid-offset-stagger: var(--space-120); /* the w3 item drop */
     --hero-scroll: 400vh;
+    --nav-height: 4.125rem; /* 66px: 16px padding ×2 + 33px button + 1px border; anchor offset */
     --tap-min: 2.75rem; /* 44px touch target */
 
     /* Radii */
@@ -187,6 +188,7 @@
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
     --ease-linear: linear;
+    --ease-css: ease; /* the prototype's nav colour transition */
     --dur-fast: 200ms;
     --dur-base: 300ms;
     --dur-reveal: 450ms;

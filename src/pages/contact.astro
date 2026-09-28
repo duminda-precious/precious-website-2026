@@ -1,0 +1,36 @@
+---
+import StubLayout from '../components/layout/StubLayout.astro';
+import { getPage } from '../lib/content';
+import { site } from '../config/site';
+import { ui } from '../config/ui';
+
+const page = await getPage('contact');
+// The email stays plain text until the real address replaces the [placeholder].
+const emailIsPlaceholder = site.email.startsWith('[');
+---
+
+<StubLayout seo={page.seo} heading={page.heading} showBookCall>
+  <dl class="contact">
+    <dt>{ui.contact.email}</dt>
+    <dd>{emailIsPlaceholder ? site.email : <a href={`mailto:${site.email}`}>{site.email}</a>}</dd>
+    <dt>{ui.contact.location}</dt>
+    <dd>{site.location}</dd>
+  </dl>
+</StubLayout>
+
+<style>
+  @layer components {
+    .contact {
+      display: grid;
+      grid-template-columns: max-content minmax(0, 1fr);
+      gap: var(--space-8) var(--space-24);
+      font-size: var(--text-body);
+    }
+    .contact dt {
+      color: var(--text-secondary);
+    }
+    .contact dd {
+      margin: 0;
+    }
+  }
+</style>

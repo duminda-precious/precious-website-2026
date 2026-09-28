@@ -1,15 +1,61 @@
 ---
-// Temporary placeholder; the homepage is built in Step 5.
+/**
+ * Homepage. TEMPORARY (Step 4): each section is an anchor + its real heading so
+ * the nav can be tested. Step 5 replaces the bodies with the full sections.
+ */
+import SiteShell from '../components/layout/SiteShell.astro';
+import Section from '../components/primitives/Section.astro';
+import Container from '../components/primitives/Container.astro';
+import { getHome } from '../lib/content';
+
+const home = await getHome();
+const sections = [
+  { id: 'work', heading: home.work.heading, theme: 'dark' as const },
+  { id: 'clients', heading: home.clients.heading },
+  { id: 'team', heading: home.team.heading },
+  { id: 'approach', heading: home.approach.heading },
+  { id: 'process', heading: home.process.heading },
+  { id: 'faq', heading: home.faq.heading },
+];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Precious Studio</title>
-  </head>
-  <body>
-    <p>Precious Studio — project scaffold (Step 1).</p>
-  </body>
-</html>
+<SiteShell {...home.seo}>
+  <Section id="hero" as="header" labelledby="hero-title">
+    <Container>
+      <h1 id="hero-title" class="temp-h1">
+        {home.hero.headline.map((line) => (
+          <span>{line}</span>
+        ))}
+      </h1>
+    </Container>
+  </Section>
+
+  {sections.map((s) => (
+    <Section id={s.id} theme={s.theme} surface={!!s.theme} divider labelledby={`${s.id}-title`}>
+      <Container>
+        <h2 id={`${s.id}-title`} class="temp-h2">
+          {s.heading}
+        </h2>
+      </Container>
+    </Section>
+  ))}
+</SiteShell>
+
+<style>
+  @layer components {
+    .temp-h1 {
+      font-size: var(--text-display-1);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-display);
+    }
+    .temp-h1 span {
+      display: block;
+      white-space: nowrap;
+    }
+    .temp-h2 {
+      min-height: 60svh;
+      font-size: var(--text-heading-1);
+      letter-spacing: var(--tracking-heading);
+    }
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+/** Case study template route: one page per published entry in the work collection. */
+import type { GetStaticPaths } from 'astro';
+import StubLayout from '../../components/layout/StubLayout.astro';
+import { getWork } from '../../lib/content';
+import { site } from '../../config/site';
+
+export const getStaticPaths = (async () => {
+  const entries = await getWork();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { title, summary, seo } = entry.data;
+---
+
+<StubLayout
+  seo={{
+    title: seo?.title ?? `${title} · ${site.name}`,
+    description: seo?.description ?? summary,
+    noindex: seo?.noindex ?? true,
+  }}
+  heading={title}
+/>

@@ -1,0 +1,105 @@
+---
+/**
+ * Nav: sticky top bar (M11). Brand left; inline links + Book a call from md up;
+ * a Menu button (MobileMenu) below md.
+ * Props: none (links come from src/config/navigation.ts).
+ * Tokens: --nav-bg/-fg/-border (+ -dark variants), --nav-blur, --gutter, --space-*,
+ *         --text-body-lg, --text-caption, --tracking-brand, --z-nav, --dur-theme, --ease-css.
+ * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2).
+ */
+import Button from '../ui/Button.astro';
+import MobileMenu from './MobileMenu.astro';
+import { primaryNav, navCta } from '../../config/navigation';
+import { site } from '../../config/site';
+import { ui } from '../../config/ui';
+---
+
+<header class="nav" data-nav>
+  <a class="nav__brand" href="/" aria-label={ui.brandHomeLabel}>
+    <span aria-hidden="true">{site.wordmark}</span>
+  </a>
+
+  <nav class="nav__links" aria-label={ui.primaryNavLabel}>
+    <ul class="nav__list">
+      {primaryNav.map((link) => (
+        <li>
+          <a class="nav__link" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <Button size="sm" href={navCta.href} track={navCta.track}>
+          {navCta.label}
+        </Button>
+      </li>
+    </ul>
+  </nav>
+
+  <MobileMenu />
+</header>
+
+<style>
+  @layer components {
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-nav);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-16);
+      padding: var(--space-16) var(--gutter);
+      background: var(--nav-bg);
+      color: var(--nav-fg);
+      border-bottom: var(--border-width) solid var(--nav-border);
+      backdrop-filter: blur(var(--nav-blur));
+      -webkit-backdrop-filter: blur(var(--nav-blur));
+      transition:
+        background-color var(--dur-theme) var(--ease-css),
+        color var(--dur-theme) var(--ease-css),
+        border-color var(--dur-theme) var(--ease-css);
+    }
+    .nav[data-nav-theme='dark'] {
+      --nav-bg: var(--nav-bg-dark);
+      --nav-fg: var(--nav-fg-dark);
+      --nav-border: var(--nav-border-dark);
+    }
+
+    .nav__brand {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      font-size: var(--text-body-lg);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-brand);
+      line-height: var(--leading-none);
+      white-space: nowrap;
+    }
+
+    .nav__links {
+      display: none;
+    }
+    .nav__list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-22);
+      list-style: none;
+      font-size: var(--text-caption);
+    }
+
+    @media (min-width: 47.5rem) {
+      .nav__links {
+        display: block;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nav {
+        transition: none;
+      }
+    }
+  }
+</style>

@@ -24,6 +24,11 @@
     line-height: var(--leading-heading);
   }
 
+  /* Anchor targets land just below the sticky nav. */
+  [id] {
+    scroll-margin-top: var(--nav-height);
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -32,6 +37,11 @@
   /* M9: global hover, as in the prototype. */
   a:hover {
     opacity: var(--hover-opacity);
+  }
+
+  /* Set by the mobile menu while open. */
+  html.is-scroll-locked {
+    overflow: hidden;
   }
 
   :focus-visible {

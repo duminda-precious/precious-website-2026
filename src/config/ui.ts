@@ -4,6 +4,9 @@
  */
 export const ui = {
   skipLink: 'Skip to content',
+  brandHomeLabel: 'Precious Studio, home',
+  primaryNavLabel: 'Primary',
+  footerNavLabel: 'Footer',
   menu: {
     open: 'Menu',
     close: 'Close',
@@ -18,6 +21,10 @@ export const ui = {
   /** 404 body line; the heading and SEO live in src/content/pages/404.json. */
   notFound: {
     message: "This page doesn't exist, or it moved.",
+  },
+  contact: {
+    email: 'Email',
+    location: 'Location',
   },
   marquee: {
     pause: 'Pause testimonials',
