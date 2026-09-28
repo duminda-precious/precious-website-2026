@@ -57,11 +57,12 @@ import { ui } from '../../config/ui';
   </Grid12>
 
   <Grid12 class="footer__bottom">
-    <p class="footer__legal">
-      © {site.name} · {site.location}
-    </p>
+    <!-- Wordmark first so it sits on top when stacked (below lg); from lg both share row 1. -->
     <p class="footer__wordmark" aria-hidden="true">
       {site.wordmark}
+    </p>
+    <p class="footer__legal">
+      © {site.name} · {site.location}
     </p>
   </Grid12>
 </footer>
