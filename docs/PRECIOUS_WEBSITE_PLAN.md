@@ -57,6 +57,10 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - Phones: the problem line shows between the headline and the reel.
 - Hero track stays 400vh (prototype).
 
+**2026-09-29: Step 11 moved** (Duminda).
+
+- **Step 11 (production hardening) is deferred to the very end of phase 2.** Run it as the last step of phase 2, after the rebrand, not in phase 1. Phase 1 ends with Step 12 (handoff docs).
+
 ---
 
 ## 1. Context
@@ -457,7 +461,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Scroll position resets on new pages and is restored on back
   - [ ] Hero and theme motion still work after navigating away and back
 
-### Step 11: Production hardening
+### Step 11: Production hardening (**deferred: run at the end of phase 2**, see §0.1)
 
 - SEO (sitemap, robots, JSON-LD, OG), the redirects map, the analytics wrapper, image and video optimisation, an accessibility pass, a performance pass against the budgets, and host config files.
 - **Test:**
