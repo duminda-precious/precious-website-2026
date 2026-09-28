@@ -1,0 +1,32 @@
+# Testimonials (marquee in the Clients section). Sorted by `order`.
+# `quote` has no surrounding quote marks; the component adds them.
+# `logoLabel` fills the logo slot until `logo` (an image path) exists, and is its alt text.
+
+- id: ramesh-balan
+  quote: >-
+    We're a conversational AI platform. Precious understood our complex design requirements well.
+    They moved fast without compromising quality. They were able to dive in quickly to understand
+    our needs, goals, and complex requirements. They were communicative, friendly, and always
+    available. Their understanding and high-quality design are truly exceptional.
+  name: Ramesh Balan
+  role: Founder & CEO
+  company: Vericora AI
+  # Prototype shows "KnomadixAI" in this card's logo slot but credits Vericora AI. To confirm.
+  logoLabel: KnomadixAI
+  order: 1
+
+- id: placeholder-2
+  quote: '[Real client quote, one or two sentences.]'
+  name: '[Name]'
+  role: '[Role]'
+  company: '[Company]'
+  logoLabel: '[Client logo]'
+  order: 2
+
+- id: placeholder-3
+  quote: '[Real client quote, one or two sentences.]'
+  name: '[Name]'
+  role: '[Role]'
+  company: '[Company]'
+  logoLabel: '[Client logo]'
+  order: 3

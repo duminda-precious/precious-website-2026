@@ -1,0 +1,70 @@
+{
+  "seo": {
+    "title": "Precious Studio · We design how your product feels",
+    "description": "A senior product design studio in Austin. We join startups as one team for product design, motion and front-end code."
+  },
+  "hero": {
+    "headline": ["We design", "how your", "product feels."],
+    "problem": ["Most products look fine.", "Few feel good."],
+    "reel": {
+      "alt": "Precious Studio showreel",
+      "placeholderLabel": "showreel · autoplay, muted"
+    }
+  },
+  "work": {
+    "heading": "The proof is in how it moves.",
+    "subline": "Real projects, shipped. Each one plays, because a still can't show feel.",
+    "seeAll": { "label": "See our work", "href": "/work" }
+  },
+  "clients": {
+    "heading": "What working with us feels like."
+  },
+  "team": {
+    "heading": "One team instead of five hires.",
+    "subline": "You get all of them, senior, working as one, for the cost of a single hire",
+    "coreRoles": ["Researcher", "Product designer", "System designer"],
+    "extendedRoles": ["Motion designer", "Frontend engineer"],
+    "engine": "Personalized AI engine",
+    "benefits": ["Full Transparency", "Some benefit", "Weekly Deliveries"]
+  },
+  "approach": {
+    "heading": "Where are you starting from?",
+    "gates": [
+      {
+        "situation": "extend-my-team",
+        "pain": "Your designers are stretched thin.",
+        "result": "Senior people join and ship with you.",
+        "tone": "gate-1",
+        "mediaLabel": "photo / loop"
+      },
+      {
+        "situation": "redesign",
+        "pain": "It works, but it feels clunky.",
+        "result": "Same product. People enjoy using it.",
+        "tone": "gate-2",
+        "mediaLabel": "photo / loop"
+      },
+      {
+        "situation": "build-from-zero",
+        "pain": "You have an idea and a deadline.",
+        "result": "A first version that feels finished.",
+        "tone": "gate-3",
+        "mediaLabel": "photo / loop"
+      }
+    ]
+  },
+  "process": {
+    "heading": "Different starting points. The same process.",
+    "subline": "One senior team. AI handles the volume. People handle the feel.",
+    "agentPrompt": "Have your own designers?",
+    "agentLink": { "label": "Meet the AI Design Agent", "href": "/ai" },
+    "steps": [
+      { "title": "A 20-minute call.", "body": "See if we fit." },
+      { "title": "A two-week sprint.", "body": "If it doesn't feel better, you don't pay." },
+      { "title": "An ongoing team.", "body": "From $4,500/month, month-to-month." }
+    ]
+  },
+  "faq": {
+    "heading": "Asked, answered."
+  }
+}

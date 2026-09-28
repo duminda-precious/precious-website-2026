@@ -1,0 +1,437 @@
+---
+/**
+ * /dev/content: every collection and config rendered raw, for checking copy
+ * against the prototype. Dev-only (noindex, not in sitemap).
+ */
+import { getCollection } from 'astro:content';
+import DevLayout from '../../layouts/DevLayout.astro';
+import Container from '../../components/primitives/Container.astro';
+import Section from '../../components/primitives/Section.astro';
+import Stack from '../../components/primitives/Stack.astro';
+import { site } from '../../config/site';
+import { primaryNav, navCta, footerCta, footerNav } from '../../config/navigation';
+import { situationLabels } from '../../config/taxonomy';
+import { ui } from '../../config/ui';
+import {
+  getHome,
+  getHomeWork,
+  getWork,
+  getTestimonials,
+  getClients,
+  getFaq,
+  getJobs,
+  getJournal,
+} from '../../lib/content';
+
+const home = await getHome();
+const work = await getWork();
+const homeWork = await getHomeWork();
+const testimonials = await getTestimonials();
+const clients = await getClients();
+const faq = await getFaq();
+const jobs = await getJobs();
+const journal = await getJournal();
+const pages = (await getCollection('pages')).sort((a, b) => a.id.localeCompare(b.id));
+
+const json = (v: unknown) =>
+  JSON.stringify(v, (_k, val) => (typeof val === 'function' ? `ƒ ${val.toString()}` : val), 2);
+const isPlaceholder = (s: string) => /\[[^\]]+\]/.test(s);
+---
+
+<DevLayout title="Content">
+  <main class="dev">
+    <Section padding="tight">
+      <Container>
+        <Stack gap="40">
+          <header>
+            <h1 class="dev-h">/dev/content</h1>
+            <p class="dev-muted">
+              Raw content from src/content and src/config. Strings with <mark>[brackets]</mark> are
+              placeholders.
+            </p>
+            <nav class="toc" aria-label="Sections">
+              <a href="#home">Home copy</a>
+              <a href="#work">Work</a>
+              <a href="#testimonials">Testimonials</a>
+              <a href="#clients">Clients</a>
+              <a href="#faq">FAQ</a>
+              <a href="#pages">Pages</a>
+              <a href="#empty">Jobs &amp; Journal</a>
+              <a href="#config">Config</a>
+            </nav>
+          </header>
+
+          <!-- HOME -->
+          <section id="home" class="block">
+            <h2 class="dev-h2">
+              Home copy <code>pages/home.json</code>
+            </h2>
+            <dl class="kv">
+              <dt>SEO title</dt>
+              <dd>{home.seo.title}</dd>
+              <dt>SEO description</dt>
+              <dd>
+                {home.seo.description} <small>({home.seo.description.length} chars)</small>
+              </dd>
+            </dl>
+
+            <h3 class="dev-h3">1 · Hero</h3>
+            <dl class="kv">
+              <dt>H1 lines</dt>
+              <dd>
+                {home.hero.headline.map((l) => (
+                  <div>{l}</div>
+                ))}
+              </dd>
+              <dt>Problem lines</dt>
+              <dd>
+                {home.hero.problem.map((l) => (
+                  <div>{l}</div>
+                ))}
+              </dd>
+              <dt>Reel</dt>
+              <dd>
+                {home.hero.reel.placeholderLabel} · alt “{home.hero.reel.alt}” · sound:{' '}
+                {ui.reel.soundOn} / {ui.reel.soundOff}
+              </dd>
+            </dl>
+
+            <h3 class="dev-h3">2 · Work</h3>
+            <dl class="kv">
+              <dt>Heading</dt>
+              <dd>{home.work.heading}</dd>
+              <dt>Subline</dt>
+              <dd>{home.work.subline}</dd>
+              <dt>See all</dt>
+              <dd>
+                {home.work.seeAll.label} → {home.work.seeAll.href}
+              </dd>
+              <dt>Card link</dt>
+              <dd>{ui.viewCaseStudy}</dd>
+            </dl>
+
+            <h3 class="dev-h3">3 · Clients</h3>
+            <dl class="kv">
+              <dt>Heading</dt>
+              <dd>{home.clients.heading}</dd>
+              <dt>Rating pill</dt>
+              <dd>
+                {ui.rating.source} ★★★★★ {site.clutchRating}{' '}
+                <small>(sr: {ui.rating.srLabel(site.clutchRating, site.clutchRatingMax)})</small>
+              </dd>
+              <dt>CTA</dt>
+              <dd>{ui.bookCall}</dd>
+            </dl>
+
+            <h3 class="dev-h3">4 · Team</h3>
+            <dl class="kv">
+              <dt>Heading</dt>
+              <dd>{home.team.heading}</dd>
+              <dt>Subline</dt>
+              <dd>{home.team.subline}</dd>
+              <dt>Core roles</dt>
+              <dd>{home.team.coreRoles.join(' · ')}</dd>
+              <dt>Extended roles</dt>
+              <dd>{home.team.extendedRoles.join(' · ')}</dd>
+              <dt>Engine</dt>
+              <dd>{home.team.engine}</dd>
+              <dt>Benefits</dt>
+              <dd>{home.team.benefits.join(' · ')}</dd>
+            </dl>
+
+            <h3 class="dev-h3">5 · Approach</h3>
+            <dl class="kv">
+              <dt>Heading</dt>
+              <dd>{home.approach.heading}</dd>
+            </dl>
+            <table>
+              <thead>
+                <tr>
+                  <th>Title (from taxonomy)</th>
+                  <th>Pain</th>
+                  <th>Result</th>
+                  <th>Tone</th>
+                  <th>Media</th>
+                </tr>
+              </thead>
+              <tbody>
+                {home.approach.gates.map((g) => (
+                  <tr>
+                    <td>{situationLabels[g.situation]}</td>
+                    <td>{g.pain}</td>
+                    <td>→ {g.result}</td>
+                    <td>
+                      <code>{g.tone}</code>
+                    </td>
+                    <td>{g.mediaLabel}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h3 class="dev-h3">6 · Process</h3>
+            <dl class="kv">
+              <dt>Heading</dt>
+              <dd>{home.process.heading}</dd>
+              <dt>Subline</dt>
+              <dd>{home.process.subline}</dd>
+              <dt>Agent link</dt>
+              <dd>
+                {home.process.agentPrompt} {home.process.agentLink.label} →{' '}
+                {home.process.agentLink.href}
+              </dd>
+              <dt>Steps</dt>
+              <dd>
+                {home.process.steps.map((s) => (
+                  <div>
+                    <b>{s.title}</b> {s.body}
+                  </div>
+                ))}
+              </dd>
+            </dl>
+
+            <h3 class="dev-h3">7 · FAQ · 8 · Footer</h3>
+            <dl class="kv">
+              <dt>FAQ heading</dt>
+              <dd>{home.faq.heading}</dd>
+              <dt>Footer headline</dt>
+              <dd>{ui.footer.headline}</dd>
+              <dt>Wordmark</dt>
+              <dd>{site.wordmark}</dd>
+              <dt>Copyright</dt>
+              <dd>
+                © {site.name} · {site.location}
+              </dd>
+            </dl>
+          </section>
+
+          <!-- WORK -->
+          <section id="work" class="block">
+            <h2 class="dev-h2">
+              Work <code>work/*.md</code> · {work.length} published · {homeWork.length} on home
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>id (slug)</th>
+                  <th>Title</th>
+                  <th>Tag</th>
+                  <th>Summary</th>
+                  <th>Aspect</th>
+                  <th>Slot</th>
+                  <th>Order</th>
+                </tr>
+              </thead>
+              <tbody>
+                {work.map((w) => (
+                  <tr class:list={{ 'is-ph': isPlaceholder(w.data.title) }}>
+                    <td>
+                      <code>{w.id}</code>
+                    </td>
+                    <td>{w.data.title}</td>
+                    <td>{situationLabels[w.data.tag]}</td>
+                    <td>{w.data.summary}</td>
+                    <td>{w.data.media.aspect}</td>
+                    <td>{w.data.homeSlot ?? '–'}</td>
+                    <td>{w.data.homeOrder}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <!-- TESTIMONIALS -->
+          <section id="testimonials" class="block">
+            <h2 class="dev-h2">
+              Testimonials <code>testimonials.yaml</code> · {testimonials.length}
+            </h2>
+            {testimonials.map((t) => (
+              <figure class:list={['quote', { 'is-ph': isPlaceholder(t.data.name) }]}>
+                <small>
+                  #{t.data.order} · logo slot: {t.data.logoLabel}
+                </small>
+                <blockquote>“{t.data.quote}”</blockquote>
+                <figcaption>
+                  <b>{t.data.name}</b>, {t.data.role}, {t.data.company}
+                </figcaption>
+              </figure>
+            ))}
+          </section>
+
+          <!-- CLIENTS -->
+          <section id="clients" class="block">
+            <h2 class="dev-h2">
+              Clients <code>clients.yaml</code> · {clients.length}
+            </h2>
+            <p>{clients.map((c) => c.data.name).join(' · ')}</p>
+          </section>
+
+          <!-- FAQ -->
+          <section id="faq" class="block">
+            <h2 class="dev-h2">
+              FAQ <code>faq.yaml</code> · {faq.length}
+            </h2>
+            <ol class="faq">
+              {faq.map((f) => (
+                <li>
+                  <b>{f.data.question}</b>
+                  <br />
+                  {f.data.answer}
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <!-- PAGES -->
+          <section id="pages" class="block">
+            <h2 class="dev-h2">
+              Inner pages <code>pages/*.json</code> · {pages.length}
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>H1</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>noindex</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pages.map((p) => (
+                  <tr>
+                    <td>
+                      <code>{p.id}</code>
+                    </td>
+                    <td>{p.data.heading}</td>
+                    <td>{p.data.seo.title}</td>
+                    <td>
+                      {p.data.seo.description} <small>({p.data.seo.description.length})</small>
+                    </td>
+                    <td>{String(p.data.seo.noindex)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <!-- EMPTY -->
+          <section id="empty" class="block">
+            <h2 class="dev-h2">Jobs &amp; Journal</h2>
+            <p>
+              Jobs: {jobs.length} · Journal posts: {journal.length} (schemas only; empty is allowed)
+            </p>
+          </section>
+
+          <!-- CONFIG -->
+          <section id="config" class="block">
+            <h2 class="dev-h2">
+              Config <code>src/config</code>
+            </h2>
+            <h3 class="dev-h3">site.ts</h3>
+            <pre>{json(site)}</pre>
+            <h3 class="dev-h3">navigation.ts</h3>
+            <pre>{json({ primaryNav, navCta, footerCta, footerNav })}</pre>
+            <h3 class="dev-h3">taxonomy.ts</h3>
+            <pre>{json(situationLabels)}</pre>
+            <h3 class="dev-h3">ui.ts</h3>
+            <pre>{json(ui)}</pre>
+          </section>
+        </Stack>
+      </Container>
+    </Section>
+  </main>
+</DevLayout>
+
+<style>
+  @layer components {
+    .dev {
+      font-size: var(--text-ui);
+    }
+    .dev-h {
+      font-size: var(--text-heading-2);
+      letter-spacing: var(--tracking-heading);
+    }
+    .dev-h2 {
+      font-size: var(--text-lead);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-16);
+    }
+    .dev-h3 {
+      font-size: var(--text-body);
+      font-weight: var(--weight-semibold);
+      margin: var(--space-24) 0 var(--space-8);
+    }
+    .dev-muted {
+      color: var(--text-secondary);
+    }
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8) var(--space-16);
+      margin-top: var(--space-12);
+    }
+    .toc a {
+      border-bottom: var(--border-width) solid currentColor;
+    }
+    .block {
+      padding-top: var(--space-24);
+      border-top: var(--border-width) solid var(--border-default);
+      overflow-x: auto;
+    }
+    code,
+    pre {
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+    }
+    pre {
+      padding: var(--space-16);
+      background: var(--surface-raised);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+    mark {
+      background: var(--gate-1-bg);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+      gap: var(--space-6) var(--space-16);
+    }
+    .kv dt {
+      color: var(--text-secondary);
+    }
+    .kv dd {
+      margin: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th,
+    td {
+      padding: var(--space-8);
+      border-bottom: var(--border-width) solid var(--border-default);
+      text-align: left;
+      vertical-align: top;
+    }
+    .is-ph {
+      color: var(--text-muted);
+    }
+    .quote {
+      margin: 0 0 var(--space-16);
+      padding: var(--inset-card);
+      background: var(--surface-raised);
+    }
+    .quote blockquote {
+      margin: var(--space-8) 0;
+      font-size: var(--text-body);
+      line-height: var(--leading-snug);
+    }
+    .faq {
+      display: grid;
+      gap: var(--space-12);
+      padding-left: var(--space-20);
+    }
+  }
+</style>

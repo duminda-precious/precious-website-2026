@@ -1,0 +1,19 @@
+# Client logo row (Clients section). Names show as text until `logo` is added.
+- id: endeavor
+  name: ENDEAVOR
+  order: 1
+- id: qbe
+  name: QBE
+  order: 2
+- id: xoogler
+  name: Xoogler
+  order: 3
+- id: xsell
+  name: XSELL
+  order: 4
+- id: knomadixai
+  name: KnomadixAI
+  order: 5
+- id: mitsubishi
+  name: Mitsubishi
+  order: 6

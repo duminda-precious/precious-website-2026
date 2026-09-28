@@ -1,0 +1,30 @@
+# FAQ (homepage + FAQPage JSON-LD). Sorted by `order`. Verbatim from the prototype.
+- id: what-feel-means
+  question: What does "how it feels" actually mean?
+  answer: How your product moves, responds, and makes people feel while they use it. We design that along with the screens.
+  order: 1
+
+- id: cost
+  question: What does it cost?
+  answer: An ongoing team starts at $4,500 a month, month-to-month. If the first sprint doesn't feel better, you don't pay.
+  order: 2
+
+- id: real-code
+  question: Do you write real code?
+  answer: Yes. We build the front end, so what ships is what we designed.
+  order: 3
+
+- id: start-speed
+  question: How fast can we start?
+  answer: After a 20-minute call, we can plan your first two-week sprint.
+  order: 4
+
+- id: complex-products
+  question: Can you handle complex, technical products?
+  answer: Yes. Many of our clients are AI companies with complex products.
+  order: 5
+
+- id: not-working-out
+  question: What if it's not working out?
+  answer: You can stop any month. There's no long contract.
+  order: 6
