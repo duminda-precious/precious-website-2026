@@ -6,7 +6,10 @@
  *              link columns at cols 9–10 and 11–12
  *   bottom row legal (mono) left; wordmark flush right, sized to ~7 columns
  * Below lg everything stacks; the two link columns sit side by side.
- * Static in normal flow for now; Step 8 adds the reveal (data-motion="footer-reveal").
+ * Reveal (brief M6, decision 2026-09-29): from lg the footer is sticky at the
+ * bottom behind the page (SiteShell's .page sits above it with rounded bottom
+ * corners), so the page lifts off to reveal it. Below lg, or when the footer is
+ * taller than the viewport, it stays in normal flow (data-footer-static).
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
  *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --text-wordmark(-lg),
@@ -62,6 +65,36 @@ import { ui } from '../../config/ui';
     </p>
   </Grid12>
 </footer>
+
+<script>
+  // Keep the footer reachable: if it's taller than the viewport it can't be
+  // pinned, so fall back to normal flow. Re-checked on resize.
+  function initFooterReveal() {
+    document
+      .querySelectorAll<HTMLElement>('[data-motion="footer-reveal"]:not([data-footer-ready])')
+      .forEach((footer) => {
+        footer.dataset.footerReady = '';
+        const check = () =>
+          footer.toggleAttribute('data-footer-static', footer.offsetHeight > window.innerHeight);
+        const observer = new ResizeObserver(check);
+        observer.observe(footer);
+        const controller = new AbortController();
+        window.addEventListener('resize', check, { passive: true, signal: controller.signal });
+        check();
+        document.addEventListener(
+          'astro:before-swap',
+          () => {
+            observer.disconnect();
+            controller.abort();
+          },
+          { once: true },
+        );
+      });
+  }
+
+  initFooterReveal();
+  document.addEventListener('astro:page-load', initFooterReveal);
+</script>
 
 <style>
   @layer components {
@@ -138,6 +171,10 @@ import { ui } from '../../config/ui';
     }
 
     @media (min-width: 62rem) {
+      .footer:not([data-footer-static]) {
+        position: sticky;
+        bottom: 0;
+      }
       .footer__cta {
         grid-column: 1 / span 7;
       }

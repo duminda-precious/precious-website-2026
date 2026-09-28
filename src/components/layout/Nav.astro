@@ -2,7 +2,8 @@
 /**
  * Nav: sticky header (brief §3 item 1, M7; decisions 2026-09-29).
  * Logo alone at the left. On the right, a cluster of page links (mono uppercase),
- * the Services dropdown, and the Book a call button. At the top of the page the
+ * the Services dropdown (hover on mouse devices, click/keyboard everywhere), and the
+ * Book a call button. At the top of the page the
  * cluster floats with no background; once scrolled, a rounded backdrop fades in
  * behind it. The logo never gets a backdrop. No hide-on-scroll.
  * Below md (760px) the links and button move into MobileMenu.
@@ -106,7 +107,8 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       );
       updateScrolled();
 
-      // Dropdowns: the label only opens the panel. Esc, outside click and
+      // Dropdowns: the label only opens the panel (it is not a link). On mouse
+      // devices it also opens on hover. Esc, outside click, pointer leaving and
       // focus leaving the dropdown close it.
       nav.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((dropdown) => {
         const trigger = dropdown.querySelector<HTMLButtonElement>('[data-dropdown-trigger]')!;
@@ -116,7 +118,40 @@ const dropdownItems = (overview: { label: string; href: string }) => [
           trigger.setAttribute('aria-expanded', String(open));
           panel.hidden = !open;
         };
-        trigger.addEventListener('click', () => setOpen(!isOpen()), { signal });
+        const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+        // A click right after a hover-open keeps the panel open instead of toggling it shut.
+        let openedByHover = false;
+        trigger.addEventListener(
+          'click',
+          () => {
+            if (openedByHover) {
+              openedByHover = false;
+              return;
+            }
+            setOpen(!isOpen());
+          },
+          { signal },
+        );
+        dropdown.addEventListener(
+          'pointerenter',
+          (e) => {
+            if (e.pointerType === 'mouse' && canHover.matches && !isOpen()) {
+              openedByHover = true;
+              setOpen(true);
+            }
+          },
+          { signal },
+        );
+        dropdown.addEventListener(
+          'pointerleave',
+          (e) => {
+            if (e.pointerType === 'mouse' && canHover.matches) {
+              openedByHover = false;
+              setOpen(false);
+            }
+          },
+          { signal },
+        );
         dropdown.addEventListener(
           'keydown',
           (e) => {

@@ -5,7 +5,7 @@
  * trap), Esc closes it natively, focus returns to the Menu button, and the page
  * scroll is locked. Visual treatment is deliberately minimal (phase 2 styles it).
  * Props: services (dropdown items for the Services group; links from src/config/navigation.ts).
- * Services shows as an inset, grey sub-list under its label (brief M11).
+ * Services is a collapsible accordion (closed by default) with an inset, grey sub-list (brief M11).
  * Tokens: --surface-page, --text-primary, --text-secondary, --gutter, --space-*, --text-menu,
  *         --tracking-heading, --font-mono, --text-mono, --tap-min, --radius-pill,
  *         --border-width, --nav-badge-*, --dur-base, --ease-standard.
@@ -47,11 +47,22 @@ const { services } = Astro.props;
 
       <nav aria-label={ui.primaryNavLabel}>
         <ul class="menu__list">
-          {primaryNav.map((item) =>
+          {primaryNav.map((item, i) =>
             isDropdown(item) ? (
               <li>
-                <span class="menu__group-label">{item.label}</span>
-                <ul class="menu__sublist">
+                <button
+                  class="menu__group-label"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`menu-group-${i}`}
+                  data-menu-accordion
+                >
+                  {item.label}
+                  <span class="menu__caret" aria-hidden="true">
+                    ▾
+                  </span>
+                </button>
+                <ul id={`menu-group-${i}`} class="menu__sublist" hidden>
                   {[item.overview, ...services].map((link) => (
                     <li>
                       <a class="menu__sublink" href={link.href} data-menu-link>
@@ -116,6 +127,19 @@ const { services } = Astro.props;
           },
           { signal },
         );
+        // Services is an accordion, closed by default.
+        root.querySelectorAll<HTMLButtonElement>('[data-menu-accordion]').forEach((btn) => {
+          const panel = document.getElementById(btn.getAttribute('aria-controls')!)!;
+          btn.addEventListener(
+            'click',
+            () => {
+              const expand = btn.getAttribute('aria-expanded') !== 'true';
+              btn.setAttribute('aria-expanded', String(expand));
+              panel.hidden = !expand;
+            },
+            { signal },
+          );
+        });
         // Following a link closes the menu; the navigation itself proceeds.
         root
           .querySelectorAll('[data-menu-link]')
@@ -226,6 +250,20 @@ const { services } = Astro.props;
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
     }
+    .menu__group-label {
+      width: 100%;
+      text-align: left;
+    }
+    .menu__caret {
+      font-size: var(--text-large);
+      transition: transform var(--dur-fast) var(--ease-standard);
+    }
+    .menu__group-label[aria-expanded='true'] .menu__caret {
+      transform: rotate(180deg);
+    }
+    .menu__sublist[hidden] {
+      display: none;
+    }
     .menu__sublist {
       display: flex;
       flex-direction: column;
@@ -258,6 +296,9 @@ const { services } = Astro.props;
     @media (prefers-reduced-motion: reduce) {
       .menu[open] {
         animation: none;
+      }
+      .menu__caret {
+        transition: none;
       }
     }
   }

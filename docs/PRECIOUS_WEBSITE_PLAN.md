@@ -35,6 +35,13 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - **Rise-in:** cards rise 120px + fade in, per row, left to right; off under reduced motion.
 - **Colours and final visual design** come in phase 2 and will differ from the screenshot.
 
+**2026-09-29: review of the revision** (Duminda).
+
+- **Services dropdown** opens on hover on mouse devices (`(hover: hover) and (pointer: fine)`); click and keyboard still work.
+- **Mobile menu:** Services is a collapsible accordion (closed by default).
+- **Footer reveal (brief M6) is built now, not in Step 8:** the footer is sticky at the bottom behind the page, which lifts off it with rounded bottom corners (`--radius-md`). From lg (992px) only; below lg, or whenever the footer is taller than the viewport, it's in normal flow. The brief's echo bands are not built (they need phase-2 colours).
+- **Buttons:** the pill style is placeholder and may change; keep Button's styling fully token-driven and variant-ready.
+
 ---
 
 ## 1. Context

@@ -3,7 +3,7 @@
  * SiteShell: the document for every public page.
  *   <head> (layer order, SEO) → skip link → page wrapper (nav + main) → footer.
  * The page wrapper sits above the footer (z-index) with an opaque background,
- * which is what the Step 8 curtain reveal needs.
+ * and rounded bottom corners from lg, so it lifts off the sticky footer (brief M6).
  *
  * Props: SEO props (title, description, noindex, type, image, canonical).
  * Slots: default (main content), "head" (extra head tags), "jsonld".
@@ -81,6 +81,13 @@ const seo = Astro.props;
     }
     .page[data-page-theme='dark'] {
       background-color: var(--page-bg-dark);
+    }
+    /* The page is a sheet that lifts off the sticky footer (brief M2/M6). */
+    @media (min-width: 62rem) {
+      .page {
+        border-bottom-left-radius: var(--radius-md);
+        border-bottom-right-radius: var(--radius-md);
+      }
     }
 
     main:focus {
