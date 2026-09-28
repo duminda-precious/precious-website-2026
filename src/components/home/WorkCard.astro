@@ -1,0 +1,90 @@
+---
+/**
+ * WorkCard: one case study in the Work grid. The whole card is clickable
+ * (the title link stretches over the card); "View case study →" is a visual cue.
+ * Props: href, title, tag (label), summary, aspect, media (video/poster/alt/placeholderLabel).
+ * Tokens: --text-title, --tracking-title, --leading-heading, --text-body, --leading-body,
+ *         --text-secondary, --space-*, --focus-ring.
+ * Motion hooks: data-motion="rise-in" (M3, Step 9); <video> gets data-motion="video-in-view".
+ */
+import MediaFrame from '../ui/MediaFrame.astro';
+import Tag from '../ui/Tag.astro';
+import type { MediaAspect } from '../ui/media';
+import { ui } from '../../config/ui';
+
+interface Props {
+  href: string;
+  title: string;
+  tag: string;
+  summary: string;
+  aspect: MediaAspect;
+  media: { video?: string; poster?: string; alt: string; placeholderLabel: string };
+}
+const { href, title, tag, summary, aspect, media } = Astro.props;
+---
+
+<article class="work-card" data-motion="rise-in">
+  <MediaFrame
+    aspect={aspect}
+    label={media.placeholderLabel}
+    video={media.video}
+    poster={media.poster}
+    alt={media.alt}
+  />
+  <Tag>{tag}</Tag>
+  <h3 class="work-card__title">
+    <a class="work-card__link" href={href} data-track="case-study">
+      {title}
+    </a>
+  </h3>
+  <p class="work-card__summary">{summary}</p>
+  <span class="work-card__cue" aria-hidden="true">
+    {ui.viewCaseStudy} →
+  </span>
+</article>
+
+<style>
+  @layer components {
+    .work-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+    .work-card__title {
+      font-size: var(--text-title);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-title);
+      line-height: var(--leading-heading);
+    }
+    /* Stretch the link over the whole card. */
+    .work-card__link::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    .work-card__link:hover {
+      opacity: 1;
+    }
+    .work-card__link:focus-visible {
+      outline: none;
+    }
+    .work-card:has(.work-card__link:focus-visible) {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: var(--space-6);
+    }
+    .work-card:hover .work-card__cue {
+      opacity: var(--hover-opacity);
+    }
+    .work-card__summary {
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      color: var(--text-secondary);
+    }
+    .work-card__cue {
+      align-self: flex-start;
+      font-size: var(--text-body);
+      border-bottom: var(--border-width) solid currentColor;
+    }
+  }
+</style>

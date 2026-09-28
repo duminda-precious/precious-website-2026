@@ -7,6 +7,7 @@ export const ui = {
   brandHomeLabel: 'Precious Studio, home',
   primaryNavLabel: 'Primary',
   footerNavLabel: 'Footer',
+  clientsListLabel: 'Clients',
   menu: {
     open: 'Menu',
     close: 'Close',

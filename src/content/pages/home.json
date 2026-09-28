@@ -25,7 +25,8 @@
     "coreRoles": ["Researcher", "Product designer", "System designer"],
     "extendedRoles": ["Motion designer", "Frontend engineer"],
     "engine": "Personalized AI engine",
-    "benefits": ["Full Transparency", "Some benefit", "Weekly Deliveries"]
+    "benefits": ["Full Transparency", "Some benefit", "Weekly Deliveries"],
+    "diagramPlaceholder": "[Team diagram]"
   },
   "approach": {
     "heading": "Where are you starting from?",

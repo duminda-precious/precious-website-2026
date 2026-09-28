@@ -1,0 +1,60 @@
+---
+/**
+ * Disclosure: one FAQ item on native <details>/<summary> (M6). The "+" turns 45°
+ * when open. Height animation (::details-content) arrives in Step 9.
+ * Props: question, answer.
+ * Tokens: --border-default, --space-*, --tap-min, --text-body, --leading-body,
+ *         --text-secondary, --text-large, --dur-fast, --ease-standard.
+ */
+interface Props {
+  question: string;
+  answer: string;
+}
+const { question, answer } = Astro.props;
+---
+
+<details class="disclosure">
+  <summary class="disclosure__summary">
+    <span>{question}</span>
+    <span class="disclosure__icon" aria-hidden="true">
+      +
+    </span>
+  </summary>
+  <p class="disclosure__answer">{answer}</p>
+</details>
+
+<style>
+  @layer components {
+    .disclosure {
+      padding-block: var(--space-18);
+      border-bottom: var(--border-width) solid var(--border-default);
+    }
+    .disclosure__summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-16);
+      min-height: var(--tap-min);
+      font-size: var(--text-body);
+    }
+    .disclosure__icon {
+      flex: none;
+      font-size: var(--text-large);
+      line-height: var(--leading-none);
+      transition: transform var(--dur-fast) var(--ease-standard);
+    }
+    .disclosure[open] .disclosure__icon {
+      transform: rotate(45deg);
+    }
+    .disclosure__answer {
+      margin-top: var(--space-10);
+      line-height: var(--leading-body);
+      color: var(--text-secondary);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .disclosure__icon {
+        transition: none;
+      }
+    }
+  }
+</style>

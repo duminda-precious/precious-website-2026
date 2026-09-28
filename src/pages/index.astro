@@ -1,62 +1,34 @@
 ---
-/**
- * Homepage. TEMPORARY (Step 4): each section is an anchor + its real heading.
- * Step 5 replaces the bodies with the full sections.
- */
+/** Homepage: sections in prototype order; all copy from content files. */
 import SiteShell from '../components/layout/SiteShell.astro';
-import Section from '../components/primitives/Section.astro';
-import Grid12 from '../components/primitives/Grid12.astro';
-import GridItem from '../components/primitives/GridItem.astro';
-import { getHome } from '../lib/content';
+import Hero from '../components/home/Hero.astro';
+import WorkSection from '../components/home/WorkSection.astro';
+import ClientsSection from '../components/home/ClientsSection.astro';
+import TeamSection from '../components/home/TeamSection.astro';
+import ApproachSection from '../components/home/ApproachSection.astro';
+import ProcessSection from '../components/home/ProcessSection.astro';
+import FaqSection from '../components/home/FaqSection.astro';
+import { getHome, getHomeWork, getTestimonials, getClients, getFaq } from '../lib/content';
 
-const home = await getHome();
-const sections = [
-  { id: 'work', heading: home.work.heading, theme: 'dark' as const },
-  { id: 'clients', heading: home.clients.heading },
-  { id: 'team', heading: home.team.heading },
-  { id: 'approach', heading: home.approach.heading },
-  { id: 'process', heading: home.process.heading },
-  { id: 'faq', heading: home.faq.heading },
-];
+const [home, work, testimonials, clients, faq] = await Promise.all([
+  getHome(),
+  getHomeWork(),
+  getTestimonials(),
+  getClients(),
+  getFaq(),
+]);
 ---
 
 <SiteShell {...home.seo}>
-  <Section id="hero" as="header" labelledby="hero-title">
-    <h1 id="hero-title" class="temp-h1">
-      {home.hero.headline.map((line) => (
-        <span>{line}</span>
-      ))}
-    </h1>
-  </Section>
-
-  {sections.map((s) => (
-    <Section id={s.id} theme={s.theme} surface={!!s.theme} labelledby={`${s.id}-title`}>
-      <Grid12>
-        <GridItem span={9} measure="statement">
-          <h2 id={`${s.id}-title`} class="temp-h2">
-            {s.heading}
-          </h2>
-        </GridItem>
-      </Grid12>
-    </Section>
-  ))}
+  <Hero headline={home.hero.headline} />
+  <WorkSection {...home.work} items={work} />
+  <ClientsSection heading={home.clients.heading} testimonials={testimonials} clients={clients} />
+  <TeamSection
+    heading={home.team.heading}
+    subline={home.team.subline}
+    placeholder={home.team.diagramPlaceholder}
+  />
+  <ApproachSection heading={home.approach.heading} gates={home.approach.gates} />
+  <ProcessSection {...home.process} />
+  <FaqSection heading={home.faq.heading} items={faq} />
 </SiteShell>
-
-<style>
-  @layer components {
-    .temp-h1 {
-      font-size: var(--text-hero);
-      letter-spacing: var(--tracking-hero);
-      line-height: var(--leading-hero);
-    }
-    .temp-h1 span {
-      display: block;
-      white-space: nowrap;
-    }
-    .temp-h2 {
-      min-height: 50svh;
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-    }
-  }
-</style>

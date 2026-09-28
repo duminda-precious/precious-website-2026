@@ -1,0 +1,77 @@
+---
+/**
+ * WorkSection: the dark stage. Three-zone header, then the position-based grid
+ * (src/config/layout.ts): 1 column on phones, 2 from md, 12 from lg with spans by position.
+ * Props: heading, subline, seeAll (label, href), items (home work entries in order).
+ * Tokens: --grid-gap-row, --grid-gap-col, --grid-columns.
+ * Motion hooks: data-theme-stage="dark" via Section (M2).
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from '../primitives/Section.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+import TextLink from '../ui/TextLink.astro';
+import WorkCard from './WorkCard.astro';
+import { workGridPositions } from '../../config/layout';
+import { situationLabels } from '../../config/taxonomy';
+
+interface Props {
+  heading: string;
+  subline: string;
+  seeAll: { label: string; href: string };
+  items: CollectionEntry<'work'>[];
+}
+const { heading, subline, seeAll, items } = Astro.props;
+---
+
+<Section id="work" theme="dark" surface stage labelledby="work-title">
+  <SectionHeader headingId="work-title">
+    {heading}
+    <Fragment slot="sub">{subline}</Fragment>
+    <TextLink slot="action" href={seeAll.href} variant="mono">
+      {seeAll.label}
+    </TextLink>
+  </SectionHeader>
+
+  <ul class="work-grid">
+    {items.map((entry, i) => {
+      const pos = workGridPositions[i] ?? workGridPositions[workGridPositions.length - 1]!;
+      return (
+        <li class="work-grid__item" style={`--work-span: ${pos.span}`}>
+          <WorkCard
+            href={`/work/${entry.id}`}
+            title={entry.data.title}
+            tag={situationLabels[entry.data.tag]}
+            summary={entry.data.summary}
+            aspect={pos.aspect}
+            media={entry.data.media}
+          />
+        </li>
+      );
+    })}
+  </ul>
+</Section>
+
+<style>
+  @layer components {
+    .work-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--grid-gap-row) var(--grid-gap-col);
+      align-items: start;
+      list-style: none;
+    }
+    @media (min-width: 47.5rem) {
+      .work-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 62rem) {
+      .work-grid {
+        grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      }
+      .work-grid__item {
+        grid-column: span var(--work-span);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+/**
+ * Hero (static, Step 5): the three-line H1, centred, one screen tall.
+ * Step 7 adds the scroll sequence (M1): the 400vh track, the problem line and the reel.
+ * Props: headline (lines; each stays on one line).
+ * Tokens: --text-hero, --tracking-hero, --leading-hero, --nav-height, --gutter.
+ * Motion hooks: data-motion="hero" (M1).
+ */
+interface Props {
+  headline: string[];
+}
+const { headline } = Astro.props;
+---
+
+<header id="hero" class="hero" data-motion="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="hero__title">
+    {headline.map((line) => (
+      <span class="hero__line">{line}</span>
+    ))}
+  </h1>
+</header>
+
+<style>
+  @layer components {
+    .hero {
+      display: grid;
+      place-items: center;
+      min-height: calc(100svh - var(--nav-height));
+      padding-inline: var(--gutter);
+      text-align: center;
+    }
+    .hero__title {
+      font-size: var(--text-hero);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-hero);
+      line-height: var(--leading-hero);
+    }
+    .hero__line {
+      display: block;
+      white-space: nowrap;
+    }
+  }
+</style>

@@ -1,0 +1,148 @@
+---
+/**
+ * ClientsSection: three-zone header (statement + Clutch rating), a full-bleed
+ * testimonial row, the client name row, and a centred Book a call.
+ * The row is static here; Step 9 turns it into the marquee (M4: duplicate set,
+ * pause control, reduced-motion scroll).
+ * Props: heading, testimonials, clients.
+ * Tokens: --gutter, --marquee-*, --surface-raised, --radius-md, --inset-card, --text-medium,
+ *         --leading-medium, --measure-quote, --text-body, --text-secondary, --text-muted, --space-*.
+ * Motion hooks: data-motion="marquee" (M4).
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from '../primitives/Section.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+import Pill from '../ui/Pill.astro';
+import Button from '../ui/Button.astro';
+import MediaFrame from '../ui/MediaFrame.astro';
+import { bookCall } from '../../config/navigation';
+import { site } from '../../config/site';
+import { ui } from '../../config/ui';
+
+interface Props {
+  heading: string;
+  testimonials: CollectionEntry<'testimonials'>[];
+  clients: CollectionEntry<'clients'>[];
+}
+const { heading, testimonials, clients } = Astro.props;
+const stars = '★'.repeat(Math.round(site.clutchRating));
+---
+
+<Section id="clients" labelledby="clients-title">
+  <SectionHeader headingId="clients-title">
+    {heading}
+    <Pill slot="action">
+      <span aria-hidden="true">
+        {ui.rating.source} {stars} {site.clutchRating}
+      </span>
+      <span class="visually-hidden">
+        {ui.rating.srLabel(site.clutchRating, site.clutchRatingMax)}
+      </span>
+    </Pill>
+  </SectionHeader>
+
+  <div class="testimonials">
+    <div class="testimonials__track" data-motion="marquee">
+      {testimonials.map(({ data: t }) => (
+        <figure class="testimonial">
+          <div class="testimonial__logo">
+            {t.logo ? (
+              <MediaFrame aspect="fill" image={t.logo} alt={t.logoLabel} rounded={false} />
+            ) : (
+              <MediaFrame aspect="fill" tone="logo" label={t.logoLabel} rounded={false} />
+            )}
+          </div>
+          <div class="testimonial__body">
+            <blockquote class="testimonial__quote">“{t.quote}”</blockquote>
+            <figcaption class="testimonial__caption">
+              <span class="testimonial__name">{t.name}</span>
+              <span class="testimonial__role">
+                {t.role}, {t.company}
+              </span>
+            </figcaption>
+          </div>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  <ul class="client-names" aria-label={ui.clientsListLabel}>
+    {clients.map(({ data: c }) => (
+      <li>{c.name}</li>
+    ))}
+  </ul>
+
+  <div class="clients__cta">
+    <Button href={bookCall.href} track={bookCall.track}>
+      {bookCall.label}
+    </Button>
+  </div>
+</Section>
+
+<style>
+  @layer components {
+    /* Full bleed: cancel the section gutter. */
+    .testimonials {
+      margin-inline: calc(var(--gutter) * -1);
+      overflow: hidden;
+    }
+    .testimonials__track {
+      display: flex;
+      gap: var(--marquee-gap);
+      width: max-content;
+      padding-inline: var(--gutter);
+    }
+    .testimonial {
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-48);
+      width: var(--marquee-card-width);
+      min-height: var(--marquee-card-min-height);
+      padding: var(--inset-card);
+      background: var(--surface-raised);
+      border-radius: var(--radius-md);
+    }
+    .testimonial__logo {
+      display: flex;
+      width: 12.5rem;
+      height: 2.75rem;
+    }
+    .testimonial__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-28);
+    }
+    .testimonial__quote {
+      max-width: var(--measure-quote);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+    }
+    .testimonial__caption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .testimonial__name {
+      font-weight: var(--weight-medium);
+    }
+    .testimonial__role {
+      color: var(--text-muted);
+    }
+
+    .client-names {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-24);
+      margin-block: var(--space-56);
+      list-style: none;
+      color: var(--text-secondary);
+    }
+    .clients__cta {
+      display: flex;
+      justify-content: center;
+    }
+  }
+</style>

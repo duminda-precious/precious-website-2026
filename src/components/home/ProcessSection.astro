@@ -1,0 +1,90 @@
+---
+/**
+ * ProcessSection: the black card. Heading, subline and the AI Design Agent link
+ * on the left half; the three steps with top rules on the right. Stacks below lg.
+ * Props: heading, subline, agentPrompt, agentLink, steps.
+ * Tokens: --process-bg/-fg/-rule, --radius-md, --inset-panel, --section-py-tight,
+ *         --text-statement, --tracking-heading, --leading-heading, --text-medium,
+ *         --leading-medium, --text-body, --grid-gap-col, --space-*.
+ */
+import Section from '../primitives/Section.astro';
+import TextLink from '../ui/TextLink.astro';
+
+interface Props {
+  heading: string;
+  subline: string;
+  agentPrompt: string;
+  agentLink: { label: string; href: string };
+  steps: { title: string; body: string }[];
+}
+const { heading, subline, agentPrompt, agentLink, steps } = Astro.props;
+---
+
+<Section id="process" padding="tight" labelledby="process-title">
+  <div class="process">
+    <div class="process__intro">
+      <h2 id="process-title" class="process__heading">
+        {heading}
+      </h2>
+      <p class="process__sub">{subline}</p>
+      <p class="process__agent">
+        {agentPrompt} <TextLink href={agentLink.href}>{agentLink.label}</TextLink>
+      </p>
+    </div>
+    <ol class="process__steps">
+      {steps.map((s) => (
+        <li class="process__step">
+          <strong class="process__step-title">{s.title}</strong> {s.body}
+        </li>
+      ))}
+    </ol>
+  </div>
+</Section>
+
+<style>
+  @layer components {
+    .process {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-40) var(--grid-gap-col);
+      padding: var(--inset-panel);
+      background: var(--process-bg);
+      color: var(--process-fg);
+      border-radius: var(--radius-md);
+    }
+    @media (min-width: 62rem) {
+      .process {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .process__heading {
+      max-width: var(--measure-statement);
+      font-size: var(--text-statement);
+      letter-spacing: var(--tracking-heading);
+      line-height: var(--leading-heading);
+    }
+    .process__sub {
+      margin-top: var(--space-14);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+    }
+    .process__agent {
+      margin-top: var(--space-32);
+    }
+    .process__steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-18);
+      list-style: none;
+    }
+    .process__step {
+      padding-top: var(--space-12);
+      border-top: var(--border-width) solid var(--process-rule);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+    }
+    .process__step-title {
+      font-weight: var(--weight-medium);
+    }
+  }
+</style>

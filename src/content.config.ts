@@ -171,6 +171,8 @@ const home = defineCollection({
       extendedRoles: z.array(z.string().min(1)).min(1),
       engine: z.string().min(1),
       benefits: z.array(z.string().min(1)).min(1),
+      /** Placeholder shown instead of the diagram until the phase-2 design. */
+      diagramPlaceholder: z.string().min(1),
     }),
     approach: z.object({
       heading: z.string().min(1),

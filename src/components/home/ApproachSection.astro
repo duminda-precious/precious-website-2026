@@ -1,0 +1,62 @@
+---
+/**
+ * ApproachSection: centred heading + the three gate cards (RevealCard), side by
+ * side where they fit (min ~280px each), stacked on phones.
+ * Props: heading, gates (from home.json).
+ * Tokens: --text-statement, --tracking-heading, --leading-heading, --header-gap, --grid-gap-col.
+ */
+import Section from '../primitives/Section.astro';
+import RevealCard from '../ui/RevealCard.astro';
+import { situationLabels, type Situation } from '../../config/taxonomy';
+
+interface Gate {
+  situation: Situation;
+  pain: string;
+  result: string;
+  tone: 'gate-1' | 'gate-2' | 'gate-3';
+  mediaLabel: string;
+  media?: string;
+  mediaAlt: string;
+}
+interface Props {
+  heading: string;
+  gates: Gate[];
+}
+const { heading, gates } = Astro.props;
+---
+
+<Section id="approach" labelledby="approach-title">
+  <h2 id="approach-title" class="approach__heading">
+    {heading}
+  </h2>
+  <div class="approach__grid">
+    {gates.map((g) => (
+      <RevealCard
+        tone={g.tone}
+        title={situationLabels[g.situation]}
+        pain={g.pain}
+        result={g.result}
+        mediaLabel={g.mediaLabel}
+        media={g.media}
+        mediaAlt={g.mediaAlt}
+      />
+    ))}
+  </div>
+</Section>
+
+<style>
+  @layer components {
+    .approach__heading {
+      margin-bottom: var(--header-gap);
+      font-size: var(--text-statement);
+      letter-spacing: var(--tracking-heading);
+      line-height: var(--leading-heading);
+      text-align: center;
+    }
+    .approach__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+      gap: var(--grid-gap-col);
+    }
+  }
+</style>
