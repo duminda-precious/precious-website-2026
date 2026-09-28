@@ -1,20 +1,21 @@
 ---
 /**
- * ClientsSection: three-zone header (statement + Clutch rating), a full-bleed
- * testimonial row, the client name row, and a centred Book a call.
- * The row is static here; Step 9 turns it into the marquee (M4: duplicate set,
- * pause control, reduced-motion scroll).
+ * ClientsSection: three-zone header (statement + Clutch rating), the testimonial
+ * marquee (M4), the client name row, and a centred Book a call.
+ * Marquee: cards render twice for a seamless loop (the copy is aria-hidden + inert);
+ * CSS runs it (--dur-marquee, linear); it pauses on hover, focus, the visible
+ * pause button (WCAG 2.2.2) and when off-screen (src/motion/marquee.ts).
+ * Reduced motion: no animation; the row scrolls sideways with scroll-snap.
  * Props: heading, testimonials, clients.
- * Tokens: --gutter, --marquee-*, --surface-raised, --radius-md, --inset-card, --text-medium,
- *         --leading-medium, --measure-quote, --text-body, --text-secondary, --text-muted, --space-*.
- * Motion hooks: data-motion="marquee" (M4).
+ * Tokens: --gutter, --marquee-gap, --dur-marquee, --ease-linear, --space-*, --text-secondary.
+ * Motion hooks: data-motion="marquee", data-marquee-toggle.
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
 import Button from '../ui/Button.astro';
-import MediaFrame from '../ui/MediaFrame.astro';
+import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
 import { site } from '../../config/site';
 import { ui } from '../../config/ui';
@@ -41,29 +42,30 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
     </Pill>
   </SectionHeader>
 
-  <div class="testimonials">
-    <div class="testimonials__track" data-motion="marquee">
-      {testimonials.map(({ data: t }) => (
-        <figure class="testimonial">
-          <div class="testimonial__logo">
-            {t.logo ? (
-              <MediaFrame aspect="fill" image={t.logo} alt={t.logoLabel} rounded={false} />
-            ) : (
-              <MediaFrame aspect="fill" tone="logo" label={t.logoLabel} rounded={false} />
-            )}
-          </div>
-          <div class="testimonial__body">
-            <blockquote class="testimonial__quote">“{t.quote}”</blockquote>
-            <figcaption class="testimonial__caption">
-              <span class="testimonial__name">{t.name}</span>
-              <span class="testimonial__role">
-                {t.role}, {t.company}
-              </span>
-            </figcaption>
-          </div>
-        </figure>
-      ))}
+  <div class="marquee" data-motion="marquee">
+    <div class="marquee__track">
+      <div class="marquee__set">
+        {testimonials.map(({ data }) => (
+          <TestimonialCard testimonial={data} />
+        ))}
+      </div>
+      <div class="marquee__set marquee__set--copy" aria-hidden="true" inert>
+        {testimonials.map(({ data }) => (
+          <TestimonialCard testimonial={data} />
+        ))}
+      </div>
     </div>
+  </div>
+  <div class="marquee__controls">
+    <Pill
+      as="button"
+      aria-pressed="false"
+      data-marquee-toggle
+      data-label-pause={ui.marquee.pause}
+      data-label-play={ui.marquee.play}
+    >
+      {ui.marquee.pause}
+    </Pill>
   </div>
 
   <ul class="client-names" aria-label={ui.clientsListLabel}>
@@ -82,53 +84,55 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
 <style>
   @layer components {
     /* Full bleed: cancel the section gutter. */
-    .testimonials {
+    .marquee {
       margin-inline: calc(var(--gutter) * -1);
       overflow: hidden;
     }
-    .testimonials__track {
+    .marquee__track {
       display: flex;
       gap: var(--marquee-gap);
       width: max-content;
-      padding-inline: var(--gutter);
+      animation: marquee var(--dur-marquee) var(--ease-linear) infinite;
     }
-    .testimonial {
-      flex: none;
+    .marquee__set {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: var(--space-48);
-      width: var(--marquee-card-width);
-      min-height: var(--marquee-card-min-height);
-      padding: var(--inset-card);
-      background: var(--surface-raised);
-      border-radius: var(--radius-md);
+      gap: var(--marquee-gap);
     }
-    .testimonial__logo {
+    @keyframes marquee {
+      to {
+        transform: translateX(calc(-50% - var(--marquee-gap) / 2));
+      }
+    }
+    .marquee:hover .marquee__track,
+    .marquee:focus-within .marquee__track,
+    .marquee[data-paused] .marquee__track,
+    .marquee[data-offscreen] .marquee__track {
+      animation-play-state: paused;
+    }
+    .marquee__controls {
       display: flex;
-      width: 12.5rem;
-      height: 2.75rem;
+      justify-content: flex-end;
+      margin-top: var(--space-16);
     }
-    .testimonial__body {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-28);
-    }
-    .testimonial__quote {
-      max-width: var(--measure-quote);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-    }
-    .testimonial__caption {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-    .testimonial__name {
-      font-weight: var(--weight-medium);
-    }
-    .testimonial__role {
-      color: var(--text-muted);
+
+    /* Reduced motion: a swipeable row instead of a moving one. */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--gutter);
+      }
+      .marquee__track {
+        animation: none;
+        padding-inline: var(--gutter);
+      }
+      .marquee__set > :global(*) {
+        scroll-snap-align: start;
+      }
+      .marquee__set--copy,
+      .marquee__controls {
+        display: none;
+      }
     }
 
     .client-names {

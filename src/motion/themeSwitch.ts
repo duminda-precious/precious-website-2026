@@ -1,6 +1,6 @@
 /**
  * M2 section theme switch. While a [data-theme-stage="dark"] section spans the
- * viewport's middle band (top < 55% and bottom > 45% of the viewport), the page
+ * viewport (its top passes 75% of the viewport and its bottom is above 45%), the page
  * wrapper and the nav switch to their dark tokens; outside it they return to
  * light. Colours transition in CSS (--dur-page on the page, --dur-theme on the nav).
  * Without JS the stage section paints its own dark surface; once this module
@@ -35,7 +35,7 @@ export const themeSwitch: MotionModule = {
     const triggers = Array.from(stages).map((stage) =>
       ScrollTrigger.create({
         trigger: stage,
-        start: 'top 55%',
+        start: 'top 75%',
         end: 'bottom 45%',
         onToggle: (self) => {
           if (self.isActive) active.add(stage);

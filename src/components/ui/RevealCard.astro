@@ -23,7 +23,7 @@ interface Props {
 const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.props;
 ---
 
-<article class:list={['reveal-card', `reveal-card--${tone}`]} tabindex="0">
+<article class:list={['reveal-card', `reveal-card--${tone}`]} tabindex="0" data-motion="rise-in">
   <MediaFrame
     aspect="fill"
     tone="forest"

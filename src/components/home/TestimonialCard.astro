@@ -1,0 +1,77 @@
+---
+/**
+ * TestimonialCard: one quote card in the Clients marquee.
+ * Props: testimonial (collection data).
+ * Tokens: --marquee-card-width, --marquee-card-min-height, --surface-raised, --radius-md,
+ *         --inset-card, --text-medium, --leading-medium, --measure-quote, --text-muted, --space-*.
+ */
+import type { CollectionEntry } from 'astro:content';
+import MediaFrame from '../ui/MediaFrame.astro';
+
+interface Props {
+  testimonial: CollectionEntry<'testimonials'>['data'];
+}
+const { testimonial: t } = Astro.props;
+---
+
+<figure class="testimonial">
+  <div class="testimonial__logo">
+    {t.logo ? (
+      <MediaFrame aspect="fill" image={t.logo} alt={t.logoLabel} rounded={false} />
+    ) : (
+      <MediaFrame aspect="fill" tone="logo" label={t.logoLabel} rounded={false} />
+    )}
+  </div>
+  <div class="testimonial__body">
+    <blockquote class="testimonial__quote">“{t.quote}”</blockquote>
+    <figcaption class="testimonial__caption">
+      <span class="testimonial__name">{t.name}</span>
+      <span class="testimonial__role">
+        {t.role}, {t.company}
+      </span>
+    </figcaption>
+  </div>
+</figure>
+
+<style>
+  @layer components {
+    .testimonial {
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-48);
+      width: var(--marquee-card-width);
+      min-height: var(--marquee-card-min-height);
+      padding: var(--inset-card);
+      background: var(--surface-raised);
+      border-radius: var(--radius-md);
+    }
+    .testimonial__logo {
+      display: flex;
+      width: 12.5rem;
+      height: 2.75rem;
+    }
+    .testimonial__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-28);
+    }
+    .testimonial__quote {
+      max-width: var(--measure-quote);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+    }
+    .testimonial__caption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .testimonial__name {
+      font-weight: var(--weight-medium);
+    }
+    .testimonial__role {
+      color: var(--text-muted);
+    }
+  }
+</style>

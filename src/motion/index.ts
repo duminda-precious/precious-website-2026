@@ -10,6 +10,9 @@ import { lenis } from './lenis';
 import { hero } from './hero';
 import { soundToggle } from './soundToggle';
 import { themeSwitch } from './themeSwitch';
+import { marquee } from './marquee';
+import { videoInView } from './videoInView';
+import { riseIn } from './riseIn';
 
 export interface MotionModule {
   name: string;
@@ -18,7 +21,15 @@ export interface MotionModule {
 }
 
 /** Order matters: Lenis first so ScrollTriggers see the smooth-scroll proxy. */
-const modules: MotionModule[] = [lenis, hero, soundToggle, themeSwitch];
+const modules: MotionModule[] = [
+  lenis,
+  hero,
+  soundToggle,
+  themeSwitch,
+  marquee,
+  videoInView,
+  riseIn,
+];
 
 let cleanups: (() => void)[] = [];
 let booted = false;

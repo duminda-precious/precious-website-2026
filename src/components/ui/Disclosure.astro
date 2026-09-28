@@ -1,7 +1,8 @@
 ---
 /**
  * Disclosure: one FAQ item on native <details>/<summary> (M6). The "+" turns 45°
- * when open. Height animation (::details-content) arrives in Step 9.
+ * when open. The height animates where ::details-content + interpolate-size are
+ * supported; elsewhere it opens instantly.
  * Props: question, answer.
  * Tokens: --border-default, --space-*, --tap-min, --text-body, --leading-body,
  *         --text-secondary, --text-large, --dur-fast, --ease-standard.
@@ -51,8 +52,24 @@ const { question, answer } = Astro.props;
       line-height: var(--leading-body);
       color: var(--text-secondary);
     }
+    @supports (interpolate-size: allow-keywords) {
+      .disclosure {
+        interpolate-size: allow-keywords;
+      }
+      .disclosure::details-content {
+        block-size: 0;
+        overflow: hidden;
+        transition:
+          block-size var(--dur-base) var(--ease-standard),
+          content-visibility var(--dur-base) allow-discrete;
+      }
+      .disclosure[open]::details-content {
+        block-size: auto;
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
-      .disclosure__icon {
+      .disclosure__icon,
+      .disclosure::details-content {
         transition: none;
       }
     }

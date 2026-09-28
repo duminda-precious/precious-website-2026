@@ -209,6 +209,7 @@
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
     --rise-distance: 120px; /* brief entrance pattern */
+    --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
     --marquee-gap: var(--space-10);
     --marquee-card-width: min(82vw, 56.25rem); /* 900 */

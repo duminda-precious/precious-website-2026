@@ -15,6 +15,7 @@ const FALLBACK = {
   '--dur-theme': '800ms',
   '--dur-page': '900ms',
   '--dur-rise': '1s',
+  '--dur-stagger': '80ms',
   '--dur-marquee': '60s',
 } as const;
 
