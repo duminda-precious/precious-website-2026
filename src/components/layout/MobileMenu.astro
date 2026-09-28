@@ -34,7 +34,13 @@ const { services } = Astro.props;
     {ui.menu.open}
   </button>
 
-  <dialog id="mobile-menu" class="menu" aria-label={ui.menu.label} data-menu-dialog>
+  <dialog
+    id="mobile-menu"
+    class="menu"
+    aria-label={ui.menu.label}
+    data-menu-dialog
+    data-lenis-prevent
+  >
     <div class="menu__inner">
       <div class="menu__top">
         <a class="menu__brand" href="/" aria-label={ui.brandHomeLabel} data-menu-link>
@@ -110,6 +116,7 @@ const { services } = Astro.props;
           dialog.showModal();
           openBtn.setAttribute('aria-expanded', 'true');
           document.documentElement.classList.add('is-scroll-locked');
+          document.dispatchEvent(new Event('scroll:lock'));
         };
         const close = () => {
           if (dialog.open) dialog.close();
@@ -123,6 +130,7 @@ const { services } = Astro.props;
           () => {
             openBtn.setAttribute('aria-expanded', 'false');
             document.documentElement.classList.remove('is-scroll-locked');
+            document.dispatchEvent(new Event('scroll:unlock'));
             openBtn.focus({ preventScroll: true });
           },
           { signal },

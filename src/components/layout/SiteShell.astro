@@ -11,6 +11,7 @@
  * Motion hooks: data-page (theme switch target, M2), data-motion="footer-reveal" on the footer (M3).
  */
 import '../../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Seo, { type SeoProps } from './Seo.astro';
 import Nav from './Nav.astro';
 import CtaFooter from './CtaFooter.astro';
@@ -35,6 +36,7 @@ const seo = Astro.props;
       <slot name="jsonld" slot="jsonld" />
     </Seo>
     <slot name="head" />
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main">
@@ -49,6 +51,11 @@ const seo = Astro.props;
     </div>
 
     <CtaFooter />
+
+    <script>
+      import { bootMotion } from '../../motion';
+      bootMotion();
+    </script>
   </body>
 </html>
 

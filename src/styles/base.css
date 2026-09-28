@@ -40,6 +40,21 @@
     opacity: var(--hover-opacity);
   }
 
+  /* Lenis smooth scroll (from lenis.css). */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+
   /* Set by the mobile menu while open. */
   html.is-scroll-locked {
     overflow: hidden;

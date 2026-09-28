@@ -8,11 +8,13 @@
 const FALLBACK = {
   '--ease-standard': 'cubic-bezier(0.4, 0, 0.2, 1)',
   '--ease-out-soft': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+  '--ease-out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
   '--dur-fast': '200ms',
   '--dur-base': '300ms',
   '--dur-reveal': '450ms',
   '--dur-theme': '800ms',
   '--dur-page': '900ms',
+  '--dur-rise': '1s',
   '--dur-marquee': '60s',
 } as const;
 
