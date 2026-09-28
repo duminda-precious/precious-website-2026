@@ -51,6 +51,12 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - Team diagram: placeholder only (`[Team diagram]`); the design comes in phase 2.
 - Communication: keep replies and questions short.
 
+**2026-09-29: Step 7 defaults** (no answer given; Claude's defaults, easy to change).
+
+- Reel: `https://www.precious.studio/assets/hero.mp4` (supplied). Corner control = Sound toggle (prototype M8), not the brief's Play chip.
+- Phones: the problem line shows between the headline and the reel.
+- Hero track stays 400vh (prototype).
+
 ---
 
 ## 1. Context

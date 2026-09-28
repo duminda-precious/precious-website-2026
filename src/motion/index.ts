@@ -7,6 +7,8 @@
 import { setupGsap, ScrollTrigger } from './gsap';
 import { onReducedMotionChange } from './reducedMotion';
 import { lenis } from './lenis';
+import { hero } from './hero';
+import { soundToggle } from './soundToggle';
 
 export interface MotionModule {
   name: string;
@@ -15,7 +17,7 @@ export interface MotionModule {
 }
 
 /** Order matters: Lenis first so ScrollTriggers see the smooth-scroll proxy. */
-const modules: MotionModule[] = [lenis];
+const modules: MotionModule[] = [lenis, hero, soundToggle];
 
 let cleanups: (() => void)[] = [];
 let booted = false;

@@ -1,32 +1,87 @@
 ---
 /**
- * Hero (static, Step 5): the three-line H1, centred, one screen tall.
- * Step 7 adds the scroll sequence (M1): the 400vh track, the problem line and the reel.
- * Props: headline (lines; each stays on one line).
- * Tokens: --text-hero, --tracking-hero, --leading-hero, --nav-height, --gutter.
- * Motion hooks: data-motion="hero" (M1).
+ * Hero (M1, decisions 2026-09-29). From md: a --hero-scroll tall track with a
+ * sticky one-screen stage holding three layers, driven by src/motion/hero.ts:
+ *   L1 headline zooms/blurs out → L2 problem line in/out (prototype)
+ *   L3 showreel: clip reveal from the centre into a small 16:9 tile, then grows
+ *      to fill the stage with rounded corners (brief). Sound toggle in the corner.
+ * Below md: no pinning; headline, problem line and a 16:9 reel stack in flow.
+ * Without JS (or before it runs) L1 is shown and L2/L3 are hidden on desktop.
+ * Props: headline, problem (lines; each stays on one line), reel.
+ * Tokens: --hero-scroll, --text-hero/-problem, --tracking-hero/-problem, --leading-hero,
+ *         --nav-height, --gutter, --radius-md, --space-*, --section-py.
+ * Motion hooks: data-motion="hero", data-hero-layer="1|2|3", data-hero-reel,
+ *               data-motion="sound-toggle" (M8).
  */
+import MediaFrame from '../ui/MediaFrame.astro';
+import Pill from '../ui/Pill.astro';
+import { ui } from '../../config/ui';
+
 interface Props {
   headline: string[];
+  problem: string[];
+  reel: { video?: string; poster?: string; alt: string; placeholderLabel: string };
 }
-const { headline } = Astro.props;
+const { headline, problem, reel } = Astro.props;
 ---
 
 <header id="hero" class="hero" data-motion="hero" aria-labelledby="hero-title">
-  <h1 id="hero-title" class="hero__title">
-    {headline.map((line) => (
-      <span class="hero__line">{line}</span>
-    ))}
-  </h1>
+  <div class="hero__stage">
+    <div class="hero__layer hero__layer--1" data-hero-layer="1">
+      <h1 id="hero-title" class="hero__title" data-hero-text>
+        {headline.map((line) => (
+          <span class="hero__line">{line}</span>
+        ))}
+      </h1>
+    </div>
+
+    <div class="hero__layer hero__layer--2" data-hero-layer="2">
+      <p class="hero__problem" data-hero-text>
+        {problem.map((line) => (
+          <span class="hero__line">{line}</span>
+        ))}
+      </p>
+    </div>
+
+    <div class="hero__layer hero__layer--3" data-hero-layer="3">
+      <div class="hero__reel" data-hero-reel>
+        <MediaFrame
+          aspect="fill"
+          video={reel.video}
+          poster={reel.poster}
+          alt={reel.alt}
+          label={reel.placeholderLabel}
+          rounded={false}
+        />
+        {reel.video && (
+          <Pill
+            variant="solid"
+            as="button"
+            class="hero__sound"
+            aria-pressed="false"
+            data-motion="sound-toggle"
+            data-label-on={ui.reel.soundOn}
+            data-label-off={ui.reel.soundOff}
+          >
+            {ui.reel.soundOn}
+          </Pill>
+        )}
+      </div>
+    </div>
+  </div>
 </header>
 
 <style>
   @layer components {
+    /* Phones: everything in flow, no pinning. */
     .hero {
-      display: grid;
-      place-items: center;
-      min-height: calc(100svh - var(--nav-height));
-      padding-inline: var(--gutter);
+      padding: var(--section-py) var(--gutter) 0;
+    }
+    .hero__stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-40);
       text-align: center;
     }
     .hero__title {
@@ -35,9 +90,68 @@ const { headline } = Astro.props;
       letter-spacing: var(--tracking-hero);
       line-height: var(--leading-hero);
     }
+    .hero__problem {
+      font-size: var(--text-problem);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-problem);
+      line-height: var(--leading-none);
+    }
     .hero__line {
       display: block;
       white-space: nowrap;
+    }
+    .hero__layer--3 {
+      width: 100%;
+    }
+    .hero__reel {
+      position: relative;
+      display: flex;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+    }
+    .hero__sound {
+      position: absolute;
+      right: var(--space-16);
+      bottom: var(--space-16);
+      z-index: 1;
+    }
+
+    /* From md: tall track + sticky stage with stacked layers. */
+    @media (min-width: 47.5rem) {
+      .hero {
+        height: var(--hero-scroll);
+        padding: 0;
+      }
+      .hero__stage {
+        position: sticky;
+        top: 0;
+        display: block;
+        height: 100svh;
+        overflow: hidden;
+      }
+      .hero__layer {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 var(--gutter);
+      }
+      .hero__layer--2 {
+        opacity: 0;
+      }
+      /* The reel fills the stage below the nav, inside the gutters. */
+      .hero__layer--3 {
+        padding: var(--nav-height) var(--gutter) var(--gutter);
+      }
+      .hero__reel {
+        height: 100%;
+        aspect-ratio: auto;
+        border-radius: 0;
+        clip-path: inset(50% 50% round var(--radius-md));
+      }
     }
   }
 </style>
