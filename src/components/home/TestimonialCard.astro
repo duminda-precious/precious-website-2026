@@ -1,8 +1,8 @@
 ---
 /**
- * TestimonialCard: one quote card in the Clients marquee.
+ * TestimonialCard: one quote card (one "page") in the Clients slider.
  * Props: testimonial (collection data).
- * Tokens: --marquee-card-width, --marquee-card-min-height, --surface-raised, --radius-md,
+ * Tokens: --slide-width, --slide-min-height, --surface-raised, --radius-md,
  *         --inset-card, --text-medium, --leading-medium, --measure-quote, --text-muted, --space-*.
  */
 import type { CollectionEntry } from 'astro:content';
@@ -41,8 +41,9 @@ const { testimonial: t } = Astro.props;
       flex-direction: column;
       justify-content: space-between;
       gap: var(--space-48);
-      width: var(--marquee-card-width);
-      min-height: var(--marquee-card-min-height);
+      width: var(--slide-width);
+      min-height: var(--slide-min-height);
+      height: 100%;
       padding: var(--inset-card);
       background: var(--surface-raised);
       border-radius: var(--radius-md);

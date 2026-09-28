@@ -26,9 +26,10 @@ export const ui = {
     email: 'Email',
     location: 'Location',
   },
-  marquee: {
-    pause: 'Pause testimonials',
-    play: 'Play testimonials',
+  slider: {
+    label: 'Testimonials',
+    prev: 'Previous testimonial',
+    next: 'Next testimonial',
   },
   reel: {
     soundOn: 'Sound on',

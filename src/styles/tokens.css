@@ -211,9 +211,13 @@
     --rise-distance: 120px; /* brief entrance pattern */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
-    --marquee-gap: var(--space-10);
-    --marquee-card-width: min(82vw, 56.25rem); /* 900 */
-    --marquee-card-min-height: 27.5rem; /* 440 */
+    --disabled-opacity: 0.3;
+    /* Testimonial slider (one card per "page", next card peeks) */
+    --slide-gap: var(--space-10);
+    --slide-width: min(82vw, 56.25rem); /* 900 */
+    --slide-min-height: 27.5rem; /* 440 */
+    /* Client logo ticker (continuous, linear, full bleed) */
+    --ticker-gap: var(--space-80);
 
     /* Z-index scale */
     --z-footer: 0;
