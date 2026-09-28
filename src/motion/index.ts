@@ -9,6 +9,7 @@ import { onReducedMotionChange } from './reducedMotion';
 import { lenis } from './lenis';
 import { hero } from './hero';
 import { soundToggle } from './soundToggle';
+import { themeSwitch } from './themeSwitch';
 
 export interface MotionModule {
   name: string;
@@ -17,7 +18,7 @@ export interface MotionModule {
 }
 
 /** Order matters: Lenis first so ScrollTriggers see the smooth-scroll proxy. */
-const modules: MotionModule[] = [lenis, hero, soundToggle];
+const modules: MotionModule[] = [lenis, hero, soundToggle, themeSwitch];
 
 let cleanups: (() => void)[] = [];
 let booted = false;

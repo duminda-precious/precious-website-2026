@@ -65,6 +65,10 @@ const {
     .section--surface {
       background: var(--surface-page);
     }
+    /* With the theme switch running, a stage shows the page colour behind it (M2). */
+    :global(html[data-theme-switch]) .section--surface[data-theme-stage] {
+      background: transparent;
+    }
     .section--divider {
       border-top: var(--border-width) solid var(--border-subtle);
     }
