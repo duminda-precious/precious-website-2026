@@ -1,0 +1,98 @@
+---
+/**
+ * SectionHeader: the brief's three-zone header (§2.2) on one grid row.
+ *   eyebrow (optional)  cols 1–3, mono uppercase
+ *   statement            cols 4–9 with an eyebrow, 1–9 without; capped by measure
+ *   action (optional)   cols 10–12, flush right, top-aligned
+ * Below lg (992px) everything stacks full width, left-aligned (brief §7).
+ * Props: headingId (for aria-labelledby on the Section), headingLevel (2 default), class.
+ * Slots: eyebrow, default (statement text), sub (optional line under the statement), action.
+ * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
+ *         --text-medium, --text-secondary, --text-mono, --tracking-mono, --header-gap, --space-*.
+ */
+import Grid12 from './Grid12.astro';
+
+interface Props {
+  headingId?: string;
+  headingLevel?: 2 | 3;
+  class?: string;
+}
+const { headingId, headingLevel = 2, class: className } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const hasEyebrow = Astro.slots.has('eyebrow');
+const hasSub = Astro.slots.has('sub');
+const hasAction = Astro.slots.has('action');
+---
+
+<Grid12 class:list={['section-header', className]}>
+  {hasEyebrow && (
+    <p class="section-header__eyebrow">
+      <slot name="eyebrow" />
+    </p>
+  )}
+  <div class:list={['section-header__main', { 'section-header__main--indented': hasEyebrow }]}>
+    <Heading id={headingId} class="section-header__statement">
+      <slot />
+    </Heading>
+    {hasSub && (
+      <p class="section-header__sub">
+        <slot name="sub" />
+      </p>
+    )}
+  </div>
+  {hasAction && (
+    <div class="section-header__action">
+      <slot name="action" />
+    </div>
+  )}
+</Grid12>
+
+<style>
+  @layer components {
+    .section-header {
+      row-gap: var(--space-24);
+      margin-bottom: var(--header-gap);
+    }
+    .section-header > * {
+      grid-column: 1 / -1;
+    }
+    .section-header__eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
+    }
+    .section-header__statement {
+      max-width: var(--measure-statement);
+      font-size: var(--text-statement);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-heading);
+      line-height: var(--leading-heading);
+    }
+    .section-header__sub {
+      max-width: var(--measure-subline);
+      margin-top: var(--space-12);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+      color: var(--text-secondary);
+    }
+
+    @media (min-width: 62rem) {
+      .section-header__eyebrow {
+        grid-column: 1 / span 3;
+      }
+      .section-header__main {
+        grid-column: 1 / span 9;
+      }
+      .section-header__main--indented {
+        grid-column: 4 / span 6;
+      }
+      .section-header__action {
+        grid-column: 10 / -1;
+        justify-self: end;
+        align-self: start;
+      }
+    }
+  }
+</style>

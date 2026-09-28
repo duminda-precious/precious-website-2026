@@ -1,71 +1,66 @@
 ---
 /**
  * CtaFooter: the closing CTA + footer nav + wordmark (section "call").
- * Static in normal flow for now; Step 8 adds the curtain reveal (fixed behind
- * the page, with a spacer) via data-motion="footer-reveal".
+ * Layout per brief §2.9 on the 12-column grid:
+ *   top row    headline (largest type on the page) + Book a call, cols 1–7;
+ *              link columns at cols 9–10 and 11–12
+ *   bottom row legal (mono) left; wordmark flush right, sized to ~7 columns
+ * Below lg everything stacks; the two link columns sit side by side.
+ * Static in normal flow for now; Step 8 adds the reveal (data-motion="footer-reveal").
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
- *         --text-heading-cta, --tracking-heading-cta, --measure-heading-cta, --text-wordmark,
- *         --tracking-wordmark, --text-micro, --tracking-caps, --z-footer, --space-*.
+ *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --text-wordmark(-lg),
+ *         --tracking-wordmark, --font-mono, --text-mono-sm, --tracking-mono, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
 import Button from '../ui/Button.astro';
-import Container from '../primitives/Container.astro';
-import { footerCta, visibleFooterNav } from '../../config/navigation';
+import Grid12 from '../primitives/Grid12.astro';
+import { bookCall, visibleFooterNav } from '../../config/navigation';
 import { site } from '../../config/site';
 import { ui } from '../../config/ui';
 ---
 
 <footer id="call" class="footer" data-theme="ink" data-motion="footer-reveal">
-  <Container>
-    <div class="footer__grid">
-      <div class="footer__cta">
-        <h2 class="footer__heading">{ui.footer.headline}</h2>
-        <div class="footer__actions">
-          <Button
-            variant="solid-accent"
-            href={footerCta.href}
-            track={footerCta.track}
-            external={footerCta.external}
-          >
-            {footerCta.label}
-          </Button>
-        </div>
-      </div>
-
-      {visibleFooterNav.map((col) => {
-        const headingId = `footer-${col.heading.toLowerCase()}`;
-        return (
-          <nav class="footer__col" aria-labelledby={headingId}>
-            <p id={headingId} class="footer__col-heading">
-              {col.heading}
-            </p>
-            <ul class="footer__links">
-              {col.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        );
-      })}
+  <Grid12 class="footer__top">
+    <div class="footer__cta">
+      <h2 class="footer__heading">{ui.footer.headline}</h2>
+      <Button href={bookCall.href} track={bookCall.track}>
+        {bookCall.label}
+      </Button>
     </div>
 
-    <div class="footer__bottom">
-      <p class="footer__legal">
-        © {site.name} · {site.location}
-      </p>
-      <p class="footer__wordmark" aria-hidden="true">
-        {site.wordmark}
-      </p>
-    </div>
-  </Container>
+    {visibleFooterNav.map((col, i) => {
+      const headingId = `footer-${col.heading.toLowerCase()}`;
+      return (
+        <nav class:list={['footer__col', `footer__col--${i + 1}`]} aria-labelledby={headingId}>
+          <p id={headingId} class="footer__col-heading">
+            {col.heading}
+          </p>
+          <ul class="footer__links">
+            {col.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      );
+    })}
+  </Grid12>
+
+  <Grid12 class="footer__bottom">
+    <p class="footer__legal">
+      © {site.name} · {site.location}
+    </p>
+    <p class="footer__wordmark" aria-hidden="true">
+      {site.wordmark}
+    </p>
+  </Grid12>
 </footer>
 
 <style>
@@ -78,76 +73,90 @@ import { ui } from '../../config/ui';
       color: var(--text-primary);
     }
 
-    .footer__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
-      gap: var(--space-40);
+    .footer__top {
+      row-gap: var(--space-48);
     }
-    /* Spans two columns like the prototype, but never forces an implicit
-       second column when only one fits. */
     .footer__cta {
       grid-column: 1 / -1;
-      min-width: 0;
-    }
-    @media (min-width: 30rem) {
-      .footer__cta {
-        grid-column: span 2;
-      }
-    }
-
-    .footer__heading {
-      max-width: var(--measure-heading-cta);
-      font-size: var(--text-heading-cta);
-      font-weight: var(--weight-medium);
-      letter-spacing: var(--tracking-heading-cta);
-      line-height: var(--leading-none);
-    }
-    .footer__actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-24);
-      margin-top: var(--space-28);
-    }
-
-    .footer__col {
       display: flex;
       flex-direction: column;
-      gap: var(--space-8);
-      font-size: var(--text-ui);
+      align-items: flex-start;
+      gap: var(--space-32);
+    }
+    .footer__heading {
+      max-width: var(--measure-closer);
+      font-size: var(--text-closer);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-closer);
+      line-height: var(--leading-closer);
+    }
+    .footer__col {
+      grid-column: span 6;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
     }
     .footer__col-heading {
-      font-size: var(--text-micro);
-      letter-spacing: var(--tracking-caps);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-sm);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
       text-transform: uppercase;
+      color: var(--text-secondary);
     }
     .footer__links {
       display: flex;
       flex-direction: column;
       gap: var(--space-8);
       list-style: none;
-      color: var(--text-secondary);
+      font-size: var(--text-body);
     }
 
     .footer__bottom {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: var(--space-16);
+      row-gap: var(--space-24);
+      align-items: end;
       margin-top: var(--space-80);
       padding-top: var(--space-24);
       border-top: var(--border-width) solid var(--border-subtle);
     }
     .footer__legal {
-      font-size: var(--text-micro);
+      grid-column: 1 / -1;
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-sm);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
       color: var(--text-muted);
     }
     .footer__wordmark {
+      grid-column: 1 / -1;
       font-size: var(--text-wordmark);
-      font-weight: var(--weight-bold);
+      font-weight: var(--weight-wordmark);
       letter-spacing: var(--tracking-wordmark);
       line-height: var(--leading-none);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 62rem) {
+      .footer__cta {
+        grid-column: 1 / span 7;
+      }
+      .footer__col--1 {
+        grid-column: 9 / span 2;
+      }
+      .footer__col--2 {
+        grid-column: 11 / span 2;
+      }
+      .footer__legal {
+        grid-column: 1 / span 5;
+        grid-row: 1;
+      }
+      .footer__wordmark {
+        grid-column: 6 / -1;
+        grid-row: 1;
+        justify-self: end;
+        font-size: var(--text-wordmark-lg);
+      }
     }
   }
 </style>

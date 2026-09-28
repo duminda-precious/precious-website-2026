@@ -71,61 +71,72 @@
 
     /* ---------------------------------------------------------------------
        TYPOGRAPHY (theme-independent)
+       Hierarchy per docs/AFTERNOW_PATTERN_BRIEF.md §4: sans for content
+       (weights 400/500 only), uppercase mono for UI and metadata. Tracking
+       tightens and line height drops as size grows. Fluid sizes interpolate
+       between 320px and 1920px viewports. The brief gives desktop sizes; the
+       phone minimums below are provisional (to verify in Step 5).
        ------------------------------------------------------------------ */
     --font-sans: var(--font-family-sans);
     --font-mono: var(--font-family-mono);
 
-    /* Fluid display sizes. Minimums lowered from the prototype for 320px
-       phones where the lines are nowrap (see Step 5 deviations). */
-    --text-display-1: clamp(2.5rem, 9vw, 7.5rem); /* hero H1, proto 48–120px */
-    --text-display-2: clamp(1.375rem, 6vw, 5rem); /* problem line, proto 36–80px */
-    --text-heading-1: clamp(2rem, 4.5vw, 3.5rem); /* section H2, 32–56px */
-    --text-heading-2: clamp(1.75rem, 3.5vw, 2.75rem); /* secondary H2, 28–44px */
-    --text-heading-cta: clamp(2.25rem, 5vw, 4rem); /* footer H2, 36–64px */
-    --text-wordmark: clamp(1.75rem, 6vw, 4.5rem); /* footer wordmark, 28–72px */
-    --text-quote: clamp(1.125rem, 1.9vw, 1.625rem); /* testimonial, 18–26px */
+    /* Hero keeps the prototype's large sizes (they drive the scroll sequence). */
+    --text-hero: clamp(2.5rem, 9vw, 7.5rem); /* H1, proto 48–120px */
+    --text-problem: clamp(1.375rem, 6vw, 5rem); /* problem line, proto 36–80px */
 
-    /* Fixed sizes */
-    --text-heading-3: 1.375rem; /* 22 card titles */
-    --text-lead: 1.125rem; /* 18 section sublines */
-    --text-body-lg: 1.0625rem; /* 17 process, quote name, brand */
-    --text-body: 1rem; /* 16 FAQ, team subline */
-    --text-body-sm: 0.9375rem; /* 15 card summaries, buttons md */
-    --text-ui: 0.875rem; /* 14 links, diagram */
-    --text-caption: 0.8125rem; /* 13 nav, pills */
-    --text-micro: 0.75rem; /* 12 labels, copyright */
-    --text-label: 0.6875rem; /* 11 tags */
+    --text-closer: clamp(
+      2.75rem,
+      1.975rem + 3.875vw,
+      6.625rem
+    ); /* brief Display 1, 106px: footer headline */
+    --text-menu: clamp(2rem, 1.85rem + 0.75vw, 2.75rem); /* brief Menu, 44px */
+    --text-statement: clamp(1.625rem, 1.5rem + 0.625vw, 2.25rem); /* brief H3/statement, 36px */
+    --text-title: clamp(1.375rem, 1.3rem + 0.375vw, 1.75rem); /* brief H5, 28px: card titles */
+    --text-large: clamp(1.125rem, 1.075rem + 0.25vw, 1.375rem); /* brief Large, 22px */
+    --text-medium: clamp(
+      1.0625rem,
+      1.025rem + 0.1875vw,
+      1.25rem
+    ); /* brief Medium, 20px: quotes, sublines */
+    --text-body: 1rem; /* brief Body, 16px */
+    --text-mono: 0.875rem; /* brief Mono UI, 14px: nav, buttons, labels */
+    --text-mono-sm: 0.75rem; /* 12px: tags, legal, placeholder labels */
+    /* Footer wordmark is a layout element sized to its columns (brief §2.9):
+       full row below lg, ~7 of 12 columns from lg. */
+    --text-wordmark: 7.5vw;
+    --text-wordmark-lg: 5.2vw;
 
     --weight-regular: 400;
     --weight-medium: 500;
-    --weight-semibold: 600;
-    --weight-bold: 700;
+    --weight-wordmark: 700; /* the logo mark only; type hierarchy uses 400/500 */
 
-    --tracking-display: -0.035em;
-    --tracking-display-2: -0.03em;
-    --tracking-heading-cta: -0.025em;
-    --tracking-heading: -0.02em;
-    --tracking-normal: 0;
-    --tracking-wide: 0.03em;
-    --tracking-brand: 0.04em;
-    --tracking-label: 0.05em;
-    --tracking-caps: 0.06em;
-    --tracking-wordmark: 0.02em;
+    --tracking-hero: -0.035em; /* prototype */
+    --tracking-problem: -0.03em; /* prototype */
+    --tracking-closer: -0.05em;
+    --tracking-heading: -0.04em; /* statements, menu */
+    --tracking-title: -0.03em; /* card titles, large */
+    --tracking-body: -0.02em; /* medium, body */
+    --tracking-mono: -0.02em;
+    --tracking-wordmark: 0.02em; /* prototype wordmark */
+    --tracking-brand: 0.04em; /* prototype nav logo */
 
-    --leading-display: 0.95;
-    --leading-none: 1;
-    --leading-ui: 1.15; /* pills, tags: matches the prototype's 'normal' */
-    --leading-heading: 1.05;
-    --leading-snug: 1.45;
-    --leading-body: 1.5;
+    --leading-hero: 0.95; /* prototype */
+    --leading-none: 1; /* mono UI, problem line */
+    --leading-closer: 1.09;
+    --leading-heading: 1.1; /* 28px and up */
+    --leading-large: 1.2;
+    --leading-medium: 1.35;
+    --leading-body: 1.45;
 
+    /* Measure: place with the grid, constrain with ch/em (brief §2.3). */
+    --measure-statement: 34ch;
     --measure-subline: 44ch;
     --measure-quote: 36em;
-    --measure-heading-narrow: 14ch;
-    --measure-heading-cta: 13ch;
+    --measure-closer: 13ch;
 
     /* ---------------------------------------------------------------------
-       SPACING (named by px value; 4px base with the prototype's odd steps)
+       SPACING
+       Fixed steps (named by px) for component internals ...
        ------------------------------------------------------------------ */
     --space-0: 0;
     --space-2: 0.125rem;
@@ -151,30 +162,30 @@
     --space-80: 5rem;
     --space-120: 7.5rem;
 
+    /* ... and fluid layout roles from the brief (§2.10), 320px → 1920px. */
+    --gutter: clamp(1rem, 0.8rem + 1vw, 2rem); /* side padding 16 → 32 */
+    --grid-gap-col: clamp(1rem, 0.9rem + 0.5vw, 1.5rem); /* 16 → 24 */
+    --grid-gap-row: clamp(3.375rem, 2.85rem + 2.625vw, 6rem); /* work rows 54 → 96 */
+    --header-gap: clamp(2.625rem, 2.35rem + 1.375vw, 4rem); /* section header → content 42 → 64 */
+    --section-gap: clamp(7.75rem, 6.9rem + 4.25vw, 12rem); /* between sections 124 → 192 */
+
     /* ---------------------------------------------------------------------
        LAYOUT
        ------------------------------------------------------------------ */
-    --section-py: clamp(4rem, 9vw, 7.5rem); /* 64–120px */
-    --section-py-tight: clamp(1.25rem, 3vw, 2.5rem); /* 20–40px, process wrapper */
-    --gutter: clamp(1.25rem, 4vw, 3rem); /* 20–48px */
-    --inset-card: clamp(1.5rem, 3vw, 2.5rem); /* 24–40px, testimonial */
-    --inset-panel: clamp(2rem, 6vw, 4.5rem); /* 32–72px, process card */
-    --container-max: 75rem; /* 1200 */
-    --container-narrow: 68.75rem; /* 1100, team */
     --grid-columns: 12;
-    --grid-gap-row: var(--space-56);
-    --grid-gap-col: var(--space-28);
-    --grid-offset-stagger: var(--space-120); /* the w3 item drop */
+    --section-py: calc(var(--section-gap) / 2); /* each side; two sections meet at one gap */
+    --section-py-tight: clamp(1.25rem, 3vw, 2.5rem); /* process card wrapper (prototype) */
+    --inset-card: clamp(1.5rem, 3vw, 2.5rem); /* testimonial (prototype) */
+    --inset-panel: clamp(2rem, 6vw, 4.5rem); /* process card (prototype) */
     --hero-scroll: 400vh;
-    --nav-height: 4.125rem; /* 66px: 16px padding ×2 + 33px button + 1px border; anchor offset */
+    --nav-height: 3.875rem; /* brief header height ~62px; also the anchor offset */
     --tap-min: 2.75rem; /* 44px touch target */
 
-    /* Radii */
+    /* Radii (brief: one value for media, cards and sheets; pills fully round) */
     --radius-none: 0;
-    --radius-sm: 0.25rem; /* 4 buttons */
-    --radius-md: 0.375rem; /* 6 media, cards */
-    --radius-lg: 0.875rem; /* 14 team chips */
-    --radius-xl: 1.375rem; /* 22 team bracket */
+    --radius-sm: 0.25rem; /* small UI details (skip link) */
+    --radius-md: 0.75rem; /* 12: all media and cards */
+    --radius-xl: 1.375rem; /* 22: team diagram bracket (prototype shape) */
     --radius-pill: 999px;
 
     --border-width: 1px;
@@ -183,18 +194,21 @@
 
     /* ---------------------------------------------------------------------
        MOTION (mirrored for GSAP in src/motion/tokens.ts; read at runtime)
-       Personality: Premium. Calm, no overshoot.
+       Personality: Premium. Calm, decelerating, no overshoot.
        ------------------------------------------------------------------ */
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* brief signature entrance ease */
     --ease-linear: linear;
     --ease-css: ease; /* the prototype's nav colour transition */
-    --dur-fast: 200ms;
+    --dur-fast: 200ms; /* hovers */
     --dur-base: 300ms;
     --dur-reveal: 450ms;
     --dur-theme: 800ms;
     --dur-page: 900ms;
+    --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
+    --rise-distance: 120px; /* brief entrance pattern */
     --hover-opacity: 0.7;
     --marquee-gap: var(--space-10);
     --marquee-card-width: min(82vw, 56.25rem); /* 900 */
@@ -204,13 +218,15 @@
     --z-footer: 0;
     --z-page: 1;
     --z-nav: 5;
+    --z-dropdown: 10;
     --z-menu: 50;
     --z-skip: 100;
 
     /* Breakpoints: custom properties cannot be used inside @media, so these
        are documentation. Use the literal values in media queries:
-         sm 30rem (480) · md 47.5rem (760, prototype collapse) · lg 64rem (1024)
-         xl 80rem (1280) · 2xl 100rem (1600)
+         sm 30rem (480) · md 47.5rem (760: nav switch, work 2-col, prototype collapse)
+         lg 62rem (992: brief structure change: 12-col work, 3-zone headers)
+         xl 75rem (1200) · 2xl 98.75rem (1580)
        Also exported from src/styles/breakpoints.ts. */
   }
 
@@ -224,7 +240,6 @@
     --surface-raised: var(--color-grey-50); /* testimonial card */
     --surface-muted: var(--color-grey-175); /* team chips */
     --surface-inverse: var(--color-ink-900);
-    --surface-nav: rgb(255 255 255 / 0.92);
 
     --text-primary: var(--color-ink-900);
     --text-secondary: var(--color-grey-600);
@@ -237,12 +252,11 @@
     --border-default: var(--color-grey-150);
     --border-strong: var(--color-grey-200);
 
-    --accent: var(--color-orange-500);
+    /* Monochrome UI in phase 1: no brand accent (decision 2026-09-29). */
+    --accent: var(--text-primary);
     --cta-bg: var(--color-ink-900);
     --cta-fg: var(--color-white);
-    --cta-accent-bg: var(--color-orange-500);
-    --cta-accent-fg: var(--color-white);
-    --focus-ring: var(--color-orange-500);
+    --focus-ring: var(--text-primary);
 
     --tag-border: var(--border-strong);
     --placeholder-stripe-a: var(--color-grey-100);
@@ -257,7 +271,6 @@
     --surface-raised: var(--color-maroon-900);
     --surface-muted: var(--color-maroon-850);
     --surface-inverse: var(--color-maroon-50);
-    --surface-nav: rgb(22 10 10 / 0.9);
 
     --text-primary: var(--color-maroon-50);
     --text-secondary: var(--color-maroon-300);
@@ -270,8 +283,10 @@
     --border-default: var(--color-maroon-850);
     --border-strong: var(--color-maroon-700);
 
+    --accent: var(--text-primary);
     --cta-bg: var(--color-maroon-50);
     --cta-fg: var(--color-maroon-950);
+    --focus-ring: var(--text-primary);
 
     --tag-border: var(--color-maroon-700);
     --placeholder-stripe-a: var(--color-maroon-850);
@@ -287,7 +302,6 @@
     --surface-raised: var(--color-black);
     --surface-muted: var(--color-grey-800);
     --surface-inverse: var(--color-white);
-    --surface-nav: rgb(17 17 17 / 0.92);
 
     --text-primary: var(--color-grey-75);
     --text-secondary: var(--color-grey-400);
@@ -300,8 +314,10 @@
     --border-default: var(--color-grey-800);
     --border-strong: rgb(255 255 255 / 0.7);
 
+    --accent: var(--text-primary);
     --cta-bg: var(--color-white);
     --cta-fg: var(--color-ink-900);
+    --focus-ring: var(--text-primary);
 
     --tag-border: var(--color-grey-500);
     --placeholder-stripe-a: var(--color-grey-800);
@@ -315,14 +331,17 @@
      3. COMPONENT TOKENS
      -------------------------------------------------------------------- */
   :root {
-    /* Nav (light values; the dark stage switches them via themeSwitch) */
-    --nav-bg: var(--surface-nav);
-    --nav-fg: var(--text-primary);
-    --nav-border: var(--border-subtle);
-    --nav-bg-dark: rgb(22 10 10 / 0.9);
+    /* Nav (brief M7): no bar background; the link cluster gets a rounded
+       backdrop once scrolled. -dark variants apply over the dark Work stage. */
+    --nav-fg: var(--color-ink-900);
+    --nav-cluster-bg: var(--color-grey-50);
     --nav-fg-dark: var(--color-maroon-50);
-    --nav-border-dark: var(--color-maroon-850);
-    --nav-blur: 8px;
+    --nav-cluster-bg-dark: var(--color-maroon-900);
+    --nav-dropdown-bg: var(--color-white);
+    --nav-dropdown-fg: var(--color-ink-900);
+    --nav-dropdown-border: var(--color-grey-150);
+    --nav-badge-bg: var(--color-ink-900);
+    --nav-badge-fg: var(--color-white);
 
     /* Page wrapper (animated by the theme switch) */
     --page-bg: var(--color-white);

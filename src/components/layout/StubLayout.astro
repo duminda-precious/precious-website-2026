@@ -2,20 +2,23 @@
 /**
  * StubLayout: placeholder for inner pages being rebuilt (plan §3.1).
  * H1, one line, a link home, full nav and footer, real SEO. noindex by default.
+ * Placed on the full-width grid (cols 1–9, capped by measure).
  * Props: seo (title, description, noindex), heading, message (defaults to ui.stub.message),
- *        showBookCall (adds the Book a call button, used by 404 and Contact).
+ *        showBookCall (adds the Book a call button, used by 404).
  * Slot: default (extra content under the message, e.g. contact details).
- * Tokens: --text-heading-1, --tracking-heading, --text-lead, --text-secondary, --space-*.
+ * Tokens: --text-statement, --tracking-heading, --leading-heading, --text-medium,
+ *         --leading-medium, --text-secondary, --space-*.
  */
 import SiteShell from './SiteShell.astro';
 import Section from '../primitives/Section.astro';
-import Container from '../primitives/Container.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
 import Stack from '../primitives/Stack.astro';
 import Cluster from '../primitives/Cluster.astro';
 import Button from '../ui/Button.astro';
 import TextLink from '../ui/TextLink.astro';
 import type { SeoProps } from './Seo.astro';
-import { footerCta } from '../../config/navigation';
+import { bookCall } from '../../config/navigation';
 import { ui } from '../../config/ui';
 
 interface Props {
@@ -29,25 +32,27 @@ const { seo, heading, message = ui.stub.message, showBookCall = false } = Astro.
 
 <SiteShell {...seo} noindex={seo.noindex ?? true}>
   <Section labelledby="page-title">
-    <Container>
-      <Stack gap="24" class="stub">
-        <h1 id="page-title" class="stub__title">
-          {heading}
-        </h1>
-        <p class="stub__message">{message}</p>
-        <slot />
-        <Cluster gap="24">
-          {showBookCall && (
-            <Button href={footerCta.href} track={footerCta.track} external={footerCta.external}>
-              {footerCta.label}
-            </Button>
-          )}
-          <TextLink href="/" arrow={false}>
-            {ui.stub.backHome}
-          </TextLink>
-        </Cluster>
-      </Stack>
-    </Container>
+    <Grid12 class="stub">
+      <GridItem span={9} measure="statement">
+        <Stack gap="24">
+          <h1 id="page-title" class="stub__title">
+            {heading}
+          </h1>
+          <p class="stub__message">{message}</p>
+          <slot />
+          <Cluster gap="24">
+            {showBookCall && (
+              <Button href={bookCall.href} track={bookCall.track}>
+                {bookCall.label}
+              </Button>
+            )}
+            <TextLink href="/" arrow={false}>
+              {ui.stub.backHome}
+            </TextLink>
+          </Cluster>
+        </Stack>
+      </GridItem>
+    </Grid12>
   </Section>
 </SiteShell>
 
@@ -55,14 +60,16 @@ const { seo, heading, message = ui.stub.message, showBookCall = false } = Astro.
   @layer components {
     .stub {
       min-height: 50svh;
-      justify-content: center;
+      align-content: center;
     }
     .stub__title {
-      font-size: var(--text-heading-1);
+      font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
+      line-height: var(--leading-heading);
     }
     .stub__message {
-      font-size: var(--text-lead);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
       color: var(--text-secondary);
     }
   }

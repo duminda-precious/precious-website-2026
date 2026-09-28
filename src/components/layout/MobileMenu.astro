@@ -4,15 +4,22 @@
  * Built on a modal <dialog>: the rest of the page is inert while open (focus
  * trap), Esc closes it natively, focus returns to the Menu button, and the page
  * scroll is locked. Visual treatment is deliberately minimal (phase 2 styles it).
- * Props: none (links from src/config/navigation.ts).
- * Tokens: --surface-page, --text-primary, --gutter, --space-*, --text-heading-1,
- *         --text-caption, --tap-min, --radius-pill, --border-strong, --dur-base, --ease-standard.
+ * Props: services (dropdown items for the Services group; links from src/config/navigation.ts).
+ * Services shows as an inset, grey sub-list under its label (brief M11).
+ * Tokens: --surface-page, --text-primary, --text-secondary, --gutter, --space-*, --text-menu,
+ *         --tracking-heading, --font-mono, --text-mono, --tap-min, --radius-pill,
+ *         --border-width, --nav-badge-*, --dur-base, --ease-standard.
  * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions).
  */
 import Button from '../ui/Button.astro';
-import { primaryNav, navCta } from '../../config/navigation';
+import { primaryNav, bookCall, isDropdown, type NavLink } from '../../config/navigation';
 import { site } from '../../config/site';
 import { ui } from '../../config/ui';
+
+interface Props {
+  services: NavLink[];
+}
+const { services } = Astro.props;
 ---
 
 <div class="menu-root" data-menu-root>
@@ -40,19 +47,35 @@ import { ui } from '../../config/ui';
 
       <nav aria-label={ui.primaryNavLabel}>
         <ul class="menu__list">
-          {primaryNav.map((link) => (
-            <li>
-              <a class="menu__link" href={link.href} data-menu-link>
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {primaryNav.map((item) =>
+            isDropdown(item) ? (
+              <li>
+                <span class="menu__group-label">{item.label}</span>
+                <ul class="menu__sublist">
+                  {[item.overview, ...services].map((link) => (
+                    <li>
+                      <a class="menu__sublink" href={link.href} data-menu-link>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a class="menu__link" href={item.href} data-menu-link>
+                  {item.label}
+                  {item.badge && <span class="menu__badge">{item.badge}</span>}
+                </a>
+              </li>
+            ),
+          )}
         </ul>
       </nav>
 
       <div class="menu__cta">
-        <Button href={navCta.href} track={navCta.track} data-menu-link>
-          {navCta.label}
+        <Button href={bookCall.href} track={bookCall.track} data-menu-link>
+          {bookCall.label}
         </Button>
       </div>
     </div>
@@ -128,7 +151,11 @@ import { ui } from '../../config/ui';
       padding: 0 var(--space-16);
       border: var(--border-width) solid currentColor;
       border-radius: var(--radius-pill);
-      font-size: var(--text-caption);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
     }
     .menu-button:hover {
       opacity: var(--hover-opacity);
@@ -177,8 +204,8 @@ import { ui } from '../../config/ui';
       gap: var(--space-16);
     }
     .menu__brand {
-      font-size: var(--text-body-lg);
-      font-weight: var(--weight-bold);
+      font-size: var(--text-medium);
+      font-weight: var(--weight-wordmark);
       letter-spacing: var(--tracking-brand);
       white-space: nowrap;
     }
@@ -188,13 +215,41 @@ import { ui } from '../../config/ui';
       gap: var(--space-8);
       list-style: none;
     }
-    .menu__link {
-      display: block;
+    .menu__link,
+    .menu__group-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
       padding-block: var(--space-4);
-      font-size: var(--text-heading-1);
-      font-weight: var(--weight-medium);
+      font-size: var(--text-menu);
+      font-weight: var(--weight-regular);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
+    }
+    .menu__sublist {
+      display: flex;
+      flex-direction: column;
+      padding-left: var(--space-24);
+      list-style: none;
+    }
+    .menu__sublink {
+      display: flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      font-size: var(--text-large);
+      letter-spacing: var(--tracking-title);
+      color: var(--text-secondary);
+    }
+    .menu__badge {
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-pill);
+      background: var(--nav-badge-bg);
+      color: var(--nav-badge-fg);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-sm);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
     }
     .menu__cta {
       margin-top: auto;

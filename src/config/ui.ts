@@ -12,7 +12,6 @@ export const ui = {
     close: 'Close',
     label: 'Main menu',
   },
-  bookCall: 'Book a call',
   viewCaseStudy: 'View case study',
   stub: {
     message: 'This page is being rebuilt.',

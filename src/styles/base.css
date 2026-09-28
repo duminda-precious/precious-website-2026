@@ -8,6 +8,7 @@
     font-family: var(--font-sans);
     font-size: var(--text-body);
     line-height: var(--leading-body);
+    letter-spacing: var(--tracking-body);
     color: var(--text-primary);
     background: var(--surface-page);
   }
@@ -50,7 +51,7 @@
   }
 
   ::selection {
-    background: var(--accent);
-    color: var(--cta-accent-fg);
+    background: var(--surface-inverse);
+    color: var(--text-on-inverse);
   }
 }

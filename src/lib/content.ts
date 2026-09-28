@@ -11,12 +11,22 @@ export async function getWork() {
   return getCollection('work', ({ data }) => data.published);
 }
 
-/** Case studies placed in the homepage grid, in grid order. */
+/** How many case studies the homepage Work grid shows. */
+export const HOME_WORK_COUNT = 5;
+
+/** Case studies for the homepage grid, in position order (first 5 with a homeOrder). */
 export async function getHomeWork() {
   const all = await getWork();
   return all
-    .filter((e) => e.data.homeSlot !== null)
-    .sort((a, b) => a.data.homeOrder - b.data.homeOrder);
+    .filter((e) => e.data.homeOrder !== null)
+    .sort((a, b) => (a.data.homeOrder ?? 0) - (b.data.homeOrder ?? 0))
+    .slice(0, HOME_WORK_COUNT);
+}
+
+/** Published service pages, in order (nav dropdown, /services/[slug]). */
+export async function getServices() {
+  const all = await getCollection('services', ({ data }) => data.published);
+  return all.sort(byOrder);
 }
 
 export async function getTestimonials() {

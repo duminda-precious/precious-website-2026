@@ -1,28 +1,54 @@
 ---
 /**
  * GridItem: a cell in Grid12.
- * Props: span (1–12), start (1–12, optional), stagger (drops the item by
- *        --grid-offset-stagger on desktop, like the prototype's w3 card), as, class.
- * Below md every item spans the full width with no offset.
- * Tokens: --grid-offset-stagger.
+ * Props:
+ *   span (1–12), start (1–12, optional)
+ *   from  'md' (760) | 'lg' (992, default) | 'always': below this breakpoint the
+ *         item takes the full row, so layouts stack on small screens.
+ *   justify 'start' | 'end' (e.g. an action flush to the right edge)
+ *   measure ('statement' | 'subline' | 'quote'): caps line length inside the span (brief §2.3)
+ *   as, class
+ * Tokens: --measure-*.
  */
 import type { HTMLTag } from 'astro/types';
 
 interface Props {
   span: number;
   start?: number;
-  stagger?: boolean;
+  from?: 'md' | 'lg' | 'always';
+  justify?: 'start' | 'end';
+  measure?: 'statement' | 'subline' | 'quote';
   as?: HTMLTag;
   class?: string;
   [key: string]: unknown;
 }
-const { span, start, stagger = false, as: Tag = 'div', class: className, ...rest } = Astro.props;
+const {
+  span,
+  start,
+  from = 'lg',
+  justify = 'start',
+  measure,
+  as: Tag = 'div',
+  class: className,
+  ...rest
+} = Astro.props;
 const column = start ? `${start} / span ${span}` : `span ${span}`;
+const style = [
+  `--grid-item-column: ${column}`,
+  measure ? `--grid-item-measure: var(--measure-${measure})` : '',
+]
+  .filter(Boolean)
+  .join('; ');
 ---
 
 <Tag
-  class:list={['grid-item', { 'grid-item--stagger': stagger }, className]}
-  style={`--grid-item-column: ${column}`}
+  class:list={[
+    'grid-item',
+    `grid-item--from-${from}`,
+    { 'grid-item--end': justify === 'end', 'grid-item--measure': measure },
+    className,
+  ]}
+  style={style}
   {...rest}
 >
   <slot />
@@ -34,12 +60,29 @@ const column = start ? `${start} / span ${span}` : `span ${span}`;
       grid-column: 1 / -1;
       min-width: 0;
     }
+    .grid-item--measure {
+      max-width: var(--grid-item-measure);
+    }
+    .grid-item--from-always {
+      grid-column: var(--grid-item-column);
+    }
+    .grid-item--from-always.grid-item--end {
+      justify-self: end;
+    }
     @media (min-width: 47.5rem) {
-      .grid-item {
+      .grid-item--from-md {
         grid-column: var(--grid-item-column);
       }
-      .grid-item--stagger {
-        margin-top: var(--grid-offset-stagger);
+      .grid-item--from-md.grid-item--end {
+        justify-self: end;
+      }
+    }
+    @media (min-width: 62rem) {
+      .grid-item--from-lg {
+        grid-column: var(--grid-item-column);
+      }
+      .grid-item--from-lg.grid-item--end {
+        justify-self: end;
       }
     }
   }

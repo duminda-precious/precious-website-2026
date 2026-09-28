@@ -10,13 +10,30 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
    - a short summary of what changed (files touched, decisions made),
    - the **Test checklist** for that step (copy it from this plan and add anything new you introduced),
    - any open questions or deviations.
-   Then wait. Do not start the next step until Duminda says it is approved.
+     Then wait. Do not start the next step until Duminda says it is approved.
 2. **No automated tests.** Don't write unit, e2e or visual tests. Duminda tests manually.
 3. **The prototype is the reference, not a pixel spec.** `reference/prototype-source.html` (a basic prototype supplied 2026-09-29) defines the section order, copy, and the layout of each section. Keep sections and layouts similar and keep the copy, but build it as a proper, fully responsive site on the design system (tokens + components) so it can scale. Refinements to spacing, type and detail are allowed when they come from the design system; list anything that visibly departs from the prototype under "deviations".
 4. **Phase 2 (rebrand) comes later.** Every visual value must flow through tokens and every piece of copy through content files, so the rebrand is a token and content swap, not a rewrite. No hard-coded colors, font sizes, durations or easings inside components.
 5. **Commit per step** with a message like `step-04: homepage static sections`. Use one branch per step if helpful.
 6. **Keep placeholders visible.** Placeholder content stays in the prototype's bracket form (`[Project]`, `[Client logo]`), so it's obvious what still needs real content.
 7. Ask before adding any dependency not listed in section 2.
+8. **Don't assume, don't invent, ask.** If a source is silent or sources conflict, ask Duminda. Don't implement anything without approval: list the intended changes first and wait for a yes. Describe screenshots as observations, never as specs.
+
+## 0.1 Decisions log (overrides the rest of this plan where they differ)
+
+**2026-09-29: layout and IA revision** (Duminda). The Afternow brief (`docs/AFTERNOW_PATTERN_BRIEF.md`) is the reference for **layout, typography hierarchy, spacing and UI treatment**. The prototype remains the reference for **section order, section content and copy**. The nav screenshot was reference only; take no design from it.
+
+- **Sitemap / nav:** the top nav links to pages, not homepage sections: Work → `/work`, Services ▾ (placeholder dropdown; the label only opens the dropdown), Approach → `/approach`, AI Design Agent + permanent `New` badge → `/ai`, About → `/about`, and a Book a call button (placeholder styling) → `/contact`. Clients and FAQ are removed from the nav. New routes: `/services`, `/services/[slug]` (placeholder `services` collection), `/approach`. Every Book a call goes to `/contact`. Contact stays footer-only in the nav sense. Footer Studio column: Work, Services, Approach, AI Design Agent, About (all pages).
+- **Nav behaviour (brief M7):** logo alone at the left; the right-hand cluster floats with no background at the top, and a light rounded backdrop fades in once scrolled. No hide-on-scroll. Mobile menu breakpoint stays at 760px.
+- **Grid:** full-bleed 12-column grid with fluid side padding, no max-width wrappers anywhere. Width is controlled by span + measure.
+- **Section headers:** three-zone headers where content suits (Work, Clients, FAQ); Team and Approach stay centred as in the prototype.
+- **Work grid:** 5 projects on the homepage, sized and proportioned **by position** (1: span 6, 2–3: span 3, 4–5: span 6; aspects 3/2, 5/4, 1/1, 4/3, 1/1). 1 column on phones, 2 from md, 12 from lg (992px). The `homeSlot` field is removed; `homeOrder` selects and orders home projects.
+- **Type:** brief hierarchy: sans for content (weights 400/500 only), uppercase mono for UI and metadata (nav, buttons, tags, labels, legal). Brief type scale, except the hero H1 and problem line keep the prototype's large sizes. Fonts stay Helvetica Neue stack + system mono in phase 1.
+- **UI:** buttons are pills with a mono label and ▸; radius 12px for all media and cards; pills fully rounded. Monochrome UI: no orange accent in phase 1 (FAQ "+" and the footer button go monochrome).
+- **Colour/sections:** the dark Work section stays.
+- **Hero (M1):** a mix: keep the prototype's text layers (L1 zoom/blur out, L2 problem line in/out); the showreel layer (L3) follows the brief (clip reveal from centre, then grows to fill the content area with rounded corners, play chip). No echo frames in phase 1. Mobile: no pin; headline above a 16:9 video with a play button.
+- **Rise-in:** cards rise 120px + fade in, per row, left to right; off under reduced motion.
+- **Colours and final visual design** come in phase 2 and will differ from the screenshot.
 
 ---
 
@@ -40,17 +57,17 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 
 ## 2. Tech stack
 
-| Concern | Choice | Why |
-|---|---|---|
-| Framework | **Astro** (latest stable), TypeScript strict, static output | Ships near-zero JS by default, content collections give typed content, and islands allow React, Three.js or Rive later only where needed |
-| Styling | **Plain CSS with custom properties** and `@layer` (reset, tokens, base, components, utilities), scoped `<style>` in Astro components | Tokens stay the single source of truth for the phase-2 rebrand; no utility-class lock-in |
-| Motion engine | **GSAP** + **ScrollTrigger** (SplitText available later) | Industry standard for scroll-scrubbed timelines, robust on mobile, handles future complex choreography |
-| Smooth scroll | **Lenis**, synced to GSAP's ticker and ScrollTrigger | Consistent scroll feel and precise anchor offsets |
-| Page transitions | **Astro View Transitions** (`<ClientRouter />`) | Native cross-page transitions; a hook for phase-2 transitions |
-| Content | **Astro Content Collections** with Zod schemas | Typed, CMS-ready (a headless CMS can replace the loaders later without touching components) |
-| SEO | `@astrojs/sitemap`, a custom `<Seo>` component, JSON-LD | Needed to replace a live site |
-| Future-ready (don't install yet) | Three.js, Rive or Lottie as islands; `@astrojs/react` if ever needed | Phase 2 motion or 3D |
-| Hosting | Static; Vercel, Netlify or Cloudflare Pages (to be decided) | Keep the adapter-agnostic `dist/` output |
+| Concern                          | Choice                                                                                                                               | Why                                                                                                                                      |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework                        | **Astro** (latest stable), TypeScript strict, static output                                                                          | Ships near-zero JS by default, content collections give typed content, and islands allow React, Three.js or Rive later only where needed |
+| Styling                          | **Plain CSS with custom properties** and `@layer` (reset, tokens, base, components, utilities), scoped `<style>` in Astro components | Tokens stay the single source of truth for the phase-2 rebrand; no utility-class lock-in                                                 |
+| Motion engine                    | **GSAP** + **ScrollTrigger** (SplitText available later)                                                                             | Industry standard for scroll-scrubbed timelines, robust on mobile, handles future complex choreography                                   |
+| Smooth scroll                    | **Lenis**, synced to GSAP's ticker and ScrollTrigger                                                                                 | Consistent scroll feel and precise anchor offsets                                                                                        |
+| Page transitions                 | **Astro View Transitions** (`<ClientRouter />`)                                                                                      | Native cross-page transitions; a hook for phase-2 transitions                                                                            |
+| Content                          | **Astro Content Collections** with Zod schemas                                                                                       | Typed, CMS-ready (a headless CMS can replace the loaders later without touching components)                                              |
+| SEO                              | `@astrojs/sitemap`, a custom `<Seo>` component, JSON-LD                                                                              | Needed to replace a live site                                                                                                            |
+| Future-ready (don't install yet) | Three.js, Rive or Lottie as islands; `@astrojs/react` if ever needed                                                                 | Phase 2 motion or 3D                                                                                                                     |
+| Hosting                          | Static; Vercel, Netlify or Cloudflare Pages (to be decided)                                                                          | Keep the adapter-agnostic `dist/` output                                                                                                 |
 
 Package manager: pnpm (or npm if pnpm is unavailable). Node LTS.
 
@@ -62,20 +79,20 @@ Package manager: pnpm (or npm if pnpm is unavailable). Node LTS.
 
 ### 3.1 Sitemap
 
-| Route | Status this phase | Notes |
-|---|---|---|
-| `/` | **Build fully** | Homepage from the prototype |
-| `/work` | Stub | Work index (all case studies, filterable by situation tag later) |
-| `/work/[slug]` | Stub (template route, generated from the `work` collection) | Case study template |
-| `/ai` | Stub | **Keep this exact URL**: it's the live AI Design Agent page |
-| `/about` | Stub | Founders live here, not on the homepage |
-| `/careers` | Stub | |
-| `/careers/[slug]` | Stub (from `jobs` collection, may be empty) | |
-| `/journal` | Stub | |
-| `/journal/[slug]` | Stub (from `journal` collection, may be empty) | |
-| `/contact` | Stub | Email, location, booking link |
-| `/privacy` | Stub | Needed for the analytics and booking embed later |
-| `/404` | Build simply | Uses the shell, with a link home and a Book a call link |
+| Route             | Status this phase                                           | Notes                                                            |
+| ----------------- | ----------------------------------------------------------- | ---------------------------------------------------------------- |
+| `/`               | **Build fully**                                             | Homepage from the prototype                                      |
+| `/work`           | Stub                                                        | Work index (all case studies, filterable by situation tag later) |
+| `/work/[slug]`    | Stub (template route, generated from the `work` collection) | Case study template                                              |
+| `/ai`             | Stub                                                        | **Keep this exact URL**: it's the live AI Design Agent page      |
+| `/about`          | Stub                                                        | Founders live here, not on the homepage                          |
+| `/careers`        | Stub                                                        |                                                                  |
+| `/careers/[slug]` | Stub (from `jobs` collection, may be empty)                 |                                                                  |
+| `/journal`        | Stub                                                        |                                                                  |
+| `/journal/[slug]` | Stub (from `journal` collection, may be empty)              |                                                                  |
+| `/contact`        | Stub                                                        | Email, location, booking link                                    |
+| `/privacy`        | Stub                                                        | Needed for the analytics and booking embed later                 |
+| `/404`            | Build simply                                                | Uses the shell, with a link home and a Book a call link          |
 
 Homepage anchors stay as in the prototype: `#work`, `#clients`, `#approach`, `#faq`, `#call`.
 
@@ -93,16 +110,16 @@ Homepage anchors stay as in the prototype: `#work`, `#clients`, `#approach`, `#f
 
 Keep the prototype's labels exactly. The internal section IDs used in code are listed below.
 
-| Order | Section ID | Heading (prototype) |
-|---|---|---|
-| 1 | `hero` | We design how your product feels. |
-| 2 | `work` | The proof is in how it moves. |
-| 3 | `clients` | What working with us feels like. |
-| 4 | `team` | One team instead of five hires. |
-| 5 | `approach` | Where are you starting from? |
-| 6 | `process` | Different starting points. The same process. |
-| 7 | `faq` | Asked, answered. |
-| 8 | `call` (footer) | Make your product feel worth paying for. |
+| Order | Section ID      | Heading (prototype)                          |
+| ----- | --------------- | -------------------------------------------- |
+| 1     | `hero`          | We design how your product feels.            |
+| 2     | `work`          | The proof is in how it moves.                |
+| 3     | `clients`       | What working with us feels like.             |
+| 4     | `team`          | One team instead of five hires.              |
+| 5     | `approach`      | Where are you starting from?                 |
+| 6     | `process`       | Different starting points. The same process. |
+| 7     | `faq`           | Asked, answered.                             |
+| 8     | `call` (footer) | Make your product feel worth paying for.     |
 
 ---
 
@@ -113,6 +130,7 @@ All copy and data comes from `src/content/` or `src/config/`. Components only re
 ### 4.1 Config
 
 `src/config/site.ts`:
+
 - `name`, `legalName`, `url`, `location: "Austin, TX"`, `email`
 - `bookingUrl`: placeholder `"#"` until Duminda provides it (Cal.com, Calendly or similar)
 - `socials`: Clutch, LinkedIn, Dribbble
@@ -137,6 +155,7 @@ All copy and data comes from `src/content/` or `src/config/`. Components only re
 ### 5.1 Token architecture
 
 `src/styles/tokens.css`, in three tiers:
+
 1. **Primitives:** raw values extracted from the prototype (for example `--color-ink-900: #141414`, `--color-maroon-950: #160a0a`, `--color-orange-500: #ee6a3c`, `--color-lime-300: #d9f07a`, `--color-forest-800: #1f3d30`, and the greys `#eee`, `#e4e4e4`, `#f0f0f0`, `#b9aeae`, `#555`, `#666`, `#777`, `#888`, `#aaa`).
 2. **Semantic:** `--surface-page`, `--surface-inverse`, `--surface-muted`, `--text-primary`, `--text-secondary`, `--text-on-inverse`, `--border-subtle`, `--accent`, `--cta-bg`, `--cta-fg`, and so on.
 3. **Component:** only where needed, for example `--nav-bg`, `--nav-fg`, `--gate-1-bg`.
@@ -144,6 +163,7 @@ All copy and data comes from `src/content/` or `src/config/`. Components only re
 Themes: `[data-theme="light"]` and `[data-theme="dark"]` remap semantic tokens. Sections declare their theme via the attribute; the dark Work stage is `data-theme="dark"`.
 
 **Typography tokens:**
+
 - Font family: `"Helvetica Neue", Helvetica, Arial, sans-serif`
 - Mono for placeholders: `ui-monospace, Menlo, monospace`
 - Fluid sizes copied from the prototype's `clamp()` values:
@@ -157,6 +177,7 @@ Themes: `[data-theme="light"]` and `[data-theme="dark"]` remap semantic tokens. 
 - Weights 500, 600, 700. Tracking values: `-.035em`, `-.03em`, `-.025em`, `-.02em`, `.03em`, `.04em`, `.05em`, `.06em`. Line heights `.95`, `1`, `1.05`, `1.45`, `1.5`.
 
 **Spacing and layout:**
+
 - Section padding: `clamp(64px,9vw,120px)` vertical and `clamp(20px,4vw,48px)` horizontal (`--section-py`, `--gutter`)
 - Content max width 1200px (1100px for the team section)
 - 12-column grid with a `56px 28px` gap
@@ -188,6 +209,7 @@ Each component gets a short header comment listing its props, the tokens it uses
 ### 6.1 Motion tokens and personality
 
 The personality is **Premium**: calm, no overshoot. The values come from the prototype:
+
 - Easing: `--ease-standard: cubic-bezier(.4,0,.2,1)`, `--ease-out-soft: cubic-bezier(.2,.8,.2,1)`, linear for marquees, and smoothstep for scrubbed progress.
 - Durations: `--dur-fast: 200ms`, `--dur-base: 300ms`, `--dur-reveal: 450ms`, `--dur-theme: 800ms`, `--dur-page: 900ms`, `--dur-marquee: 60s`.
 - Mirror these in `src/motion/tokens.ts` for GSAP use (one source of truth; read the CSS variables at runtime or generate both from one file).
@@ -195,6 +217,7 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 ### 6.2 Architecture
 
 `src/motion/`:
+
 - `index.ts`: a registry. Each module exports `init(root): cleanup`. The boot runs on `astro:page-load` and cleanup runs on `astro:before-swap`.
 - `gsap.ts`: registers plugins and sets defaults.
 - `lenis.ts`: Lenis instance, `lenis.on('scroll', ScrollTrigger.update)`, GSAP ticker drive, and anchor links with offset equal to the nav height.
@@ -205,6 +228,7 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 ### 6.3 Motion inventory (reproduce the prototype exactly)
 
 **M1. Hero scroll sequence** (`hero.ts`, GSAP ScrollTrigger, `scrub`)
+
 - The header is `400vh` tall, with a sticky inner of `100vh`, `overflow:hidden` and `perspective:1000px`. Put the height in a token (`--hero-scroll: 400vh`).
 - Progress `p` runs 0→1 across (header height − viewport). All ranges use smoothstep `k(a,b)`.
 - **Layer 1 (H1, three stacked lines),** over `a = k(.02,.30)`: scale `1 → 2.6`, blur `0 → 18px`, opacity `1 → 0`, word-spacing `0 → 2em`, line-height `.95 → 1.30`.
@@ -217,16 +241,19 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 - Implementation note: build it as one GSAP timeline with the exact keyframes above mapped to progress positions. Keep the smoothstep curve with a custom ease, so the feel matches the prototype.
 
 **M2. Section theme switch** (`themeSwitch.ts`)
+
 - When the Work section's rect satisfies `top < 55% vh` and `bottom > 45% vh`, the page background becomes `#160a0a` (via a token) and the nav switches to its dark tokens (bg `rgba(22,10,10,.9)`, fg `#f2eeee`, border `#2a1c1c`). Otherwise it returns to light.
 - Transitions: page `background-color 0.9s var(--ease-standard)`; nav `0.8s ease` on bg, color and border.
 - Make it generic: any section with `data-theme-stage="dark"` triggers it. Use ScrollTrigger `onToggle` with equivalent start and end values instead of polling.
 
 **M3. Footer curtain reveal** (`footerReveal.ts`)
+
 - The page wrapper has `z-index:1` and an opaque background, with the fixed footer (`z-index:0`) behind it. A spacer after the page equals the footer's height.
 - If the footer is taller than the viewport, it switches to `position:relative` and the spacer is hidden.
 - Recalculate with a `ResizeObserver` on the footer and on viewport resize. The mobile address-bar resize must not cause jumps (use `svh` or `lvh` where needed).
 
 **M4. Testimonial marquee** (`marquee.ts` plus CSS)
+
 - `translateX(0 → calc(-50% - 5px))`, 60s linear, infinite; cards are `min(82vw,900px)` wide with a 10px gap.
 - Pauses on hover, and also on `focus-within`.
 - Content is rendered twice; the duplicate set gets `aria-hidden="true"` and `inert`.
@@ -235,20 +262,24 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 - Pause the marquee when it's off-screen (IntersectionObserver).
 
 **M5. Gate cards reveal** (`RevealCard`, CSS-first)
+
 - The reveal body uses `grid-template-rows: 0fr → 1fr` over .45s `var(--ease-out-soft)`, with opacity over .3s, on `:hover` and `:focus-within`.
 - **Touch fix:** on `@media (hover: none)`, show the content expanded by default.
 - Keyboard: the card stays focusable (`tabindex="0"`) with a visible focus ring. The reveal text must be in the DOM for screen readers at all times; don't use `display:none`.
 
 **M6. FAQ disclosure**
+
 - Native `<details>` and `<summary>`; the "+" rotates 45° over 0.2s when open.
 - Progressive enhancement: animate the height with `::details-content` and `interpolate-size` where supported, falling back to an instant toggle.
 
 **M7. Case video playback** (`videoInView.ts`)
+
 - When a `MediaFrame` has a video: `muted`, `playsinline`, `loop`, `preload="none"` and a poster. Play when at least 40% visible and pause when out of view.
 - Reduced motion: don't autoplay; show the poster with a play button.
 - With no video, the striped placeholder shows.
 
 **M8. Showreel sound toggle** (`soundToggle.ts`)
+
 - The "Sound on" pill toggles `muted`, with a label swap ("Sound on" / "Sound off") and `aria-pressed`.
 - The reel autoplays muted only once Layer 3 is visible.
 
@@ -259,6 +290,7 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 **M11. Nav:** sticky, with `backdrop-filter: blur(8px)`. No hide-on-scroll (not in the prototype). Anchor clicks scroll smoothly through Lenis with the nav offset.
 
 **Motion performance rules:**
+
 - Animate only transform, opacity and filter. The hero is the only place blur is allowed.
 - No layout-thrashing reads inside scroll callbacks; use the GSAP and ScrollTrigger cached values.
 - Target 60fps on a mid-range phone.
@@ -269,17 +301,17 @@ The personality is **Premium**: calm, no overshoot. The values come from the pro
 
 Test widths: 320, 375, 390, 430, 768, 1024, 1280, 1440, 1920, plus landscape phone.
 
-| Section | Desktop (prototype) | ≤ md (760) | Notes and fixes |
-|---|---|---|---|
-| Nav | Inline links + button, wraps | Brand + menu button → overlay | Mobile menu is an addition |
-| Hero | Three-line H1 and two-line problem line, both `nowrap` | Same | **Check overflow at 320px:** "product feels." at 48px may exceed the width. If so, lower only the clamp minimum (for example to 40px). Don't allow wrapping. Keep 400vh; if it feels too long on phones, flag it rather than changing it |
-| Work | 12-col asymmetric: 8/4, then 6/3 with the w3 item offset 120px | Single column, no offset | As in the prototype |
-| Clients | Title + Clutch pill; marquee; logo row (space-between, wraps); centered Book a call | Cards 82vw; logo row wraps | |
-| Team | 4-col diagram (roles → gradient group → "Personalized AI engine" bar → benefits) | **Stack vertically:** roles → a vertical connector with the engine label → benefits | The prototype has no mobile version; this is the minimum readable adaptation. Flag it for Duminda's review |
-| Gates | `auto-fit, minmax(min(100%,280px),1fr)`, 4:5 cards | 1 column | On touch, content shows expanded |
-| Process | Dark card, `auto-fit minmax(min(100%,320px),1fr)` | Stacks | |
-| FAQ | Heading + list, `auto-fit minmax(min(100%,340px),1fr)` | Stacks | |
-| Footer | CTA spanning 2 cols + 2 link columns; big wordmark row | Stacks; the wordmark scales via its clamp | The curtain reveal falls back to relative when the footer is taller than the viewport |
+| Section | Desktop (prototype)                                                                 | ≤ md (760)                                                                          | Notes and fixes                                                                                                                                                                                                                          |
+| ------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nav     | Inline links + button, wraps                                                        | Brand + menu button → overlay                                                       | Mobile menu is an addition                                                                                                                                                                                                               |
+| Hero    | Three-line H1 and two-line problem line, both `nowrap`                              | Same                                                                                | **Check overflow at 320px:** "product feels." at 48px may exceed the width. If so, lower only the clamp minimum (for example to 40px). Don't allow wrapping. Keep 400vh; if it feels too long on phones, flag it rather than changing it |
+| Work    | 12-col asymmetric: 8/4, then 6/3 with the w3 item offset 120px                      | Single column, no offset                                                            | As in the prototype                                                                                                                                                                                                                      |
+| Clients | Title + Clutch pill; marquee; logo row (space-between, wraps); centered Book a call | Cards 82vw; logo row wraps                                                          |                                                                                                                                                                                                                                          |
+| Team    | 4-col diagram (roles → gradient group → "Personalized AI engine" bar → benefits)    | **Stack vertically:** roles → a vertical connector with the engine label → benefits | The prototype has no mobile version; this is the minimum readable adaptation. Flag it for Duminda's review                                                                                                                               |
+| Gates   | `auto-fit, minmax(min(100%,280px),1fr)`, 4:5 cards                                  | 1 column                                                                            | On touch, content shows expanded                                                                                                                                                                                                         |
+| Process | Dark card, `auto-fit minmax(min(100%,320px),1fr)`                                   | Stacks                                                                              |                                                                                                                                                                                                                                          |
+| FAQ     | Heading + list, `auto-fit minmax(min(100%,340px),1fr)`                              | Stacks                                                                              |                                                                                                                                                                                                                                          |
+| Footer  | CTA spanning 2 cols + 2 link columns; big wordmark row                              | Stacks; the wordmark scales via its clamp                                           | The curtain reveal falls back to relative when the footer is taller than the viewport                                                                                                                                                    |
 
 Also: no horizontal page scroll at any width, tap targets at least 44px, and `svh` for the sticky hero inner on mobile.
 
@@ -301,6 +333,7 @@ Also: no horizontal page scroll at any width, tap targets at least 44px, and `sv
 Each step ends with **stop → summary → test checklist → wait for approval.**
 
 ### Step 1: Project setup and reference
+
 - Scaffold Astro (TypeScript strict). Add GSAP, Lenis and `@astrojs/sitemap`. Set up the folder structure from sections 4–6 (empty modules are fine), a `CLAUDE.md` containing section 0 of this plan, `.editorconfig`, Prettier, and the `dev`, `build` and `preview` scripts.
 - Put `prototype-source.html` in `/reference/`. It isn't served.
 - **Test:**
@@ -309,6 +342,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] `CLAUDE.md` exists and contains the working rules
 
 ### Step 2: Tokens, base styles and layout primitives
+
 - Extract every value from the prototype into `tokens.css` (primitive, semantic and theme tiers), along with the reset, base typography, layer order, and the motion tokens (CSS and TS).
 - Build `Container`, `Section`, `Grid12`, `Stack`, `Cluster`, `Button`, `TextLink`, `Tag`, `Pill` and `MediaFrame`.
 - Build `/dev/tokens`.
@@ -319,6 +353,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Searching `src/components` for hex codes finds nothing
 
 ### Step 3: Content model
+
 - Collections, schemas and `site.ts` / `navigation.ts`, seeded with prototype content verbatim. Build `/dev/content`.
 - **Test:**
   - [ ] `/dev/content` lists all work items, testimonials, clients and FAQs, plus the home copy
@@ -326,6 +361,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Breaking a required field in one entry makes the build fail with a clear error (then revert it)
 
 ### Step 4: Site shell and all routes
+
 - `SiteShell`, `Seo`, the desktop `Nav`, `MobileMenu`, and a static `CtaFooter` (no curtain yet), plus `StubLayout`, every route from 3.1, and 404.
 - **Test:**
   - [ ] Every route in the sitemap loads, including a generated `/work/lumin-fitness`
@@ -337,6 +373,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] A wrong URL shows the 404 page
 
 ### Step 5: Homepage static build (no motion)
+
 - All eight sections in prototype order, fully responsive per section 7, all content from collections. Show the hero statically with Layer 1 visible (the motion comes in Step 7).
 - **Test:**
   - [ ] Side-by-side with the prototype at 1440px: layout, spacing, colors and copy match
@@ -349,6 +386,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Every Book a call and case study link has its `data-track` attribute
 
 ### Step 6: Motion foundation
+
 - Motion registry, GSAP setup, Lenis, reduced-motion service, anchor scrolling with the nav offset, and the View Transitions lifecycle (init and cleanup).
 - **Test:**
   - [ ] Scrolling feels smooth on trackpad, mouse wheel and touch; native scroll isn't broken on iOS
@@ -358,6 +396,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Turning on OS reduced motion disables smooth scroll
 
 ### Step 7: Hero scroll sequence (M1) and sound toggle (M8)
+
 - **Test:**
   - [ ] The sequence matches the prototype frame for frame when scrubbing slowly and fast
   - [ ] Scrolling back up reverses it cleanly
@@ -369,6 +408,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Landscape phone works
 
 ### Step 8: Theme switch (M2) and footer curtain reveal (M3)
+
 - **Test:**
   - [ ] The page and nav turn dark as Work reaches the viewport center, and light again after it, in both scroll directions
   - [ ] The transition timing matches the prototype
@@ -377,6 +417,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] The iOS address bar showing or hiding causes no jump
 
 ### Step 9: Interactions (M4–M7, M9)
+
 - Marquee with its pause control, gate reveals with the touch fallback, FAQ height animation, case video playback, and hover states.
 - **Test:**
   - [ ] The marquee loops seamlessly with no visible jump, pauses on hover and focus, and the pause button works
@@ -387,6 +428,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Reduced motion stops the marquee (it becomes scrollable) and autoplay
 
 ### Step 10: Page transitions (M10) and stub page polish
+
 - **Test:**
   - [ ] Route changes cross-fade
   - [ ] The nav doesn't flash
@@ -394,6 +436,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Hero and theme motion still work after navigating away and back
 
 ### Step 11: Production hardening
+
 - SEO (sitemap, robots, JSON-LD, OG), the redirects map, the analytics wrapper, image and video optimisation, an accessibility pass, a performance pass against the budgets, and host config files.
 - **Test:**
   - [ ] Lighthouse mobile: Performance ≥ 90, Accessibility ≥ 95, SEO 100 on home
@@ -404,6 +447,7 @@ Each step ends with **stop → summary → test checklist → wait for approval.
   - [ ] Clicking Book a call logs a `track` event in the console (dev mode)
 
 ### Step 12: Phase-2 handoff docs
+
 - `docs/tokens.md` (every token and where it's used), `docs/components.md` (props and variants), `docs/motion.md` (the M1–M11 catalog with the files and tokens involved), and `docs/content.md` (how to add a case study, testimonial or FAQ).
 - **Test:**
   - [ ] Following `docs/content.md`, Duminda can add a case study that shows up on the homepage and at `/work/[slug]`
@@ -413,18 +457,19 @@ Each step ends with **stop → summary → test checklist → wait for approval.
 
 ## 10. Inputs needed from Duminda (placeholders are used until provided)
 
-| Input | Needed by |
-|---|---|
-| Booking URL (Cal.com, Calendly or similar) | Step 4 (placeholder `#` until then) |
-| Contact email for the footer and Contact page | Step 4 |
+| Input                                          | Needed by                               |
+| ---------------------------------------------- | --------------------------------------- |
+| Booking URL (Cal.com, Calendly or similar)     | Step 4 (placeholder `#` until then)     |
+| Contact email for the footer and Contact page  | Step 4                                  |
 | Showreel file and case study videos or posters | Step 7 and Step 9 (test files are fine) |
-| List of current precious.studio URLs | Step 11 (redirects) |
-| Hosting choice | Step 11 |
-| Analytics provider | Later |
+| List of current precious.studio URLs           | Step 11 (redirects)                     |
+| Hosting choice                                 | Step 11                                 |
+| Analytics provider                             | Later                                   |
 
 ## 11. Known differences from earlier planning (intentionally not built, since the prototype wins)
 
 These came up in the earlier strategy session but aren't in the prototype, so they're **excluded** unless Duminda asks for them:
+
 - A trust mark line under the hero
 - The "Send a screen" fallback in the footer CTA
 - One quote and the Clutch rating under the final Book a call

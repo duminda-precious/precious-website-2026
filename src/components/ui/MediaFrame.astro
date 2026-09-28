@@ -4,7 +4,7 @@
  * aspect ratio so media never shifts layout.
  *
  * Props:
- *   aspect  '16/9' | '16/10' | '4/5' | '4/3' | '3/4' | 'fill'
+ *   aspect  one of mediaAspects ('3/2', '5/4', '1/1', '4/3', '16/9', …) | 'fill'
  *           ('fill' stretches to the parent, used by gate cards)
  *   tone    'auto'   → stripes follow the section theme (light / dark / ink)
  *           'forest' → gate card media
@@ -21,9 +21,10 @@
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import type { MediaAspect } from './media';
 
 interface Props {
-  aspect?: '16/9' | '16/10' | '4/5' | '4/3' | '3/4' | 'fill';
+  aspect?: MediaAspect | 'fill';
   tone?: 'auto' | 'forest' | 'logo';
   label?: string;
   video?: string;
@@ -132,7 +133,7 @@ const style = aspect === 'fill' ? undefined : `--media-aspect: ${aspect}`;
     }
     .media-frame__label {
       font-family: var(--font-mono);
-      font-size: var(--text-micro);
+      font-size: var(--text-mono-sm);
       color: var(--mf-fg);
     }
     .media-frame__media {

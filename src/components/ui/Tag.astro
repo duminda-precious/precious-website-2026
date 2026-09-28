@@ -1,9 +1,10 @@
 ---
 /**
- * Tag: small outlined uppercase label (case study situation: REDESIGN, …).
- * Content is written in normal case in content files; CSS uppercases it.
+ * Tag: small outlined label for metadata (case study situation: REDESIGN, …).
+ * Mono uppercase per the brief's type roles. Content is written in normal case
+ * in content files; CSS uppercases it.
  * Props: as, class.
- * Tokens: --tag-border, --radius-pill, --text-label, --tracking-label, --space-*.
+ * Tokens: --tag-border, --radius-pill, --font-mono, --text-mono-sm, --tracking-mono, --space-*.
  * Motion hooks: none.
  */
 import type { HTMLTag } from 'astro/types';
@@ -25,12 +26,13 @@ const { as: Tag = 'span', class: className, ...rest } = Astro.props;
     .tag {
       display: inline-block;
       align-self: flex-start;
-      padding: var(--space-2) var(--space-10);
+      padding: var(--space-6) var(--space-10);
       border: var(--border-width) solid var(--tag-border);
       border-radius: var(--radius-pill);
-      font-size: var(--text-label);
-      letter-spacing: var(--tracking-label);
-      line-height: var(--leading-ui);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-sm);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
       text-transform: uppercase;
     }
   }

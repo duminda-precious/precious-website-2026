@@ -1,6 +1,6 @@
 /**
- * Navigation model (plan §3.2). The only place link lists live.
- * Homepage anchors are written as "/#id" so they also work from inner pages.
+ * Navigation model (plan §0.1 decisions, 2026-09-29). The only place link lists live.
+ * The top nav links to pages, not homepage sections.
  */
 import { site } from './site';
 
@@ -10,26 +10,38 @@ export interface NavLink {
   external?: boolean;
   /** Analytics hook, rendered as data-track. */
   track?: string;
+  /** Small permanent badge after the label (e.g. "New"). */
+  badge?: string;
 }
 
-/** Primary nav (desktop inline, mobile overlay). Order as in the prototype. */
-export const primaryNav: NavLink[] = [
-  { label: 'Work', href: '/#work' },
-  { label: 'Approach', href: '/#approach' },
-  { label: 'Clients', href: '/#clients' },
-  { label: 'FAQ', href: '/#faq' },
+/** A nav entry whose label only opens a dropdown (it is not a link itself). */
+export interface NavDropdown {
+  label: string;
+  /** Items are built from this collection plus the overview link. */
+  source: 'services';
+  /** Link to the overview page, shown first in the dropdown. Placeholder label. */
+  overview: NavLink;
+}
+
+export type NavItem = NavLink | NavDropdown;
+
+export const isDropdown = (item: NavItem): item is NavDropdown => 'source' in item;
+
+/** Primary nav, in order. */
+export const primaryNav: NavItem[] = [
+  { label: 'Work', href: '/work' },
+  {
+    label: 'Services',
+    source: 'services',
+    overview: { label: '[Services overview]', href: '/services' },
+  },
+  { label: 'Approach', href: '/approach' },
+  { label: 'AI Design Agent', href: '/ai', badge: 'New' },
+  { label: 'About', href: '/about' },
 ];
 
-/** The single conversion action. In the nav it scrolls to the footer CTA, as in the prototype. */
-export const navCta: NavLink = { label: 'Book a call', href: '/#call', track: 'book-call' };
-
-/** Footer CTA goes straight to the booking tool. */
-export const footerCta: NavLink = {
-  label: 'Book a call',
-  href: site.bookingUrl,
-  external: site.bookingUrl.startsWith('http'),
-  track: 'book-call',
-};
+/** The single conversion action. Every Book a call goes to the Contact page. */
+export const bookCall: NavLink = { label: 'Book a call', href: '/contact', track: 'book-call' };
 
 export interface FooterColumn {
   heading: string;
@@ -40,8 +52,9 @@ export const footerNav: FooterColumn[] = [
   {
     heading: 'Studio',
     links: [
-      { label: 'Work', href: '/#work' },
-      { label: 'Approach', href: '/#approach' },
+      { label: 'Work', href: '/work' },
+      { label: 'Services', href: '/services' },
+      { label: 'Approach', href: '/approach' },
       { label: 'AI Design Agent', href: '/ai' },
       { label: 'About', href: '/about' },
     ],

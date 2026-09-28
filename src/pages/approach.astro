@@ -1,0 +1,8 @@
+---
+import StubLayout from '../components/layout/StubLayout.astro';
+import { getPage } from '../lib/content';
+
+const page = await getPage('approach');
+---
+
+<StubLayout seo={page.seo} heading={page.heading} />

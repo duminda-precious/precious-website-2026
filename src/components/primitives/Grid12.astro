@@ -1,23 +1,25 @@
 ---
 /**
- * Grid12: the 12-column asymmetric grid (Work section).
- * Collapses to one column below md (760px), as in the prototype.
- * Place children with <GridItem span start stagger>.
- * Props: as, class.
- * Tokens: --grid-columns, --grid-gap-row, --grid-gap-col.
+ * Grid12: the one layout grid (brief §2.1). 12 equal columns at every width,
+ * full width, no max-width. The side padding comes from Section (--gutter), so
+ * the grid spans the viewport minus the gutters. Narrow text is made with
+ * GridItem spans plus a measure, never with a wrapper.
+ * Props: rowGap ('none' | 'grid' = --grid-gap-row | 'header' = --header-gap), as, class.
+ * Tokens: --grid-columns, --grid-gap-col, --grid-gap-row, --header-gap.
  * Motion hooks: none.
  */
 import type { HTMLTag } from 'astro/types';
 
 interface Props {
+  rowGap?: 'none' | 'grid' | 'header';
   as?: HTMLTag;
   class?: string;
   [key: string]: unknown;
 }
-const { as: Tag = 'div', class: className, ...rest } = Astro.props;
+const { rowGap = 'none', as: Tag = 'div', class: className, ...rest } = Astro.props;
 ---
 
-<Tag class:list={['grid12', className]} {...rest}>
+<Tag class:list={['grid12', `grid12--row-${rowGap}`, className]} {...rest}>
   <slot />
 </Tag>
 
@@ -25,14 +27,15 @@ const { as: Tag = 'div', class: className, ...rest } = Astro.props;
   @layer components {
     .grid12 {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--grid-gap-row) var(--grid-gap-col);
+      grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      column-gap: var(--grid-gap-col);
       align-items: start;
     }
-    @media (min-width: 47.5rem) {
-      .grid12 {
-        grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-      }
+    .grid12--row-grid {
+      row-gap: var(--grid-gap-row);
+    }
+    .grid12--row-header {
+      row-gap: var(--header-gap);
     }
   }
 </style>

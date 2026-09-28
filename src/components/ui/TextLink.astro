@@ -1,17 +1,16 @@
 ---
 /**
- * TextLink: underlined arrow link ("View case study →", "Meet the AI Design Agent →").
- * Also covers the uppercase "SEE OUR WORK →" style via variant="caps".
+ * TextLink: exploration links, not CTAs.
+ *   variant 'underline' → sans, underlined, with → ("View case study →", "Meet the AI Design Agent →")
+ *   variant 'mono'      → mono uppercase UI link ("SEE OUR WORK →")
  * The arrow is decorative (aria-hidden) so screen readers hear the label only.
- * Props: href, variant 'underline' | 'caps', size 'sm' | 'md', arrow (default true),
- *        track (→ data-track, e.g. "case-study"), external, class.
- * Tokens: --text-ui, --text-body-sm, --text-caption, --tracking-caps, --border-width.
+ * Props: href, variant, arrow (default true), track (→ data-track, e.g. "case-study"), external, class.
+ * Tokens: --text-body, --text-mono, --font-mono, --tracking-mono, --border-width.
  * Motion hooks: none (global hover opacity).
  */
 interface Props {
   href: string;
-  variant?: 'underline' | 'caps';
-  size?: 'sm' | 'md';
+  variant?: 'underline' | 'mono';
   arrow?: boolean;
   track?: string;
   external?: boolean;
@@ -21,7 +20,6 @@ interface Props {
 const {
   href,
   variant = 'underline',
-  size = 'md',
   arrow = true,
   track,
   external = false,
@@ -33,7 +31,7 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
 
 <a
   href={href}
-  class:list={['text-link', `text-link--${variant}`, `text-link--${size}`, className]}
+  class:list={['text-link', `text-link--${variant}`, className]}
   data-track={track}
   {...externalAttrs}
   {...rest}
@@ -49,17 +47,14 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       align-self: flex-start;
     }
     .text-link--underline {
+      font-size: var(--text-body);
       border-bottom: var(--border-width) solid currentColor;
     }
-    .text-link--underline.text-link--md {
-      font-size: var(--text-ui);
-    }
-    .text-link--underline.text-link--sm {
-      font-size: var(--text-body-sm);
-    }
-    .text-link--caps {
-      font-size: var(--text-caption);
-      letter-spacing: var(--tracking-caps);
+    .text-link--mono {
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
       text-transform: uppercase;
     }
   }

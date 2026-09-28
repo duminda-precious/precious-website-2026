@@ -1,9 +1,9 @@
 ---
 title: '[Project]'
-tag: build-from-zero
+tag: redesign
 summary: '[Problem] → [outcome].'
 media: {}
-homeOrder: 3
+homeOrder: 5
 published: true
 ---
 

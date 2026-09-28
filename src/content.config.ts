@@ -33,13 +33,15 @@ const work = defineCollection({
       video: z.string().optional(),
       poster: z.string().optional(),
       alt: z.string().default(''),
-      aspect: z.enum(['16/10', '4/5', '4/3', '3/4']),
-      /** Placeholder text while there's no video. */
+      /** Placeholder text while there's no video. Aspect ratio comes from grid position. */
       placeholderLabel: z.string().default('case video'),
     }),
-    /** Slot in the homepage Work grid; null keeps it off the homepage. */
-    homeSlot: z.enum(['w8', 'w4', 'w6', 'w3']).nullable().default(null),
-    homeOrder: z.number().int().default(0),
+    /**
+     * Position in the homepage Work grid (1 = the large first card). Size and
+     * aspect ratio follow the position, not the entry (brief §2.4). null = not
+     * on the homepage. The homepage shows the first 5.
+     */
+    homeOrder: z.number().int().positive().nullable().default(null),
     published: z.boolean().default(true),
     seo: seo.partial().optional(),
   }),
@@ -110,6 +112,19 @@ const journal = defineCollection({
       coverAlt: z.string().default(''),
       draft: z.boolean().default(false),
     }),
+});
+
+/* -------------------------------------------------------------- services */
+/** Service pages (nav dropdown + /services/[slug]). Placeholders until real services exist. */
+const services = defineCollection({
+  loader: glob({ base: './src/content/services', pattern: '**/*.md' }),
+  schema: z.object({
+    title: z.string().min(1),
+    summary: z.string().min(1),
+    order: z.number().int(),
+    published: z.boolean().default(true),
+    seo: seo.partial().optional(),
+  }),
 });
 
 /* ----------------------------------------------------------------- pages */
@@ -189,4 +204,14 @@ const home = defineCollection({
   }),
 });
 
-export const collections = { work, testimonials, clients, faq, jobs, journal, pages, home };
+export const collections = {
+  work,
+  services,
+  testimonials,
+  clients,
+  faq,
+  jobs,
+  journal,
+  pages,
+  home,
+};

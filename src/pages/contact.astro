@@ -9,7 +9,7 @@ const page = await getPage('contact');
 const emailIsPlaceholder = site.email.startsWith('[');
 ---
 
-<StubLayout seo={page.seo} heading={page.heading} showBookCall>
+<StubLayout seo={page.seo} heading={page.heading}>
   <dl class="contact">
     <dt>{ui.contact.email}</dt>
     <dd>{emailIsPlaceholder ? site.email : <a href={`mailto:${site.email}`}>{site.email}</a>}</dd>

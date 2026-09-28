@@ -1,17 +1,29 @@
 ---
 /**
- * Nav: sticky top bar (M11). Brand left; inline links + Book a call from md up;
- * a Menu button (MobileMenu) below md.
- * Props: none (links come from src/config/navigation.ts).
- * Tokens: --nav-bg/-fg/-border (+ -dark variants), --nav-blur, --gutter, --space-*,
- *         --text-body-lg, --text-caption, --tracking-brand, --z-nav, --dur-theme, --ease-css.
- * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2).
+ * Nav: sticky header (brief §3 item 1, M7; decisions 2026-09-29).
+ * Logo alone at the left. On the right, a cluster of page links (mono uppercase),
+ * the Services dropdown, and the Book a call button. At the top of the page the
+ * cluster floats with no background; once scrolled, a rounded backdrop fades in
+ * behind it. The logo never gets a backdrop. No hide-on-scroll.
+ * Below md (760px) the links and button move into MobileMenu.
+ * Props: none (links from src/config/navigation.ts, dropdown items from the services collection).
+ * Tokens: --nav-fg, --nav-cluster-bg (+ -dark), --nav-dropdown-*, --nav-badge-*, --nav-height,
+ *         --gutter, --space-*, --font-mono, --text-mono, --tracking-mono, --radius-pill,
+ *         --radius-md, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
+ * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7).
  */
 import Button from '../ui/Button.astro';
 import MobileMenu from './MobileMenu.astro';
-import { primaryNav, navCta } from '../../config/navigation';
+import { primaryNav, bookCall, isDropdown } from '../../config/navigation';
 import { site } from '../../config/site';
 import { ui } from '../../config/ui';
+import { getServices } from '../../lib/content';
+
+const services = await getServices();
+const dropdownItems = (overview: { label: string; href: string }) => [
+  overview,
+  ...services.map((s) => ({ label: s.data.title, href: `/services/${s.id}` })),
+];
 ---
 
 <header class="nav" data-nav>
@@ -19,25 +31,126 @@ import { ui } from '../../config/ui';
     <span aria-hidden="true">{site.wordmark}</span>
   </a>
 
-  <nav class="nav__links" aria-label={ui.primaryNavLabel}>
-    <ul class="nav__list">
-      {primaryNav.map((link) => (
-        <li>
-          <a class="nav__link" href={link.href}>
-            {link.label}
-          </a>
-        </li>
-      ))}
-      <li>
-        <Button size="sm" href={navCta.href} track={navCta.track}>
-          {navCta.label}
-        </Button>
-      </li>
-    </ul>
-  </nav>
+  <div class="nav__cluster">
+    <nav class="nav__links" aria-label={ui.primaryNavLabel}>
+      <ul class="nav__list">
+        {primaryNav.map((item, i) =>
+          isDropdown(item) ? (
+            <li class="nav__dropdown" data-dropdown>
+              <button
+                class="nav__link nav__trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`nav-dropdown-${i}`}
+                data-dropdown-trigger
+              >
+                {item.label}
+                <span class="nav__caret" aria-hidden="true">
+                  ▾
+                </span>
+              </button>
+              <ul id={`nav-dropdown-${i}`} class="nav__panel" data-dropdown-panel hidden>
+                {dropdownItems(item.overview).map((link) => (
+                  <li>
+                    <a class="nav__panel-link" href={link.href}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a class="nav__link" href={item.href}>
+                {item.label}
+                {item.badge && <span class="nav__badge">{item.badge}</span>}
+              </a>
+            </li>
+          ),
+        )}
+      </ul>
+    </nav>
 
-  <MobileMenu />
+    <Button size="sm" href={bookCall.href} track={bookCall.track} class="nav__cta">
+      {bookCall.label}
+    </Button>
+
+    <MobileMenu
+      services={services.map((s) => ({ label: s.data.title, href: `/services/${s.id}` }))}
+    />
+  </div>
 </header>
+
+<script>
+  function initNav() {
+    document.querySelectorAll<HTMLElement>('[data-nav]:not([data-nav-ready])').forEach((nav) => {
+      nav.dataset.navReady = '';
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      // M7: backdrop behind the link cluster once the page has scrolled.
+      let ticking = false;
+      const updateScrolled = () => {
+        ticking = false;
+        nav.toggleAttribute('data-scrolled', window.scrollY > 0);
+      };
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(updateScrolled);
+          }
+        },
+        { passive: true, signal },
+      );
+      updateScrolled();
+
+      // Dropdowns: the label only opens the panel. Esc, outside click and
+      // focus leaving the dropdown close it.
+      nav.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((dropdown) => {
+        const trigger = dropdown.querySelector<HTMLButtonElement>('[data-dropdown-trigger]')!;
+        const panel = dropdown.querySelector<HTMLElement>('[data-dropdown-panel]')!;
+        const isOpen = () => trigger.getAttribute('aria-expanded') === 'true';
+        const setOpen = (open: boolean) => {
+          trigger.setAttribute('aria-expanded', String(open));
+          panel.hidden = !open;
+        };
+        trigger.addEventListener('click', () => setOpen(!isOpen()), { signal });
+        dropdown.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Escape' && isOpen()) {
+              setOpen(false);
+              trigger.focus();
+            }
+          },
+          { signal },
+        );
+        dropdown.addEventListener(
+          'focusout',
+          (e) => {
+            if (!dropdown.contains(e.relatedTarget as Node | null)) setOpen(false);
+          },
+          { signal },
+        );
+        document.addEventListener(
+          'click',
+          (e) => {
+            if (!dropdown.contains(e.target as Node)) setOpen(false);
+          },
+          { signal },
+        );
+      });
+
+      // Tear down before a View Transitions swap (plan §2 lifecycle rule).
+      document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+    });
+  }
+
+  initNav();
+  document.addEventListener('astro:page-load', initNav);
+</script>
 
 <style>
   @layer components {
@@ -46,58 +159,125 @@ import { ui } from '../../config/ui';
       top: 0;
       z-index: var(--z-nav);
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: var(--space-16);
-      padding: var(--space-16) var(--gutter);
-      background: var(--nav-bg);
+      min-height: var(--nav-height);
+      padding: var(--space-8) var(--gutter);
       color: var(--nav-fg);
-      border-bottom: var(--border-width) solid var(--nav-border);
-      backdrop-filter: blur(var(--nav-blur));
-      -webkit-backdrop-filter: blur(var(--nav-blur));
-      transition:
-        background-color var(--dur-theme) var(--ease-css),
-        color var(--dur-theme) var(--ease-css),
-        border-color var(--dur-theme) var(--ease-css);
+      transition: color var(--dur-theme) var(--ease-css);
     }
     .nav[data-nav-theme='dark'] {
-      --nav-bg: var(--nav-bg-dark);
       --nav-fg: var(--nav-fg-dark);
-      --nav-border: var(--nav-border-dark);
+      --nav-cluster-bg: var(--nav-cluster-bg-dark);
     }
 
     .nav__brand {
       display: inline-flex;
       align-items: center;
       min-height: var(--tap-min);
-      font-size: var(--text-body-lg);
-      font-weight: var(--weight-bold);
+      font-size: var(--text-medium);
+      font-weight: var(--weight-wordmark);
       letter-spacing: var(--tracking-brand);
       line-height: var(--leading-none);
       white-space: nowrap;
     }
 
-    .nav__links {
+    .nav__cluster {
+      display: flex;
+      align-items: center;
+      gap: var(--space-24);
+      padding: var(--space-4);
+      border-radius: var(--radius-pill);
+      background-color: transparent;
+      transition: background-color var(--dur-fast) var(--ease-standard);
+    }
+    .nav[data-scrolled] .nav__cluster {
+      background-color: var(--nav-cluster-bg);
+    }
+
+    .nav__links,
+    .nav__cluster > :global(.nav__cta) {
       display: none;
     }
     .nav__list {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: var(--space-22);
+      gap: var(--space-24);
       list-style: none;
-      font-size: var(--text-caption);
+    }
+    .nav__link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-8);
+      min-height: var(--tap-min);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .nav__trigger:hover {
+      opacity: var(--hover-opacity);
+    }
+    .nav__caret {
+      font-size: var(--text-mono-sm);
+    }
+    .nav__badge {
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-pill);
+      background: var(--nav-badge-bg);
+      color: var(--nav-badge-fg);
+      font-size: var(--text-mono-sm);
+    }
+
+    .nav__dropdown {
+      position: relative;
+    }
+    .nav__panel {
+      position: absolute;
+      top: 100%;
+      left: calc(var(--space-16) * -1);
+      z-index: var(--z-dropdown);
+      display: flex;
+      flex-direction: column;
+      min-width: 16rem;
+      padding: var(--space-8);
+      list-style: none;
+      background: var(--nav-dropdown-bg);
+      color: var(--nav-dropdown-fg);
+      border: var(--border-width) solid var(--nav-dropdown-border);
+      border-radius: var(--radius-md);
+    }
+    .nav__panel[hidden] {
+      display: none;
+    }
+    .nav__panel-link {
+      display: flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      padding: 0 var(--space-8);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      line-height: var(--leading-none);
+      text-transform: uppercase;
     }
 
     @media (min-width: 47.5rem) {
       .nav__links {
         display: block;
+        padding-left: var(--space-16);
+      }
+      .nav__cluster > :global(.nav__cta) {
+        display: inline-flex;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .nav {
+      .nav,
+      .nav__cluster {
         transition: none;
       }
     }

@@ -5,10 +5,10 @@
  * Copy on this page is reference/sample text, not site content.
  */
 import DevLayout from '../../layouts/DevLayout.astro';
-import Container from '../../components/primitives/Container.astro';
 import Section from '../../components/primitives/Section.astro';
 import Grid12 from '../../components/primitives/Grid12.astro';
 import GridItem from '../../components/primitives/GridItem.astro';
+import SectionHeader from '../../components/primitives/SectionHeader.astro';
 import Stack from '../../components/primitives/Stack.astro';
 import Cluster from '../../components/primitives/Cluster.astro';
 import Button from '../../components/ui/Button.astro';
@@ -16,6 +16,8 @@ import TextLink from '../../components/ui/TextLink.astro';
 import Tag from '../../components/ui/Tag.astro';
 import Pill from '../../components/ui/Pill.astro';
 import MediaFrame from '../../components/ui/MediaFrame.astro';
+import { mediaAspects } from '../../components/ui/media';
+import { workGridPositions } from '../../config/layout';
 
 const primitives = {
   Neutrals: [
@@ -51,7 +53,7 @@ const primitives = {
     'maroon-950',
   ],
   Forest: ['forest-50', 'forest-300', 'forest-400', 'forest-800', 'forest-850', 'forest-900'],
-  Accents: ['orange-500', 'lime-300', 'olive-800', 'stone-50'],
+  'Accents (orange unused in phase 1)': ['orange-500', 'lime-300', 'olive-800', 'stone-50'],
 };
 
 const semantic = [
@@ -71,8 +73,6 @@ const semantic = [
   'accent',
   'cta-bg',
   'cta-fg',
-  'cta-accent-bg',
-  'cta-accent-fg',
   'focus-ring',
   'tag-border',
   'placeholder-stripe-a',
@@ -86,10 +86,8 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
   ['text-secondary', 'surface-page', 'Secondary text (FAQ answers, sublines)', 'normal'],
   ['text-tertiary', 'surface-page', 'Tertiary text (team subline)', 'normal'],
   ['text-muted', 'surface-raised', 'Quote role on card', 'normal'],
-  ['text-muted', 'surface-page', 'Muted text (copyright)', 'normal'],
-  ['cta-fg', 'cta-bg', 'Ink button', 'normal'],
-  ['cta-accent-fg', 'cta-accent-bg', 'Accent button', 'normal'],
-  ['accent', 'surface-page', 'Accent on page (FAQ +)', 'large'],
+  ['text-muted', 'surface-page', 'Muted text (legal)', 'normal'],
+  ['cta-fg', 'cta-bg', 'Button', 'normal'],
   ['placeholder-fg', 'placeholder-stripe-a', 'Placeholder label', 'normal'],
   ['gate-1-fg', 'gate-1-bg', 'Gate 1 title', 'large'],
   ['gate-1-pain', 'gate-1-bg', 'Gate 1 pain line', 'normal'],
@@ -99,68 +97,43 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
   ['team-chip-fg', 'team-chip-bg', 'Team chip', 'normal'],
 ];
 
-const typeScale = [
+// [token, sample, leading, tracking, family, uppercase, weight]
+const typeScale: [string, string, string, string, 'sans' | 'mono', boolean, string][] = [
+  ['hero', 'We design how your product feels.', 'hero', 'hero', 'sans', false, 'medium'],
+  ['problem', 'Most products look fine.', 'none', 'problem', 'sans', false, 'medium'],
   [
-    'display-1',
-    'We design how your product feels.',
-    'var(--leading-display)',
-    'var(--tracking-display)',
-  ],
-  ['display-2', 'Most products look fine.', 'var(--leading-none)', 'var(--tracking-display-2)'],
-  [
-    'heading-1',
-    'The proof is in how it moves.',
-    'var(--leading-heading)',
-    'var(--tracking-heading)',
-  ],
-  [
-    'heading-2',
-    'One team instead of five hires.',
-    'var(--leading-heading)',
-    'var(--tracking-heading)',
-  ],
-  [
-    'heading-cta',
+    'closer',
     'Make your product feel worth paying for.',
-    'var(--leading-none)',
-    'var(--tracking-heading-cta)',
+    'closer',
+    'closer',
+    'sans',
+    false,
+    'medium',
   ],
-  ['wordmark', 'PRECIOUS ✕ STUDIO', 'var(--leading-none)', 'var(--tracking-wordmark)'],
+  ['menu', 'Approach', 'heading', 'heading', 'sans', false, 'regular'],
+  ['statement', 'The proof is in how it moves.', 'heading', 'heading', 'sans', false, 'medium'],
+  ['title', 'Lumin Fitness', 'heading', 'title', 'sans', false, 'medium'],
+  ['large', 'Extend my team', 'large', 'title', 'sans', false, 'regular'],
   [
-    'quote',
+    'medium',
     'Precious understood our complex design requirements well.',
-    'var(--leading-snug)',
-    'var(--tracking-normal)',
-  ],
-  ['heading-3', 'Lumin Fitness', 'var(--leading-heading)', 'var(--tracking-normal)'],
-  [
-    'lead',
-    "Real projects, shipped. Each one plays, because a still can't show feel.",
-    'var(--leading-body)',
-    'var(--tracking-normal)',
-  ],
-  [
-    'body-lg',
-    'One senior team. AI handles the volume. People handle the feel.',
-    'var(--leading-body)',
-    'var(--tracking-normal)',
+    'medium',
+    'body',
+    'sans',
+    false,
+    'regular',
   ],
   [
     'body',
-    'How your product moves, responds, and makes people feel while they use it.',
-    'var(--leading-body)',
-    'var(--tracking-normal)',
-  ],
-  [
-    'body-sm',
     'Great in-studio tech, an app a tier behind → an app that feels as good as the studio.',
-    'var(--leading-snug)',
-    'var(--tracking-normal)',
+    'body',
+    'body',
+    'sans',
+    false,
+    'regular',
   ],
-  ['ui', 'View case study', 'var(--leading-body)', 'var(--tracking-normal)'],
-  ['caption', 'Work · Approach · Clients · FAQ', 'var(--leading-body)', 'var(--tracking-normal)'],
-  ['micro', '© Precious Studio · Austin, TX', 'var(--leading-body)', 'var(--tracking-normal)'],
-  ['label', 'EXTEND MY TEAM', 'var(--leading-body)', 'var(--tracking-label)'],
+  ['mono', 'Work · Services · Book a call', 'none', 'mono', 'mono', true, 'regular'],
+  ['mono-sm', 'Redesign · © Precious Studio · Austin, TX', 'none', 'mono', 'mono', true, 'regular'],
 ];
 
 const spaces = [
@@ -188,329 +161,337 @@ const spaces = [
   '120',
 ];
 const layoutTokens = [
+  'gutter',
+  'grid-gap-col',
+  'grid-gap-row',
+  'header-gap',
+  'section-gap',
   'section-py',
   'section-py-tight',
-  'gutter',
   'inset-card',
   'inset-panel',
-  'grid-gap-row',
-  'grid-gap-col',
-  'grid-offset-stagger',
+  'nav-height',
 ];
-const radii = ['sm', 'md', 'lg', 'xl', 'pill'];
-const durations = ['fast', 'base', 'reveal', 'theme', 'page'];
-const eases = ['standard', 'out-soft', 'linear'];
-const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
+const radii = ['sm', 'md', 'xl', 'pill'];
+const durations = ['fast', 'base', 'reveal', 'theme', 'page', 'rise'];
+const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
 ---
 
 <DevLayout title="Design tokens">
   <div class="dev" id="dev-root" data-theme="light">
     <header class="dev-bar">
-      <Container>
-        <Cluster justify="between" gap="16">
-          <strong class="dev-brand">Design system · /dev/tokens</strong>
-          <Cluster gap="8" role="group" aria-label="Preview theme">
-            <span class="dev-muted">Theme</span>
-            {['light', 'dark', 'ink'].map((t) => (
-              <button
-                class="dev-toggle"
-                type="button"
-                data-set-theme={t}
-                aria-pressed={t === 'light' ? 'true' : 'false'}
-              >
-                {t}
-              </button>
-            ))}
-          </Cluster>
+      <Cluster justify="between" gap="16">
+        <strong class="dev-brand">Design system · /dev/tokens</strong>
+        <Cluster gap="8" role="group" aria-label="Preview theme">
+          <span class="dev-muted">Theme</span>
+          {['light', 'dark', 'ink'].map((t) => (
+            <button
+              class="dev-toggle"
+              type="button"
+              data-set-theme={t}
+              aria-pressed={t === 'light' ? 'true' : 'false'}
+            >
+              {t}
+            </button>
+          ))}
         </Cluster>
-      </Container>
+      </Cluster>
     </header>
 
     <main>
       <!-- COLOUR: PRIMITIVES -->
       <Section padding="tight">
-        <Container>
-          <Stack gap="24">
-            <h2 class="dev-h">1 · Colour primitives</h2>
-            <p class="dev-muted">
-              Raw values from the prototype. Components never use these directly.
-            </p>
-            {Object.entries(primitives).map(([group, names]) => (
-              <Stack gap="10">
-                <h3 class="dev-h3">{group}</h3>
-                <div class="swatches">
-                  {names.map((n) => (
-                    <figure class="swatch">
-                      <div class="swatch__chip" style={`background: var(--color-${n})`} />
-                      <figcaption>
-                        <code>--color-{n}</code>
-                        <span class="swatch__value" data-read-var={`--color-${n}`} />
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </Stack>
-            ))}
-          </Stack>
-        </Container>
+        <Stack gap="24">
+          <h2 class="dev-h">1 · Colour primitives</h2>
+          <p class="dev-muted">
+            Raw values from the prototype. Components never use these directly.
+          </p>
+          {Object.entries(primitives).map(([group, names]) => (
+            <Stack gap="10">
+              <h3 class="dev-h3">{group}</h3>
+              <div class="swatches">
+                {names.map((n) => (
+                  <figure class="swatch">
+                    <div class="swatch__chip" style={`background: var(--color-${n})`} />
+                    <figcaption>
+                      <code>--color-{n}</code>
+                      <span class="swatch__value" data-read-var={`--color-${n}`} />
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </Stack>
+          ))}
+        </Stack>
       </Section>
 
       <!-- COLOUR: SEMANTIC -->
       <Section padding="tight" surface>
-        <Container>
-          <Stack gap="24">
-            <h2 class="dev-h">2 · Semantic colour (switch theme above)</h2>
-            <div class="swatches">
-              {semantic.map((n) => (
-                <figure class="swatch">
-                  <div class="swatch__chip" style={`background: var(--${n})`} />
-                  <figcaption>
-                    <code>--{n}</code>
-                    <span class="swatch__value" data-read-var={`--${n}`} />
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+        <Stack gap="24">
+          <h2 class="dev-h">2 · Semantic colour (switch theme above)</h2>
+          <div class="swatches">
+            {semantic.map((n) => (
+              <figure class="swatch">
+                <div class="swatch__chip" style={`background: var(--${n})`} />
+                <figcaption>
+                  <code>--{n}</code>
+                  <span class="swatch__value" data-read-var={`--${n}`} />
+                </figcaption>
+              </figure>
+            ))}
+          </div>
 
-            <h3 class="dev-h3">Contrast (WCAG 2.x, live for the current theme)</h3>
-            <div class="table-wrap">
-              <table class="contrast">
-                <thead>
-                  <tr>
-                    <th>Pair</th>
-                    <th>Sample</th>
-                    <th>Ratio</th>
-                    <th>AA</th>
+          <h3 class="dev-h3">Contrast (WCAG 2.x, live for the current theme)</h3>
+          <div class="table-wrap">
+            <table class="contrast">
+              <thead>
+                <tr>
+                  <th>Pair</th>
+                  <th>Sample</th>
+                  <th>Ratio</th>
+                  <th>AA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contrastPairs.map(([fg, bg, label, size]) => (
+                  <tr
+                    data-contrast-fg={`--${fg}`}
+                    data-contrast-bg={`--${bg}`}
+                    data-contrast-size={size}
+                  >
+                    <td>
+                      {label}
+                      <br />
+                      <code>
+                        --{fg} / --{bg}
+                      </code>
+                    </td>
+                    <td>
+                      <span
+                        class="contrast__sample"
+                        style={`color: var(--${fg}); background: var(--${bg})`}
+                      >
+                        Aa
+                      </span>
+                    </td>
+                    <td class="contrast__ratio">–</td>
+                    <td class="contrast__result">–</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {contrastPairs.map(([fg, bg, label, size]) => (
-                    <tr
-                      data-contrast-fg={`--${fg}`}
-                      data-contrast-bg={`--${bg}`}
-                      data-contrast-size={size}
-                    >
-                      <td>
-                        {label}
-                        <br />
-                        <code>
-                          --{fg} / --{bg}
-                        </code>
-                      </td>
-                      <td>
-                        <span
-                          class="contrast__sample"
-                          style={`color: var(--${fg}); background: var(--${bg})`}
-                        >
-                          Aa
-                        </span>
-                      </td>
-                      <td class="contrast__ratio">–</td>
-                      <td class="contrast__result">–</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Stack>
-        </Container>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Stack>
       </Section>
 
       <!-- TYPE -->
       <Section padding="tight">
-        <Container>
-          <Stack gap="24">
-            <h2 class="dev-h">3 · Typography</h2>
-            <p class="dev-muted">
-              Family <code>--font-sans</code> (Helvetica Neue stack) and <code>--font-mono</code>.
-              Weights 400 / 500 / 600 / 700. Resize the window to see the fluid sizes.
-            </p>
-            {typeScale.map(([name, sample, leading, tracking]) => (
-              <div class="type-row">
-                <code class="type-row__name">--text-{name}</code>
-                <p
-                  class="type-row__sample"
-                  style={`font-size: var(--text-${name}); line-height: ${leading}; letter-spacing: ${tracking}`}
-                >
-                  {sample}
-                </p>
-              </div>
-            ))}
-          </Stack>
-        </Container>
+        <Stack gap="24">
+          <h2 class="dev-h">3 · Typography</h2>
+          <p class="dev-muted">
+            Sans (<code>--font-sans</code>) for content, weights 400/500. Mono (
+            <code>--font-mono</code>), uppercase, for UI and metadata. Resize the window to see the
+            fluid sizes.
+          </p>
+          {typeScale.map(([name, sample, leading, tracking, family, upper, weight]) => (
+            <div class="type-row">
+              <code class="type-row__name">
+                --text-{name} · {family} · {weight}
+              </code>
+              <p
+                class="type-row__sample"
+                style={`font-family: var(--font-${family}); font-size: var(--text-${name}); line-height: var(--leading-${leading}); letter-spacing: var(--tracking-${tracking}); font-weight: var(--weight-${weight}); text-transform: ${upper ? 'uppercase' : 'none'}`}
+              >
+                {sample}
+              </p>
+            </div>
+          ))}
+        </Stack>
       </Section>
 
       <!-- SPACE, LAYOUT, RADII -->
       <Section padding="tight" surface>
-        <Container>
-          <Stack gap="24">
-            <h2 class="dev-h">4 · Spacing, layout, radii</h2>
-            <div class="bars">
-              {spaces.map((s) => (
-                <div class="bar-row">
-                  <code>--space-{s}</code>
-                  <span class="bar" style={`width: var(--space-${s})`} />
-                </div>
-              ))}
-            </div>
-            <h3 class="dev-h3">Layout (fluid; live value)</h3>
-            <div class="bars">
-              {layoutTokens.map((s) => (
-                <div class="bar-row">
-                  <code>--{s}</code>
-                  <span class="bar" style={`width: var(--${s})`} />
-                  <span class="swatch__value" data-measure-var={`--${s}`} />
-                </div>
-              ))}
-            </div>
-            <h3 class="dev-h3">Radii</h3>
-            <Cluster gap="24">
-              {radii.map((r) => (
-                <Stack gap="8" align="center">
-                  <span class="radius-box" style={`border-radius: var(--radius-${r})`} />
-                  <code>--radius-{r}</code>
-                </Stack>
-              ))}
-            </Cluster>
-          </Stack>
-        </Container>
+        <Stack gap="24">
+          <h2 class="dev-h">4 · Spacing, layout, radii</h2>
+          <div class="bars">
+            {spaces.map((s) => (
+              <div class="bar-row">
+                <code>--space-{s}</code>
+                <span class="bar" style={`width: var(--space-${s})`} />
+              </div>
+            ))}
+          </div>
+          <h3 class="dev-h3">Fluid layout roles (live value)</h3>
+          <div class="bars">
+            {layoutTokens.map((s) => (
+              <div class="bar-row">
+                <code>--{s}</code>
+                <span class="bar" style={`width: var(--${s})`} />
+                <span class="swatch__value" data-measure-var={`--${s}`} />
+              </div>
+            ))}
+          </div>
+          <h3 class="dev-h3">Radii</h3>
+          <Cluster gap="24">
+            {radii.map((r) => (
+              <Stack gap="8" align="center">
+                <span class="radius-box" style={`border-radius: var(--radius-${r})`} />
+                <code>--radius-{r}</code>
+              </Stack>
+            ))}
+          </Cluster>
+        </Stack>
       </Section>
 
       <!-- MOTION -->
       <Section padding="tight">
-        <Container>
-          <Stack gap="24">
-            <h2 class="dev-h">5 · Motion (Premium: calm, no overshoot)</h2>
-            <p class="dev-muted">
-              Hover a track to play the token. Reduced motion disables these demos.
-            </p>
-            <h3 class="dev-h3">Durations (with --ease-standard)</h3>
-            {durations.map((d) => (
-              <div class="motion-row">
-                <code>--dur-{d}</code>
-                <div
-                  class="motion-track"
-                  style={`--demo-dur: var(--dur-${d}); --demo-ease: var(--ease-standard)`}
-                >
-                  <span class="motion-dot" />
-                </div>
+        <Stack gap="24">
+          <h2 class="dev-h">5 · Motion (Premium: calm, decelerating, no overshoot)</h2>
+          <p class="dev-muted">
+            Hover a track to play the token. Reduced motion disables these demos.
+          </p>
+          <h3 class="dev-h3">Durations (with --ease-standard)</h3>
+          {durations.map((d) => (
+            <div class="motion-row">
+              <code>--dur-{d}</code>
+              <div
+                class="motion-track"
+                style={`--demo-dur: var(--dur-${d}); --demo-ease: var(--ease-standard)`}
+              >
+                <span class="motion-dot" />
               </div>
-            ))}
-            <h3 class="dev-h3">Easings (at --dur-page)</h3>
-            {eases.map((e) => (
-              <div class="motion-row">
-                <code>--ease-{e}</code>
-                <div
-                  class="motion-track"
-                  style={`--demo-dur: var(--dur-page); --demo-ease: var(--ease-${e})`}
-                >
-                  <span class="motion-dot" />
-                </div>
+            </div>
+          ))}
+          <h3 class="dev-h3">Easings (at --dur-page)</h3>
+          {eases.map((e) => (
+            <div class="motion-row">
+              <code>--ease-{e}</code>
+              <div
+                class="motion-track"
+                style={`--demo-dur: var(--dur-page); --demo-ease: var(--ease-${e})`}
+              >
+                <span class="motion-dot" />
               </div>
-            ))}
-            <p class="dev-muted">
-              Also: <code>--dur-marquee</code> 60s linear, <code>--hover-opacity</code> 0.7,
-              smoothstep for scrubbed progress (src/motion/tokens.ts).
-            </p>
-          </Stack>
-        </Container>
+            </div>
+          ))}
+          <p class="dev-muted">
+            Also: <code>--rise-distance</code> 120px (entrance), <code>--dur-marquee</code> 60s
+            linear,
+            <code>--hover-opacity</code> 0.7, smoothstep for scrubbed progress
+            (src/motion/tokens.ts).
+          </p>
+        </Stack>
       </Section>
 
       <!-- COMPONENTS -->
       <Section padding="tight" surface>
-        <Container>
-          <Stack gap="40">
-            <h2 class="dev-h">6 · Components</h2>
+        <Stack gap="48">
+          <h2 class="dev-h">6 · Components</h2>
 
-            <Stack gap="12">
-              <h3 class="dev-h3">Button</h3>
-              <Cluster gap="16">
-                <Button size="sm" href="#" track="book-call">
-                  Book a call
-                </Button>
-                <Button href="#" track="book-call">
-                  Book a call
-                </Button>
-                <Button variant="solid-accent" href="#" track="book-call">
-                  Book a call
-                </Button>
-                <Button variant="solid-accent" size="sm">
-                  Button element
-                </Button>
-              </Cluster>
-            </Stack>
+          <Stack gap="12">
+            <h3 class="dev-h3">SectionHeader (three-zone; stacks below 992px)</h3>
+            <SectionHeader>
+              <Fragment slot="eyebrow">Clients</Fragment>
+              What working with us feels like.
+              <Pill slot="action">Clutch ★★★★★ 4.9</Pill>
+            </SectionHeader>
+            <SectionHeader>
+              The proof is in how it moves.
+              <Fragment slot="sub">
+                Real projects, shipped. Each one plays, because a still can't show feel.
+              </Fragment>
+              <TextLink slot="action" href="#" variant="mono">
+                See our work
+              </TextLink>
+            </SectionHeader>
+          </Stack>
 
-            <Stack gap="12">
-              <h3 class="dev-h3">TextLink</h3>
-              <Cluster gap="24">
-                <TextLink href="#" track="case-study">
-                  View case study
-                </TextLink>
-                <TextLink href="#" size="sm">
-                  Meet the AI Design Agent
-                </TextLink>
-                <TextLink href="#" variant="caps">
-                  See our work
-                </TextLink>
-              </Cluster>
-            </Stack>
+          <Stack gap="12">
+            <h3 class="dev-h3">Button (pill, mono, ▸; colours follow the theme)</h3>
+            <Cluster gap="16">
+              <Button size="sm" href="#" track="book-call">
+                Book a call
+              </Button>
+              <Button href="#" track="book-call">
+                Book a call
+              </Button>
+              <Button glyph={false}>Button element</Button>
+            </Cluster>
+          </Stack>
 
-            <Stack gap="12">
-              <h3 class="dev-h3">Tag and Pill</h3>
-              <Cluster gap="16">
-                <Tag>Redesign</Tag>
-                <Tag>Extend my team</Tag>
-                <Tag>Build from zero</Tag>
-                <Pill>Clutch ★★★★★ 4.9</Pill>
-                <Pill variant="solid" as="button" aria-pressed="false">
+          <Stack gap="12">
+            <h3 class="dev-h3">TextLink</h3>
+            <Cluster gap="24">
+              <TextLink href="#" track="case-study">
+                View case study
+              </TextLink>
+              <TextLink href="#">Meet the AI Design Agent</TextLink>
+              <TextLink href="#" variant="mono">
+                See our work
+              </TextLink>
+            </Cluster>
+          </Stack>
+
+          <Stack gap="12">
+            <h3 class="dev-h3">Tag and Pill</h3>
+            <Cluster gap="16">
+              <Tag>Redesign</Tag>
+              <Tag>Extend my team</Tag>
+              <Tag>Build from zero</Tag>
+              <Pill>Clutch ★★★★★ 4.9</Pill>
+              <Pill variant="solid" as="button" aria-pressed="false">
+                Sound on
+              </Pill>
+            </Cluster>
+          </Stack>
+
+          <Stack gap="12">
+            <h3 class="dev-h3">MediaFrame: tone auto (follows theme)</h3>
+            <div class="media-grid">
+              {mediaAspects.map((a) => (
+                <Stack gap="6">
+                  <MediaFrame aspect={a} label="case video" />
+                  <code>{a}</code>
+                </Stack>
+              ))}
+            </div>
+            <h3 class="dev-h3">MediaFrame: forest (gate), logo, and an overlay</h3>
+            <div class="media-grid">
+              <MediaFrame aspect="4/5" tone="forest" label="photo / loop" />
+              <div class="logo-demo">
+                <MediaFrame aspect="16/9" tone="logo" label="[Client logo]" rounded={false} />
+              </div>
+              <MediaFrame aspect="16/9" label="showreel · autoplay, muted">
+                <Pill variant="solid" as="button" class="reel-pill">
                   Sound on
                 </Pill>
-              </Cluster>
-            </Stack>
-
-            <Stack gap="12">
-              <h3 class="dev-h3">MediaFrame: tone auto (follows theme)</h3>
-              <div class="media-grid">
-                {aspects.map((a) => (
-                  <Stack gap="6">
-                    <MediaFrame aspect={a} label="case video" />
-                    <code>{a}</code>
-                  </Stack>
-                ))}
-              </div>
-              <h3 class="dev-h3">MediaFrame: forest (gate) and logo</h3>
-              <div class="media-grid">
-                <MediaFrame aspect="4/5" tone="forest" label="photo / loop" />
-                <div class="logo-demo">
-                  <MediaFrame aspect="16/9" tone="logo" label="[Client logo]" rounded={false} />
-                </div>
-                <MediaFrame aspect="16/9" label="showreel · autoplay, muted">
-                  <Pill variant="solid" as="button" class="reel-pill">
-                    Sound on
-                  </Pill>
-                </MediaFrame>
-              </div>
-            </Stack>
-
-            <Stack gap="12">
-              <h3 class="dev-h3">Grid12 + GridItem (Work layout: 8/4, then 6/3 staggered)</h3>
-              <Grid12>
-                <GridItem span={8}>
-                  <MediaFrame aspect="16/10" label="span 8" />
-                </GridItem>
-                <GridItem span={4} start={9}>
-                  <MediaFrame aspect="4/5" label="span 4 · start 9" />
-                </GridItem>
-                <GridItem span={6}>
-                  <MediaFrame aspect="4/3" label="span 6" />
-                </GridItem>
-                <GridItem span={3} start={8} stagger>
-                  <MediaFrame aspect="3/4" label="span 3 · start 8 · stagger" />
-                </GridItem>
-              </Grid12>
-            </Stack>
+              </MediaFrame>
+            </div>
           </Stack>
-        </Container>
+
+          <Stack gap="12">
+            <h3 class="dev-h3">Grid12: Work positions (6 · 3 · 3, then 6 · 6; spans from 992px)</h3>
+            <Grid12 rowGap="grid">
+              {workGridPositions.map((pos, i) => (
+                <GridItem span={pos.span}>
+                  <MediaFrame
+                    aspect={pos.aspect}
+                    label={`#${i + 1} · span ${pos.span} · ${pos.aspect}`}
+                  />
+                </GridItem>
+              ))}
+            </Grid12>
+          </Stack>
+
+          <Stack gap="12">
+            <h3 class="dev-h3">Grid12: the 12 columns</h3>
+            <Grid12 class="cols-demo">
+              {Array.from({ length: 12 }, (_, i) => (
+                <span>{i + 1}</span>
+              ))}
+            </Grid12>
+          </Stack>
+        </Stack>
       </Section>
     </main>
   </div>
@@ -588,21 +569,21 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       top: 0;
       z-index: var(--z-nav);
       padding: var(--space-12) var(--gutter);
-      background: var(--surface-nav);
-      backdrop-filter: blur(var(--nav-blur));
+      background: var(--surface-page);
       border-bottom: var(--border-width) solid var(--border-subtle);
-      font-size: var(--text-caption);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      text-transform: uppercase;
     }
     .dev-brand {
-      font-weight: var(--weight-bold);
-      letter-spacing: var(--tracking-brand);
+      font-weight: var(--weight-medium);
     }
     .dev-toggle {
       min-height: var(--tap-min);
       padding: 0 var(--space-12);
       border: var(--border-width) solid var(--border-strong);
       border-radius: var(--radius-pill);
-      text-transform: capitalize;
+      text-transform: uppercase;
     }
     .dev-toggle[aria-pressed='true'] {
       background: var(--cta-bg);
@@ -610,20 +591,23 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       border-color: var(--cta-bg);
     }
     .dev-h {
-      font-size: var(--text-heading-2);
+      font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
     }
     .dev-h3 {
-      font-size: var(--text-body);
-      font-weight: var(--weight-semibold);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      font-weight: var(--weight-regular);
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+      color: var(--text-secondary);
     }
     .dev-muted {
       color: var(--text-secondary);
-      font-size: var(--text-ui);
     }
     code {
       font-family: var(--font-mono);
-      font-size: var(--text-micro);
+      font-size: var(--text-mono-sm);
     }
 
     .swatches {
@@ -647,7 +631,7 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
     }
     .swatch__value {
       font-family: var(--font-mono);
-      font-size: var(--text-micro);
+      font-size: var(--text-mono-sm);
       color: var(--text-secondary);
     }
 
@@ -657,7 +641,6 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
     .contrast {
       width: 100%;
       border-collapse: collapse;
-      font-size: var(--text-ui);
     }
     .contrast th,
     .contrast td {
@@ -670,11 +653,11 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       display: inline-block;
       padding: var(--space-4) var(--space-12);
       border-radius: var(--radius-sm);
-      font-size: var(--text-lead);
+      font-size: var(--text-large);
     }
     .is-fail {
-      color: var(--accent);
-      font-weight: var(--weight-semibold);
+      font-weight: var(--weight-medium);
+      text-decoration: underline;
     }
 
     .type-row {
@@ -687,7 +670,6 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       color: var(--text-secondary);
     }
     .type-row__sample {
-      font-weight: var(--weight-medium);
       overflow-wrap: anywhere;
     }
 
@@ -705,7 +687,7 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       display: block;
       height: var(--space-10);
       max-width: 100%;
-      background: var(--accent);
+      background: var(--text-primary);
       border-radius: var(--radius-sm);
     }
     .radius-box {
@@ -735,7 +717,7 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       width: var(--space-24);
       height: var(--space-24);
       border-radius: var(--radius-pill);
-      background: var(--accent);
+      background: var(--text-primary);
       transition: left var(--demo-dur) var(--demo-ease);
     }
     .motion-track:hover .motion-dot {
@@ -761,6 +743,13 @@ const aspects = ['16/9', '16/10', '4/5', '4/3', '3/4'] as const;
       position: absolute;
       right: var(--space-16);
       bottom: var(--space-16);
+    }
+    .cols-demo span {
+      padding: var(--space-8) 0;
+      background: var(--surface-muted);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-sm);
+      text-align: center;
     }
   }
 </style>

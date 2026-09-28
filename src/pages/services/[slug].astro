@@ -1,0 +1,20 @@
+---
+/** Service template route: one page per published service (placeholders for now). */
+import type { GetStaticPaths } from 'astro';
+import StubLayout from '../../components/layout/StubLayout.astro';
+import { getServices } from '../../lib/content';
+import { site } from '../../config/site';
+
+export const getStaticPaths = (async () => {
+  const entries = await getServices();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { title, summary } = entry.data;
+---
+
+<StubLayout
+  seo={{ title: `${title} · ${site.name}`, description: summary, noindex: true }}
+  heading={title}
+/>
