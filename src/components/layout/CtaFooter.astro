@@ -33,7 +33,9 @@ import { ui } from '../../config/ui';
 >
   <Grid12 class="footer__top">
     <div class="footer__cta">
-      <h2 class="footer__heading">{ui.footer.headline}</h2>
+      <h2 class="footer__heading" data-motion="pixel-text">
+        {ui.footer.headline}
+      </h2>
       <Button href={bookCall.href} track={bookCall.track}>
         {bookCall.label}
       </Button>
@@ -65,7 +67,7 @@ import { ui } from '../../config/ui';
 
   <Grid12 class="footer__bottom">
     <!-- Wordmark first so it sits on top when stacked (below lg); from lg both share row 1. -->
-    <div class="footer__wordmark">
+    <div class="footer__wordmark" data-motion="logo-pop">
       <Logo class="footer__logo" />
     </div>
     <p class="footer__legal">

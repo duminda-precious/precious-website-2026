@@ -16,6 +16,8 @@ import { riseIn } from './riseIn';
 import { slider } from './slider';
 import { disclosure } from './disclosure';
 import { pixelHover } from './pixelHover';
+import { pixelText } from './pixelText';
+import { logoPop } from './logoPop';
 
 export interface MotionModule {
   name: string;
@@ -35,6 +37,8 @@ const modules: MotionModule[] = [
   slider,
   disclosure,
   pixelHover,
+  pixelText,
+  logoPop,
 ];
 
 let cleanups: (() => void)[] = [];

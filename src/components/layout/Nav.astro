@@ -11,7 +11,8 @@
  * Tokens: --nav-fg, --nav-cluster-bg (+ -dark), --nav-dropdown-*, --nav-badge-*, --nav-height,
  *         --gutter, --space-*, --font-sans, --text-label, --tracking-label, --radius-pill,
  *         --radius-md, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
- * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7).
+ * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7;
+ *               also collapses the logo to the butterfly, M15).
  */
 import Button from '../ui/Button.astro';
 import Logo from '../ui/Logo.astro';
@@ -216,6 +217,16 @@ const dropdownItems = (overview: { label: string; href: string }) => [
     .nav__brand :global(.nav__logo) {
       height: var(--logo-height-nav);
       width: auto;
+      transform-origin: var(--logo-mark-start) 50%;
+      transition:
+        clip-path var(--dur-logo-collapse) var(--ease-out-expo),
+        transform var(--dur-logo-collapse) var(--ease-out-expo);
+    }
+    /* M15: once scrolled, the wordmark clips down to the pixel butterfly, which
+       slides to the left edge and grows a little. Back at the top it expands. */
+    .nav[data-scrolled] .nav__brand :global(.nav__logo) {
+      clip-path: inset(-30% var(--logo-mark-end-inset) -30% var(--logo-mark-start));
+      transform: translateX(calc(var(--logo-mark-start) * -1)) scale(var(--logo-mark-scale));
     }
 
     .nav__cluster {
@@ -268,6 +279,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       font-weight: var(--weight-eyebrow);
       letter-spacing: var(--tracking-eyebrow);
       font-size: var(--text-eyebrow);
+      text-transform: none; /* eyebrow: title case, not the link caps */
     }
 
     .nav__dropdown {
@@ -317,7 +329,8 @@ const dropdownItems = (overview: { label: string; href: string }) => [
 
     @media (prefers-reduced-motion: reduce) {
       .nav,
-      .nav__cluster {
+      .nav__cluster,
+      .nav__brand :global(.nav__logo) {
         transition: none;
       }
     }

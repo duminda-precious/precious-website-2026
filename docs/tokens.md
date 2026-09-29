@@ -305,7 +305,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | MobileMenu, Nav, SiteShell, gsap, tokens |
 | `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap, tokens |
-| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | gsap, tokens |
+| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | Nav, gsap, tokens |
 | `--ease-linear` | `linear` |  | ClientsSection |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
 | `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, tokens |
@@ -323,6 +323,31 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--dur-pixel` | `240ms` | whole dissolve | pixelHover, tokens |
 | `--pixel-steps` | `5` | batches: fewer = chunkier | pixelHover, tokens |
 | `--pixel-cell` | `0.375rem` | 6px cells | pixelHover, tokens |
+
+### Pixel text (P2-5): headings pixelate through these block sizes (px), one
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-resolve` | `12 8 5 3` | coarse → crisp | pixelText, tokens |
+| `--pixel-breathe` | `2 3 4 5 4 3 2` | in and out, like a breath | pixelText, tokens |
+| `--dur-pixel-frame` | `110ms` |  | pixelText, tokens |
+| `--dur-breathe` | `7s` |  | pixelText, tokens |
+
+### Footer butterfly: pixels pop in, shuffled, in this many batches
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-pop-steps` | `16` |  | logoPop, tokens |
+| `--dur-pixel-pop` | `800ms` |  | logoPop, tokens |
+
+### Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--logo-mark-start` | `52.9%` | 401 / 758 | Nav |
+| `--logo-mark-end-inset` | `39.3%` | (758 − 460.1) / 758 | Nav |
+| `--logo-mark-scale` | `1.4` |  | Nav |
+| `--dur-logo-collapse` | `700ms` |  | Nav |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn, tokens |
 | `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |

@@ -331,6 +331,22 @@
     --dur-pixel: 240ms; /* whole dissolve */
     --pixel-steps: 5; /* batches: fewer = chunkier */
     --pixel-cell: 0.375rem; /* 6px cells */
+    /* Pixel text (P2-5): headings pixelate through these block sizes (px), one
+       frame each. Resolve runs once on entry; breathe runs on one visible heading
+       every --dur-breathe. */
+    --pixel-resolve: 12 8 5 3; /* coarse → crisp */
+    --pixel-breathe: 2 3 4 5 4 3 2; /* in and out, like a breath */
+    --dur-pixel-frame: 110ms;
+    --dur-breathe: 7s;
+    /* Footer butterfly: pixels pop in, shuffled, in this many batches */
+    --pixel-pop-steps: 16;
+    --dur-pixel-pop: 800ms;
+    /* Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
+       Mark position inside the logo (from reference/brand/logo-white.svg). */
+    --logo-mark-start: 52.9%; /* 401 / 758 */
+    --logo-mark-end-inset: 39.3%; /* (758 − 460.1) / 758 */
+    --logo-mark-scale: 1.4;
+    --dur-logo-collapse: 700ms;
     --rise-distance: 120px; /* brief entrance pattern */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
