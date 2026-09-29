@@ -8,6 +8,29 @@ A pattern study of afternow.co (homepage only), written as a handoff for Claude 
 
 ---
 
+## 0. Slop check
+
+Checked against Slop Patterns v1.1.1. Automated check: the section 10 CSS recipes were run through the checker, and only A12 (Bento Reflex) fired. The rest was reviewed by hand against the full library.
+
+| Code | Pattern | Where | Guardrail |
+|---|---|---|---|
+| A12 | Bento Reflex | §2.4 Work grid | The order is an editorial ranking (strongest project in the big slot). Use the recipe only for work media, never for stats, icons or one-line tiles. |
+| A35 | [name] | §6.3 Motion tokens | Ration entrances: rise-in for grid items only; headlines use the line-mask reveal; statements, buttons, hairlines and the footer stay static. |
+| A22 | [name] | §4.2–4.3 Tracking | Tune tracking to the typeface: start at −2% for display, never below −4% at 40px or more, body at 0. |
+| A49/A14 | [name] | §6.2 M8 Logo marquee | Visible pause control; pause on hover and focus; stop off-screen; real client logos only. |
+| A64/A68 | [name] | §6.2 M1 step 4, §3 item 2 | Grey headline only once the media covers it; at rest it passes WCAG AA. The announcement card must not cover content. |
+| A66 | [name] | §6.2 M5, M10 | Reveals use transform or clip-path, not height or width transitions. |
+| A67 | [name] | §10 GSAP notes | Never ship opacity:0 in CSS; set hidden start states from JS so content stays visible if the script fails. |
+| A23 | [name] | §2.2 Eyebrows | At most one or two eyebrows per page, and only when they add information. |
+| A38 | [name] | §2.10 Section gap | Vary gaps by relationship: tighter within a section, largest between unrelated sections. |
+| A8/A3 | [name] | §6.2 M4 pills, §2.5 Services | Blur only for legibility over busy media (a solid chip is equally valid). Equal peer cards only for real, distinct services with their own pages. |
+
+Checked and clean: no gradients, glows, blobs, bounce easing (A62), centred hero (A11), italic serif swap (A9), wide-tracked body (A51), long lines (A71), single typeface (A2).
+
+Not verifiable from the brief: mobile overflow (B34). Check it on a real phone during the rebuild.
+
+---
+
 ## 1. Design character in one paragraph
 
 The UI is monochrome (white, black, warm light greys) and gets all its color from the work media. Type uses one sans family for content and one mono family for everything that is UI or metadata. Layouts span the full viewport width on a 12-column grid, with no centered max-width column. Composition is asymmetric: text hugs the left edge, actions hug the right edge, and the empty columns in between are deliberate. Motion is calm and weighty: pinned media that expands, content that rises in rows, and a page that lifts off to reveal the footer underneath. Nothing bounces.
@@ -34,6 +57,7 @@ Almost every section opens with the same header anatomy on one grid row:
 | Middle / left | 4–9 **or** 1–9 | Statement paragraph in large sans | Start |
 | Right | 10–12 | One pill button | **End** (`justify-self:end`) |
 
+- Eyebrows are rare. Use at most one or two per page, and only when they add information rather than repeat the heading.
 - With an eyebrow, the statement starts at column 4, which creates an indented "editorial" column (see Clients).
 - Without an eyebrow, the statement starts at column 1 and the gap to the right-hand button is empty space (see Work, Services, Journal).
 - The button sits flush to the right edge, top-aligned with the statement's first line. The eye reads left to right: what we say, then what you can do.
@@ -61,7 +85,7 @@ The showpiece. It's full width with a large row gap and a small column gap.
 - `align-items: start`, so every card keeps its own height. Rows have **ragged bottoms**, and the captions under each media sit at different heights. The grid looks curated and editorial, like a magazine spread, not a uniform card grid.
 - The row gap is large (fluid, roughly 54–96px) and the column gap is small (fluid, 16–24px). The media almost touch sideways but breathe vertically, so each row reads as one strip.
 
-**Why this is smart:** editors just add projects in order and the layout rhythm is automatic. The CMS never needs a "size" field.
+The order is an editorial ranking: the big slot always goes to the strongest project, never filled by date or at random. Use this recipe only for work media, never for stats, icons or one-line tiles.
 
 **Rebuild rule:** an ordered list with CSS `:nth-child` span and aspect maps. After item 9, repeat the 4-4-4 pattern or restart the cycle.
 
@@ -72,6 +96,8 @@ The showpiece. It's full width with a large row gap and a small column gap.
 - **Responsive via flex-basis, not breakpoints per card:**
   - `<1200px`: `flex-wrap: wrap` with `flex: 1 1 300px`. As many cards as fit per row, and the last row stretches.
   - `<992px`: `flex: 1 1 100%` (full-width stack).
+
+Equal peer cards only work because each is a real, distinct service with its own page. No filler features.
 
 **Why flex here and grid elsewhere:** the grid is used where the *composition* matters (asymmetric placement). Flex is used where items are *peers* that should share space equally and reflow on their own.
 
@@ -109,7 +135,7 @@ Some elements ignore the side padding and run edge to edge (`grid-column: 1 / -1
 |---|---|
 | Side padding | Fluid, about 16 → 32px |
 | Column gap | 24px desktop (smaller on mobile) |
-| Section gap | Very large and fluid (about 124 → 192px). Sections are separated by space, not backgrounds |
+| Section gap | Very large and fluid (about 124 → 192px). Sections are separated by space, not backgrounds. Vary the gaps by relationship: tighter within a section, largest between unrelated sections. |
 | Header → content gap | Medium-large, fluid (about 42 → 64px) |
 | Grid row gap (work) | Large, fluid (about 54 → 96px) |
 | Radius | One value (about 12px) for all media, cards and the content sheet; pills are fully rounded |
@@ -122,7 +148,7 @@ All spacing is a named, fluid `clamp()` scale from 3xs to 3xl, interpolated betw
 ## 3. Section anatomy (top to bottom)
 
 1. **Header / nav.** The wordmark logo stands alone at the far left. On the right is a cluster of mono uppercase links, a black pill "Contact", and a dot-grid menu icon. Once scrolled, a light-grey rounded backdrop fades in behind the right cluster, turning it into a floating pill bar. The logo never gets a backdrop.
-2. **Floating announcement card** (optional). A small dismissible card under the nav at the top right: thumbnail, title, one line, and a mono link. It persists while you scroll until closed.
+2. **Floating announcement card** (optional). A small dismissible card under the nav at the top right: thumbnail, title, one line, and a mono link. It persists while you scroll until closed. Observed issue: it covered the Work section's 'Explore our work' button and card media. If rebuilt, reserve space for it or dock it clear of content.
 3. **Hero.** A short headline anchored bottom-left, and a centered 16:9 media tile that expands on scroll (see M1). The headline is small relative to the media, because the media is the message.
 4. **Work.** Three-zone header (statement plus pill), then the positional grid. Each card has the media, then the title (sans h5), a one-line description (grey), and a mono result chip.
 5. **Clients.** Hairline, eyebrow, indented statement, pill. Then the testimonial slider with the gutter-hung case card, and the full-bleed logo marquee.
@@ -157,14 +183,14 @@ This is the key hierarchy device. You can tell "something to read" from "somethi
 | H5 | about 28px | 500 (work) / 400 (journal) | about −3% | about 1.1 | Card titles |
 | Large | about 22px | 400 | about −3% | 1.2 | Featured card titles |
 | Medium | about 20px | 400 | about −2% | 1.35 | Quotes, service titles |
-| Body | 16px | 400 | about −2% | 1.45 | Descriptions |
+| Body | 16px | 400 | about −2% (rebuild at 0) | 1.45 | Descriptions |
 | Mono UI | 14–16px | 400 / 500 | about −2% | 1 | Nav, buttons, eyebrows, chips |
 
 ### 4.3 Hierarchy principles to reproduce
 
 - **Statements are headlines.** Section "headings" are full sentences or short paragraphs at H3 size. There are no short title-plus-subtitle pairs, which makes the page read like a narrative.
 - **Only two weights.** Hierarchy comes from size, family and grey level, not bold.
-- **Tracking scales with size.** It's tighter as the type gets bigger, at around −4 to −5% at display sizes, and close to neutral at body sizes.
+- **Tune tracking to the typeface.** Start at −2% for display, never below −4% at 40px or more, and body at 0.
 - **Line height tightens with size.** It's about 1.1 for anything 28px and up, and about 1.45 for body text.
 - **Grey carries secondary information.** Descriptions and captions use a mid grey, with no extra size step.
 - **Headlines are split into lines** (a `.line` wrapper per line, with a small bottom padding and negative margin so descenders aren't clipped). This enables line-mask reveals.
@@ -191,7 +217,7 @@ The motion is **Premium and editorial**: long, decelerating eases with no oversh
 1. **On load:** the media tile starts as a clip-path collapsed to its centre (inset 50% with rounded corners) and opens outward into a small centred 16:9 tile. The headline lines rise in under a line mask at the bottom left.
 2. **On scroll (pinned):** the hero is pinned for about 120vh (capped at 1200px). The tile scales from centred-small to fill the content area (viewport minus header and padding), with its corner radius preserved.
 3. **Echo frames:** two or three rounded rectangles in accent colors trail behind the tile's edges as it scales, like a motion trail or onion skin. This gives a sense of depth and speed without blur.
-4. The headline fades to low-contrast grey as the media takes over.
+4. The headline fades to low-contrast grey as the media takes over. Grey only once the media covers the headline. At rest it must pass WCAG AA.
 5. The media cycles through several reel clips. A small "▸ PLAY" chip at the bottom right opens the full reel.
 6. **On release:** the white content "sheet" scrolls up over the pinned hero.
 7. **Mobile:** no pin and no scale. The headline sits at Display 2 size above a 16:9 video, with a visible play button (touch has no hover).
@@ -205,10 +231,10 @@ The motion is **Premium and editorial**: long, decelerating eases with no oversh
 
 **M4. Work card hover** (only on `(hover:hover) and (pointer:fine)`)
 - The media scales to 1.05 inside its rounded mask (the mask stays put), and video media start playing or advance.
-- Service pills appear as a stacked column in the top-left corner of the media: small mono chips on translucent white with a backdrop blur, staggered in.
+- Service pills appear as a stacked column in the top-left corner of the media: small mono chips on translucent white with a backdrop blur, staggered in. The blur is for legibility over busy media, not decoration. A solid chip is an equally valid rebuild.
 - On touch devices the pills are always visible (`(hover:none)`). The same effect applies on `:focus-within` for keyboard users.
 
-**M5. Services card hover.** The card background darkens one grey step. The description slides up and an "EXPLORE X ▸" mono link row is revealed at the bottom (a height or translate reveal). The neighbouring cards don't change.
+**M5. Services card hover.** The card background darkens one grey step. The description slides up and an "EXPLORE X ▸" mono link row is revealed at the bottom (a transform or clip-path reveal, not a height transition). The neighbouring cards don't change.
 
 **M6. Footer reveal with echo bands**
 - The footer is `position: sticky` beneath the content sheet (lower z-index).
@@ -217,11 +243,11 @@ The motion is **Premium and editorial**: long, decelerating eases with no oversh
 
 **M7. Nav backdrop.** At the top the right-side cluster floats with no background. Once scrolled, a light-grey rounded backdrop fades in and the actions settle (a small translate to zero). The logo is untouched. There's no hide-on-scroll.
 
-**M8. Logo marquee.** Continuous, linear, infinite, full bleed. The logos are monochrome and evenly spaced.
+**M8. Logo marquee.** Continuous, linear, infinite, full bleed. The logos are monochrome and evenly spaced. Visible pause control; pause on hover and focus; stop when off-screen; real client logos only.
 
 **M9. Testimonial slider.** Cross-fade or slide between testimonials. The gutter case-study card and the stats update with the slide. The arrows are small square buttons.
 
-**M10. Journal card hover.** The circular arrow icon in the media corner expands into a pill that reveals its label ("READ ARTICLE →"), with the width animating from the icon outwards.
+**M10. Journal card hover.** The circular arrow icon in the media corner expands into a pill that reveals its label ("READ ARTICLE →"), with the width animating from the icon outwards. Rebuild with transform or clip-path, not a width transition.
 
 **M11. Menu overlay.** A full-screen white layer. The link list fades or rises in and the featured cards appear bottom-left. Esc closes it.
 
@@ -231,7 +257,7 @@ The motion is **Premium and editorial**: long, decelerating eases with no oversh
 
 - **One signature ease:** a strong decelerating curve (ease-out-expo style) for entrances, and linear only for marquees.
 - **Duration palette:** quick (about 200ms) for hovers, standard (about 400–600ms) for reveals, slow (about 900ms–1.2s) for row rise-ins and the hero clip, and scrubbed for the pinned sequences.
-- **One entrance pattern:** rise 120px plus fade, everywhere.
+- Entrances are rationed: the rise-in is for grid items only (Work, Journal); headlines use the line-mask reveal; statements, buttons, hairlines and the footer stay static.
 - **Reduced motion** (`prefers-reduced-motion: reduce`): no pin, no scale, no rise-in; the marquee stops and content is simply present.
 
 ---
@@ -324,6 +350,7 @@ Breakpoints are Bootstrap-like: 576 / 768 / 992 / 1000 (nav) / 1200 / 1580 / 192
 
 **GSAP notes:**
 - **Hero:** `ScrollTrigger` with `pin:true` and `end:"+=min(120vh,1200px)"`, `scrub`. Animate the tile's `scale` (or width and height via a FLIP from the small to the full rect). The echo frames are separate absolutely-positioned rounded divs whose scale lags by stepped scrub offsets.
+- Never ship opacity:0 in CSS. Set the hidden start state from JS (an html.js class) so content stays visible if the script fails.
 - **Rise-in:** use `ScrollTrigger.batch` on the cards, grouped by row (same `offsetTop`), with `y:120 → 0`, `autoAlpha:0 → 1`, and a small `stagger` in DOM order.
 - **Footer:** CSS sticky plus a content sheet with a bottom radius. The echo bands are two sibling divs between the sheet and the footer with decreasing inset.
 
