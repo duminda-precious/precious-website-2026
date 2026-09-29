@@ -15,6 +15,7 @@ import { videoInView } from './videoInView';
 import { riseIn } from './riseIn';
 import { slider } from './slider';
 import { disclosure } from './disclosure';
+import { pixelHover } from './pixelHover';
 
 export interface MotionModule {
   name: string;
@@ -33,6 +34,7 @@ const modules: MotionModule[] = [
   riseIn,
   slider,
   disclosure,
+  pixelHover,
 ];
 
 let cleanups: (() => void)[] = [];

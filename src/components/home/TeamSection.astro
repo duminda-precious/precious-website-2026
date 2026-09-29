@@ -1,21 +1,29 @@
 ---
 /**
- * TeamSection: centred heading + subline (prototype). The diagram itself is a
- * placeholder until the phase-2 design (decision 2026-09-29); its data stays in
- * home.json (team.coreRoles, extendedRoles, engine, benefits).
- * Props: heading, subline, placeholder.
+ * TeamSection: centred heading + subline, then the team diagram (layout from the
+ * parallel prototype, decision 2026-09-29): five numbered role chips → a round hub
+ * (the section's gradient, with the pixel butterfly: "Powered by <engine>") →
+ * outlined benefit chips. Thin wires join the hub to both columns from lg.
+ * Below lg it stacks: roles, hub, benefits.
+ * Props: heading, subline, roles (in order), engineLabel, engine, benefits.
  * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
- *         --text-medium, --leading-medium, --text-tertiary, --header-gap.
+ *         --text-medium, --leading-medium, --text-tertiary, --header-gap, --team-*,
+ *         --text-eyebrow, --text-large, --radius-md, --space-*.
+ * Motion hooks: none.
  */
 import Section from '../primitives/Section.astro';
-import MediaFrame from '../ui/MediaFrame.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 
 interface Props {
   heading: string;
   subline: string;
-  placeholder: string;
+  roles: string[];
+  engineLabel: string;
+  engine: string;
+  benefits: string[];
 }
-const { heading, subline, placeholder } = Astro.props;
+const { heading, subline, roles, engineLabel, engine, benefits } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <Section id="team" labelledby="team-title">
@@ -25,7 +33,35 @@ const { heading, subline, placeholder } = Astro.props;
     </h2>
     <p class="team__sub">{subline}</p>
   </div>
-  <MediaFrame aspect="16/9" label={placeholder} />
+
+  <div class="team">
+    <ol class="team__col" role="list">
+      {roles.map((role, i) => (
+        <li class="team__chip">
+          <span class="team__num" aria-hidden="true">
+            {pad(i + 1)}
+          </span>
+          {role}
+        </li>
+      ))}
+    </ol>
+
+    <div class="team__hub">
+      <span class="team__wire team__wire--l" aria-hidden="true"></span>
+      <p class="team__hub-text">
+        <PixelIcon name="butterfly" class="team__hub-mark" />
+        <span class="team__hub-label">{engineLabel}</span>
+        <span class="team__hub-engine">{engine}</span>
+      </p>
+      <span class="team__wire team__wire--r" aria-hidden="true"></span>
+    </div>
+
+    <ul class="team__col" role="list">
+      {benefits.map((b) => (
+        <li class="team__chip team__chip--benefit">{b}</li>
+      ))}
+    </ul>
+  </div>
 </Section>
 
 <style>
@@ -51,6 +87,109 @@ const { heading, subline, placeholder } = Astro.props;
       font-size: var(--text-medium);
       line-height: var(--leading-medium);
       color: var(--text-tertiary);
+    }
+
+    /* ---- Diagram: stacked below lg ---- */
+    .team {
+      display: grid;
+      grid-template-columns: minmax(0, var(--team-col-max));
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
+      gap: var(--team-gap);
+    }
+    .team__col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+      width: 100%;
+      list-style: none;
+    }
+    .team__chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      min-height: var(--team-chip-height);
+      padding: var(--space-8) var(--space-18);
+      border-radius: var(--radius-md);
+      background: var(--team-chip-bg);
+      box-shadow: var(--team-chip-shadow);
+      color: var(--team-chip-fg);
+    }
+    .team__num {
+      font-size: var(--text-eyebrow);
+      font-variant-numeric: tabular-nums;
+      color: var(--team-chip-number);
+    }
+    .team__chip--benefit {
+      border: var(--border-width) solid var(--team-benefit-border);
+      background: transparent;
+      box-shadow: none;
+    }
+    /* Pixel marker (brand: 8-bit) */
+    .team__chip--benefit::before {
+      content: '';
+      flex: none;
+      width: var(--space-8);
+      height: var(--space-8);
+      background: var(--team-benefit-marker);
+    }
+
+    .team__hub {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: var(--team-hub-size);
+      aspect-ratio: 1;
+      padding: var(--space-24);
+      border-radius: 50%;
+      background: var(--team-hub-bg);
+      color: var(--team-hub-fg);
+      text-align: center;
+    }
+    .team__hub-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: var(--font-display);
+      font-weight: var(--weight-display);
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+    }
+    .team__hub-text :global(.team__hub-mark) {
+      margin-bottom: var(--space-10);
+    }
+    .team__hub-label {
+      margin-bottom: var(--space-8);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-eyebrow);
+      font-size: var(--text-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      line-height: var(--leading-none);
+    }
+    .team__wire {
+      display: none;
+    }
+
+    /* ---- From lg: roles · hub · benefits, joined by wires ---- */
+    @media (min-width: 62rem) {
+      .team {
+        grid-template-columns: minmax(0, var(--team-col-max)) auto minmax(0, var(--team-col-max));
+      }
+      .team__wire {
+        position: absolute;
+        top: 50%;
+        display: block;
+        width: var(--team-gap);
+        height: var(--border-width);
+        background: var(--team-wire);
+      }
+      .team__wire--l {
+        right: 100%;
+      }
+      .team__wire--r {
+        left: 100%;
+      }
     }
   }
 </style>

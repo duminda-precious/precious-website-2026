@@ -148,7 +148,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--font-display` | `var(--font-family-display)` |  | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
-| `--font-sans` | `var(--font-family-sans)` |  | Button, CtaFooter, MediaFrame, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TextLink, base |
+| `--font-sans` | `var(--font-family-sans)` |  | Button, CtaFooter, MediaFrame, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TeamSection, TextLink, base |
 | `--font-code` | `var(--font-family-code)` | dev pages only | — |
 
 ### Hero keeps the prototype's large sizes (decision 2026-09-29, phase 2).
@@ -164,13 +164,13 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
 | `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | RevealCard, WorkCard |
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
-| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, MobileMenu |
+| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, MobileMenu, TeamSection |
 | `--text-note` | `1.5rem` | Note 24, Sans 500 Sage | — |
 | `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
 | `--text-small` | `0.875rem` | Small 14 | — |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
 
 ### Weights: the scale ...
 
@@ -185,7 +185,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--weight-emphasis` | `var(--weight-regular)` | headline emphasis word (Sage colour) | base |
 | `--weight-body` | `var(--weight-regular)` | every Funnel Sans style ... | ProcessSection, TestimonialCard |
 | `--weight-label` | `var(--weight-medium)` | ... except labels (all caps) | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+| `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
 | `--tracking-hero` | `-0.03em` |  | Hero |
 | `--tracking-problem` | `-0.03em` |  | Hero |
 | `--tracking-closer` | `-0.03em` |  | CtaFooter |
@@ -193,12 +193,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--tracking-title` | `-0.01em` | H3, H4 | MobileMenu, RevealCard, WorkCard |
 | `--tracking-body` | `0` |  | base |
 | `--tracking-label` | `0.04em` | all caps needs a little air | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+| `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
 | `--leading-hero` | `1.1` | 88 / 80 | Hero |
-| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
+| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
 | `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
-| `--leading-large` | `1.25` | H4 30 / 24 | — |
+| `--leading-large` | `1.25` | H4 30 / 24 | TeamSection |
 | `--leading-quote` | `1.2` | 48 / 40 | — |
 | `--leading-medium` | `1.6` | Body L 32 / 20 | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--leading-body` | `1.625` | Body 26 / 16 | Disclosure, WorkCard, base |
@@ -220,15 +220,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-2` | `0.125rem` |  | — |
 | `--space-4` | `0.25rem` |  | MobileMenu, Nav, RevealCard, TestimonialCard |
 | `--space-6` | `0.375rem` |  | MobileMenu, Nav, Pill, Tag, WorkCard |
-| `--space-8` | `0.5rem` |  | Button, ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TextLink, contact |
-| `--space-10` | `0.625rem` |  | Button, Pill, Tag |
+| `--space-8` | `0.5rem` |  | Button, ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
+| `--space-10` | `0.625rem` |  | Button, Pill, Tag, TeamSection |
 | `--space-12` | `0.75rem` |  | MobileMenu, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
 | `--space-14` | `0.875rem` |  | Button, Pill, ProcessSection |
 | `--space-16` | `1rem` |  | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, SiteShell |
-| `--space-18` | `1.125rem` |  | Disclosure, ProcessSection |
+| `--space-18` | `1.125rem` |  | Disclosure, ProcessSection, TeamSection |
 | `--space-20` | `1.25rem` |  | — |
 | `--space-22` | `1.375rem` |  | Button, RevealCard |
-| `--space-24` | `1.5rem` |  | ClientsSection, CtaFooter, FaqSection, MobileMenu, Nav, SectionHeader, contact |
+| `--space-24` | `1.5rem` |  | ClientsSection, CtaFooter, FaqSection, MobileMenu, Nav, SectionHeader, TeamSection, contact |
 | `--space-26` | `1.625rem` |  | — |
 | `--space-28` | `1.75rem` |  | TestimonialCard |
 | `--space-32` | `2rem` |  | CtaFooter, ProcessSection |
@@ -270,7 +270,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--radius-none` | `0` |  | — |
 | `--radius-xs` | `0.25rem` | 4 | — |
 | `--radius-sm` | `0.5rem` | 8: small UI details (skip link) | SiteShell |
-| `--radius-md` | `0.75rem` | 12: buttons, inputs, dropdowns | Button, Nav |
+| `--radius-md` | `0.75rem` | 12: buttons, inputs, dropdowns | Button, Nav, TeamSection |
 | `--radius-lg` | `1.25rem` | 20: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
 | `--radius-xl` | `1.375rem` | 22: team diagram bracket (prototype shape) | — |
 | `--radius-pill` | `999px` | tags, pills | ClientsSection, MobileMenu, Nav, Pill, Tag |
@@ -295,7 +295,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
-| `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TextLink, WorkCard |
+| `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
 
@@ -315,9 +315,17 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--dur-page` | `900ms` |  | SiteShell, tokens |
 | `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn, tokens |
 | `--dur-marquee` | `60s` |  | ClientsSection, tokens |
+
+### Pixel dissolve (8-bit motion): cells appear in shuffled batches, no tweening
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--dur-pixel` | `240ms` | whole dissolve | pixelHover, tokens |
+| `--pixel-steps` | `5` | batches: fewer = chunkier | pixelHover, tokens |
+| `--pixel-cell` | `0.375rem` | 6px cells | pixelHover, tokens |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn, tokens |
-| `--hover-opacity` | `0.7` |  | Button, ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |
+| `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |
 | `--disabled-opacity` | `0.3` |  | ClientsSection |
 
 ### Testimonial slider (one card per "page", next card peeks)
@@ -334,6 +342,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--ticker-gap` | `var(--space-80)` |  | ClientsSection |
 | `--ticker-logo-height` | `1.75rem` | 28: logos scale to this height | ClientsSection |
+| `--testimonial-logo-height` | `1.75rem` | 28 | TestimonialCard |
+| `--testimonial-logo-max-width` | `12.5rem` | 200: the logo slot | TestimonialCard |
 
 ### Z-index scale
 
@@ -474,23 +484,30 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--gate-3-fg` | `var(--color-stone-900)` |  | RevealCard |
 | `--gate-3-pain` | `var(--color-swallowtail-800)` |  | RevealCard |
 
-### Team diagram (gradient treatment comes in P2-4)
+### Team diagram (layout from the parallel prototype): numbered role chips →
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--team-chip-bg` | `var(--color-stone-200)` |  | — |
-| `--team-chip-fg` | `var(--color-stone-700)` |  | — |
-| `--team-group-from` | `var(--color-white)` |  | — |
-| `--team-group-to` | `var(--color-stone-300)` |  | — |
-| `--team-bar` | `var(--color-stone-300)` |  | — |
-| `--team-gradient` | `var(--gradient-glasswing-sky)` |  | — |
+| `--team-col-max` | `22.5rem` | 360: each chip column | TeamSection |
+| `--team-gap` | `clamp(1.25rem, 3vw, 3rem)` | 20 → 48: columns ↔ hub (wire length) | TeamSection |
+| `--team-chip-height` | `3.25rem` | 52 | TeamSection |
+| `--team-chip-bg` | `var(--color-stone-100)` |  | TeamSection |
+| `--team-chip-fg` | `var(--color-stone-900)` |  | TeamSection |
+| `--team-chip-shadow` | `var(--shadow-e1)` |  | TeamSection |
+| `--team-chip-number` | `var(--color-stone-600)` |  | TeamSection |
+| `--team-benefit-border` | `var(--color-stone-300)` |  | TeamSection |
+| `--team-benefit-marker` | `var(--color-stone-900)` |  | TeamSection |
+| `--team-hub-size` | `clamp(9.375rem, 15vw, 11.875rem)` | 150 → 190 | TeamSection |
+| `--team-hub-bg` | `var(--gradient-glasswing-sky)` |  | TeamSection |
+| `--team-hub-fg` | `var(--color-stone-900)` |  | TeamSection |
+| `--team-wire` | `rgb(107 98 90 / 0.35)` | Stone at 35% | TeamSection |
 
-### Button hover fill (applied with the pixel effect in P2-4)
+### Button hover: the fill dissolves to the gradient in pixel steps (P2-4)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | — |
-| `--cta-hover-fg` | `var(--color-stone-900)` |  | — |
+| `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | Button, pixelHover |
+| `--cta-hover-fg` | `var(--color-stone-900)` |  | Button |
 
 ### Process card
 

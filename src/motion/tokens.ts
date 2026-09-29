@@ -17,6 +17,9 @@ const FALLBACK = {
   '--dur-rise': '1s',
   '--dur-stagger': '80ms',
   '--dur-marquee': '60s',
+  '--dur-pixel': '240ms',
+  '--pixel-steps': '5',
+  '--pixel-cell': '0.375rem',
 } as const;
 
 type MotionVar = keyof typeof FALLBACK;
@@ -32,6 +35,20 @@ export function duration(name: Extract<MotionVar, `--dur-${string}`>): number {
   const raw = readVar(name);
   const n = parseFloat(raw);
   return raw.endsWith('ms') ? n / 1000 : n;
+}
+
+/** A unitless number token, e.g. --pixel-steps. */
+export function count(name: '--pixel-steps'): number {
+  return Math.max(1, Math.round(parseFloat(readVar(name))));
+}
+
+/** A length token in CSS pixels (px or rem), e.g. --pixel-cell. */
+export function length(name: '--pixel-cell'): number {
+  const raw = readVar(name);
+  const n = parseFloat(raw);
+  if (!raw.endsWith('rem')) return n;
+  const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  return n * rootSize;
 }
 
 /** Cubic-bezier control points, e.g. for CustomEase or a manual curve. */

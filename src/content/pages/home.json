@@ -29,9 +29,9 @@
     "subline": "You get all of them, senior, working as one, for the cost of a single hire.",
     "coreRoles": ["Researcher", "Product designer", "System designer"],
     "extendedRoles": ["Motion designer", "Frontend engineer"],
-    "engine": "Personalised AI engine",
+    "engine": "Personalised AI Engine",
     "benefits": ["Full transparency", "Weekly deliveries", "Month-to-month"],
-    "diagramPlaceholder": "[Team Diagram]"
+    "engineLabel": "Powered by"
   },
   "approach": {
     "heading": "Where Are You Starting From?",

@@ -1,16 +1,20 @@
 ---
 /**
- * Button: Label-style text (Funnel Sans 600, sentence case) and a pixel ▸ glyph, 12px corners.
+ * Button: Label-style text (Funnel Sans 500, all caps) and a pixel ▸ glyph, 12px corners.
  * One solid style site-wide; its colours come from the theme (--cta-bg/--cta-fg),
- * so it is Deep Ink on light sections and inverse on dark ones. The gradient +
- * pixel hover (--cta-hover-*) arrives in P2-4. Renders <a> when href is set, otherwise <button>.
+ * so it is Deep Ink on light sections and inverse on dark ones.
+ * Hover / keyboard focus: the fill dissolves to the brand gradient in pixel steps
+ * and the label turns Deep Ink (motion/pixelHover.ts). Without JS, or with reduced
+ * motion, the gradient swaps in instantly (CSS below).
+ * Renders <a> when href is set, otherwise <button>.
  * Props:
  *   size  'sm' (nav) | 'md'
  *   glyph show the ▸ (default true)
  *   href, type, track (→ data-track, e.g. "book-call"), external, class
- * Tokens: --cta-bg, --cta-fg, --radius-md, --font-sans, --text-label, --tracking-label,
- *         --space-*, --tap-min, --hover-opacity.
- * Motion hooks: none (hover is the global opacity token, M9).
+ * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --radius-md, --font-sans,
+ *         --text-label, --tracking-label, --weight-label, --space-*, --tap-min.
+ * Motion hooks: data-pixel-fill (button), data-pixel-layer (cell container),
+ *               data-pixel-lit (set while the gradient is mostly in).
  */
 import PixelIcon from './PixelIcon.astro';
 interface Props {
@@ -38,13 +42,26 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
 ---
 
 {href ? (
-  <a href={href} class:list={classes} data-track={track} {...externalAttrs} {...rest}>
-    <slot />
+  <a
+    href={href}
+    class:list={classes}
+    data-track={track}
+    data-pixel-fill
+    {...externalAttrs}
+    {...rest}
+  >
+    <span class="button__pixels" aria-hidden="true" data-pixel-layer />
+    <span class="button__label">
+      <slot />
+    </span>
     {glyph && <PixelIcon name="play" class="button__glyph" />}
   </a>
 ) : (
-  <button type={type} class:list={classes} data-track={track} {...rest}>
-    <slot />
+  <button type={type} class:list={classes} data-track={track} data-pixel-fill {...rest}>
+    <span class="button__pixels" aria-hidden="true" data-pixel-layer />
+    <span class="button__label">
+      <slot />
+    </span>
     {glyph && <PixelIcon name="play" class="button__glyph" />}
   </button>
 )}
@@ -68,8 +85,31 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       line-height: var(--leading-none);
       white-space: nowrap;
     }
+    /* No opacity fade (the global link hover): the pixel fill is the hover. */
     .button:hover {
-      opacity: var(--hover-opacity);
+      opacity: 1;
+    }
+
+    /* Cells are added by pixelHover.ts; the label and glyph paint above them. */
+    .button__pixels {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .button__label,
+    .button > :global(.button__glyph) {
+      position: relative;
+    }
+    .button[data-pixel-lit] {
+      color: var(--cta-hover-fg);
+    }
+
+    /* Fallback without the pixel module (no JS, reduced motion): instant swap. */
+    :global(html:not([data-pixel-hover])) .button:is(:hover, :focus-visible) {
+      background: var(--cta-hover-bg);
+      color: var(--cta-hover-fg);
     }
 
     .button--sm {

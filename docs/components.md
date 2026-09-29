@@ -25,13 +25,14 @@ Layout principle (from the Afternow brief): place things with grid spans, and co
 
 | Component | What it does | Props / variants |
 |---|---|---|
-| `Button` | Label-style text (Funnel Sans 500, all caps) and pixel ▸, 12px corners. Colours come from the theme (`--cta-bg/-fg`); gradient + pixel hover arrives in P2-4 | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
+| `Button` | Label-style text (Funnel Sans 500, all caps) and pixel ▸, 12px corners. Colours come from the theme (`--cta-bg/-fg`); on hover/focus the fill dissolves to the gradient in pixel steps (`pixelHover.ts`) | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
 | `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `label`), `arrow`, `track`, `external`, `class` |
 | `Tag` | Outlined Eyebrow-style label for metadata (case study situation) | `as`, `class` |
 | `Pill` | Rounded Label-style badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |
 | `MediaFrame` | Video, image, or striped placeholder at a locked aspect ratio | `aspect` (`3/2`, `5/4`, `1/1`, `4/3`, `16/9`, `16/10`, `4/5`, `3/4`, `fill`), `tone` (`auto` \| `gradient` \| `logo`; `gradient` reads `--mf-gradient` from the parent), `label`, `video`, `poster`, `image`, `alt`, `rounded`. Slot: overlays |
 | `RevealCard` | Gate card: media (brand gradient until videos arrive) + tinted panel; text reveals on hover/focus, shown open on touch | `tone` (`gate-1` \| `gate-2` \| `gate-3`), `title`, `pain`, `result`, `mediaLabel`, `media`, `mediaAlt` |
 | `Disclosure` | FAQ item on native `<details>`; height animates via `disclosure.ts`; the pixel + swaps to × when open | `question`, `answer` |
+| `ClientLogo` | A client logo at a fixed height (`--client-logo-height`, set by the parent), never cropped; hosted URL or local import | `src`, `alt`, `class` |
 | `Logo` | The supplied logo, coloured by `currentColor`. The butterfly is drawn pixel by pixel (`data-logo-pixel`) for motion. Size it from the parent | `variant` (`wordmark` \| `mark`), `label`, `class` |
 | `PixelIcon` | 8-bit icon from `pixelIcons.ts` (butterfly, play, arrow-right/-left, caret-down, plus, close); crisp edges, `currentColor`, whole-pixel sizes | `name`, `size` (`md` \| `lg`), `label`, `class` |
 
@@ -57,7 +58,7 @@ In page order. Each takes its copy from `src/content/pages/home.json` or a colle
 | `Hero` | `home.hero` (headline, problem, reel) | Scroll sequence from 760px; in-flow stack on phones |
 | `WorkSection` + `WorkCard` | `home.work`, `work` collection (first 5 by `homeOrder`) | Dark stage. Card size/aspect by position (`src/config/layout.ts`). Whole card clickable |
 | `ClientsSection` + `TestimonialCard` | `home.clients`, `testimonials`, `clients` | Rating pill, testimonial slider with arrows, logo ticker, Book a call |
-| `TeamSection` | `home.team` | Diagram is a `[Team diagram]` placeholder until phase 2 |
+| `TeamSection` | `home.team` | Diagram (parallel prototype layout): 5 numbered role chips → Glasswing Sky hub with the pixel butterfly ("Powered by" + engine) → 3 outlined benefit chips with pixel markers; wires from lg; stacks below lg |
 | `ApproachSection` | `home.approach.gates` | Three `RevealCard`s |
 | `ProcessSection` | `home.process` | Black card, steps on the right |
 | `FaqSection` | `home.faq`, `faq` collection | Heading cols 1–3, questions cols 4–12 |

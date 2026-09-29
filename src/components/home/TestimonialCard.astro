@@ -50,9 +50,12 @@ const { testimonial: t } = Astro.props;
       border-radius: var(--radius-lg);
     }
     .testimonial__logo {
+      --client-logo-height: var(--testimonial-logo-height);
+      --client-logo-max-width: var(--testimonial-logo-max-width);
       display: flex;
-      width: 12.5rem;
-      height: 2.75rem;
+      align-items: center;
+      width: var(--testimonial-logo-max-width);
+      height: var(--testimonial-logo-height);
     }
     .testimonial__body {
       display: flex;

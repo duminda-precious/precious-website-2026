@@ -327,6 +327,10 @@
     --dur-page: 900ms;
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
+    /* Pixel dissolve (8-bit motion): cells appear in shuffled batches, no tweening */
+    --dur-pixel: 240ms; /* whole dissolve */
+    --pixel-steps: 5; /* batches: fewer = chunkier */
+    --pixel-cell: 0.375rem; /* 6px cells */
     --rise-distance: 120px; /* brief entrance pattern */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
@@ -338,6 +342,8 @@
     /* Client logo ticker (continuous, linear, full bleed) */
     --ticker-gap: var(--space-80);
     --ticker-logo-height: 1.75rem; /* 28: logos scale to this height */
+    --testimonial-logo-height: 1.75rem; /* 28 */
+    --testimonial-logo-max-width: 12.5rem; /* 200: the logo slot */
 
     /* Z-index scale */
     --z-footer: 0;
@@ -496,15 +502,23 @@
     --gate-3-fg: var(--color-stone-900);
     --gate-3-pain: var(--color-swallowtail-800);
 
-    /* Team diagram (gradient treatment comes in P2-4) */
-    --team-chip-bg: var(--color-stone-200);
-    --team-chip-fg: var(--color-stone-700);
-    --team-group-from: var(--color-white);
-    --team-group-to: var(--color-stone-300);
-    --team-bar: var(--color-stone-300);
-    --team-gradient: var(--gradient-glasswing-sky);
+    /* Team diagram (layout from the parallel prototype): numbered role chips →
+       gradient hub → outlined benefit chips. The hub is the section's gradient. */
+    --team-col-max: 22.5rem; /* 360: each chip column */
+    --team-gap: clamp(1.25rem, 3vw, 3rem); /* 20 → 48: columns ↔ hub (wire length) */
+    --team-chip-height: 3.25rem; /* 52 */
+    --team-chip-bg: var(--color-stone-100);
+    --team-chip-fg: var(--color-stone-900);
+    --team-chip-shadow: var(--shadow-e1);
+    --team-chip-number: var(--color-stone-600);
+    --team-benefit-border: var(--color-stone-300);
+    --team-benefit-marker: var(--color-stone-900);
+    --team-hub-size: clamp(9.375rem, 15vw, 11.875rem); /* 150 → 190 */
+    --team-hub-bg: var(--gradient-glasswing-sky);
+    --team-hub-fg: var(--color-stone-900);
+    --team-wire: rgb(107 98 90 / 0.35); /* Stone at 35% */
 
-    /* Button hover fill (applied with the pixel effect in P2-4) */
+    /* Button hover: the fill dissolves to the gradient in pixel steps (P2-4) */
     --cta-hover-bg: var(--gradient-glasswing-sky);
     --cta-hover-fg: var(--color-stone-900);
 
