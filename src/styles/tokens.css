@@ -323,11 +323,9 @@
     --dur-page: 900ms;
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
-    /* Pixel dissolve (8-bit motion): cells appear in shuffled batches, no tweening */
-    --dur-pixel: 240ms; /* hover in: whole dissolve */
-    --dur-pixel-out: 160ms; /* hover out (exits faster) */
-    --pixel-steps: 5; /* batches: fewer = chunkier */
-    --pixel-cell: 0.375rem; /* 6px cells */
+    /* Button hover: the gradient fades over the fill (exits faster) */
+    --dur-fill-in: 240ms;
+    --dur-fill-out: 160ms;
     /* Pixel text (M13, ported from the parallel prototype): words pixelate
        through these block sizes (px), one frame each. */
     --pixel-resolve: 36 28 21 15 10 6 3; /* first view: coarse → crisp */
@@ -421,10 +419,12 @@
     color-scheme: light;
   }
 
-  /* Dark: the Work stage. Deep Ink based. From md (760px) only: on phones the
-     page stays white throughout and the stage inherits the light tokens. */
+  /* Dark: the Work stage, and the whole page while the stage is in view (M2 sets
+     .page[data-page-theme="dark"]). Deep Ink based. From md (760px) only: on phones
+     the page stays white throughout and the stage inherits the light tokens. */
   @media (min-width: 47.5rem) {
-    [data-theme='dark'] {
+    [data-theme='dark'],
+    [data-page-theme='dark'] {
       --surface-page: var(--color-stone-900);
       --surface-raised: var(--color-stone-800);
       --surface-muted: var(--color-stone-800);
@@ -450,6 +450,13 @@
       --placeholder-stripe-a: var(--color-stone-800);
       --placeholder-stripe-b: var(--color-stone-900);
       --placeholder-fg: var(--color-stone-400);
+      --client-logo-filter: invert(1); /* dark monochrome logos → light */
+      /* Team diagram chips follow the theme (the hub keeps its gradient) */
+      --team-chip-bg: var(--color-stone-800);
+      --team-chip-fg: var(--color-stone-50);
+      --team-chip-number: var(--color-stone-400);
+      --team-benefit-border: var(--color-stone-700);
+      --team-benefit-marker: var(--color-stone-50);
 
       color-scheme: dark;
     }
@@ -543,7 +550,7 @@
        footprint (3-pixel play glyph + gap) and the glyph appears in the padding. */
     --button-glyph-shift: calc((3 * var(--pixel-unit) + var(--space-8)) / 2); /* 7px */
 
-    /* Button hover: the fill dissolves to the gradient in pixel steps (P2-4) */
+    /* Button hover: the gradient that fades in over the fill (M12) */
     --cta-hover-bg: var(--gradient-glasswing-sky);
     --cta-hover-fg: var(--color-stone-900);
 

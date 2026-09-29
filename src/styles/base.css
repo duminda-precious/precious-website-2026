@@ -13,8 +13,9 @@
     background: var(--surface-page);
   }
 
-  /* Any themed subtree picks up its own text colour. */
-  [data-theme] {
+  /* Any themed subtree picks up its own text colour (incl. the page during M2). */
+  [data-theme],
+  [data-page-theme] {
     color: var(--text-primary);
   }
 

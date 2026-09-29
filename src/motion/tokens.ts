@@ -17,9 +17,6 @@ const FALLBACK = {
   '--dur-rise': '1s',
   '--dur-stagger': '80ms',
   '--dur-marquee': '60s',
-  '--dur-pixel': '240ms',
-  '--pixel-steps': '5',
-  '--pixel-cell': '0.375rem',
   '--pixel-resolve': '36 28 21 15 10 6 3',
   '--pixel-glitch': '3 7 14 20 12 6 3',
   '--dur-pixel-frame-in': '70ms',
@@ -35,7 +32,6 @@ const FALLBACK = {
   '--pixel-reveal-steps': '6',
   '--dur-pixel-reveal': '280ms',
   '--dur-pixel-reveal-out': '200ms',
-  '--dur-pixel-out': '160ms',
   '--dur-page-cover': '220ms',
   '--dur-page-reveal': '320ms',
 } as const;
@@ -56,9 +52,7 @@ export function duration(name: Extract<MotionVar, `--dur-${string}`>): number {
 }
 
 /** A unitless number token, e.g. --pixel-steps. */
-export function count(
-  name: '--pixel-steps' | '--pixel-pop-steps' | '--pixel-reveal-steps',
-): number {
+export function count(name: '--pixel-pop-steps' | '--pixel-reveal-steps'): number {
   return Math.max(1, Math.round(parseFloat(readVar(name))));
 }
 
@@ -76,7 +70,7 @@ export function list(name: '--pixel-resolve' | '--pixel-glitch'): number[] {
 }
 
 /** A length token in CSS pixels (px or rem), e.g. --pixel-cell. */
-export function length(name: '--pixel-cell' | '--pixel-cell-page' | '--pixel-cell-menu'): number {
+export function length(name: '--pixel-cell-page' | '--pixel-cell-menu'): number {
   const raw = readVar(name);
   const n = parseFloat(raw);
   if (!raw.endsWith('rem')) return n;

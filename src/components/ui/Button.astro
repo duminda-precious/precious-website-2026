@@ -3,21 +3,22 @@
  * Button: Label-style text (Funnel Sans 500, all caps) and a pixel ▸ glyph, 12px corners.
  * One solid style site-wide; its colours come from the theme (--cta-bg/--cta-fg),
  * so it is Deep Ink on light sections and inverse on dark ones.
- * Hover / keyboard focus: the fill dissolves to the brand gradient in pixel steps
- * and the label turns Deep Ink (motion/pixelHover.ts). Without JS, or with reduced
- * motion, the gradient swaps in instantly (CSS below).
+ * Hover (mouse) / keyboard focus (M12):
+ *   - the brand gradient fades in over the fill (--dur-fill-in; out --dur-fill-out),
+ *   - the label turns Deep Ink and glitches into pixels and back (motion/buttonGlitch.ts),
+ *   - the ▸, hidden at rest, appears in the right padding while the label steps left
+ *     by half its footprint, so the button never changes size (no tween, 8-bit).
+ * All of that except the glitch is CSS, so it works without JS. Reduced motion: no
+ * fade (instant), no glitch.
  * Renders <a> when href is set, otherwise <button>.
  * Props:
  *   size  'sm' (nav) | 'md'
- *   glyph show the ▸ (default true)
+ *   glyph show the ▸ on hover (default true)
  *   href, type, track (→ data-track, e.g. "book-call"), external, class
- * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --radius-md, --font-sans,
- *         --text-label, --tracking-label, --weight-label, --space-*, --tap-min.
- * Motion hooks: data-pixel-fill (button), data-pixel-layer (cell container),
- *               data-pixel-lit (set while the gradient is mostly in; also shows the ▸).
- * The ▸ is hidden at rest and appears on hover / keyboard focus. The button never
- * changes size: the label steps left by half the glyph's footprint and the ▸
- * appears in the right padding (no tween, 8-bit).
+ * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --dur-fill-in, --dur-fill-out,
+ *         --ease-standard, --button-glyph-shift, --radius-md, --font-sans, --text-label,
+ *         --tracking-label, --weight-label, --space-*, --tap-min.
+ * Motion hooks: data-button (buttonGlitch.ts), data-pixel-label (the label it glitches).
  */
 import PixelIcon from './PixelIcon.astro';
 interface Props {
@@ -45,15 +46,8 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
 ---
 
 {href ? (
-  <a
-    href={href}
-    class:list={classes}
-    data-track={track}
-    data-pixel-fill
-    {...externalAttrs}
-    {...rest}
-  >
-    <span class="button__pixels" aria-hidden="true" data-pixel-layer />
+  <a href={href} class:list={classes} data-track={track} data-button {...externalAttrs} {...rest}>
+    <span class="button__fill" aria-hidden="true" />
     <span class="button__label" data-pixel-label>
       <slot />
     </span>
@@ -64,8 +58,8 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     )}
   </a>
 ) : (
-  <button type={type} class:list={classes} data-track={track} data-pixel-fill {...rest}>
-    <span class="button__pixels" aria-hidden="true" data-pixel-layer />
+  <button type={type} class:list={classes} data-track={track} data-button {...rest}>
+    <span class="button__fill" aria-hidden="true" />
     <span class="button__label" data-pixel-label>
       <slot />
     </span>
@@ -84,7 +78,6 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-8);
       border-radius: var(--radius-md);
       background: var(--cta-bg);
       color: var(--cta-fg);
@@ -95,52 +88,72 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       text-transform: uppercase;
       line-height: var(--leading-none);
       white-space: nowrap;
+      transition: color var(--dur-fill-out) var(--ease-standard);
     }
-    /* No opacity fade (the global link hover): the pixel fill is the hover. */
+    /* No opacity fade (the global link hover): the gradient fill is the hover. */
     .button:hover {
       opacity: 1;
     }
 
-    /* Cells are added by pixelHover.ts; the label and glyph paint above them. */
-    .button__pixels {
+    /* The gradient sits over the solid fill and fades in; label and ▸ paint above. */
+    .button__fill {
       position: absolute;
       inset: 0;
-      overflow: hidden;
       border-radius: inherit;
+      background: var(--cta-hover-bg);
+      opacity: 0;
       pointer-events: none;
+      transition: opacity var(--dur-fill-out) var(--ease-standard);
     }
     .button__label {
       position: relative;
     }
     /* The ▸ sits in the right padding, hidden until hover. */
-    .button > .button__glyph {
-      display: flex;
+    .button__glyph {
       position: absolute;
       top: 50%;
       right: calc(var(--button-pad-x) - var(--button-glyph-shift));
+      display: flex;
       visibility: hidden;
       transform: translateY(-50%);
     }
-    .button[data-pixel-lit] {
-      color: var(--cta-hover-fg);
-    }
-    .button--glyph[data-pixel-lit] .button__label {
-      transform: translateX(calc(var(--button-glyph-shift) * -1));
-    }
-    .button[data-pixel-lit] > .button__glyph {
-      visibility: visible;
-    }
 
-    /* Fallback without the pixel module (no JS, reduced motion): instant swap. */
-    :global(html:not([data-pixel-hover])) .button:is(:hover, :focus-visible) {
-      background: var(--cta-hover-bg);
+    /* ---- Hover (mouse only, so taps don't stick) and keyboard focus ---- */
+    .button:focus-visible {
       color: var(--cta-hover-fg);
+      transition-duration: var(--dur-fill-in);
     }
-    :global(html:not([data-pixel-hover])) .button--glyph:is(:hover, :focus-visible) .button__label {
+    .button:focus-visible .button__fill {
+      opacity: 1;
+      transition-duration: var(--dur-fill-in);
+    }
+    .button--glyph:focus-visible .button__label {
       transform: translateX(calc(var(--button-glyph-shift) * -1));
     }
-    :global(html:not([data-pixel-hover])) .button:is(:hover, :focus-visible) > .button__glyph {
+    .button:focus-visible .button__glyph {
       visibility: visible;
+    }
+    @media (hover: hover) {
+      .button:hover {
+        color: var(--cta-hover-fg);
+        transition-duration: var(--dur-fill-in);
+      }
+      .button:hover .button__fill {
+        opacity: 1;
+        transition-duration: var(--dur-fill-in);
+      }
+      .button--glyph:hover .button__label {
+        transform: translateX(calc(var(--button-glyph-shift) * -1));
+      }
+      .button:hover .button__glyph {
+        visibility: visible;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .button,
+      .button__fill {
+        transition: none;
+      }
     }
 
     .button--sm {

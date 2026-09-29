@@ -103,6 +103,14 @@ const seo = Astro.props;
     .page[data-page-theme='dark'] {
       background-color: var(--page-bg-dark);
     }
+    /* M2: for one --dur-page after a theme flip, every colour on the page fades
+       together (overrides component transitions only for that moment). */
+    .page[data-theme-fading] :global(*) {
+      transition-property:
+        color, background-color, border-color, fill, stroke, box-shadow, filter !important;
+      transition-duration: var(--dur-page) !important;
+      transition-timing-function: var(--ease-standard) !important;
+    }
     /* The page is a sheet that lifts off the sticky footer (brief M2/M6). */
     @media (min-width: 62rem) {
       .page {

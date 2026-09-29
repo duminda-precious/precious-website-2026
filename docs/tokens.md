@@ -213,7 +213,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-2` | `0.125rem` |  | — |
 | `--space-4` | `0.25rem` |  | MobileMenu, Nav, RevealCard, TestimonialCard |
 | `--space-6` | `0.375rem` |  | MobileMenu, Nav, Pill, Tag, WorkCard |
-| `--space-8` | `0.5rem` |  | Button, ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
+| `--space-8` | `0.5rem` |  | ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
 | `--space-10` | `0.625rem` |  | Button, Pill, Tag, TeamSection |
 | `--space-12` | `0.75rem` |  | MobileMenu, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
 | `--space-14` | `0.875rem` |  | Button, Pill, ProcessSection |
@@ -296,7 +296,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | MobileMenu, Nav, SiteShell, gsap, tokens |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | Button, MobileMenu, Nav, SiteShell, gsap, tokens |
 | `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap, tokens |
 | `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | Nav, gsap, tokens |
 | `--ease-linear` | `linear` |  | ClientsSection |
@@ -305,27 +305,25 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--dur-base` | `300ms` |  | RevealCard, disclosure, gsap, tokens |
 | `--dur-reveal` | `450ms` |  | RevealCard, tokens |
 | `--dur-theme` | `800ms` |  | Nav, tokens |
-| `--dur-page` | `900ms` |  | SiteShell, tokens |
+| `--dur-page` | `900ms` |  | SiteShell, themeSwitch, tokens |
 | `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn, tokens |
 | `--dur-marquee` | `60s` |  | ClientsSection, tokens |
 
-### Pixel dissolve (8-bit motion): cells appear in shuffled batches, no tweening
+### Button hover: the gradient fades over the fill (exits faster)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--dur-pixel` | `240ms` | hover in: whole dissolve | pixelHover, tokens |
-| `--dur-pixel-out` | `160ms` | hover out (exits faster) | pixelHover, tokens |
-| `--pixel-steps` | `5` | batches: fewer = chunkier | pixelHover, tokens |
-| `--pixel-cell` | `0.375rem` | 6px cells | pixelHover, tokens |
+| `--dur-fill-in` | `240ms` |  | Button |
+| `--dur-fill-out` | `160ms` |  | Button |
 
 ### Pixel text (M13, ported from the parallel prototype): words pixelate
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | pixelText, tokens |
-| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | pixelHover, pixelText, tokens |
+| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | buttonGlitch, pixelText, tokens |
 | `--dur-pixel-frame-in` | `70ms` |  | pixelText, tokens |
-| `--dur-pixel-frame-glitch` | `55ms` |  | pixelHover, pixelText, tokens |
+| `--dur-pixel-frame-glitch` | `55ms` |  | buttonGlitch, pixelText, tokens |
 | `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | pixelText, tokens |
 | `--dur-glitch-min` | `2.2s` | idle glitch every min + random(range) | pixelText, tokens |
 | `--dur-glitch-range` | `2.4s` |  | pixelText, tokens |
@@ -417,32 +415,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--placeholder-stripe-a` | `var(--color-stone-100)` |  | MediaFrame |
 | `--placeholder-stripe-b` | `var(--color-stone-50)` |  | MediaFrame |
 | `--placeholder-fg` | `var(--color-stone-600)` |  | MediaFrame |
-
-## Semantic colours: dark (Work stage)
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--surface-page` | `var(--color-stone-900)` |  | CtaFooter, MobileMenu, Section, base |
-| `--surface-raised` | `var(--color-stone-800)` |  | TestimonialCard |
-| `--surface-muted` | `var(--color-stone-800)` |  | — |
-| `--surface-inverse` | `var(--color-stone-50)` |  | base |
-| `--text-primary` | `var(--color-stone-50)` |  | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-stone-400)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
-| `--text-tertiary` | `var(--color-stone-400)` |  | TeamSection |
-| `--text-muted` | `var(--color-stone-400)` |  | CtaFooter, TestimonialCard |
-| `--text-on-inverse` | `var(--color-stone-900)` |  | base |
-| `--text-strong` | `var(--color-white)` |  | — |
-| `--border-subtle` | `var(--color-stone-800)` |  | CtaFooter, Section |
-| `--border-default` | `var(--color-stone-800)` |  | Disclosure |
-| `--border-strong` | `var(--color-stone-700)` |  | ClientsSection, Pill |
-| `--link` | `var(--color-morpho-300)` |  | — |
-| `--cta-bg` | `var(--color-stone-50)` |  | Button, SiteShell |
-| `--cta-fg` | `var(--color-stone-900)` |  | Button, SiteShell |
-| `--focus-ring` | `var(--color-morpho-300)` |  | RevealCard, WorkCard, base |
-| `--tag-border` | `var(--color-stone-600)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-stone-800)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-stone-900)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-stone-400)` |  | MediaFrame |
 
 ## Semantic colours: ink (footer, process card)
 
@@ -536,11 +508,11 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--button-glyph-shift` | `calc((3 * var(--pixel-unit) + var(--space-8)) / 2)` | 7px | Button |
 
-### Button hover: the fill dissolves to the gradient in pixel steps (P2-4)
+### Button hover: the gradient that fades in over the fill (M12)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | Button, pixelHover |
+| `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | Button |
 | `--cta-hover-fg` | `var(--color-stone-900)` |  | Button |
 
 ### Page-transition cover

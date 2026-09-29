@@ -15,7 +15,7 @@ import { videoInView } from './videoInView';
 import { riseIn } from './riseIn';
 import { slider } from './slider';
 import { disclosure } from './disclosure';
-import { pixelHover } from './pixelHover';
+import { buttonGlitch } from './buttonGlitch';
 import { pixelText } from './pixelText';
 import { logoPop } from './logoPop';
 import { setupPageTransition } from './pageTransition';
@@ -37,7 +37,7 @@ const modules: MotionModule[] = [
   riseIn,
   slider,
   disclosure,
-  pixelHover,
+  buttonGlitch,
   pixelText,
   logoPop,
 ];

@@ -3,7 +3,8 @@
  * ClientLogo: a client's logo at a fixed height, never cropped (object-fit: contain,
  * left-aligned). The parent sets --client-logo-height (and optionally -max-width). Accepts a hosted URL or an astro:assets import.
  * Props: src, alt, class.
- * Tokens: --client-logo-height, --client-logo-max-width (set by the parent).
+ * Tokens: --client-logo-height, --client-logo-max-width (set by the parent),
+ *         --client-logo-filter (inverted in the dark theme).
  * Motion hooks: none.
  */
 import { Image } from 'astro:assets';
@@ -36,6 +37,7 @@ const { src, alt, class: className } = Astro.props;
       width: auto;
       max-width: var(--client-logo-max-width, none);
       height: var(--client-logo-height);
+      filter: var(--client-logo-filter, none);
       object-fit: contain;
       object-position: left center;
     }
