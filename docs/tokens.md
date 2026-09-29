@@ -322,6 +322,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--ticker-gap` | `var(--space-80)` |  | ClientsSection |
+| `--ticker-logo-height` | `1.75rem` | 28: logos scale to this height | ClientsSection |
 
 ### Z-index scale
 

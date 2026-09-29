@@ -17,6 +17,7 @@ import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
 import PixelIcon from '../ui/PixelIcon.astro';
+import ClientLogo from '../ui/ClientLogo.astro';
 import Button from '../ui/Button.astro';
 import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
@@ -73,12 +74,12 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
     <div class="ticker__track">
       <ul class="ticker__set" aria-label={ui.clientsListLabel}>
         {clients.map(({ data: c }) => (
-          <li>{c.name}</li>
+          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt={c.name} /> : c.name}</li>
         ))}
       </ul>
       <ul class="ticker__set ticker__set--copy" aria-hidden="true" inert>
         {clients.map(({ data: c }) => (
-          <li>{c.name}</li>
+          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt="" /> : c.name}</li>
         ))}
       </ul>
     </div>
@@ -153,10 +154,16 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
     }
     .ticker__set {
       display: flex;
+      align-items: center;
       gap: var(--ticker-gap);
       list-style: none;
       color: var(--text-secondary);
       white-space: nowrap;
+    }
+    .ticker__item {
+      display: flex;
+      align-items: center;
+      height: var(--ticker-logo-height);
     }
     @keyframes ticker {
       to {

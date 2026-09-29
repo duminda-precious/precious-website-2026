@@ -7,6 +7,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import MediaFrame from '../ui/MediaFrame.astro';
+import ClientLogo from '../ui/ClientLogo.astro';
 
 interface Props {
   testimonial: CollectionEntry<'testimonials'>['data'];
@@ -17,7 +18,7 @@ const { testimonial: t } = Astro.props;
 <figure class="testimonial">
   <div class="testimonial__logo">
     {t.logo ? (
-      <MediaFrame aspect="fill" image={t.logo} alt={t.logoLabel} rounded={false} />
+      <ClientLogo src={t.logo} alt={t.logoLabel} />
     ) : (
       <MediaFrame aspect="fill" tone="logo" label={t.logoLabel} rounded={false} />
     )}

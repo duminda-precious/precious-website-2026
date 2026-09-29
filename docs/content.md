@@ -49,7 +49,7 @@ Add an entry to `src/content/testimonials.yaml`:
   role: CTO
   company: Acme
   logoLabel: Acme          # shown until a logo exists; also the logo's alt text
-  # logo: ../assets/logos/acme.svg   # optional image file
+  # logo: https://…/acme.png         # optional: a hosted URL, or a local file (../assets/logos/acme.svg)
   order: 4
 ```
 
@@ -68,7 +68,11 @@ FAQs also feed the search-engine FAQ data later (Step 11).
 
 ## Client names (logo ticker)
 
-Edit `src/content/clients.yaml` (`name`, `order`, optional `logo`).
+Edit `src/content/clients.yaml` (`name`, `order`, optional `logo`). A logo is a hosted URL or a local file; it scales to the ticker height and is never cropped. `name` is its alt text, and shows as text when there is no logo.
+
+**Media is linked, not copied.** Homepage videos, posters and logos currently point at the parallel prototype's deployment (`precious-homepage-preview-…vercel.app`). If that deployment goes away, the media breaks: move the files to a permanent host before launch.
+
+**Fictional project:** `src/content/work/tidewell.md` is not a real client. It fills the fifth homepage slot until a real case study exists. Replace it before launch.
 
 ## Services (nav dropdown)
 

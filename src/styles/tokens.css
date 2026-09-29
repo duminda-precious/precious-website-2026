@@ -326,6 +326,7 @@
     --slide-min-height: 27.5rem; /* 440 */
     /* Client logo ticker (continuous, linear, full bleed) */
     --ticker-gap: var(--space-80);
+    --ticker-logo-height: 1.75rem; /* 28: logos scale to this height */
 
     /* Z-index scale */
     --z-footer: 0;
@@ -380,36 +381,39 @@
     color-scheme: light;
   }
 
-  /* Dark: the Work stage. Deep Ink based. */
-  [data-theme='dark'] {
-    --surface-page: var(--color-stone-900);
-    --surface-raised: var(--color-stone-800);
-    --surface-muted: var(--color-stone-800);
-    --surface-inverse: var(--color-stone-50);
+  /* Dark: the Work stage. Deep Ink based. From md (760px) only: on phones the
+     page stays white throughout and the stage inherits the light tokens. */
+  @media (min-width: 47.5rem) {
+    [data-theme='dark'] {
+      --surface-page: var(--color-stone-900);
+      --surface-raised: var(--color-stone-800);
+      --surface-muted: var(--color-stone-800);
+      --surface-inverse: var(--color-stone-50);
 
-    --text-primary: var(--color-stone-50);
-    --text-secondary: var(--color-stone-400);
-    --text-tertiary: var(--color-stone-400);
-    --text-muted: var(--color-stone-400);
-    --text-on-inverse: var(--color-stone-900);
-    --text-strong: var(--color-white);
+      --text-primary: var(--color-stone-50);
+      --text-secondary: var(--color-stone-400);
+      --text-tertiary: var(--color-stone-400);
+      --text-muted: var(--color-stone-400);
+      --text-on-inverse: var(--color-stone-900);
+      --text-strong: var(--color-white);
 
-    --border-subtle: var(--color-stone-800);
-    --border-default: var(--color-stone-800);
-    --border-strong: var(--color-stone-700);
+      --border-subtle: var(--color-stone-800);
+      --border-default: var(--color-stone-800);
+      --border-strong: var(--color-stone-700);
 
-    --accent: var(--color-stone-50);
-    --link: var(--color-morpho-300);
-    --cta-bg: var(--color-stone-50);
-    --cta-fg: var(--color-stone-900);
-    --focus-ring: var(--color-morpho-300);
+      --accent: var(--color-stone-50);
+      --link: var(--color-morpho-300);
+      --cta-bg: var(--color-stone-50);
+      --cta-fg: var(--color-stone-900);
+      --focus-ring: var(--color-morpho-300);
 
-    --tag-border: var(--color-stone-600);
-    --placeholder-stripe-a: var(--color-stone-800);
-    --placeholder-stripe-b: var(--color-stone-900);
-    --placeholder-fg: var(--color-stone-400);
+      --tag-border: var(--color-stone-600);
+      --placeholder-stripe-a: var(--color-stone-800);
+      --placeholder-stripe-b: var(--color-stone-900);
+      --placeholder-fg: var(--color-stone-400);
 
-    color-scheme: dark;
+      color-scheme: dark;
+    }
   }
 
   /* Ink: footer and process card. Deep Ink based. */

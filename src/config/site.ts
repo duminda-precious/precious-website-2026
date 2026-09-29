@@ -4,7 +4,9 @@
  */
 export const site = {
   name: 'Precious Studio',
-  legalName: '[Legal company name]',
+  legalName: 'Precious Studio LLC',
+  /** Footer legal line (from the parallel prototype). */
+  address: '701 Brazos St, Austin, TX',
   url: 'https://precious.studio',
   location: 'Austin, TX',
   foundingYear: 2015,

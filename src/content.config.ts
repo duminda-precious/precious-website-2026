@@ -57,7 +57,8 @@ const testimonials = defineCollection({
       name: z.string().min(1),
       role: z.string().min(1),
       company: z.string().min(1),
-      logo: image().optional(),
+      /** Hosted image URL (media is linked) or a local import. */
+      logo: z.union([z.url(), image()]).optional(),
       /** Shown in the logo slot until a logo exists, and used as its alt text. */
       logoLabel: z.string().min(1),
       order: z.number().int(),
@@ -71,7 +72,8 @@ const clients = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string().min(1),
-      logo: image().optional(),
+      /** Hosted image URL (media is linked) or a local import. */
+      logo: z.union([z.url(), image()]).optional(),
       order: z.number().int(),
     }),
 });

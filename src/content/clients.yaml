@@ -1,19 +1,35 @@
-# Client logo row (Clients section). Names show as text until `logo` is added.
+# Client logo ticker (Clients section), in the parallel prototype's order.
+# `logo` is a hosted image URL (media is linked, not copied); `name` is its alt
+# text and shows as text when there is no logo.
 - id: endeavor
-  name: ENDEAVOR
+  name: Endeavor Business Media
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/endeavor.png
   order: 1
 - id: qbe
   name: QBE
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/qbe.png
   order: 2
 - id: xoogler
   name: Xoogler
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/xoogler.png
   order: 3
 - id: xsell
-  name: XSELL
+  name: XSELL Technologies
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/xsell.png
   order: 4
-- id: knomadixai
+- id: knomadix
   name: KnomadixAI
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/knomadix.png
   order: 5
 - id: mitsubishi
   name: Mitsubishi
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/mitsubishi.png
   order: 6
+- id: lumin
+  name: Lumin Fitness
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/lumin.png
+  order: 7
+- id: fitnessgram
+  name: FitnessGram
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/fitnessgram.png
+  order: 8

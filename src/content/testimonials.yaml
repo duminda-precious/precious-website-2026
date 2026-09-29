@@ -1,6 +1,8 @@
-# Testimonials (marquee in the Clients section). Sorted by `order`.
+# Testimonials (slider in the Clients section). Sorted by `order`. From the parallel
+# prototype; quotes are the clients' own words, kept verbatim.
 # `quote` has no surrounding quote marks; the component adds them.
-# `logoLabel` fills the logo slot until `logo` (an image path) exists, and is its alt text.
+# `logoLabel` fills the logo slot until `logo` exists, and is its alt text.
+# `logo` is a hosted image URL (media is linked, not copied) or a local import.
 
 - id: ramesh-balan
   quote: >-
@@ -11,22 +13,41 @@
   name: Ramesh Balan
   role: Founder & CEO
   company: Vericora AI
-  # Prototype shows "KnomadixAI" in this card's logo slot but credits Vericora AI. To confirm.
+  # The prototype shows the KnomadixAI logo on this card but credits Vericora AI. To confirm.
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/knomadix.png
   logoLabel: KnomadixAI
   order: 1
 
-- id: placeholder-2
-  quote: '[Real client quote, one or two sentences.]'
-  name: '[Name]'
-  role: '[Role]'
-  company: '[Company]'
-  logoLabel: '[Client logo]'
+- id: omeed-shams
+  quote: I was impressed by their talent in animation, and also their work style.
+  name: Omeed Shams
+  role: Co-founder
+  company: Lumin Fitness
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/lumin.png
+  logoLabel: Lumin Fitness
   order: 2
 
-- id: placeholder-3
-  quote: '[Real client quote, one or two sentences.]'
-  name: '[Name]'
-  role: '[Role]'
-  company: '[Company]'
-  logoLabel: '[Client logo]'
+- id: travis-jonsen
+  quote: I'm excited and plan on working with Precious for as long as possible.
+  name: Travis Jonsen
+  role: Co-founder & Director of Customer Success
+  company: Pilot
+  logo: https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/logos/pilot.png
+  logoLabel: Pilot
   order: 3
+
+- id: anthony-williams
+  quote: They delivered on and checked every box for us.
+  name: Anthony Williams
+  role: Founder & CEO
+  company: ConnectED Athletics
+  logoLabel: ConnectED Athletics
+  order: 4
+
+- id: nicolas-styles
+  quote: I like everything, and we look forward to continuing our working relationship.
+  name: Nicolas Styles
+  role: CEO
+  company: Children Story Time
+  logoLabel: Children Story Time
+  order: 5
