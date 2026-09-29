@@ -349,6 +349,8 @@ const isPlaceholder = (s: string) => /\[[^\]]+\]/.test(s);
       font-size: var(--text-body);
     }
     .dev-h {
+      font-family: var(--font-display);
+      font-weight: var(--weight-medium);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
     }
@@ -381,8 +383,8 @@ const isPlaceholder = (s: string) => /\[[^\]]+\]/.test(s);
     }
     code,
     pre {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
+      font-family: var(--font-code);
+      font-size: var(--text-small);
     }
     pre {
       padding: var(--space-16);

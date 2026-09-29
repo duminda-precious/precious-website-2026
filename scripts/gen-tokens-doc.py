@@ -36,7 +36,8 @@ out = [
     '- **Themes.** `light` is the default. `[data-theme="dark"]` (the Work stage) and `[data-theme="ink"]` '
     '(footer, process card) remap the semantic colour tokens.',
     '- **Rebrand = token swap.** Change the primitives and the semantic mapping; components follow. '
-    'Fonts: change `--font-family-sans` and `--font-family-mono`.',
+    'Fonts: change `--font-family-display` and `--font-family-sans` (loaded from Google Fonts in `FontLinks.astro`). '
+    'Colour and type follow the Brand Identity Guidelines v1.0; the page base is white.',
     '- **Fluid values** interpolate between 320px and 1920px viewports with `clamp()`.',
     '- **Breakpoints** can\'t be tokens inside `@media`; use these literal values: sm `30rem` (480), md `47.5rem` (760), '
     'lg `62rem` (992), xl `75rem` (1200), 2xl `98.75rem` (1580). Also exported from `src/styles/breakpoints.ts`.',

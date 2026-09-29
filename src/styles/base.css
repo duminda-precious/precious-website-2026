@@ -21,8 +21,17 @@
   h1,
   h2,
   h3 {
+    font-family: var(--font-display);
     font-weight: var(--weight-medium);
     line-height: var(--leading-heading);
+  }
+
+  /* Headline emphasis (guideline §05): Funnel Display has no italic, so one
+     word drops to Light 300 in Sage 700. Use <em> inside a heading. */
+  :is(h1, h2, h3) em {
+    font-style: normal;
+    font-weight: var(--weight-light);
+    color: var(--accent);
   }
 
   /* Anchor targets land just below the sticky nav. */

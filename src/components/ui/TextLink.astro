@@ -2,15 +2,15 @@
 /**
  * TextLink: exploration links, not CTAs.
  *   variant 'underline' → sans, underlined, with → ("View case study →", "Meet the AI Design Agent →")
- *   variant 'mono'      → mono uppercase UI link ("SEE OUR WORK →")
+ *   variant 'label'     → UI link in the Label style ("See our work →")
  * The arrow is decorative (aria-hidden) so screen readers hear the label only.
  * Props: href, variant, arrow (default true), track (→ data-track, e.g. "case-study"), external, class.
- * Tokens: --text-body, --text-mono, --font-mono, --tracking-mono, --border-width.
+ * Tokens: --text-body, --text-label, --font-sans, --tracking-label, --border-width.
  * Motion hooks: none (global hover opacity).
  */
 interface Props {
   href: string;
-  variant?: 'underline' | 'mono';
+  variant?: 'underline' | 'label';
   arrow?: boolean;
   track?: string;
   external?: boolean;
@@ -50,12 +50,12 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       font-size: var(--text-body);
       border-bottom: var(--border-width) solid currentColor;
     }
-    .text-link--mono {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+    .text-link--label {
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
     }
   }
 </style>

@@ -27,7 +27,7 @@ const { heading, subline, seeAll, items } = Astro.props;
   <SectionHeader headingId="work-title">
     {heading}
     <Fragment slot="sub">{subline}</Fragment>
-    <TextLink slot="action" href={seeAll.href} variant="mono">
+    <TextLink slot="action" href={seeAll.href} variant="label">
       {seeAll.label}
     </TextLink>
   </SectionHeader>

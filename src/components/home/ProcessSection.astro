@@ -3,7 +3,7 @@
  * ProcessSection: the black card. Heading, subline and the AI Design Agent link
  * on the left half; the three steps with top rules on the right. Stacks below lg.
  * Props: heading, subline, agentPrompt, agentLink, steps.
- * Tokens: --process-bg/-fg/-rule, --radius-md, --inset-panel, --section-py-tight,
+ * Tokens: --process-bg/-fg/-rule, --radius-lg, --inset-panel, --section-py-tight,
  *         --text-statement, --tracking-heading, --leading-heading, --text-medium,
  *         --leading-medium, --text-body, --grid-gap-col, --space-*.
  */
@@ -50,7 +50,7 @@ const { heading, subline, agentPrompt, agentLink, steps } = Astro.props;
       padding: var(--inset-panel);
       background: var(--process-bg);
       color: var(--process-fg);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
     }
     @media (min-width: 62rem) {
       .process {
@@ -59,6 +59,8 @@ const { heading, subline, agentPrompt, agentLink, steps } = Astro.props;
     }
     .process__heading {
       max-width: var(--measure-statement);
+      font-family: var(--font-display);
+      font-weight: var(--weight-medium);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);

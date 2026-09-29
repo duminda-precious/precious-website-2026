@@ -9,7 +9,7 @@
  * Without JS (or before it runs) L1 is shown and L2/L3 are hidden on desktop.
  * Props: headline, problem (lines; each stays on one line), reel.
  * Tokens: --hero-scroll, --text-hero/-problem, --tracking-hero/-problem, --leading-hero,
- *         --nav-height, --gutter, --radius-md, --space-*, --section-py.
+ *         --nav-height, --gutter, --radius-lg, --space-*, --section-py.
  * Motion hooks: data-motion="hero", data-hero-layer="1|2|3", data-hero-reel,
  *               data-motion="sound-toggle" (M8).
  */
@@ -85,14 +85,16 @@ const { headline, problem, reel } = Astro.props;
       text-align: center;
     }
     .hero__title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-light);
       font-size: var(--text-hero);
-      font-weight: var(--weight-medium);
       letter-spacing: var(--tracking-hero);
       line-height: var(--leading-hero);
     }
     .hero__problem {
+      font-family: var(--font-display);
+      font-weight: var(--weight-light);
       font-size: var(--text-problem);
-      font-weight: var(--weight-medium);
       letter-spacing: var(--tracking-problem);
       line-height: var(--leading-none);
     }
@@ -109,7 +111,7 @@ const { headline, problem, reel } = Astro.props;
       width: 100%;
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
     }
     .hero__sound {
       position: absolute;
@@ -150,7 +152,7 @@ const { headline, problem, reel } = Astro.props;
         height: 100%;
         aspect-ratio: auto;
         border-radius: 0;
-        clip-path: inset(50% 50% round var(--radius-md));
+        clip-path: inset(50% 50% round var(--radius-lg));
       }
     }
   }

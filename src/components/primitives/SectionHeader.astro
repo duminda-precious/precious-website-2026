@@ -8,7 +8,7 @@
  * Props: headingId (for aria-labelledby on the Section), headingLevel (2 default), class.
  * Slots: eyebrow, default (statement text), sub (optional line under the statement), action.
  * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
- *         --text-medium, --text-secondary, --text-mono, --tracking-mono, --header-gap, --space-*.
+ *         --text-medium, --text-secondary, --text-eyebrow, --tracking-eyebrow, --header-gap, --space-*.
  */
 import Grid12 from './Grid12.astro';
 
@@ -57,16 +57,18 @@ const hasAction = Astro.slots.has('action');
       grid-column: 1 / -1;
     }
     .section-header__eyebrow {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
       text-transform: uppercase;
     }
     .section-header__statement {
       max-width: var(--measure-statement);
-      font-size: var(--text-statement);
+      font-family: var(--font-display);
       font-weight: var(--weight-medium);
+      font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
     }

@@ -9,7 +9,7 @@
  * Below md (760px) the links and button move into MobileMenu.
  * Props: none (links from src/config/navigation.ts, dropdown items from the services collection).
  * Tokens: --nav-fg, --nav-cluster-bg (+ -dark), --nav-dropdown-*, --nav-badge-*, --nav-height,
- *         --gutter, --space-*, --font-mono, --text-mono, --tracking-mono, --radius-pill,
+ *         --gutter, --space-*, --font-sans, --text-label, --tracking-label, --radius-pill,
  *         --radius-md, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
  * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7).
  */
@@ -246,25 +246,28 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       align-items: center;
       gap: var(--space-8);
       min-height: var(--tap-min);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
       white-space: nowrap;
     }
     .nav__trigger:hover {
       opacity: var(--hover-opacity);
     }
     .nav__caret {
-      font-size: var(--text-mono-sm);
+      font-size: var(--text-eyebrow);
     }
     .nav__badge {
       padding: var(--space-4) var(--space-6);
       border-radius: var(--radius-pill);
       background: var(--nav-badge-bg);
       color: var(--nav-badge-fg);
-      font-size: var(--text-mono-sm);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
+      text-transform: uppercase;
     }
 
     .nav__dropdown {
@@ -284,6 +287,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       color: var(--nav-dropdown-fg);
       border: var(--border-width) solid var(--nav-dropdown-border);
       border-radius: var(--radius-md);
+      box-shadow: var(--nav-dropdown-shadow);
     }
     .nav__panel[hidden] {
       display: none;
@@ -293,11 +297,11 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       align-items: center;
       min-height: var(--tap-min);
       padding: 0 var(--space-8);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
     }
 
     @media (min-width: 47.5rem) {

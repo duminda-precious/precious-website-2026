@@ -5,6 +5,7 @@
  * Props: title.
  */
 import '../styles/global.css';
+import FontLinks from '../components/layout/FontLinks.astro';
 
 interface Props {
   title: string;
@@ -22,6 +23,7 @@ const { title } = Astro.props;
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
+    <FontLinks />
     <title>{title} · Precious Studio (dev)</title>
   </head>
   <body>

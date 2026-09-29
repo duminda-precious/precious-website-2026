@@ -7,7 +7,7 @@
  * Props: services (dropdown items for the Services group; links from src/config/navigation.ts).
  * Services is a collapsible accordion (closed by default) with an inset, grey sub-list (brief M11).
  * Tokens: --surface-page, --text-primary, --text-secondary, --gutter, --space-*, --text-menu,
- *         --tracking-heading, --font-mono, --text-mono, --tap-min, --radius-pill,
+ *         --tracking-heading, --font-sans, --text-label, --tap-min, --radius-pill,
  *         --border-width, --nav-badge-*, --dur-base, --ease-standard.
  * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions).
  */
@@ -183,11 +183,11 @@ const { services } = Astro.props;
       padding: 0 var(--space-16);
       border: var(--border-width) solid currentColor;
       border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
     }
     .menu-button:hover {
       opacity: var(--hover-opacity);
@@ -253,8 +253,9 @@ const { services } = Astro.props;
       align-items: center;
       gap: var(--space-12);
       padding-block: var(--space-4);
+      font-family: var(--font-display);
+      font-weight: var(--weight-medium);
       font-size: var(--text-menu);
-      font-weight: var(--weight-regular);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
     }
@@ -291,9 +292,10 @@ const { services } = Astro.props;
       border-radius: var(--radius-pill);
       background: var(--nav-badge-bg);
       color: var(--nav-badge-fg);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
       text-transform: uppercase;
     }

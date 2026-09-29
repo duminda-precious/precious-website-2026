@@ -1,14 +1,14 @@
 ---
 /**
- * Button: pill with a mono uppercase label and a ▸ glyph (brief M12).
+ * Button: Label-style text (Funnel Sans 600, sentence case) and a ▸ glyph, 12px corners.
  * One solid style site-wide; its colours come from the theme (--cta-bg/--cta-fg),
- * so it is ink on light sections and inverse on dark ones. Placeholder styling
- * until the phase-2 design. Renders <a> when href is set, otherwise <button>.
+ * so it is Deep Ink on light sections and inverse on dark ones. The gradient +
+ * pixel hover (--cta-hover-*) arrives in P2-4. Renders <a> when href is set, otherwise <button>.
  * Props:
  *   size  'sm' (nav) | 'md'
  *   glyph show the ▸ (default true)
  *   href, type, track (→ data-track, e.g. "book-call"), external, class
- * Tokens: --cta-bg, --cta-fg, --radius-pill, --font-mono, --text-mono, --tracking-mono,
+ * Tokens: --cta-bg, --cta-fg, --radius-md, --font-sans, --text-label, --tracking-label,
  *         --space-*, --tap-min, --hover-opacity.
  * Motion hooks: none (hover is the global opacity token, M9).
  */
@@ -64,15 +64,14 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       align-items: center;
       justify-content: center;
       gap: var(--space-8);
-      border-radius: var(--radius-pill);
+      border-radius: var(--radius-md);
       background: var(--cta-bg);
       color: var(--cta-fg);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      font-weight: var(--weight-regular);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
       white-space: nowrap;
     }
     .button:hover {

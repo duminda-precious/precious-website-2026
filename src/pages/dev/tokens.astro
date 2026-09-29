@@ -19,42 +19,29 @@ import MediaFrame from '../../components/ui/MediaFrame.astro';
 import { mediaAspects } from '../../components/ui/media';
 import { workGridPositions } from '../../config/layout';
 
+const scale = (n: string) =>
+  ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'].map((k) => `${n}-${k}`);
 const primitives = {
-  Neutrals: [
+  'Stone (100 Chrysalis · 200 Cocoon · 300 Mist · 600 Stone · 800 Bark · 900 Deep Ink)': [
     'white',
-    'grey-25',
-    'grey-50',
-    'grey-75',
-    'grey-100',
-    'grey-125',
-    'grey-150',
-    'grey-175',
-    'grey-200',
-    'grey-300',
-    'grey-350',
-    'grey-400',
-    'grey-450',
-    'grey-500',
-    'grey-550',
-    'grey-600',
-    'grey-650',
-    'grey-800',
-    'ink-900',
-    'ink-950',
-    'black',
+    ...scale('stone'),
   ],
-  Maroon: [
-    'maroon-50',
-    'maroon-300',
-    'maroon-500',
-    'maroon-700',
-    'maroon-850',
-    'maroon-900',
-    'maroon-950',
-  ],
-  Forest: ['forest-50', 'forest-300', 'forest-400', 'forest-800', 'forest-850', 'forest-900'],
-  'Accents (orange unused in phase 1)': ['orange-500', 'lime-300', 'olive-800', 'stone-50'],
+  'Apricot (primary)': scale('apricot'),
+  'Morpho (secondary)': scale('morpho'),
+  'Swallowtail (accent)': scale('swallowtail'),
+  'Sunset Moth (accent, rare)': scale('sunset'),
+  'Sage and status': ['sage-700', 'success', 'warning', 'error', 'info'],
 };
+
+const gradients = ['glasswing-sky', 'morpho-shimmer', 'swallowtail', 'sunset-moth'];
+const meshes = [
+  'apricot-dawn',
+  'morpho-iridescence',
+  'swallowtail-canopy',
+  'sunset-moth',
+  'pearl-haze',
+  'metamorphosis',
+];
 
 const semantic = [
   'surface-page',
@@ -71,6 +58,7 @@ const semantic = [
   'border-default',
   'border-strong',
   'accent',
+  'link',
   'cta-bg',
   'cta-fg',
   'focus-ring',
@@ -88,52 +76,37 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
   ['text-muted', 'surface-raised', 'Quote role on card', 'normal'],
   ['text-muted', 'surface-page', 'Muted text (legal)', 'normal'],
   ['cta-fg', 'cta-bg', 'Button', 'normal'],
+  ['accent', 'surface-page', 'Headline emphasis (large)', 'large'],
+  ['link', 'surface-page', 'Link', 'normal'],
   ['placeholder-fg', 'placeholder-stripe-a', 'Placeholder label', 'normal'],
   ['gate-1-fg', 'gate-1-bg', 'Gate 1 title', 'large'],
   ['gate-1-pain', 'gate-1-bg', 'Gate 1 pain line', 'normal'],
   ['gate-2-fg', 'gate-2-bg', 'Gate 2 title', 'large'],
   ['gate-2-pain', 'gate-2-bg', 'Gate 2 pain line', 'normal'],
+  ['gate-3-fg', 'gate-3-bg', 'Gate 3 title', 'large'],
   ['gate-3-pain', 'gate-3-bg', 'Gate 3 pain line', 'normal'],
   ['team-chip-fg', 'team-chip-bg', 'Team chip', 'normal'],
 ];
 
-// [token, sample, leading, tracking, family, uppercase, weight]
-const typeScale: [string, string, string, string, 'sans' | 'mono', boolean, string][] = [
-  ['hero', 'We design how your product feels.', 'hero', 'hero', 'sans', false, 'medium'],
-  ['problem', 'Most products look fine.', 'none', 'problem', 'sans', false, 'medium'],
-  [
-    'closer',
-    'Make your product feel worth paying for.',
-    'closer',
-    'closer',
-    'sans',
-    false,
-    'medium',
-  ],
-  ['menu', 'Approach', 'heading', 'heading', 'sans', false, 'regular'],
-  ['statement', 'The proof is in how it moves.', 'heading', 'heading', 'sans', false, 'medium'],
-  ['title', 'Lumin Fitness', 'heading', 'title', 'sans', false, 'medium'],
-  ['large', 'Extend my team', 'large', 'title', 'sans', false, 'regular'],
-  [
-    'medium',
-    'Precious understood our complex design requirements well.',
-    'medium',
-    'body',
-    'sans',
-    false,
-    'regular',
-  ],
-  [
-    'body',
-    'Great in-studio tech, an app a tier behind → an app that feels as good as the studio.',
-    'body',
-    'body',
-    'sans',
-    false,
-    'regular',
-  ],
-  ['mono', 'Work · Services · Book a call', 'none', 'mono', 'mono', true, 'regular'],
-  ['mono-sm', 'Redesign · © Precious Studio · Austin, TX', 'none', 'mono', 'mono', true, 'regular'],
+// [token, sample, leading, tracking, family, uppercase, weight, italic]
+type Row = [string, string, string, string, 'display' | 'sans', boolean, string, boolean?];
+const typeScale: Row[] = [
+  ['hero', 'We design how your product feels.', 'hero', 'hero', 'display', false, 'light'],
+  ['problem', 'Most products look fine.', 'none', 'problem', 'display', false, 'light'],
+  ['closer', 'Designed to be felt.', 'closer', 'closer', 'display', false, 'medium'],
+  ['h1', 'Designed by people', 'heading', 'heading', 'display', false, 'medium'],
+  ['statement', 'The proof is in how it moves.', 'heading', 'heading', 'display', false, 'medium'],
+  ['figure', '+38% completion', 'closer', 'closer', 'display', false, 'semibold'],
+  ['title', 'Lumin Fitness', 'heading', 'title', 'display', false, 'semibold'],
+  ['menu', 'Approach', 'heading', 'heading', 'display', false, 'medium'],
+  ['quote', 'Designed to be felt.', 'quote', 'body', 'sans', false, 'regular', true],
+  ['large', 'Onboarding flow, version three', 'large', 'title', 'sans', false, 'semibold'],
+  ['note', 'This step can go →', 'large', 'body', 'sans', false, 'medium'],
+  ['medium', 'Intro paragraphs and lead text on web pages.', 'medium', 'body', 'sans', false, 'regular'],
+  ['body', 'Default reading text in product and on the site.', 'body', 'body', 'sans', false, 'regular'],
+  ['small', 'Helper text, metadata, footnotes', 'body', 'body', 'sans', false, 'regular'],
+  ['label', 'Book a call', 'none', 'label', 'sans', false, 'semibold'],
+  ['eyebrow', 'Case study · Fintech · 2026', 'none', 'eyebrow', 'sans', true, 'medium'],
 ];
 
 const spaces = [
@@ -172,7 +145,8 @@ const layoutTokens = [
   'inset-panel',
   'nav-height',
 ];
-const radii = ['sm', 'md', 'xl', 'pill'];
+const radii = ['xs', 'sm', 'md', 'lg', 'xl', 'pill'];
+const shadows = ['e1', 'e2', 'e3'];
 const durations = ['fast', 'base', 'reveal', 'theme', 'page', 'rise'];
 const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
 ---
@@ -204,7 +178,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
         <Stack gap="24">
           <h2 class="dev-h">1 · Colour primitives</h2>
           <p class="dev-muted">
-            Raw values from the prototype. Components never use these directly.
+            Brand guideline v1.0. Components never use these directly.
           </p>
           {Object.entries(primitives).map(([group, names]) => (
             <Stack gap="10">
@@ -289,30 +263,67 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
         <Stack gap="24">
           <h2 class="dev-h">3 · Typography</h2>
           <p class="dev-muted">
-            Sans (<code>--font-sans</code>) for content, weights 400/500. Mono (
-            <code>--font-mono</code>), uppercase, for UI and metadata. Resize the window to see the
-            fluid sizes.
+            Funnel Display (<code>--font-display</code>) from Hero to H3 and statements; Funnel Sans
+            (<code>--font-sans</code>) from Quote to Label. Sentence case; eyebrows are the only caps.
+            Resize the window to see the fluid sizes.
           </p>
-          {typeScale.map(([name, sample, leading, tracking, family, upper, weight]) => (
+          {typeScale.map(([name, sample, leading, tracking, family, upper, weight, italic]) => (
             <div class="type-row">
               <code class="type-row__name">
                 --text-{name} · {family} · {weight}
               </code>
               <p
                 class="type-row__sample"
-                style={`font-family: var(--font-${family}); font-size: var(--text-${name}); line-height: var(--leading-${leading}); letter-spacing: var(--tracking-${tracking}); font-weight: var(--weight-${weight}); text-transform: ${upper ? 'uppercase' : 'none'}`}
+                style={`font-family: var(--font-${family}); font-size: var(--text-${name}); line-height: var(--leading-${leading}); letter-spacing: var(--tracking-${tracking}); font-weight: var(--weight-${weight}); text-transform: ${upper ? 'uppercase' : 'none'}; font-style: ${italic ? 'italic' : 'normal'}`}
               >
                 {sample}
               </p>
             </div>
           ))}
+          <div class="type-row">
+            <code class="type-row__name">emphasis · &lt;em&gt; in a heading · Light 300, Sage 700</code>
+            <h2 class="type-row__sample dev-emphasis">Designed to be <em>felt.</em></h2>
+          </div>
+        </Stack>
+      </Section>
+
+      <!-- GRADIENTS -->
+      <Section padding="tight" surface>
+        <Stack gap="24">
+          <h2 class="dev-h">4 · Gradients and meshes</h2>
+          <p class="dev-muted">
+            Use subtly. One mesh per view, big surfaces only, never on UI components, never body copy
+            on a mesh. Grain (<code>--grain-image</code>) goes on large areas.
+          </p>
+          <h3 class="dev-h3">Linear (180°)</h3>
+          <div class="swatches swatches--wide">
+            {gradients.map((g) => (
+              <figure class="swatch">
+                <div class="swatch__chip swatch__chip--tall grain" style={`background: var(--gradient-${g})`} />
+                <figcaption>
+                  <code>--gradient-{g}</code>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <h3 class="dev-h3">Meshes</h3>
+          <div class="swatches swatches--wide">
+            {meshes.map((m) => (
+              <figure class="swatch">
+                <div class="swatch__chip grain" style={`background: var(--mesh-${m})`} />
+                <figcaption>
+                  <code>--mesh-{m}</code>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </Stack>
       </Section>
 
       <!-- SPACE, LAYOUT, RADII -->
       <Section padding="tight" surface>
         <Stack gap="24">
-          <h2 class="dev-h">4 · Spacing, layout, radii</h2>
+          <h2 class="dev-h">5 · Spacing, layout, radii, elevation</h2>
           <div class="bars">
             {spaces.map((s) => (
               <div class="bar-row">
@@ -340,13 +351,22 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
               </Stack>
             ))}
           </Cluster>
+          <h3 class="dev-h3">Elevation (tinted with Deep Ink)</h3>
+          <Cluster gap="24">
+            {shadows.map((e) => (
+              <Stack gap="8" align="center">
+                <span class="shadow-box" style={`box-shadow: var(--shadow-${e})`} />
+                <code>--shadow-{e}</code>
+              </Stack>
+            ))}
+          </Cluster>
         </Stack>
       </Section>
 
       <!-- MOTION -->
       <Section padding="tight">
         <Stack gap="24">
-          <h2 class="dev-h">5 · Motion (Premium: calm, decelerating, no overshoot)</h2>
+          <h2 class="dev-h">6 · Motion (Premium: calm, decelerating, no overshoot)</h2>
           <p class="dev-muted">
             Hover a track to play the token. Reduced motion disables these demos.
           </p>
@@ -386,7 +406,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       <!-- COMPONENTS -->
       <Section padding="tight" surface>
         <Stack gap="48">
-          <h2 class="dev-h">6 · Components</h2>
+          <h2 class="dev-h">7 · Components</h2>
 
           <Stack gap="12">
             <h3 class="dev-h3">SectionHeader (three-zone; stacks below 992px)</h3>
@@ -400,14 +420,14 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
               <Fragment slot="sub">
                 Real projects, shipped. Each one plays, because a still can't show feel.
               </Fragment>
-              <TextLink slot="action" href="#" variant="mono">
+              <TextLink slot="action" href="#" variant="label">
                 See our work
               </TextLink>
             </SectionHeader>
           </Stack>
 
           <Stack gap="12">
-            <h3 class="dev-h3">Button (pill, mono, ▸; colours follow the theme)</h3>
+            <h3 class="dev-h3">Button (Label style, 12px corners, ▸; colours follow the theme)</h3>
             <Cluster gap="16">
               <Button size="sm" href="#" track="book-call">
                 Book a call
@@ -426,7 +446,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
                 View case study
               </TextLink>
               <TextLink href="#">Meet the AI Design Agent</TextLink>
-              <TextLink href="#" variant="mono">
+              <TextLink href="#" variant="label">
                 See our work
               </TextLink>
             </Cluster>
@@ -571,9 +591,9 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       padding: var(--space-12) var(--gutter);
       background: var(--surface-page);
       border-bottom: var(--border-width) solid var(--border-subtle);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      text-transform: uppercase;
+      font-family: var(--font-sans);
+      font-size: var(--text-label);
+      font-weight: var(--weight-semibold);
     }
     .dev-brand {
       font-weight: var(--weight-medium);
@@ -582,8 +602,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       min-height: var(--tap-min);
       padding: 0 var(--space-12);
       border: var(--border-width) solid var(--border-strong);
-      border-radius: var(--radius-pill);
-      text-transform: uppercase;
+      border-radius: var(--radius-md);
     }
     .dev-toggle[aria-pressed='true'] {
       background: var(--cta-bg);
@@ -591,14 +610,16 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       border-color: var(--cta-bg);
     }
     .dev-h {
+      font-family: var(--font-display);
+      font-weight: var(--weight-medium);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
     }
     .dev-h3 {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      font-weight: var(--weight-regular);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-size: var(--text-eyebrow);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
       text-transform: uppercase;
       color: var(--text-secondary);
     }
@@ -606,8 +627,8 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       color: var(--text-secondary);
     }
     code {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
+      font-family: var(--font-code);
+      font-size: var(--text-small);
     }
 
     .swatches {
@@ -625,13 +646,43 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       border-radius: var(--radius-md);
       border: var(--border-width) solid var(--border-default);
     }
+    .swatches--wide {
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    }
+    .swatch__chip--tall {
+      aspect-ratio: 3 / 4;
+    }
+    .grain {
+      position: relative;
+      overflow: hidden;
+    }
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain-image);
+      opacity: var(--grain-opacity);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .dev-emphasis {
+      font-size: var(--text-statement);
+      letter-spacing: var(--tracking-heading);
+    }
+    .shadow-box {
+      display: block;
+      width: var(--space-80);
+      height: var(--space-56);
+      border-radius: var(--radius-lg);
+      background: var(--surface-page);
+    }
     .swatch figcaption {
       display: flex;
       flex-direction: column;
     }
     .swatch__value {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
+      font-family: var(--font-code);
+      font-size: var(--text-small);
       color: var(--text-secondary);
     }
 
@@ -747,8 +798,8 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
     .cols-demo span {
       padding: var(--space-8) 0;
       background: var(--surface-muted);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
+      font-family: var(--font-code);
+      font-size: var(--text-small);
       text-align: center;
     }
   }

@@ -87,7 +87,7 @@ function setup(heroEl: HTMLElement): () => void {
     el.style.opacity = String(opacity);
   };
   const clip = (x: number, y: number) => {
-    reel.style.clipPath = `inset(${y}px ${x}px round var(--radius-md))`;
+    reel.style.clipPath = `inset(${y}px ${x}px round var(--radius-lg))`;
   };
 
   const render = (p: number) => {

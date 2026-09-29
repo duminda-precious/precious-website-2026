@@ -5,7 +5,7 @@
  * 0fr → 1fr). On touch (hover: none) the lines show expanded. The lines are
  * always in the DOM for screen readers.
  * Props: tone ('gate-1' | 'gate-2' | 'gate-3'), title, pain, result, mediaLabel, media, mediaAlt.
- * Tokens: --gate-N-bg/-fg/-pain, --radius-md, --space-*, --text-title, --tracking-title,
+ * Tokens: --gate-N-bg/-fg/-pain, --radius-lg, --space-*, --text-title, --tracking-title,
  *         --leading-heading, --text-body, --dur-reveal, --dur-base, --ease-out-soft, --focus-ring.
  * Motion hooks: CSS only.
  */
@@ -53,7 +53,7 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
       flex-direction: column;
       aspect-ratio: 4 / 5;
       overflow: hidden;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       cursor: default;
     }
     .reveal-card:focus-visible {
@@ -81,6 +81,8 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
       color: var(--card-fg);
     }
     .reveal-card__title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-semibold);
       font-size: var(--text-title);
       letter-spacing: var(--tracking-title);
       line-height: var(--leading-heading);

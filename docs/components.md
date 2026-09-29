@@ -25,10 +25,10 @@ Layout principle (from the Afternow brief): place things with grid spans, and co
 
 | Component | What it does | Props / variants |
 |---|---|---|
-| `Button` | Pill with a mono uppercase label and ▸. Colours come from the theme (`--cta-bg/-fg`). **Placeholder style; may change in phase 2** | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
-| `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `mono`), `arrow`, `track`, `external`, `class` |
-| `Tag` | Outlined mono label for metadata (case study situation) | `as`, `class` |
-| `Pill` | Rounded mono badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |
+| `Button` | Label-style text (Funnel Sans 600) and ▸, 12px corners. Colours come from the theme (`--cta-bg/-fg`); gradient + pixel hover arrives in P2-4 | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
+| `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `label`), `arrow`, `track`, `external`, `class` |
+| `Tag` | Outlined Eyebrow-style label for metadata (case study situation) | `as`, `class` |
+| `Pill` | Rounded Label-style badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |
 | `MediaFrame` | Video, image, or striped placeholder at a locked aspect ratio | `aspect` (`3/2`, `5/4`, `1/1`, `4/3`, `16/9`, `16/10`, `4/5`, `3/4`, `fill`), `tone` (`auto` \| `forest` \| `logo`), `label`, `video`, `poster`, `image`, `alt`, `rounded`. Slot: overlays |
 | `RevealCard` | Gate card: media + coloured panel; text reveals on hover/focus, shown open on touch | `tone` (`gate-1` \| `gate-2` \| `gate-3`), `title`, `pain`, `result`, `mediaLabel`, `media`, `mediaAlt` |
 | `Disclosure` | FAQ item on native `<details>`; height animates via `disclosure.ts` | `question`, `answer` |
@@ -39,7 +39,7 @@ Aspect ratios accepted by `MediaFrame` are listed in `src/components/ui/media.ts
 
 | Component | What it does |
 |---|---|
-| `SiteShell` | The document for every public page: layer order, `Seo`, skip link, page wrapper (`Nav` + `<main>`), `CtaFooter`, page router, motion boot. Props: SEO props. Slots: default, `head`, `jsonld` |
+| `SiteShell` | The document for every public page: layer order, brand fonts (`FontLinks`), `Seo`, skip link, page wrapper (`Nav` + `<main>`), `CtaFooter`, page router, motion boot. Props: SEO props. Slots: default, `head`, `jsonld` |
 | `Seo` | Title, description, canonical, robots (`noindex`), Open Graph and Twitter tags |
 | `Nav` | Sticky header: logo left; page links, Services dropdown (hover on mouse, click/keyboard everywhere), `New` badge, Book a call. Backdrop appears behind the links once scrolled. Links come from `src/config/navigation.ts`; dropdown items from the `services` collection |
 | `MobileMenu` | Below 760px: Menu button + full-screen modal dialog. Services is an accordion. Focus trap, Esc, scroll lock, focus return |

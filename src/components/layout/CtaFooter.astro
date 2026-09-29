@@ -13,7 +13,7 @@
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
  *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --text-wordmark(-lg),
- *         --tracking-wordmark, --font-mono, --text-mono-sm, --tracking-mono, --z-footer, --space-*.
+ *         --tracking-wordmark, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
 import Button from '../ui/Button.astro';
@@ -126,8 +126,9 @@ import { ui } from '../../config/ui';
     }
     .footer__heading {
       max-width: var(--measure-closer);
-      font-size: var(--text-closer);
+      font-family: var(--font-display);
       font-weight: var(--weight-medium);
+      font-size: var(--text-closer);
       letter-spacing: var(--tracking-closer);
       line-height: var(--leading-closer);
     }
@@ -138,9 +139,10 @@ import { ui } from '../../config/ui';
       gap: var(--space-16);
     }
     .footer__col-heading {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
       text-transform: uppercase;
       color: var(--text-secondary);
@@ -162,9 +164,10 @@ import { ui } from '../../config/ui';
     }
     .footer__legal {
       grid-column: 1 / -1;
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
       text-transform: uppercase;
       color: var(--text-muted);

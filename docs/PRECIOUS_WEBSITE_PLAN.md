@@ -61,6 +61,15 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 
 - **Step 11 (production hardening) is deferred to the very end of phase 2.** Run it as the last step of phase 2, after the rebrand, not in phase 1. Phase 1 ends with Step 12 (handoff docs).
 
+**2026-09-29: Phase 2 kickoff** (Duminda). Phase 2 applies the brand, real content and pixel motion, one step at a time (P2-1 … P2-10; Step 11 runs last).
+
+- **Sources:** the Brand Identity Guidelines v1.0 (`reference/brand/`, the PDF is local-only and git-ignored) decide **colour and typography, always**. The parallel prototype (precious-homepage-preview-dk3n41d0v.vercel.app) supplies **all content**; its copy is taken over with banned words and US spellings fixed. Our phase-1 layout and components stay.
+- **Look:** very white and minimal. Page base is white (not the guideline's Chrysalis); warm neutrals only for sunken panels. Gradients are used very subtly: the team diagram, button hover fills and small accents. Iconography and motion are 8-bit / pixel style.
+- **Layout:** full width stays (a design choice; the guideline's 1200px max width is not used). The dark Work section stays (Deep Ink).
+- **Type:** Funnel Display + Funnel Sans from Google Fonts. No mono: UI labels use the guideline's Label style (Funnel Sans 600, sentence case); small metadata uses Eyebrow (caps, +14%). The hero headline and problem line keep the prototype's large sizes, in Display Light.
+- **Buttons:** Deep Ink fill, 12px corners. On hover the fill becomes a gradient with a pixelating transition, and the label turns Deep Ink (built in P2-4).
+- **Logo:** `reference/brand/logo-white.svg` (supplied). **Media:** linked from where it's hosted, not copied. **Home work grid:** 5 slots; the fifth is a placeholder.
+
 ---
 
 ## 1. Context

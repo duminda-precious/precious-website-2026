@@ -16,7 +16,7 @@
  *   default slot        → overlays positioned inside the frame (e.g. sound pill)
  *
  * Tokens: --placeholder-stripe-a/b, --placeholder-fg, --gate-media-*, --logo-stripe-*,
- *         --stripe-size, --stripe-size-sm, --radius-md, --font-mono, --text-micro.
+ *         --stripe-size, --stripe-size-sm, --radius-lg, --font-sans, --text-eyebrow.
  * Motion hooks: data-motion="video-in-view" on <video> (M7).
  */
 import { Image } from 'astro:assets';
@@ -122,7 +122,7 @@ const style = aspect === 'fill' ? undefined : `--media-aspect: ${aspect}`;
       aspect-ratio: auto;
     }
     .media-frame--rounded {
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
     }
     .media-frame--placeholder {
       background: repeating-linear-gradient(
@@ -132,8 +132,10 @@ const style = aspect === 'fill' ? undefined : `--media-aspect: ${aspect}`;
       );
     }
     .media-frame__label {
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       color: var(--mf-fg);
     }
     .media-frame__media {

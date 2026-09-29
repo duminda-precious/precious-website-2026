@@ -6,7 +6,7 @@
  * Props: variant, as ('span' | 'a' | 'button'), href, class, plus any attribute
  *        (e.g. aria-pressed, data-motion="sound-toggle").
  * Tokens: --border-strong, --pill-solid-bg, --pill-solid-fg, --radius-pill,
- *         --font-mono, --text-mono, --tracking-mono, --space-*, --tap-min.
+ *         --font-sans, --text-label, --tracking-label, --space-*, --tap-min.
  * Motion hooks: pass data-motion through props.
  */
 interface Props {
@@ -36,11 +36,11 @@ const typeAttr = Tag === 'button' ? { type: 'button' as const } : {};
       align-items: center;
       gap: var(--space-6);
       border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       line-height: var(--leading-none);
-      text-transform: uppercase;
       white-space: nowrap;
     }
     .pill--outline {

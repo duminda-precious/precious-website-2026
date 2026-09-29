@@ -2,7 +2,7 @@
 /**
  * TestimonialCard: one quote card (one "page") in the Clients slider.
  * Props: testimonial (collection data).
- * Tokens: --slide-width, --slide-min-height, --surface-raised, --radius-md,
+ * Tokens: --slide-width, --slide-min-height, --surface-raised, --radius-lg,
  *         --inset-card, --text-medium, --leading-medium, --measure-quote, --text-muted, --space-*.
  */
 import type { CollectionEntry } from 'astro:content';
@@ -46,7 +46,7 @@ const { testimonial: t } = Astro.props;
       height: 100%;
       padding: var(--inset-card);
       background: var(--surface-raised);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
     }
     .testimonial__logo {
       display: flex;
@@ -61,6 +61,7 @@ const { testimonial: t } = Astro.props;
     .testimonial__quote {
       max-width: var(--measure-quote);
       font-size: var(--text-medium);
+      font-style: italic; /* guideline: Funnel Sans Italic is for quotes only */
       line-height: var(--leading-medium);
     }
     .testimonial__caption {

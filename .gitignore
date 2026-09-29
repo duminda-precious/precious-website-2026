@@ -4,3 +4,6 @@ dist/
 .env
 .env.*
 .DS_Store
+
+# Brand guideline PDF: local reference only, never commit
+reference/brand/*.pdf

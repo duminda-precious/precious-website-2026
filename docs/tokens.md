@@ -6,7 +6,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 - **Three tiers.** Primitives (raw values) → semantic tokens (meaning, remapped per theme) → component tokens (a few component-specific settings). Components use only semantic and component tokens, never primitives or hex codes.
 - **Themes.** `light` is the default. `[data-theme="dark"]` (the Work stage) and `[data-theme="ink"]` (footer, process card) remap the semantic colour tokens.
-- **Rebrand = token swap.** Change the primitives and the semantic mapping; components follow. Fonts: change `--font-family-sans` and `--font-family-mono`.
+- **Rebrand = token swap.** Change the primitives and the semantic mapping; components follow. Fonts: change `--font-family-display` and `--font-family-sans` (loaded from Google Fonts in `FontLinks.astro`). Colour and type follow the Brand Identity Guidelines v1.0; the page base is white.
 - **Fluid values** interpolate between 320px and 1920px viewports with `clamp()`.
 - **Breakpoints** can't be tokens inside `@media`; use these literal values: sm `30rem` (480), md `47.5rem` (760), lg `62rem` (992), xl `75rem` (1200), 2xl `98.75rem` (1580). Also exported from `src/styles/breakpoints.ts`.
 - **Motion** tokens are read at runtime by `src/motion/tokens.ts`, so CSS is also the source for GSAP.
@@ -14,93 +14,163 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 ## Primitives and global tokens
 
-### Neutrals (numbered light → dark)
-
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--color-white` | `#ffffff` |  | — |
-| `--color-black` | `#000000` |  | — |
-| `--color-grey-25` | `#f6f6f6` |  | — |
-| `--color-grey-50` | `#f0f0f0` |  | — |
-| `--color-grey-75` | `#eeeeee` |  | — |
-| `--color-grey-100` | `#ececec` |  | — |
-| `--color-grey-125` | `#ebebeb` |  | — |
-| `--color-grey-150` | `#e4e4e4` |  | — |
-| `--color-grey-175` | `#e2e2e2` |  | — |
-| `--color-grey-200` | `#dddddd` |  | — |
-| `--color-grey-300` | `#c4c4c4` |  | — |
-| `--color-grey-350` | `#bdbdbd` |  | — |
-| `--color-grey-400` | `#aaaaaa` |  | — |
-| `--color-grey-450` | `#888888` |  | — |
-| `--color-grey-500` | `#777777` |  | — |
-| `--color-grey-550` | `#666666` |  | — |
-| `--color-grey-600` | `#555555` |  | — |
-| `--color-grey-650` | `#444444` |  | — |
-| `--color-grey-800` | `#333333` |  | — |
-| `--color-ink-900` | `#141414` |  | — |
-| `--color-ink-950` | `#111111` |  | — |
 
-### Maroon (the dark Work stage)
+### Stone: warm neutrals. 100 = Chrysalis, 200 = Cocoon, 300 = Mist,
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-maroon-50` | `#f2eeee` |  | — |
-| `--color-maroon-300` | `#b9aeae` |  | — |
-| `--color-maroon-500` | `#8a7c7c` |  | — |
-| `--color-maroon-700` | `#6a5a5a` |  | — |
-| `--color-maroon-850` | `#2a1c1c` |  | — |
-| `--color-maroon-900` | `#221616` |  | — |
-| `--color-maroon-950` | `#160a0a` |  | — |
+| `--color-stone-50` | `#faf7f2` |  | — |
+| `--color-stone-100` | `#f6f1e9` |  | — |
+| `--color-stone-200` | `#efe7db` |  | — |
+| `--color-stone-300` | `#e3d9cb` |  | — |
+| `--color-stone-400` | `#b7aa9c` |  | — |
+| `--color-stone-500` | `#8a7f74` |  | — |
+| `--color-stone-600` | `#6b625a` |  | — |
+| `--color-stone-700` | `#4f4741` |  | — |
+| `--color-stone-800` | `#3a332e` |  | — |
+| `--color-stone-900` | `#1c1714` |  | — |
 
-### Forest (gate cards)
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--color-forest-50` | `#eef2ef` |  | — |
-| `--color-forest-300` | `#b5c7bd` |  | — |
-| `--color-forest-400` | `#7d978a` |  | — |
-| `--color-forest-800` | `#1f3d30` |  | — |
-| `--color-forest-850` | `#1d3a2d` |  | — |
-| `--color-forest-900` | `#183226` |  | — |
-
-### Accents
+### Apricot: primary. Never white text on it; never 500 as text.
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-orange-500` | `#ee6a3c` |  | — |
-| `--color-lime-300` | `#d9f07a` |  | — |
-| `--color-olive-800` | `#3a4a20` |  | — |
-| `--color-stone-50` | `#f2f2ee` |  | — |
+| `--color-apricot-50` | `#fef6f1` |  | — |
+| `--color-apricot-100` | `#fcebdf` |  | — |
+| `--color-apricot-200` | `#f9dac6` |  | — |
+| `--color-apricot-300` | `#f6ccaf` |  | — |
+| `--color-apricot-400` | `#f2b592` |  | — |
+| `--color-apricot-500` | `#ec9f74` |  | — |
+| `--color-apricot-600` | `#d07f52` |  | — |
+| `--color-apricot-700` | `#9a5530` |  | — |
+| `--color-apricot-800` | `#6e3b21` |  | — |
+| `--color-apricot-900` | `#422313` |  | — |
 
-### Type families
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--font-family-sans` | `'Helvetica Neue', Helvetica, Arial, sans-serif` |  | — |
-| `--font-family-mono` | `ui-monospace, Menlo, monospace` |  | — |
-
-### TYPOGRAPHY (theme-independent)
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--font-sans` | `var(--font-family-sans)` |  | base |
-| `--font-mono` | `var(--font-family-mono)` |  | Button, CtaFooter, MediaFrame, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TextLink |
-
-### Hero keeps the prototype's large sizes (they drive the scroll sequence).
+### Morpho: expertise. Links, data, focus.
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--text-hero` | `clamp(2.5rem, 9vw, 7.5rem)` | H1, proto 48–120px | Hero |
-| `--text-problem` | `clamp(1.375rem, 6vw, 5rem)` | problem line, proto 36–80px | Hero |
-| `--text-closer` | `clamp(2.75rem, 1.975rem + 3.875vw, 6.625rem)` | brief Display 1, 106px: footer headline | CtaFooter |
-| `--text-menu` | `clamp(2rem, 1.85rem + 0.75vw, 2.75rem)` | brief Menu, 44px | MobileMenu |
-| `--text-statement` | `clamp(1.625rem, 1.5rem + 0.625vw, 2.25rem)` | brief H3/statement, 36px | ApproachSection, FaqSection, ProcessSection, SectionHeader, StubLayout, TeamSection |
-| `--text-title` | `clamp(1.375rem, 1.3rem + 0.375vw, 1.75rem)` | brief H5, 28px: card titles | RevealCard, WorkCard |
-| `--text-large` | `clamp(1.125rem, 1.075rem + 0.25vw, 1.375rem)` | brief Large, 22px | ClientsSection, Disclosure, MobileMenu |
-| `--text-medium` | `clamp(1.0625rem, 1.025rem + 0.1875vw, 1.25rem)` | brief Medium, 20px: quotes, sublines | MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
-| `--text-body` | `1rem` | brief Body, 16px | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
-| `--text-mono` | `0.875rem` | brief Mono UI, 14px: nav, buttons, labels | Button, MobileMenu, Nav, Pill, SectionHeader, SiteShell, TextLink |
-| `--text-mono-sm` | `0.75rem` | 12px: tags, legal, placeholder labels | CtaFooter, MediaFrame, MobileMenu, Nav, Tag |
+| `--color-morpho-50` | `#f0f6fa` |  | — |
+| `--color-morpho-100` | `#e1edf5` |  | — |
+| `--color-morpho-200` | `#c3dbeb` |  | — |
+| `--color-morpho-300` | `#9ec4dd` |  | — |
+| `--color-morpho-400` | `#72a7cc` |  | — |
+| `--color-morpho-500` | `#4a89b8` |  | — |
+| `--color-morpho-600` | `#3b73a0` |  | — |
+| `--color-morpho-700` | `#2f5d84` |  | — |
+| `--color-morpho-800` | `#234766` |  | — |
+| `--color-morpho-900` | `#173045` |  | — |
+
+### Swallowtail: calm, research. 500 is large text / icons only.
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--color-swallowtail-50` | `#eaf7f2` |  | — |
+| `--color-swallowtail-100` | `#ddf1e9` |  | — |
+| `--color-swallowtail-200` | `#b3e0cf` |  | — |
+| `--color-swallowtail-300` | `#7fc9af` |  | — |
+| `--color-swallowtail-400` | `#45ac8b` |  | — |
+| `--color-swallowtail-500` | `#12876a` |  | — |
+| `--color-swallowtail-600` | `#0f7159` |  | — |
+| `--color-swallowtail-700` | `#0e5c49` |  | — |
+| `--color-swallowtail-800` | `#0b4336` |  | — |
+| `--color-swallowtail-900` | `#072a22` |  | — |
+
+### Sunset Moth: feeling. Sparingly, for delight.
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--color-sunset-50` | `#fdeef3` |  | — |
+| `--color-sunset-100` | `#fae1eb` |  | — |
+| `--color-sunset-200` | `#f4bcd2` |  | — |
+| `--color-sunset-300` | `#ec90b3` |  | — |
+| `--color-sunset-400` | `#e26496` |  | — |
+| `--color-sunset-500` | `#d63f7c` |  | — |
+| `--color-sunset-600` | `#b42a64` |  | — |
+| `--color-sunset-700` | `#91214f` |  | — |
+| `--color-sunset-800` | `#68193a` |  | — |
+| `--color-sunset-900` | `#420f25` |  | — |
+
+### Sage 700: headline emphasis words and notes.
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--color-sage-700` | `#4e7a3c` |  | — |
+
+### Status (product UI only; always pair with an icon or label)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--color-success` | `#1e7a52` |  | — |
+| `--color-warning` | `#9a5b00` |  | — |
+| `--color-error` | `#c0362c` |  | — |
+| `--color-info` | `#2f5d84` |  | — |
+
+### Type families (Google Fonts, loaded in FontLinks.astro)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--font-family-display` | `'Funnel Display', 'Helvetica Neue', Arial, sans-serif` |  | — |
+| `--font-family-sans` | `'Funnel Sans', Helvetica, Arial, sans-serif` |  | — |
+| `--font-family-code` | `ui-monospace, Menlo, Consolas, monospace` |  | — |
+
+### GRADIENTS (brand guideline §04). Use subtly: big surfaces, accents,
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--gradient-glasswing-sky` | `linear-gradient(180deg, #f4f1ee 0%, #f6ccaf 40%, #90c1c5 72%, #66bfd6 100%)` | signature | — |
+| `--gradient-morpho-shimmer` | `linear-gradient(180deg, #f4f1ee 0%, #d6e6ef 38%, #9ec4dd 70%, #4a89b8 100%)` | expertise | — |
+| `--gradient-swallowtail` | `linear-gradient(180deg, #f4f1ee 0%, #ddebd6 38%, #a9d0ba 70%, #62a98c 100%)` | growth | — |
+| `--gradient-sunset-moth` | `linear-gradient(180deg, #f4f1ee 0%, #f2bacd 34%, #f5cb9e 64%, #7fc4c4 100%)` | celebration, rare | — |
+
+### Meshes: base + four radial points (x/y from top-left). Radii follow the
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--mesh-apricot-dawn` | `radial-gradient(60% 69% at 22% 10%, #f4f1ee 0%, #f4f1ee00 100%), radial-gradient(48% 55% at 82% 30%, #ec9f74 0%, #ec9f7400 100%), radial-gradient(52% 60% at 12% 92%, #66bfd6 0%, #66bfd600 100%), radial-gradient(52% 60% at 88% 90%, #9ea871 0%, #9ea87100 100%), #f6ccaf` |  | — |
+| `--mesh-morpho-iridescence` | `radial-gradient(60% 69% at 82% 12%, #d6e6ef 0%, #d6e6ef00 100%), radial-gradient(48% 55% at 30% 40%, #72a7cc 0%, #72a7cc00 100%), radial-gradient(52% 60% at 74% 90%, #2f5d84 0%, #2f5d8400 100%), radial-gradient(52% 60% at 10% 90%, #90c1c5 0%, #90c1c500 100%), #4a89b8` |  | — |
+| `--mesh-swallowtail-canopy` | `radial-gradient(60% 69% at 18% 82%, #b9de8c 0%, #b9de8c00 100%), radial-gradient(48% 55% at 70% 26%, #12876a 0%, #12876a00 100%), radial-gradient(52% 60% at 94% 94%, #072a22 0%, #072a2200 100%), radial-gradient(52% 60% at 42% 6%, #7fd3ee 0%, #7fd3ee00 100%), #0e5c49` |  | — |
+| `--mesh-sunset-moth` | `radial-gradient(60% 69% at 22% 6%, #f4f1ee 0%, #f4f1ee00 100%), radial-gradient(48% 55% at 78% 30%, #f2bacd 0%, #f2bacd00 100%), radial-gradient(52% 60% at 24% 64%, #f5cb9e 0%, #f5cb9e00 100%), radial-gradient(52% 60% at 80% 94%, #7fc4c4 0%, #7fc4c400 100%), #f5cb9e` |  | — |
+| `--mesh-pearl-haze` | `radial-gradient(60% 69% at 14% 18%, #f6c7ae 0%, #f6c7ae00 100%), radial-gradient(48% 55% at 84% 22%, #c3dbeb 0%, #c3dbeb00 100%), radial-gradient(52% 60% at 72% 88%, #f4bcd2 0%, #f4bcd200 100%), radial-gradient(52% 60% at 16% 86%, #ddf1e9 0%, #ddf1e900 100%), #f6f1e9` |  | — |
+| `--mesh-metamorphosis` | `radial-gradient(60% 69% at 24% 26%, #9ec4dd 0%, #9ec4dd00 100%), radial-gradient(48% 55% at 52% 10%, #d63f7c 0%, #d63f7c00 100%), radial-gradient(52% 60% at 70% 66%, #ec9f74 0%, #ec9f7400 100%), radial-gradient(52% 60% at 92% 92%, #f6ccaf 0%, #f6ccaf00 100%), #4a89b8` |  | — |
+
+### Grain: 4–6% monochrome noise over large gradient areas (anti-banding).
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--grain-image` | `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")` |  | — |
+| `--grain-opacity` | `0.05` |  | — |
+
+### TYPOGRAPHY (theme-independent), brand guideline §05.
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--font-display` | `var(--font-family-display)` |  | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--font-sans` | `var(--font-family-sans)` |  | Button, CtaFooter, MediaFrame, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TextLink, base |
+| `--font-code` | `var(--font-family-code)` | dev pages only | — |
+
+### Hero keeps the prototype's large sizes (decision 2026-09-29, phase 2).
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--text-hero` | `clamp(2.5rem, 9vw, 7.5rem)` | proto 40–120px, Display Light | Hero |
+| `--text-problem` | `clamp(1.375rem, 6vw, 5rem)` | proto 22–80px, Display Light | Hero |
+| `--text-closer` | `clamp(2.75rem, 2.4rem + 1.75vw, 4.5rem)` | Display 44 → 72: footer headline | CtaFooter |
+| `--text-h1` | `clamp(2.25rem, 2rem + 1.25vw, 3.5rem)` | H1 36 → 56 | — |
+| `--text-menu` | `2.25rem` | H1 mobile 36: mobile menu links | MobileMenu |
+| `--text-statement` | `clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem)` | H2 28 → 40: section headings | ApproachSection, FaqSection, ProcessSection, SectionHeader, StubLayout, TeamSection |
+| `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
+| `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | RevealCard, WorkCard |
+| `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
+| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, Disclosure, MobileMenu |
+| `--text-note` | `1.5rem` | Note 24, Sans 500 Sage | — |
+| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
+| `--text-small` | `0.875rem` | Small 14 | — |
+| `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
+| `--text-eyebrow` | `0.75rem` | Eyebrow 12, caps: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
 
 ### Footer wordmark is a layout element sized to its columns (brief §2.9):
 
@@ -108,25 +178,29 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--text-wordmark` | `7.5vw` |  | CtaFooter |
 | `--text-wordmark-lg` | `5.2vw` |  | CtaFooter |
-| `--weight-regular` | `400` |  | Button, MobileMenu |
-| `--weight-medium` | `500` |  | CtaFooter, Hero, ProcessSection, SectionHeader, TestimonialCard, WorkCard, base |
-| `--weight-wordmark` | `700` | the logo mark only; type hierarchy uses 400/500 | CtaFooter, MobileMenu, Nav |
-| `--tracking-hero` | `-0.035em` | prototype | Hero |
-| `--tracking-problem` | `-0.03em` | prototype | Hero |
-| `--tracking-closer` | `-0.05em` |  | CtaFooter |
-| `--tracking-heading` | `-0.04em` | statements, menu | ApproachSection, FaqSection, MobileMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
-| `--tracking-title` | `-0.03em` | card titles, large | MobileMenu, RevealCard, WorkCard |
-| `--tracking-body` | `-0.02em` | medium, body | base |
-| `--tracking-mono` | `-0.02em` |  | Button, CtaFooter, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TextLink |
-| `--tracking-wordmark` | `0.02em` | prototype wordmark | CtaFooter |
-| `--tracking-brand` | `0.04em` | prototype nav logo | MobileMenu, Nav |
-| `--leading-hero` | `0.95` | prototype | Hero |
-| `--leading-none` | `1` | mono UI, problem line | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
-| `--leading-closer` | `1.09` |  | CtaFooter |
-| `--leading-heading` | `1.1` | 28px and up | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
-| `--leading-large` | `1.2` |  | — |
-| `--leading-medium` | `1.35` |  | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
-| `--leading-body` | `1.45` |  | Disclosure, WorkCard, base |
+| `--weight-light` | `300` | Hero, headline emphasis | Hero, base |
+| `--weight-regular` | `400` | body, quotes | — |
+| `--weight-medium` | `500` | Display–H2, eyebrows, notes | ApproachSection, CtaFooter, FaqSection, MediaFrame, MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, Tag, TeamSection, TestimonialCard, base |
+| `--weight-semibold` | `600` | H3, H4, labels | Button, MobileMenu, Nav, Pill, RevealCard, SiteShell, TextLink, WorkCard |
+| `--weight-wordmark` | `700` | the text wordmark only (until P2-2) | CtaFooter, MobileMenu, Nav |
+| `--tracking-hero` | `-0.03em` |  | Hero |
+| `--tracking-problem` | `-0.03em` |  | Hero |
+| `--tracking-closer` | `-0.03em` |  | CtaFooter |
+| `--tracking-heading` | `-0.015em` | H2, menu | ApproachSection, FaqSection, MobileMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
+| `--tracking-title` | `-0.01em` | H3, H4 | MobileMenu, RevealCard, WorkCard |
+| `--tracking-body` | `0` |  | base |
+| `--tracking-label` | `0.01em` |  | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
+| `--tracking-eyebrow` | `0.14em` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+| `--tracking-wordmark` | `0.02em` |  | CtaFooter |
+| `--tracking-brand` | `0.04em` |  | MobileMenu, Nav |
+| `--leading-hero` | `1.1` | 88 / 80 | Hero |
+| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
+| `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
+| `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--leading-large` | `1.25` | H4 30 / 24 | — |
+| `--leading-quote` | `1.2` | 48 / 40 | — |
+| `--leading-medium` | `1.6` | Body L 32 / 20 | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--leading-body` | `1.625` | Body 26 / 16 | Disclosure, WorkCard, base |
 
 ### Measure: place with the grid, constrain with ch/em (brief §2.3).
 
@@ -188,15 +262,25 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | Hero, Nav, base |
 | `--tap-min` | `2.75rem` | 44px touch target | Button, ClientsSection, Disclosure, MobileMenu, Nav, Pill |
 
-### Radii (brief: one value for media, cards and sheets; pills fully round)
+### Radii (guideline: soft, never sharp, never blobby)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--radius-none` | `0` |  | — |
-| `--radius-sm` | `0.25rem` | small UI details (skip link) | SiteShell |
-| `--radius-md` | `0.75rem` | 12: all media and cards | Hero, MediaFrame, Nav, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
+| `--radius-xs` | `0.25rem` | 4 | — |
+| `--radius-sm` | `0.5rem` | 8: small UI details (skip link) | SiteShell |
+| `--radius-md` | `0.75rem` | 12: buttons, inputs, dropdowns | Button, Nav |
+| `--radius-lg` | `1.25rem` | 20: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
 | `--radius-xl` | `1.375rem` | 22: team diagram bracket (prototype shape) | — |
-| `--radius-pill` | `999px` |  | Button, ClientsSection, MobileMenu, Nav, Pill, Tag |
+| `--radius-pill` | `999px` | tags, pills | ClientsSection, MobileMenu, Nav, Pill, Tag |
+
+### Elevation: tinted with Deep Ink, never black
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--shadow-e1` | `0 1px 2px rgb(28 23 20 / 0.08)` | cards | — |
+| `--shadow-e2` | `0 4px 12px rgb(28 23 20 / 0.08)` | dropdowns | — |
+| `--shadow-e3` | `0 16px 40px rgb(28 23 20 / 0.14)` | modals | — |
 | `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TextLink, WorkCard |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
@@ -251,84 +335,87 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-white)` |  | CtaFooter, MobileMenu, Section, base |
-| `--surface-raised` | `var(--color-grey-50)` | testimonial card | TestimonialCard |
-| `--surface-muted` | `var(--color-grey-175)` | team chips | — |
-| `--surface-inverse` | `var(--color-ink-900)` |  | base |
-| `--text-primary` | `var(--color-ink-900)` |  | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-grey-600)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
-| `--text-tertiary` | `var(--color-grey-550)` |  | TeamSection |
-| `--text-muted` | `var(--color-grey-450)` |  | CtaFooter, TestimonialCard |
+| `--surface-page` | `var(--color-white)` | very white, minimal (Duminda) | CtaFooter, MobileMenu, Section, base |
+| `--surface-raised` | `var(--color-stone-50)` | testimonial card | TestimonialCard |
+| `--surface-muted` | `var(--color-stone-200)` | Cocoon: sunken surfaces, team chips | — |
+| `--surface-inverse` | `var(--color-stone-900)` |  | base |
+| `--text-primary` | `var(--color-stone-900)` | Deep Ink, never #000 | CtaFooter, MobileMenu, base |
+| `--text-secondary` | `var(--color-stone-600)` | Stone | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
+| `--text-tertiary` | `var(--color-stone-600)` |  | TeamSection |
+| `--text-muted` | `var(--color-stone-600)` | lightest text that passes AA on white | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-white)` |  | base |
-| `--text-strong` | `var(--color-black)` |  | — |
-| `--border-subtle` | `var(--color-grey-75)` |  | CtaFooter, Section |
-| `--border-default` | `var(--color-grey-150)` |  | Disclosure |
-| `--border-strong` | `var(--color-grey-200)` |  | ClientsSection, Pill |
+| `--text-strong` | `var(--color-stone-900)` |  | — |
+| `--border-subtle` | `var(--color-stone-200)` |  | CtaFooter, Section |
+| `--border-default` | `var(--color-stone-300)` | Mist | Disclosure |
+| `--border-strong` | `var(--color-stone-400)` |  | ClientsSection, Pill |
 
-### Monochrome UI in phase 1: no brand accent (decision 2026-09-29).
+### Headline emphasis word: Light 300 in Sage 700
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--accent` | `var(--text-primary)` |  | — |
-| `--cta-bg` | `var(--color-ink-900)` |  | Button, SiteShell |
+| `--accent` | `var(--color-sage-700)` |  | base |
+| `--link` | `var(--color-morpho-600)` |  | — |
+| `--cta-bg` | `var(--color-stone-900)` | Deep Ink button | Button, SiteShell |
 | `--cta-fg` | `var(--color-white)` |  | Button, SiteShell |
-| `--focus-ring` | `var(--text-primary)` |  | RevealCard, WorkCard, base |
+| `--focus-ring` | `var(--color-morpho-600)` |  | RevealCard, WorkCard, base |
 | `--tag-border` | `var(--border-strong)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-grey-100)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-grey-25)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-grey-500)` |  | MediaFrame |
+| `--placeholder-stripe-a` | `var(--color-stone-100)` |  | MediaFrame |
+| `--placeholder-stripe-b` | `var(--color-stone-50)` |  | MediaFrame |
+| `--placeholder-fg` | `var(--color-stone-600)` |  | MediaFrame |
 
 ## Semantic colours: dark (Work stage)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-maroon-950)` |  | CtaFooter, MobileMenu, Section, base |
-| `--surface-raised` | `var(--color-maroon-900)` |  | TestimonialCard |
-| `--surface-muted` | `var(--color-maroon-850)` |  | — |
-| `--surface-inverse` | `var(--color-maroon-50)` |  | base |
-| `--text-primary` | `var(--color-maroon-50)` |  | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-maroon-300)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
-| `--text-tertiary` | `var(--color-maroon-300)` |  | TeamSection |
-| `--text-muted` | `var(--color-maroon-500)` |  | CtaFooter, TestimonialCard |
-| `--text-on-inverse` | `var(--color-maroon-950)` |  | base |
+| `--surface-page` | `var(--color-stone-900)` |  | CtaFooter, MobileMenu, Section, base |
+| `--surface-raised` | `var(--color-stone-800)` |  | TestimonialCard |
+| `--surface-muted` | `var(--color-stone-800)` |  | — |
+| `--surface-inverse` | `var(--color-stone-50)` |  | base |
+| `--text-primary` | `var(--color-stone-50)` |  | CtaFooter, MobileMenu, base |
+| `--text-secondary` | `var(--color-stone-400)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
+| `--text-tertiary` | `var(--color-stone-400)` |  | TeamSection |
+| `--text-muted` | `var(--color-stone-400)` |  | CtaFooter, TestimonialCard |
+| `--text-on-inverse` | `var(--color-stone-900)` |  | base |
 | `--text-strong` | `var(--color-white)` |  | — |
-| `--border-subtle` | `var(--color-maroon-850)` |  | CtaFooter, Section |
-| `--border-default` | `var(--color-maroon-850)` |  | Disclosure |
-| `--border-strong` | `var(--color-maroon-700)` |  | ClientsSection, Pill |
-| `--accent` | `var(--text-primary)` |  | — |
-| `--cta-bg` | `var(--color-maroon-50)` |  | Button, SiteShell |
-| `--cta-fg` | `var(--color-maroon-950)` |  | Button, SiteShell |
-| `--focus-ring` | `var(--text-primary)` |  | RevealCard, WorkCard, base |
-| `--tag-border` | `var(--color-maroon-700)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-maroon-850)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-maroon-900)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-maroon-500)` |  | MediaFrame |
+| `--border-subtle` | `var(--color-stone-800)` |  | CtaFooter, Section |
+| `--border-default` | `var(--color-stone-800)` |  | Disclosure |
+| `--border-strong` | `var(--color-stone-700)` |  | ClientsSection, Pill |
+| `--accent` | `var(--color-stone-50)` |  | base |
+| `--link` | `var(--color-morpho-300)` |  | — |
+| `--cta-bg` | `var(--color-stone-50)` |  | Button, SiteShell |
+| `--cta-fg` | `var(--color-stone-900)` |  | Button, SiteShell |
+| `--focus-ring` | `var(--color-morpho-300)` |  | RevealCard, WorkCard, base |
+| `--tag-border` | `var(--color-stone-600)` |  | Tag |
+| `--placeholder-stripe-a` | `var(--color-stone-800)` |  | MediaFrame |
+| `--placeholder-stripe-b` | `var(--color-stone-900)` |  | MediaFrame |
+| `--placeholder-fg` | `var(--color-stone-400)` |  | MediaFrame |
 
 ## Semantic colours: ink (footer, process card)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-ink-950)` |  | CtaFooter, MobileMenu, Section, base |
-| `--surface-raised` | `var(--color-black)` |  | TestimonialCard |
-| `--surface-muted` | `var(--color-grey-800)` |  | — |
+| `--surface-page` | `var(--color-stone-900)` |  | CtaFooter, MobileMenu, Section, base |
+| `--surface-raised` | `var(--color-stone-800)` |  | TestimonialCard |
+| `--surface-muted` | `var(--color-stone-800)` |  | — |
 | `--surface-inverse` | `var(--color-white)` |  | base |
-| `--text-primary` | `var(--color-grey-75)` |  | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-grey-400)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
-| `--text-tertiary` | `var(--color-grey-400)` |  | TeamSection |
-| `--text-muted` | `var(--color-grey-500)` |  | CtaFooter, TestimonialCard |
-| `--text-on-inverse` | `var(--color-ink-900)` |  | base |
+| `--text-primary` | `var(--color-stone-50)` |  | CtaFooter, MobileMenu, base |
+| `--text-secondary` | `var(--color-stone-400)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
+| `--text-tertiary` | `var(--color-stone-400)` |  | TeamSection |
+| `--text-muted` | `var(--color-stone-400)` |  | CtaFooter, TestimonialCard |
+| `--text-on-inverse` | `var(--color-stone-900)` |  | base |
 | `--text-strong` | `var(--color-white)` |  | — |
-| `--border-subtle` | `var(--color-grey-800)` |  | CtaFooter, Section |
-| `--border-default` | `var(--color-grey-800)` |  | Disclosure |
+| `--border-subtle` | `var(--color-stone-800)` |  | CtaFooter, Section |
+| `--border-default` | `var(--color-stone-800)` |  | Disclosure |
 | `--border-strong` | `rgb(255 255 255 / 0.7)` |  | ClientsSection, Pill |
-| `--accent` | `var(--text-primary)` |  | — |
+| `--accent` | `var(--color-stone-50)` |  | base |
+| `--link` | `var(--color-morpho-300)` |  | — |
 | `--cta-bg` | `var(--color-white)` |  | Button, SiteShell |
-| `--cta-fg` | `var(--color-ink-900)` |  | Button, SiteShell |
-| `--focus-ring` | `var(--text-primary)` |  | RevealCard, WorkCard, base |
-| `--tag-border` | `var(--color-grey-500)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-grey-800)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-ink-900)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-grey-400)` |  | MediaFrame |
+| `--cta-fg` | `var(--color-stone-900)` |  | Button, SiteShell |
+| `--focus-ring` | `var(--color-morpho-300)` |  | RevealCard, WorkCard, base |
+| `--tag-border` | `var(--color-stone-600)` |  | Tag |
+| `--placeholder-stripe-a` | `var(--color-stone-800)` |  | MediaFrame |
+| `--placeholder-stripe-b` | `var(--color-stone-900)` |  | MediaFrame |
+| `--placeholder-fg` | `var(--color-stone-400)` |  | MediaFrame |
 
 ## Component tokens
 
@@ -336,14 +423,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--nav-fg` | `var(--color-ink-900)` |  | Nav |
-| `--nav-cluster-bg` | `var(--color-grey-50)` |  | Nav |
-| `--nav-fg-dark` | `var(--color-maroon-50)` |  | Nav |
-| `--nav-cluster-bg-dark` | `var(--color-maroon-900)` |  | Nav |
+| `--nav-fg` | `var(--color-stone-900)` |  | Nav |
+| `--nav-cluster-bg` | `var(--color-stone-100)` |  | Nav |
+| `--nav-fg-dark` | `var(--color-stone-50)` |  | Nav |
+| `--nav-cluster-bg-dark` | `var(--color-stone-800)` |  | Nav |
 | `--nav-dropdown-bg` | `var(--color-white)` |  | Nav |
-| `--nav-dropdown-fg` | `var(--color-ink-900)` |  | Nav |
-| `--nav-dropdown-border` | `var(--color-grey-150)` |  | Nav |
-| `--nav-badge-bg` | `var(--color-ink-900)` |  | MobileMenu, Nav |
+| `--nav-dropdown-fg` | `var(--color-stone-900)` |  | Nav |
+| `--nav-dropdown-border` | `var(--color-stone-300)` |  | Nav |
+| `--nav-dropdown-shadow` | `var(--shadow-e2)` |  | Nav |
+| `--nav-badge-bg` | `var(--color-stone-900)` |  | MobileMenu, Nav |
 | `--nav-badge-fg` | `var(--color-white)` |  | MobileMenu, Nav |
 
 ### Page wrapper (animated by the theme switch)
@@ -351,40 +439,48 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--page-bg` | `var(--color-white)` |  | SiteShell |
-| `--page-bg-dark` | `var(--color-maroon-950)` |  | SiteShell |
+| `--page-bg-dark` | `var(--color-stone-900)` |  | SiteShell |
 
-### Gate cards (Approach)
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--gate-media-stripe-a` | `var(--color-forest-850)` |  | MediaFrame |
-| `--gate-media-stripe-b` | `var(--color-forest-900)` |  | MediaFrame |
-| `--gate-media-fg` | `var(--color-forest-400)` |  | MediaFrame |
-| `--gate-1-bg` | `var(--color-lime-300)` |  | RevealCard |
-| `--gate-1-fg` | `var(--color-ink-900)` |  | RevealCard |
-| `--gate-1-pain` | `var(--color-olive-800)` |  | RevealCard |
-| `--gate-2-bg` | `var(--color-forest-800)` |  | RevealCard |
-| `--gate-2-fg` | `var(--color-forest-50)` |  | RevealCard |
-| `--gate-2-pain` | `var(--color-forest-300)` |  | RevealCard |
-| `--gate-3-bg` | `var(--color-stone-50)` |  | RevealCard |
-| `--gate-3-fg` | `var(--color-ink-900)` |  | RevealCard |
-| `--gate-3-pain` | `var(--color-grey-600)` |  | RevealCard |
-
-### Team diagram
+### Gate cards (Approach): light wing tints, Deep Ink text
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--team-chip-bg` | `var(--color-grey-175)` |  | — |
-| `--team-chip-fg` | `var(--color-grey-650)` |  | — |
+| `--gate-media-stripe-a` | `var(--color-stone-800)` |  | MediaFrame |
+| `--gate-media-stripe-b` | `var(--color-stone-900)` |  | MediaFrame |
+| `--gate-media-fg` | `var(--color-stone-400)` |  | MediaFrame |
+| `--gate-1-bg` | `var(--color-apricot-100)` |  | RevealCard |
+| `--gate-1-fg` | `var(--color-stone-900)` |  | RevealCard |
+| `--gate-1-pain` | `var(--color-apricot-800)` |  | RevealCard |
+| `--gate-2-bg` | `var(--color-morpho-100)` |  | RevealCard |
+| `--gate-2-fg` | `var(--color-stone-900)` |  | RevealCard |
+| `--gate-2-pain` | `var(--color-morpho-800)` |  | RevealCard |
+| `--gate-3-bg` | `var(--color-swallowtail-100)` |  | RevealCard |
+| `--gate-3-fg` | `var(--color-stone-900)` |  | RevealCard |
+| `--gate-3-pain` | `var(--color-swallowtail-800)` |  | RevealCard |
+
+### Team diagram (gradient treatment comes in P2-4)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--team-chip-bg` | `var(--color-stone-200)` |  | — |
+| `--team-chip-fg` | `var(--color-stone-700)` |  | — |
 | `--team-group-from` | `var(--color-white)` |  | — |
-| `--team-group-to` | `var(--color-grey-350)` |  | — |
-| `--team-bar` | `var(--color-grey-300)` |  | — |
+| `--team-group-to` | `var(--color-stone-300)` |  | — |
+| `--team-bar` | `var(--color-stone-300)` |  | — |
+| `--team-gradient` | `var(--gradient-glasswing-sky)` |  | — |
+
+### Button hover fill (applied with the pixel effect in P2-4)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | — |
+| `--cta-hover-fg` | `var(--color-stone-900)` |  | — |
 
 ### Process card
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--process-bg` | `var(--color-black)` |  | ProcessSection |
+| `--process-bg` | `var(--color-stone-900)` |  | ProcessSection |
 | `--process-fg` | `var(--color-white)` |  | ProcessSection |
 | `--process-rule` | `rgb(255 255 255 / 0.7)` |  | ProcessSection |
 
@@ -393,12 +489,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--pill-solid-bg` | `var(--color-white)` |  | Pill |
-| `--pill-solid-fg` | `var(--color-ink-900)` |  | Pill |
+| `--pill-solid-fg` | `var(--color-stone-900)` |  | Pill |
 
 ### Testimonial logo slot
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--logo-stripe-a` | `var(--color-grey-175)` |  | MediaFrame |
-| `--logo-stripe-b` | `var(--color-grey-125)` |  | MediaFrame |
+| `--logo-stripe-a` | `var(--color-stone-200)` |  | MediaFrame |
+| `--logo-stripe-b` | `var(--color-stone-100)` |  | MediaFrame |
 

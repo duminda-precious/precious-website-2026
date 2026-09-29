@@ -13,6 +13,7 @@
 import '../../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Seo, { type SeoProps } from './Seo.astro';
+import FontLinks from './FontLinks.astro';
 import Nav from './Nav.astro';
 import CtaFooter from './CtaFooter.astro';
 import { site } from '../../config/site';
@@ -32,6 +33,7 @@ const seo = Astro.props;
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <FontLinks />
     <Seo {...seo}>
       <slot name="jsonld" slot="jsonld" />
     </Seo>
@@ -70,10 +72,10 @@ const seo = Astro.props;
       background: var(--cta-bg);
       color: var(--cta-fg);
       border-radius: var(--radius-sm);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono);
-      letter-spacing: var(--tracking-mono);
-      text-transform: uppercase;
+      font-family: var(--font-sans);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      font-size: var(--text-label);
       transform: translateY(-200%);
     }
     .skip-link:focus-visible {
@@ -92,8 +94,8 @@ const seo = Astro.props;
     /* The page is a sheet that lifts off the sticky footer (brief M2/M6). */
     @media (min-width: 62rem) {
       .page {
-        border-bottom-left-radius: var(--radius-md);
-        border-bottom-right-radius: var(--radius-md);
+        border-bottom-left-radius: var(--radius-lg);
+        border-bottom-right-radius: var(--radius-lg);
       }
     }
 

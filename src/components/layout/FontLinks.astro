@@ -1,0 +1,15 @@
+---
+/**
+ * FontLinks: loads the brand typefaces from Google Fonts (decision 2026-09-29, phase 2).
+ *   Funnel Display 300–600 (Hero → H3, statements)
+ *   Funnel Sans 400–600 + Italic 400 (quote → label)
+ * Families are referenced through --font-family-display / --font-family-sans in tokens.css.
+ * Used by SiteShell and DevLayout.
+ */
+const href =
+  'https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..600&family=Funnel+Sans:ital,wght@0,400..600;1,400&display=swap';
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href={href} />

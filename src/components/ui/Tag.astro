@@ -4,7 +4,7 @@
  * Mono uppercase per the brief's type roles. Content is written in normal case
  * in content files; CSS uppercases it.
  * Props: as, class.
- * Tokens: --tag-border, --radius-pill, --font-mono, --text-mono-sm, --tracking-mono, --space-*.
+ * Tokens: --tag-border, --radius-pill, --font-sans, --text-eyebrow, --tracking-eyebrow, --space-*.
  * Motion hooks: none.
  */
 import type { HTMLTag } from 'astro/types';
@@ -29,9 +29,10 @@ const { as: Tag = 'span', class: className, ...rest } = Astro.props;
       padding: var(--space-6) var(--space-10);
       border: var(--border-width) solid var(--tag-border);
       border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: var(--text-mono-sm);
-      letter-spacing: var(--tracking-mono);
+      font-family: var(--font-sans);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-eyebrow);
+      font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
       text-transform: uppercase;
     }
