@@ -284,10 +284,10 @@
 
     /* Radii (guideline: soft, never sharp, never blobby) */
     --radius-none: 0;
-    --radius-xs: 0.25rem; /* 4 */
-    --radius-sm: 0.5rem; /* 8: small UI details (skip link) */
-    --radius-md: 0.75rem; /* 12: buttons, inputs, dropdowns */
-    --radius-lg: 1.25rem; /* 20: cards, media, the page sheet */
+    --radius-xs: 0.25rem; /* 4: buttons, dropdowns, chips, skip link */
+    --radius-sm: 0.5rem; /* 8 */
+    --radius-md: 0.75rem; /* 12: cards, media, the page sheet */
+    --radius-lg: 1.25rem; /* 20 */
     --radius-xl: 1.375rem; /* 22: team diagram bracket (prototype shape) */
     --radius-pill: 999px; /* tags, pills */
 
@@ -419,11 +419,15 @@
     color-scheme: light;
   }
 
-  /* Dark: the Work stage, and the whole page while the stage is in view (M2 sets
+  /* Dark: the whole page while the Work stage is in view (M2 sets
      .page[data-page-theme="dark"]). Deep Ink based. From md (760px) only: on phones
-     the page stays white throughout and the stage inherits the light tokens. */
+     the page stays white throughout and the stage inherits the light tokens.
+     While the switch runs (html[data-theme-switch]) the stage itself follows the
+     page theme, so it is never light-on-white before the flip. Without JS the stage
+     keeps its own dark theme. Other dark-themed blocks always apply it. */
   @media (min-width: 47.5rem) {
-    [data-theme='dark'],
+    [data-theme='dark']:not([data-theme-stage]),
+    html:not([data-theme-switch]) [data-theme='dark'][data-theme-stage],
     [data-page-theme='dark'] {
       --surface-page: var(--color-stone-900);
       --surface-raised: var(--color-stone-800);

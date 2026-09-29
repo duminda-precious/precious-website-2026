@@ -10,7 +10,7 @@
  * Props: none (links from src/config/navigation.ts, dropdown items from the services collection).
  * Tokens: --nav-fg, --nav-cluster-bg (+ -dark), --nav-dropdown-*, --nav-badge-*, --nav-height,
  *         --gutter, --space-*, --font-sans, --text-label, --tracking-label, --radius-pill,
- *         --radius-md, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
+ *         --radius-xs, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
  * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7;
  *               also collapses the logo to the butterfly, M15).
  */
@@ -298,7 +298,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       background: var(--nav-dropdown-bg);
       color: var(--nav-dropdown-fg);
       border: var(--border-width) solid var(--nav-dropdown-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-xs);
       box-shadow: var(--nav-dropdown-shadow);
     }
     .nav__panel[hidden] {

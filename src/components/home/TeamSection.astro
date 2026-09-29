@@ -8,7 +8,7 @@
  * Props: heading, subline, roles (in order), engineLabel, engine, benefits.
  * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
  *         --text-medium, --leading-medium, --text-tertiary, --header-gap, --team-*,
- *         --text-eyebrow, --text-large, --radius-md, --space-*.
+ *         --text-eyebrow, --text-large, --radius-xs, --space-*.
  * Motion hooks: none.
  */
 import Section from '../primitives/Section.astro';
@@ -111,7 +111,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       gap: var(--space-12);
       min-height: var(--team-chip-height);
       padding: var(--space-8) var(--space-18);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-xs);
       background: var(--team-chip-bg);
       box-shadow: var(--team-chip-shadow);
       color: var(--team-chip-fg);

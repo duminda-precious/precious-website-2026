@@ -261,10 +261,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--radius-none` | `0` |  | — |
-| `--radius-xs` | `0.25rem` | 4 | — |
-| `--radius-sm` | `0.5rem` | 8: small UI details (skip link) | SiteShell |
-| `--radius-md` | `0.75rem` | 12: buttons, inputs, dropdowns | Button, Nav, TeamSection |
-| `--radius-lg` | `1.25rem` | 20: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
+| `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, Nav, SiteShell, TeamSection |
+| `--radius-sm` | `0.5rem` | 8 | — |
+| `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
+| `--radius-lg` | `1.25rem` | 20 | — |
 | `--radius-xl` | `1.375rem` | 22: team diagram bracket (prototype shape) | — |
 | `--radius-pill` | `999px` | tags, pills | ClientsSection, MobileMenu, Nav, Pill, Tag |
 

@@ -16,7 +16,7 @@
  *   glyph show the ▸ on hover (default true)
  *   href, type, track (→ data-track, e.g. "book-call"), external, class
  * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --dur-fill-in, --dur-fill-out,
- *         --ease-standard, --button-glyph-shift, --radius-md, --font-sans, --text-label,
+ *         --ease-standard, --button-glyph-shift, --radius-xs, --font-sans, --text-label,
  *         --tracking-label, --weight-label, --space-*, --tap-min.
  * Motion hooks: data-button (buttonGlitch.ts), data-pixel-label (the label it glitches).
  */
@@ -78,7 +78,7 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-xs);
       background: var(--cta-bg);
       color: var(--cta-fg);
       font-family: var(--font-sans);
