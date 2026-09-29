@@ -12,8 +12,9 @@
  * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions).
  */
 import Button from '../ui/Button.astro';
+import Logo from '../ui/Logo.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 import { primaryNav, bookCall, isDropdown, type NavLink } from '../../config/navigation';
-import { site } from '../../config/site';
 import { ui } from '../../config/ui';
 
 interface Props {
@@ -44,7 +45,7 @@ const { services } = Astro.props;
     <div class="menu__inner">
       <div class="menu__top">
         <a class="menu__brand" href="/" aria-label={ui.brandHomeLabel} data-menu-link>
-          <span aria-hidden="true">{site.wordmark}</span>
+          <Logo class="menu__logo" />
         </a>
         <button class="menu-button" type="button" data-menu-close>
           {ui.menu.close}
@@ -65,7 +66,7 @@ const { services } = Astro.props;
                 >
                   {item.label}
                   <span class="menu__caret" aria-hidden="true">
-                    ▾
+                    <PixelIcon name="caret-down" size="lg" />
                   </span>
                 </button>
                 <ul id={`menu-group-${i}`} class="menu__sublist" hidden>
@@ -236,10 +237,13 @@ const { services } = Astro.props;
       gap: var(--space-16);
     }
     .menu__brand {
-      font-size: var(--text-medium);
-      font-weight: var(--weight-wordmark);
-      letter-spacing: var(--tracking-brand);
-      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+    }
+    .menu__brand :global(.menu__logo) {
+      height: var(--logo-height-nav);
+      width: auto;
     }
     .menu__list {
       display: flex;
@@ -264,7 +268,7 @@ const { services } = Astro.props;
       text-align: left;
     }
     .menu__caret {
-      font-size: var(--text-large);
+      display: inline-flex;
       transition: transform var(--dur-fast) var(--ease-standard);
     }
     .menu__group-label[aria-expanded='true'] .menu__caret {

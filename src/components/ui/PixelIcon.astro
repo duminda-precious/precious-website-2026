@@ -1,0 +1,49 @@
+---
+/**
+ * PixelIcon: an 8-bit icon from the registry in ./pixelIcons.ts. Hard edges
+ * (crispEdges), colour from currentColor, sized in whole pixel units so it stays
+ * sharp. Decorative by default (aria-hidden); pass `label` to make it an image.
+ * Props: name, size ('md' | 'lg'), label, class.
+ * Tokens: --pixel-unit, --pixel-unit-lg.
+ * Motion hooks: none.
+ */
+import { pixelPath, pixelSize, type PixelIconName } from './pixelIcons';
+
+interface Props {
+  name: PixelIconName;
+  size?: 'md' | 'lg';
+  label?: string;
+  class?: string;
+}
+const { name, size = 'md', label, class: className } = Astro.props;
+const { cols, rows } = pixelSize(name);
+---
+
+<svg
+  class:list={['pixel-icon', `pixel-icon--${size}`, className]}
+  viewBox={`0 0 ${cols} ${rows}`}
+  style={`--px-cols: ${cols}; --px-rows: ${rows}`}
+  shape-rendering="crispEdges"
+  focusable="false"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <path d={pixelPath(name)} fill="currentColor"></path>
+</svg>
+
+<style>
+  @layer components {
+    .pixel-icon {
+      --px-unit: var(--pixel-unit);
+      display: inline-block;
+      flex: none;
+      width: calc(var(--px-cols) * var(--px-unit));
+      height: calc(var(--px-rows) * var(--px-unit));
+      vertical-align: middle;
+    }
+    .pixel-icon--lg {
+      --px-unit: var(--pixel-unit-lg);
+    }
+  }
+</style>

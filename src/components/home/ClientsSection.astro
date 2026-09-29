@@ -16,6 +16,7 @@ import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 import Button from '../ui/Button.astro';
 import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
@@ -60,10 +61,10 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
     </ul>
     <div class="slider__controls">
       <button class="slider__arrow" type="button" aria-label={ui.slider.prev} data-slider-prev>
-        <span aria-hidden="true">←</span>
+        <PixelIcon name="arrow-left" size="lg" />
       </button>
       <button class="slider__arrow" type="button" aria-label={ui.slider.next} data-slider-next>
-        <span aria-hidden="true">→</span>
+        <PixelIcon name="arrow-right" size="lg" />
       </button>
     </div>
   </div>

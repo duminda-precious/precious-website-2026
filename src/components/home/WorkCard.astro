@@ -8,6 +8,7 @@
  * Motion hooks: data-motion="rise-in" (M3, Step 9); <video> gets data-motion="video-in-view".
  */
 import MediaFrame from '../ui/MediaFrame.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 import Tag from '../ui/Tag.astro';
 import type { MediaAspect } from '../ui/media';
 import { ui } from '../../config/ui';
@@ -39,7 +40,7 @@ const { href, title, tag, summary, aspect, media } = Astro.props;
   </h3>
   <p class="work-card__summary">{summary}</p>
   <span class="work-card__cue" aria-hidden="true">
-    {ui.viewCaseStudy} →
+    {ui.viewCaseStudy} <PixelIcon name="arrow-right" />
   </span>
 </article>
 

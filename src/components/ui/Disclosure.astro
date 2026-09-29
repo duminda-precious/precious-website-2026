@@ -1,13 +1,14 @@
 ---
 /**
- * Disclosure: one FAQ item on native <details>/<summary> (M6). The "+" turns 45°
- * when open. src/motion/disclosure.ts animates the height open and closed in
+ * Disclosure: one FAQ item on native <details>/<summary> (M6). The pixel "+" swaps
+ * to a pixel "×" when open. src/motion/disclosure.ts animates the height open and closed in
  * every browser; without JS (or with reduced motion) it opens instantly.
  * Props: question, answer.
  * Tokens: --border-default, --space-*, --tap-min, --text-body, --leading-body,
- *         --text-secondary, --text-large, --dur-fast, --ease-standard.
+ *         --text-secondary, --pixel-unit-lg.
  * Motion hooks: data-motion="disclosure", data-disclosure-content, data-closing.
  */
+import PixelIcon from './PixelIcon.astro';
 interface Props {
   question: string;
   answer: string;
@@ -19,7 +20,8 @@ const { question, answer } = Astro.props;
   <summary class="disclosure__summary">
     <span>{question}</span>
     <span class="disclosure__icon" aria-hidden="true">
-      +
+      <PixelIcon name="plus" size="lg" class="disclosure__plus" />
+      <PixelIcon name="close" size="lg" class="disclosure__close" />
     </span>
   </summary>
   <div class="disclosure__content" data-disclosure-content>
@@ -42,14 +44,17 @@ const { question, answer } = Astro.props;
       font-size: var(--text-body);
     }
     .disclosure__icon {
+      display: inline-flex;
       flex: none;
-      font-size: var(--text-large);
-      line-height: var(--leading-none);
-      transition: transform var(--dur-fast) var(--ease-standard);
     }
-    /* Rotate while open; during an animated close it turns back straight away. */
-    .disclosure[open]:not([data-closing]) .disclosure__icon {
-      transform: rotate(45deg);
+    /* Pixel icons don't rotate cleanly, so + swaps to × while open (a hard,
+       8-bit switch). During an animated close it turns back straight away. */
+    .disclosure__icon :global(.disclosure__close),
+    .disclosure[open]:not([data-closing]) .disclosure__icon :global(.disclosure__plus) {
+      display: none;
+    }
+    .disclosure[open]:not([data-closing]) .disclosure__icon :global(.disclosure__close) {
+      display: inline-block;
     }
     .disclosure__content {
       overflow: hidden;

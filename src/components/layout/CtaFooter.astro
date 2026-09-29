@@ -1,10 +1,10 @@
 ---
 /**
- * CtaFooter: the closing CTA + footer nav + wordmark (section "call").
+ * CtaFooter: the closing CTA + footer nav + logo (section "call").
  * Layout per brief §2.9 on the 12-column grid:
  *   top row    headline (largest type on the page) + Book a call, cols 1–7;
  *              link columns at cols 9–10 and 11–12
- *   bottom row legal (mono) left; wordmark flush right, sized to ~7 columns
+ *   bottom row legal (mono) left; logo flush right, filling ~7 columns
  * Below lg everything stacks; the two link columns sit side by side.
  * Reveal (brief M6, decision 2026-09-29): from lg the footer is sticky at the
  * bottom behind the page (SiteShell's .page sits above it with rounded bottom
@@ -12,11 +12,11 @@
  * taller than the viewport, it stays in normal flow (data-footer-static).
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
- *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --text-wordmark(-lg),
- *         --tracking-wordmark, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
+ *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
 import Button from '../ui/Button.astro';
+import Logo from '../ui/Logo.astro';
 import Grid12 from '../primitives/Grid12.astro';
 import { bookCall, visibleFooterNav } from '../../config/navigation';
 import { site } from '../../config/site';
@@ -65,9 +65,9 @@ import { ui } from '../../config/ui';
 
   <Grid12 class="footer__bottom">
     <!-- Wordmark first so it sits on top when stacked (below lg); from lg both share row 1. -->
-    <p class="footer__wordmark" aria-hidden="true">
-      {site.wordmark}
-    </p>
+    <div class="footer__wordmark">
+      <Logo class="footer__logo" />
+    </div>
     <p class="footer__legal">
       © {site.name} · {site.location}
     </p>
@@ -174,11 +174,10 @@ import { ui } from '../../config/ui';
     }
     .footer__wordmark {
       grid-column: 1 / -1;
-      font-size: var(--text-wordmark);
-      font-weight: var(--weight-wordmark);
-      letter-spacing: var(--tracking-wordmark);
-      line-height: var(--leading-none);
-      white-space: nowrap;
+    }
+    .footer__wordmark :global(.footer__logo) {
+      width: 100%;
+      height: auto;
     }
 
     @media (min-width: 62rem) {
@@ -202,8 +201,6 @@ import { ui } from '../../config/ui';
       .footer__wordmark {
         grid-column: 6 / -1;
         grid-row: 1;
-        justify-self: end;
-        font-size: var(--text-wordmark-lg);
       }
     }
   }

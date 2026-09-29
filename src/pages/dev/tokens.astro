@@ -16,6 +16,10 @@ import TextLink from '../../components/ui/TextLink.astro';
 import Tag from '../../components/ui/Tag.astro';
 import Pill from '../../components/ui/Pill.astro';
 import MediaFrame from '../../components/ui/MediaFrame.astro';
+import Logo from '../../components/ui/Logo.astro';
+import PixelIcon from '../../components/ui/PixelIcon.astro';
+import { pixelIcons, type PixelIconName } from '../../components/ui/pixelIcons';
+import Disclosure from '../../components/ui/Disclosure.astro';
 import { mediaAspects } from '../../components/ui/media';
 import { workGridPositions } from '../../config/layout';
 
@@ -147,6 +151,7 @@ const layoutTokens = [
 ];
 const radii = ['xs', 'sm', 'md', 'lg', 'xl', 'pill'];
 const shadows = ['e1', 'e2', 'e3'];
+const iconNames = Object.keys(pixelIcons) as PixelIconName[];
 const durations = ['fast', 'base', 'reveal', 'theme', 'page', 'rise'];
 const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
 ---
@@ -409,6 +414,34 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
           <h2 class="dev-h">7 · Components</h2>
 
           <Stack gap="12">
+            <h3 class="dev-h3">Logo (currentColor: Deep Ink on light, white on dark)</h3>
+            <div class="logo-demo-row">
+              <Logo class="logo-demo-row__wordmark" label="Precious Studio" />
+              <Logo variant="mark" class="logo-demo-row__mark" />
+            </div>
+            <div class="logo-demo-row logo-demo-row--dark" data-theme="ink">
+              <Logo class="logo-demo-row__wordmark" />
+              <Logo variant="mark" class="logo-demo-row__mark" />
+            </div>
+          </Stack>
+
+          <Stack gap="12">
+            <h3 class="dev-h3">Pixel icons (md = 2px per pixel, lg = 3px)</h3>
+            <Cluster gap="32">
+              {iconNames.map((n) => (
+                <Stack gap="8" align="center">
+                  <Cluster gap="12">
+                    <PixelIcon name={n} />
+                    <PixelIcon name={n} size="lg" />
+                  </Cluster>
+                  <code>{n}</code>
+                </Stack>
+              ))}
+            </Cluster>
+            <Disclosure question="Disclosure: pixel + swaps to × when open" answer="Sample answer." />
+          </Stack>
+
+          <Stack gap="12">
             <h3 class="dev-h3">SectionHeader (three-zone; stacks below 992px)</h3>
             <SectionHeader>
               <Fragment slot="eyebrow">Clients</Fragment>
@@ -475,9 +508,11 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
                 </Stack>
               ))}
             </div>
-            <h3 class="dev-h3">MediaFrame: forest (gate), logo, and an overlay</h3>
+            <h3 class="dev-h3">MediaFrame: gradient (gate), logo, and an overlay</h3>
             <div class="media-grid">
-              <MediaFrame aspect="4/5" tone="forest" label="photo / loop" />
+              <div style="--mf-gradient: var(--gate-2-media)">
+                <MediaFrame aspect="4/5" tone="gradient" label="photo / loop" />
+              </div>
               <div class="logo-demo">
                 <MediaFrame aspect="16/9" tone="logo" label="[Client logo]" rounded={false} />
               </div>
@@ -675,6 +710,25 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       height: var(--space-56);
       border-radius: var(--radius-lg);
       background: var(--surface-page);
+    }
+    .logo-demo-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-40);
+      padding: var(--space-24);
+      border-radius: var(--radius-lg);
+    }
+    .logo-demo-row--dark {
+      background: var(--surface-page);
+      color: var(--text-primary);
+    }
+    .logo-demo-row :global(.logo-demo-row__wordmark) {
+      width: min(100%, 30rem);
+      height: auto;
+    }
+    .logo-demo-row :global(.logo-demo-row__mark) {
+      width: var(--space-64);
+      height: auto;
     }
     .swatch figcaption {
       display: flex;

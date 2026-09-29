@@ -68,6 +68,7 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - **Layout:** full width stays (a design choice; the guideline's 1200px max width is not used). The dark Work section stays (Deep Ink).
 - **Type:** Funnel Display + Funnel Sans from Google Fonts. No mono: UI labels use the guideline's Label style (Funnel Sans 600, sentence case); small metadata uses Eyebrow (caps, +14%). The hero headline and problem line keep the prototype's large sizes, in Display Light.
 - **Buttons:** Deep Ink fill, 12px corners. On hover the fill becomes a gradient with a pixelating transition, and the label turns Deep Ink (built in P2-4).
+- **Iconography (P2-2):** the text glyphs (▸ → ← + ▾) become pixel icons; the Clutch ★ stays as text. The FAQ "+" swaps to "×" instead of rotating (rotated pixels blur). No Egg/Caterpillar/Chrysalis icons: the three starting-point cards will get video overlays, and until then their media areas show brand gradients (Glasswing Sky, Morpho Shimmer, Swallowtail). The card copy takes the metamorphosis theme (Egg / Chrysalis / Butterfly) in P2-3.
 - **Testimonial quotes:** straight (not italic), 20px (Body L). Deviates from the guideline's italic 24px quote style.
 - **Logo:** `reference/brand/logo-white.svg` (supplied). **Media:** linked from where it's hosted, not copied. **Home work grid:** 5 slots; the fifth is a placeholder.
 

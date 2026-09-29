@@ -5,11 +5,12 @@
  * 0fr → 1fr). On touch (hover: none) the lines show expanded. The lines are
  * always in the DOM for screen readers.
  * Props: tone ('gate-1' | 'gate-2' | 'gate-3'), title, pain, result, mediaLabel, media, mediaAlt.
- * Tokens: --gate-N-bg/-fg/-pain, --radius-lg, --space-*, --text-title, --tracking-title,
+ * Tokens: --gate-N-bg/-fg/-pain/-media, --radius-lg, --space-*, --text-title, --tracking-title,
  *         --leading-heading, --text-body, --dur-reveal, --dur-base, --ease-out-soft, --focus-ring.
  * Motion hooks: CSS only.
  */
 import MediaFrame from './MediaFrame.astro';
+import PixelIcon from './PixelIcon.astro';
 
 interface Props {
   tone: 'gate-1' | 'gate-2' | 'gate-3';
@@ -26,7 +27,7 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
 <article class:list={['reveal-card', `reveal-card--${tone}`]} tabindex="0" data-motion="rise-in">
   <MediaFrame
     aspect="fill"
-    tone="forest"
+    tone="gradient"
     label={mediaLabel}
     image={media}
     alt={mediaAlt}
@@ -38,7 +39,7 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
       <div class="reveal-card__inner">
         <p class="reveal-card__pain">{pain}</p>
         <p>
-          <span aria-hidden="true">→ </span>
+          <PixelIcon name="arrow-right" class="reveal-card__arrow" />
           {result}
         </p>
       </div>
@@ -61,16 +62,19 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
       outline-offset: var(--space-4);
     }
     .reveal-card--gate-1 {
+      --mf-gradient: var(--gate-1-media);
       --card-bg: var(--gate-1-bg);
       --card-fg: var(--gate-1-fg);
       --card-pain: var(--gate-1-pain);
     }
     .reveal-card--gate-2 {
+      --mf-gradient: var(--gate-2-media);
       --card-bg: var(--gate-2-bg);
       --card-fg: var(--gate-2-fg);
       --card-pain: var(--gate-2-pain);
     }
     .reveal-card--gate-3 {
+      --mf-gradient: var(--gate-3-media);
       --card-bg: var(--gate-3-bg);
       --card-fg: var(--gate-3-fg);
       --card-pain: var(--gate-3-pain);
@@ -103,6 +107,9 @@ const { tone, title, pain, result, mediaLabel, media, mediaAlt = '' } = Astro.pr
       overflow: hidden;
       padding-top: var(--space-12);
       font-size: var(--text-body);
+    }
+    .reveal-card__inner :global(.reveal-card__arrow) {
+      margin-right: var(--space-8);
     }
     .reveal-card__pain {
       color: var(--card-pain);

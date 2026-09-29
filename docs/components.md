@@ -29,9 +29,11 @@ Layout principle (from the Afternow brief): place things with grid spans, and co
 | `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `label`), `arrow`, `track`, `external`, `class` |
 | `Tag` | Outlined Eyebrow-style label for metadata (case study situation) | `as`, `class` |
 | `Pill` | Rounded Label-style badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |
-| `MediaFrame` | Video, image, or striped placeholder at a locked aspect ratio | `aspect` (`3/2`, `5/4`, `1/1`, `4/3`, `16/9`, `16/10`, `4/5`, `3/4`, `fill`), `tone` (`auto` \| `forest` \| `logo`), `label`, `video`, `poster`, `image`, `alt`, `rounded`. Slot: overlays |
-| `RevealCard` | Gate card: media + coloured panel; text reveals on hover/focus, shown open on touch | `tone` (`gate-1` \| `gate-2` \| `gate-3`), `title`, `pain`, `result`, `mediaLabel`, `media`, `mediaAlt` |
-| `Disclosure` | FAQ item on native `<details>`; height animates via `disclosure.ts` | `question`, `answer` |
+| `MediaFrame` | Video, image, or striped placeholder at a locked aspect ratio | `aspect` (`3/2`, `5/4`, `1/1`, `4/3`, `16/9`, `16/10`, `4/5`, `3/4`, `fill`), `tone` (`auto` \| `gradient` \| `logo`; `gradient` reads `--mf-gradient` from the parent), `label`, `video`, `poster`, `image`, `alt`, `rounded`. Slot: overlays |
+| `RevealCard` | Gate card: media (brand gradient until videos arrive) + tinted panel; text reveals on hover/focus, shown open on touch | `tone` (`gate-1` \| `gate-2` \| `gate-3`), `title`, `pain`, `result`, `mediaLabel`, `media`, `mediaAlt` |
+| `Disclosure` | FAQ item on native `<details>`; height animates via `disclosure.ts`; the pixel + swaps to × when open | `question`, `answer` |
+| `Logo` | The supplied logo, coloured by `currentColor`. The butterfly is drawn pixel by pixel (`data-logo-pixel`) for motion. Size it from the parent | `variant` (`wordmark` \| `mark`), `label`, `class` |
+| `PixelIcon` | 8-bit icon from `pixelIcons.ts` (butterfly, play, arrow-right/-left, caret-down, plus, close); crisp edges, `currentColor`, whole-pixel sizes | `name`, `size` (`md` \| `lg`), `label`, `class` |
 
 Aspect ratios accepted by `MediaFrame` are listed in `src/components/ui/media.ts`.
 

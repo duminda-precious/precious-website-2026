@@ -5,7 +5,6 @@
 export const site = {
   name: 'Precious Studio',
   legalName: '[Legal company name]',
-  wordmark: 'PRECIOUS ✕ STUDIO',
   url: 'https://precious.studio',
   location: 'Austin, TX',
   foundingYear: 2015,

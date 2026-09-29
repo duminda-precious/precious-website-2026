@@ -20,7 +20,7 @@
 | M3 | **Row rise-in.** Cards rise 120px and fade in as their row enters, left to right | `motion/riseIn.ts` (WorkCard, RevealCard) | `data-motion="rise-in"` | `--rise-distance`, `--dur-rise`, `--dur-stagger`, `--ease-out-expo` | No movement |
 | M4 | **Logo ticker.** Continuous full-bleed loop of client names; pauses on hover, focus, and off-screen | `ClientsSection` (CSS), `motion/marquee.ts` | `data-motion="marquee"` | `--dur-marquee`, `--ticker-gap`, `--ease-linear` | Stops; names wrap as a static row |
 | M5 | **Gate card reveal.** Text reveals on hover and keyboard focus; shown open on touch | `ui/RevealCard.astro` (CSS only) | — | `--dur-reveal`, `--dur-base`, `--ease-out-soft` | Instant |
-| M6 | **FAQ height.** Opens/closes smoothly in every browser; "+" turns 45° | `motion/disclosure.ts`, `ui/Disclosure.astro` | `data-motion="disclosure"` | `--dur-base`, `--dur-fast`, `--ease-standard` | Native instant toggle |
+| M6 | **FAQ height.** Opens/closes smoothly in every browser; the pixel "+" swaps to "×" | `motion/disclosure.ts`, `ui/Disclosure.astro` | `data-motion="disclosure"` | `--dur-base`, `--dur-fast`, `--ease-standard` | Native instant toggle |
 | M7 | **Case videos.** Play when 40% visible, pause out of view | `motion/videoInView.ts`, `MediaFrame` | `data-motion="video-in-view"` | — | No autoplay; native controls |
 | M8 | **Reel sound toggle.** "Sound on / Sound off" with `aria-pressed` | `motion/soundToggle.ts`, `Hero` | `data-motion="sound-toggle"` | — | Same |
 | M9 | **Hover + testimonial slider.** Links fade to 0.7 on hover. Testimonials: horizontal scroll-snap, ← → buttons move one card | `base.css`, `motion/slider.ts` | `data-motion="slider"` | `--hover-opacity`, `--slide-*`, `--disabled-opacity` | Slider jumps instantly |

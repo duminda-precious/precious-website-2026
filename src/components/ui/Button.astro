@@ -1,6 +1,6 @@
 ---
 /**
- * Button: Label-style text (Funnel Sans 600, sentence case) and a ▸ glyph, 12px corners.
+ * Button: Label-style text (Funnel Sans 600, sentence case) and a pixel ▸ glyph, 12px corners.
  * One solid style site-wide; its colours come from the theme (--cta-bg/--cta-fg),
  * so it is Deep Ink on light sections and inverse on dark ones. The gradient +
  * pixel hover (--cta-hover-*) arrives in P2-4. Renders <a> when href is set, otherwise <button>.
@@ -12,6 +12,7 @@
  *         --space-*, --tap-min, --hover-opacity.
  * Motion hooks: none (hover is the global opacity token, M9).
  */
+import PixelIcon from './PixelIcon.astro';
 interface Props {
   size?: 'sm' | 'md';
   glyph?: boolean;
@@ -40,18 +41,14 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
   <a href={href} class:list={classes} data-track={track} {...externalAttrs} {...rest}>
     <slot />
     {glyph && (
-      <span class="button__glyph" aria-hidden="true">
-        ▸
-      </span>
+      <PixelIcon name="play" class="button__glyph" />
     )}
   </a>
 ) : (
   <button type={type} class:list={classes} data-track={track} {...rest}>
     <slot />
     {glyph && (
-      <span class="button__glyph" aria-hidden="true">
-        ▸
-      </span>
+      <PixelIcon name="play" class="button__glyph" />
     )}
   </button>
 )}

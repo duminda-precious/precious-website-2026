@@ -7,15 +7,15 @@
  *   aspect  one of mediaAspects ('3/2', '5/4', '1/1', '4/3', '16/9', …) | 'fill'
  *           ('fill' stretches to the parent, used by gate cards)
  *   tone    'auto'   → stripes follow the section theme (light / dark / ink)
- *           'forest' → gate card media
+ *           'gradient' → brand gradient + grain (gate cards; parent sets --mf-gradient)
  *           'logo'   → testimonial logo slot (finer stripes)
- *   label   placeholder text in mono, e.g. "case video"
+ *   label   placeholder text (Eyebrow style), e.g. "case video"
  *   video, poster       → <video muted playsinline loop preload="none">
  *   image, alt          → string URL or an astro:assets import
  *   rounded (default true), class
  *   default slot        → overlays positioned inside the frame (e.g. sound pill)
  *
- * Tokens: --placeholder-stripe-a/b, --placeholder-fg, --gate-media-*, --logo-stripe-*,
+ * Tokens: --placeholder-stripe-a/b, --placeholder-fg, --gate-media-fg, --grain-*, --logo-stripe-*,
  *         --stripe-size, --stripe-size-sm, --radius-lg, --font-sans, --text-eyebrow.
  * Motion hooks: data-motion="video-in-view" on <video> (M7).
  */
@@ -25,7 +25,7 @@ import type { MediaAspect } from './media';
 
 interface Props {
   aspect?: MediaAspect | 'fill';
-  tone?: 'auto' | 'forest' | 'logo';
+  tone?: 'auto' | 'gradient' | 'logo';
   label?: string;
   video?: string;
   poster?: string;
@@ -105,10 +105,21 @@ const style = aspect === 'fill' ? undefined : `--media-aspect: ${aspect}`;
       aspect-ratio: var(--media-aspect);
       overflow: hidden;
     }
-    .media-frame--forest {
-      --mf-a: var(--gate-media-stripe-a);
-      --mf-b: var(--gate-media-stripe-b);
+    /* Brand gradient placeholder (gate cards). The parent sets --mf-gradient. */
+    .media-frame--gradient {
       --mf-fg: var(--gate-media-fg);
+    }
+    .media-frame--gradient.media-frame--placeholder {
+      background: var(--mf-gradient);
+    }
+    .media-frame--gradient.media-frame--placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain-image);
+      opacity: var(--grain-opacity);
+      mix-blend-mode: multiply;
+      pointer-events: none;
     }
     .media-frame--logo {
       --mf-a: var(--logo-stripe-a);

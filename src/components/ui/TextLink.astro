@@ -8,6 +8,7 @@
  * Tokens: --text-body, --text-label, --font-sans, --tracking-label, --border-width.
  * Motion hooks: none (global hover opacity).
  */
+import PixelIcon from './PixelIcon.astro';
 interface Props {
   href: string;
   variant?: 'underline' | 'label';
@@ -37,11 +38,14 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
   {...rest}
 >
   <slot />
-  {arrow && <span aria-hidden="true"> →</span>}
+  {arrow && <PixelIcon name="arrow-right" class="text-link__arrow" />}
 </a>
 
 <style>
   @layer components {
+    .text-link :global(.text-link__arrow) {
+      margin-left: var(--space-8);
+    }
     .text-link {
       display: inline-block;
       align-self: flex-start;

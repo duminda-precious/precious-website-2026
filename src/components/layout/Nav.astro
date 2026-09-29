@@ -14,9 +14,10 @@
  * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7).
  */
 import Button from '../ui/Button.astro';
+import Logo from '../ui/Logo.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 import MobileMenu from './MobileMenu.astro';
 import { primaryNav, bookCall, isDropdown } from '../../config/navigation';
-import { site } from '../../config/site';
 import { ui } from '../../config/ui';
 import { getServices } from '../../lib/content';
 
@@ -29,7 +30,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
 
 <header class="nav" data-nav transition:name="site-nav" transition:animate="none">
   <a class="nav__brand" href="/" aria-label={ui.brandHomeLabel}>
-    <span aria-hidden="true">{site.wordmark}</span>
+    <Logo class="nav__logo" />
   </a>
 
   <div class="nav__cluster">
@@ -47,7 +48,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
               >
                 {item.label}
                 <span class="nav__caret" aria-hidden="true">
-                  ▾
+                  <PixelIcon name="caret-down" />
                 </span>
               </button>
               <ul id={`nav-dropdown-${i}`} class="nav__panel" data-dropdown-panel hidden>
@@ -211,11 +212,10 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       display: inline-flex;
       align-items: center;
       min-height: var(--tap-min);
-      font-size: var(--text-medium);
-      font-weight: var(--weight-wordmark);
-      letter-spacing: var(--tracking-brand);
-      line-height: var(--leading-none);
-      white-space: nowrap;
+    }
+    .nav__brand :global(.nav__logo) {
+      height: var(--logo-height-nav);
+      width: auto;
     }
 
     .nav__cluster {
@@ -257,7 +257,7 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       opacity: var(--hover-opacity);
     }
     .nav__caret {
-      font-size: var(--text-eyebrow);
+      display: inline-flex;
     }
     .nav__badge {
       padding: var(--space-4) var(--space-6);

@@ -1,0 +1,63 @@
+---
+/**
+ * Logo: the Precious Studio logo (reference/brand/logo-white.svg), coloured with
+ * currentColor so the theme decides: Deep Ink on light and gradients, white on dark.
+ * Never a brand colour, a gradient fill or an effect (brand guideline).
+ * The butterfly is drawn pixel by pixel (one <rect> per cell, data-logo-pixel) so
+ * motion can bring the pixels in one at a time (P2-5).
+ * Props:
+ *   variant 'wordmark' (letters + butterfly) | 'mark' (butterfly only)
+ *   label   accessible name; omit when the parent already has one (then aria-hidden)
+ *   class
+ * Size it from the parent: set a height (width follows) or a width (height follows).
+ * Tokens: none (colour is inherited).
+ * Motion hooks: data-logo, data-logo-mark, data-logo-pixel.
+ */
+import { LOGO_LETTERS, LOGO_VIEWBOX, MARK_ORIGIN, MARK_UNIT } from './logo';
+import { pixelCells, pixelSize } from './pixelIcons';
+
+interface Props {
+  variant?: 'wordmark' | 'mark';
+  label?: string;
+  class?: string;
+}
+const { variant = 'wordmark', label, class: className } = Astro.props;
+
+const cells = pixelCells('butterfly');
+const mark = pixelSize('butterfly');
+const isMark = variant === 'mark';
+const viewBox = isMark
+  ? `0 0 ${mark.cols} ${mark.rows}`
+  : `0 0 ${LOGO_VIEWBOX.width} ${LOGO_VIEWBOX.height}`;
+const markTransform = isMark
+  ? undefined
+  : `translate(${MARK_ORIGIN.x} ${MARK_ORIGIN.y}) scale(${MARK_UNIT})`;
+---
+
+<svg
+  class:list={['logo', `logo--${variant}`, className]}
+  viewBox={viewBox}
+  focusable="false"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  data-logo={variant}
+>
+  {!isMark && LOGO_LETTERS.map((d) => <path d={d} fill="currentColor" />)}
+  <g transform={markTransform} fill="currentColor" data-logo-mark>
+    {
+      cells.map(([x, y]) => (
+        <rect x={x} y={y} width="1.02" height="1.02" data-logo-pixel />
+      ))
+    }
+  </g>
+</svg>
+
+<style>
+  @layer components {
+    .logo {
+      display: block;
+      overflow: visible;
+    }
+  }
+</style>

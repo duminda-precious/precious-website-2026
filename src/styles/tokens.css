@@ -198,16 +198,11 @@
     --text-small: 0.875rem; /* Small 14 */
     --text-label: 0.875rem; /* Label 14: buttons, nav, pills */
     --text-eyebrow: 0.75rem; /* Eyebrow 12, caps: tags, legal, section eyebrows */
-    /* Footer wordmark is a layout element sized to its columns (brief §2.9):
-       full row below lg, ~7 of 12 columns from lg. Replaced by the logo in P2-2. */
-    --text-wordmark: 7.5vw;
-    --text-wordmark-lg: 5.2vw;
 
     --weight-light: 300; /* Hero, headline emphasis */
     --weight-regular: 400; /* body, quotes */
     --weight-medium: 500; /* Display–H2, eyebrows, notes */
     --weight-semibold: 600; /* H3, H4, labels */
-    --weight-wordmark: 700; /* the text wordmark only (until P2-2) */
 
     --tracking-hero: -0.03em;
     --tracking-problem: -0.03em;
@@ -217,8 +212,6 @@
     --tracking-body: 0;
     --tracking-label: 0.01em;
     --tracking-eyebrow: 0.14em;
-    --tracking-wordmark: 0.02em;
-    --tracking-brand: 0.04em;
 
     --leading-hero: 1.1; /* 88 / 80 */
     --leading-none: 1; /* single-line UI, problem line */
@@ -295,6 +288,13 @@
     --shadow-e1: 0 1px 2px rgb(28 23 20 / 0.08); /* cards */
     --shadow-e2: 0 4px 12px rgb(28 23 20 / 0.08); /* dropdowns */
     --shadow-e3: 0 16px 40px rgb(28 23 20 / 0.14); /* modals */
+
+    /* Logo (the footer logo is sized by its grid columns, not a token) */
+    --logo-height-nav: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem); /* 14 → 18 */
+
+    /* Pixel icons: one grid cell = one unit, so icons stay on whole pixels */
+    --pixel-unit: 0.125rem; /* 2px: inline UI glyphs */
+    --pixel-unit-lg: 0.1875rem; /* 3px: slider arrows, FAQ */
 
     --border-width: 1px;
     --stripe-size: 8px; /* placeholder stripe band */
@@ -465,10 +465,12 @@
     --page-bg: var(--color-white);
     --page-bg-dark: var(--color-stone-900);
 
-    /* Gate cards (Approach): light wing tints, Deep Ink text */
-    --gate-media-stripe-a: var(--color-stone-800);
-    --gate-media-stripe-b: var(--color-stone-900);
-    --gate-media-fg: var(--color-stone-400);
+    /* Gate cards (Approach): light wing tints, Deep Ink text. The media area
+       shows the matching linear gradient until the videos arrive. */
+    --gate-media-fg: var(--color-stone-900);
+    --gate-1-media: var(--gradient-glasswing-sky);
+    --gate-2-media: var(--gradient-morpho-shimmer);
+    --gate-3-media: var(--gradient-swallowtail);
     --gate-1-bg: var(--color-apricot-100);
     --gate-1-fg: var(--color-stone-900);
     --gate-1-pain: var(--color-apricot-800);

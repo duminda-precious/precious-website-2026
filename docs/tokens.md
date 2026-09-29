@@ -140,8 +140,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--grain-image` | `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")` |  | — |
-| `--grain-opacity` | `0.05` |  | — |
+| `--grain-image` | `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")` |  | MediaFrame |
+| `--grain-opacity` | `0.05` |  | MediaFrame |
 
 ### TYPOGRAPHY (theme-independent), brand guideline §05.
 
@@ -164,25 +164,17 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
 | `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | RevealCard, WorkCard |
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
-| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, Disclosure, MobileMenu |
+| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, MobileMenu |
 | `--text-note` | `1.5rem` | Note 24, Sans 500 Sage | — |
-| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
 | `--text-small` | `0.875rem` | Small 14 | — |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
 | `--text-eyebrow` | `0.75rem` | Eyebrow 12, caps: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
-
-### Footer wordmark is a layout element sized to its columns (brief §2.9):
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--text-wordmark` | `7.5vw` |  | CtaFooter |
-| `--text-wordmark-lg` | `5.2vw` |  | CtaFooter |
 | `--weight-light` | `300` | Hero, headline emphasis | Hero, base |
 | `--weight-regular` | `400` | body, quotes | — |
 | `--weight-medium` | `500` | Display–H2, eyebrows, notes | ApproachSection, CtaFooter, FaqSection, MediaFrame, MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, Tag, TeamSection, TestimonialCard, base |
 | `--weight-semibold` | `600` | H3, H4, labels | Button, MobileMenu, Nav, Pill, RevealCard, SiteShell, TextLink, WorkCard |
-| `--weight-wordmark` | `700` | the text wordmark only (until P2-2) | CtaFooter, MobileMenu, Nav |
 | `--tracking-hero` | `-0.03em` |  | Hero |
 | `--tracking-problem` | `-0.03em` |  | Hero |
 | `--tracking-closer` | `-0.03em` |  | CtaFooter |
@@ -191,10 +183,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--tracking-body` | `0` |  | base |
 | `--tracking-label` | `0.01em` |  | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
 | `--tracking-eyebrow` | `0.14em` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
-| `--tracking-wordmark` | `0.02em` |  | CtaFooter |
-| `--tracking-brand` | `0.04em` |  | MobileMenu, Nav |
 | `--leading-hero` | `1.1` | 88 / 80 | Hero |
-| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
+| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
 | `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
 | `--leading-large` | `1.25` | H4 30 / 24 | — |
@@ -219,7 +209,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-2` | `0.125rem` |  | — |
 | `--space-4` | `0.25rem` |  | MobileMenu, Nav, RevealCard, TestimonialCard |
 | `--space-6` | `0.375rem` |  | MobileMenu, Nav, Pill, Tag, WorkCard |
-| `--space-8` | `0.5rem` |  | Button, ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, contact |
+| `--space-8` | `0.5rem` |  | Button, ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TextLink, contact |
 | `--space-10` | `0.625rem` |  | Button, Pill, Tag |
 | `--space-12` | `0.75rem` |  | MobileMenu, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
 | `--space-14` | `0.875rem` |  | Button, Pill, ProcessSection |
@@ -281,6 +271,19 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--shadow-e1` | `0 1px 2px rgb(28 23 20 / 0.08)` | cards | — |
 | `--shadow-e2` | `0 4px 12px rgb(28 23 20 / 0.08)` | dropdowns | — |
 | `--shadow-e3` | `0 16px 40px rgb(28 23 20 / 0.14)` | modals | — |
+
+### Logo (the footer logo is sized by its grid columns, not a token)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--logo-height-nav` | `clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem)` | 14 → 18 | MobileMenu, Nav |
+
+### Pixel icons: one grid cell = one unit, so icons stay on whole pixels
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
+| `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
 | `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TextLink, WorkCard |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
@@ -289,12 +292,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | Disclosure, MobileMenu, Nav, SiteShell, gsap, tokens |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | MobileMenu, Nav, SiteShell, gsap, tokens |
 | `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap, tokens |
 | `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | gsap, tokens |
 | `--ease-linear` | `linear` |  | ClientsSection |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
-| `--dur-fast` | `200ms` | hovers | Disclosure, MobileMenu, Nav, tokens |
+| `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, tokens |
 | `--dur-base` | `300ms` |  | MobileMenu, RevealCard, SiteShell, disclosure, gsap, tokens |
 | `--dur-reveal` | `450ms` |  | RevealCard, tokens |
 | `--dur-theme` | `800ms` |  | Nav, tokens |
@@ -441,13 +444,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--page-bg` | `var(--color-white)` |  | SiteShell |
 | `--page-bg-dark` | `var(--color-stone-900)` |  | SiteShell |
 
-### Gate cards (Approach): light wing tints, Deep Ink text
+### Gate cards (Approach): light wing tints, Deep Ink text. The media area
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--gate-media-stripe-a` | `var(--color-stone-800)` |  | MediaFrame |
-| `--gate-media-stripe-b` | `var(--color-stone-900)` |  | MediaFrame |
-| `--gate-media-fg` | `var(--color-stone-400)` |  | MediaFrame |
+| `--gate-media-fg` | `var(--color-stone-900)` |  | MediaFrame |
+| `--gate-1-media` | `var(--gradient-glasswing-sky)` |  | RevealCard |
+| `--gate-2-media` | `var(--gradient-morpho-shimmer)` |  | RevealCard |
+| `--gate-3-media` | `var(--gradient-swallowtail)` |  | RevealCard |
 | `--gate-1-bg` | `var(--color-apricot-100)` |  | RevealCard |
 | `--gate-1-fg` | `var(--color-stone-900)` |  | RevealCard |
 | `--gate-1-pain` | `var(--color-apricot-800)` |  | RevealCard |
