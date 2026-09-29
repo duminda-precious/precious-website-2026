@@ -18,6 +18,7 @@ import { disclosure } from './disclosure';
 import { pixelHover } from './pixelHover';
 import { pixelText } from './pixelText';
 import { logoPop } from './logoPop';
+import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
   name: string;
@@ -70,6 +71,7 @@ function teardown() {
 export function bootMotion() {
   if (booted) return;
   booted = true;
+  setupPageTransition();
   document.addEventListener('astro:page-load', init);
   document.addEventListener('astro:before-swap', teardown);
   onReducedMotionChange(() => {

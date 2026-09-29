@@ -26,6 +26,10 @@ const FALLBACK = {
   '--dur-breathe': '7s',
   '--pixel-pop-steps': '16',
   '--dur-pixel-pop': '800ms',
+  '--pixel-cell-page': '2rem',
+  '--pixel-cell-menu': '1.5rem',
+  '--pixel-reveal-steps': '6',
+  '--dur-pixel-reveal': '280ms',
 } as const;
 
 type MotionVar = keyof typeof FALLBACK;
@@ -44,7 +48,9 @@ export function duration(name: Extract<MotionVar, `--dur-${string}`>): number {
 }
 
 /** A unitless number token, e.g. --pixel-steps. */
-export function count(name: '--pixel-steps' | '--pixel-pop-steps'): number {
+export function count(
+  name: '--pixel-steps' | '--pixel-pop-steps' | '--pixel-reveal-steps',
+): number {
   return Math.max(1, Math.round(parseFloat(readVar(name))));
 }
 
@@ -57,7 +63,7 @@ export function list(name: '--pixel-resolve' | '--pixel-breathe'): number[] {
 }
 
 /** A length token in CSS pixels (px or rem), e.g. --pixel-cell. */
-export function length(name: '--pixel-cell'): number {
+export function length(name: '--pixel-cell' | '--pixel-cell-page' | '--pixel-cell-menu'): number {
   const raw = readVar(name);
   const n = parseFloat(raw);
   if (!raw.endsWith('rem')) return n;

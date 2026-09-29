@@ -8,7 +8,8 @@
  * Props: SEO props (title, description, noindex, type, image, canonical).
  * Slots: default (main content), "head" (extra head tags), "jsonld".
  * Tokens: --page-bg, --z-page, --z-skip, --dur-page, --ease-standard.
- * Motion hooks: data-page (theme switch target, M2), data-motion="footer-reveal" on the footer (M3).
+ * Motion hooks: data-page (theme switch target, M2), data-motion="footer-reveal" on the footer (M3),
+ *               data-pixel-cover (page transition, M10).
  */
 import '../../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
@@ -54,6 +55,15 @@ const seo = Astro.props;
     </div>
 
     <CtaFooter />
+
+    <!-- M10: pixel page-transition cover (motion/pageTransition.ts). Persists across swaps. -->
+    <div
+      class="pixel-cover"
+      data-pixel-cover
+      aria-hidden="true"
+      hidden
+      transition:persist="pixel-cover"
+    ></div>
 
     <script>
       import { bootMotion } from '../../motion';
@@ -111,12 +121,21 @@ const seo = Astro.props;
       }
     }
 
-    /* M10: minimal cross-fade between routes (phase 2 replaces it). The nav and
-       footer are named, non-animated groups so they don't flash. */
+    /* M10: the pixel cover is the page transition, so the browser's own
+       view-transition cross-fade is off. */
     :global(::view-transition-old(root)),
     :global(::view-transition-new(root)) {
-      animation-duration: var(--dur-base);
-      animation-timing-function: var(--ease-standard);
+      animation: none;
+    }
+    .pixel-cover {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-cover);
+      background: var(--pixel-cover-bg);
+      pointer-events: none;
+    }
+    .pixel-cover[hidden] {
+      display: none;
     }
     @media (prefers-reduced-motion: reduce) {
       :global(::view-transition-group(*)),

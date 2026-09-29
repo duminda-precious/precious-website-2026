@@ -347,6 +347,11 @@
     --logo-mark-end-inset: 39.3%; /* (758 − 460.1) / 758 */
     --logo-mark-scale: 1.4;
     --dur-logo-collapse: 700ms;
+    /* Pixel reveal: page transition (M10) and mobile menu (M16) */
+    --pixel-cell-page: 2rem; /* 32px cells for the full-screen cover */
+    --pixel-cell-menu: 1.5rem; /* 24px cells for the menu */
+    --pixel-reveal-steps: 6;
+    --dur-pixel-reveal: 280ms; /* each way */
     --rise-distance: 120px; /* brief entrance pattern */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
@@ -368,6 +373,7 @@
     --z-dropdown: 10;
     --z-menu: 50;
     --z-skip: 100;
+    --z-cover: 200; /* page-transition pixel cover */
 
     /* Breakpoints: custom properties cannot be used inside @media, so these
        are documentation. Use the literal values in media queries:
@@ -537,6 +543,9 @@
     /* Button hover: the fill dissolves to the gradient in pixel steps (P2-4) */
     --cta-hover-bg: var(--gradient-glasswing-sky);
     --cta-hover-fg: var(--color-stone-900);
+
+    /* Page-transition cover */
+    --pixel-cover-bg: var(--color-stone-900);
 
     /* Process card */
     --process-bg: var(--color-stone-900);

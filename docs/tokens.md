@@ -309,7 +309,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--ease-linear` | `linear` |  | ClientsSection |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
 | `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, tokens |
-| `--dur-base` | `300ms` |  | MobileMenu, RevealCard, SiteShell, disclosure, gsap, tokens |
+| `--dur-base` | `300ms` |  | RevealCard, disclosure, gsap, tokens |
 | `--dur-reveal` | `450ms` |  | RevealCard, tokens |
 | `--dur-theme` | `800ms` |  | Nav, tokens |
 | `--dur-page` | `900ms` |  | SiteShell, tokens |
@@ -348,6 +348,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--logo-mark-end-inset` | `39.3%` | (758 − 460.1) / 758 | Nav |
 | `--logo-mark-scale` | `1.4` |  | Nav |
 | `--dur-logo-collapse` | `700ms` |  | Nav |
+
+### Pixel reveal: page transition (M10) and mobile menu (M16)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | pageTransition, pixelClip, tokens |
+| `--pixel-cell-menu` | `1.5rem` | 24px cells for the menu | MobileMenu, pixelClip, tokens |
+| `--pixel-reveal-steps` | `6` |  | pixelClip, tokens |
+| `--dur-pixel-reveal` | `280ms` | each way | pixelClip, tokens |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn, tokens |
 | `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |
@@ -380,6 +389,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--z-dropdown` | `10` |  | Nav |
 | `--z-menu` | `50` |  | — |
 | `--z-skip` | `100` |  | SiteShell |
+| `--z-cover` | `200` | page-transition pixel cover | SiteShell |
 
 ## Semantic colours: light (default)
 
@@ -533,6 +543,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--cta-hover-bg` | `var(--gradient-glasswing-sky)` |  | Button, pixelHover |
 | `--cta-hover-fg` | `var(--color-stone-900)` |  | Button |
+
+### Page-transition cover
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-cover-bg` | `var(--color-stone-900)` |  | SiteShell |
 
 ### Process card
 

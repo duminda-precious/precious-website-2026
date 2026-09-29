@@ -2,14 +2,16 @@
 /**
  * MobileMenu: Menu button + full-screen overlay below md (plan §3.2).
  * Built on a modal <dialog>: the rest of the page is inert while open (focus
- * trap), Esc closes it natively, focus returns to the Menu button, and the page
- * scroll is locked. Visual treatment is deliberately minimal (phase 2 styles it).
+ * trap), Esc closes it, focus returns to the Menu button, and the page scroll is
+ * locked. It opens and closes (Close button, Esc) through a pixel reveal (M16). Visual treatment is deliberately minimal (phase 2 styles it).
  * Props: services (dropdown items for the Services group; links from src/config/navigation.ts).
  * Services is a collapsible accordion (closed by default) with an inset, grey sub-list (brief M11).
  * Tokens: --surface-page, --text-primary, --text-secondary, --gutter, --space-*, --text-menu,
  *         --tracking-heading, --font-sans, --text-label, --tap-min, --radius-pill,
  *         --border-width, --nav-badge-*, --dur-base, --ease-standard.
- * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions).
+ * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions);
+ *               pixel reveal via motion/pixelClip.ts (--pixel-cell-menu, --pixel-reveal-steps,
+ *               --dur-pixel-reveal); off with reduced motion.
  */
 import Button from '../ui/Button.astro';
 import Logo from '../ui/Logo.astro';
@@ -101,6 +103,9 @@ const { services } = Astro.props;
 </div>
 
 <script>
+  import { pixelClip } from '../../motion/pixelClip';
+  import { prefersReducedMotion } from '../../motion/reducedMotion';
+
   const DESKTOP = '(min-width: 47.5rem)';
 
   function initMenus() {
@@ -113,18 +118,42 @@ const { services } = Astro.props;
         const controller = new AbortController();
         const { signal } = controller;
 
+        // M16: the menu reveals / hides through pixel cells (not with reduced motion).
+        const clip = pixelClip(dialog, '--pixel-cell-menu');
+        const animate = () => !prefersReducedMotion();
+
         const open = () => {
+          if (animate()) dialog.style.clipPath = "path('M0 0z')";
           dialog.showModal();
+          if (animate()) clip.to(true);
           openBtn.setAttribute('aria-expanded', 'true');
           document.documentElement.classList.add('is-scroll-locked');
           document.dispatchEvent(new Event('scroll:lock'));
         };
+        /** Instant close (link clicks: the page transition takes over). */
         const close = () => {
+          clip.reset();
           if (dialog.open) dialog.close();
+        };
+        /** Close button and Esc: pixel out, then close. */
+        const closeAnimated = () => {
+          if (!dialog.open) return;
+          if (!animate()) return close();
+          clip.to(false).then(close);
         };
 
         openBtn.addEventListener('click', open, { signal });
-        root.querySelector('[data-menu-close]')!.addEventListener('click', close, { signal });
+        root
+          .querySelector('[data-menu-close]')!
+          .addEventListener('click', closeAnimated, { signal });
+        dialog.addEventListener(
+          'cancel',
+          (e) => {
+            e.preventDefault();
+            closeAnimated();
+          },
+          { signal },
+        );
         // Esc fires "cancel" then "close"; every close path ends here.
         dialog.addEventListener(
           'close',
@@ -215,14 +244,6 @@ const { services } = Astro.props;
     .menu::backdrop {
       background: transparent;
     }
-    .menu[open] {
-      animation: menu-in var(--dur-base) var(--ease-standard);
-    }
-    @keyframes menu-in {
-      from {
-        opacity: 0;
-      }
-    }
 
     .menu__inner {
       display: flex;
@@ -308,9 +329,6 @@ const { services } = Astro.props;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .menu[open] {
-        animation: none;
-      }
       .menu__caret {
         transition: none;
       }
