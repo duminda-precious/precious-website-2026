@@ -293,7 +293,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | Button, PixelIcon |
+| `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
 | `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
@@ -325,14 +325,18 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--pixel-steps` | `5` | batches: fewer = chunkier | pixelHover, tokens |
 | `--pixel-cell` | `0.375rem` | 6px cells | pixelHover, tokens |
 
-### Pixel text (P2-5): headings pixelate through these block sizes (px), one
+### Pixel text (M13, ported from the parallel prototype): words pixelate
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-resolve` | `12 8 5 3` | coarse → crisp | pixelText, tokens |
-| `--pixel-breathe` | `2 3 4 5 4 3 2` | in and out, like a breath | pixelText, tokens |
-| `--dur-pixel-frame` | `110ms` |  | pixelText, tokens |
-| `--dur-breathe` | `7s` |  | pixelText, tokens |
+| `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | pixelText, tokens |
+| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | pixelText, tokens |
+| `--dur-pixel-frame-in` | `70ms` |  | pixelText, tokens |
+| `--dur-pixel-frame-glitch` | `55ms` |  | pixelText, tokens |
+| `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | pixelText, tokens |
+| `--dur-glitch-min` | `2.2s` | idle glitch every min + random(range) | pixelText, tokens |
+| `--dur-glitch-range` | `2.4s` |  | pixelText, tokens |
+| `--pixel-glitch-double` | `0.3` | chance a glitch hits two words | pixelText, tokens |
 
 ### Footer butterfly: pixels pop in, shuffled, in this many batches
 
@@ -540,6 +544,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--team-hub-bg` | `var(--gradient-glasswing-sky)` |  | TeamSection |
 | `--team-hub-fg` | `var(--color-stone-900)` |  | TeamSection |
 | `--team-wire` | `rgb(107 98 90 / 0.35)` | Stone at 35% | TeamSection |
+
+### Button ▸: hidden at rest; on hover the label steps left by half the glyph's
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--button-glyph-shift` | `calc((3 * var(--pixel-unit) + var(--space-8)) / 2)` | 7px | Button |
 
 ### Button hover: the fill dissolves to the gradient in pixel steps (P2-4)
 

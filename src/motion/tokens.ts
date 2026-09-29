@@ -20,10 +20,14 @@ const FALLBACK = {
   '--dur-pixel': '240ms',
   '--pixel-steps': '5',
   '--pixel-cell': '0.375rem',
-  '--pixel-resolve': '12 8 5 3',
-  '--pixel-breathe': '2 3 4 5 4 3 2',
-  '--dur-pixel-frame': '110ms',
-  '--dur-breathe': '7s',
+  '--pixel-resolve': '36 28 21 15 10 6 3',
+  '--pixel-glitch': '3 7 14 20 12 6 3',
+  '--dur-pixel-frame-in': '70ms',
+  '--dur-pixel-frame-glitch': '55ms',
+  '--dur-pixel-word-stagger': '70ms',
+  '--dur-glitch-min': '2.2s',
+  '--dur-glitch-range': '2.4s',
+  '--pixel-glitch-double': '0.3',
   '--pixel-pop-steps': '16',
   '--dur-pixel-pop': '800ms',
   '--pixel-cell-page': '2rem',
@@ -58,8 +62,13 @@ export function count(
   return Math.max(1, Math.round(parseFloat(readVar(name))));
 }
 
+/** A 0–1 number token, e.g. a probability. */
+export function ratio(name: '--pixel-glitch-double'): number {
+  return Math.min(1, Math.max(0, parseFloat(readVar(name)) || 0));
+}
+
 /** A space-separated number list token, e.g. --pixel-resolve "12 8 5 3". */
-export function list(name: '--pixel-resolve' | '--pixel-breathe'): number[] {
+export function list(name: '--pixel-resolve' | '--pixel-glitch'): number[] {
   return readVar(name)
     .split(/\s+/)
     .map(Number)

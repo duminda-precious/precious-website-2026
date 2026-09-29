@@ -64,6 +64,23 @@
     overflow: clip;
   }
 
+  /* M13 pixel text: words are wrapped in .px at runtime (motion/pixelText.ts).
+     While a word animates, its text goes transparent under a canvas overlay. */
+  .px {
+    position: relative;
+    display: inline-block;
+  }
+  .px.pxon {
+    color: transparent !important;
+  }
+  .px.pxhide {
+    visibility: hidden;
+  }
+  .px canvas {
+    position: absolute;
+    pointer-events: none;
+  }
+
   /* Set by the mobile menu while open. */
   html.is-scroll-locked {
     overflow: hidden;

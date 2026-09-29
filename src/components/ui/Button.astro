@@ -14,7 +14,10 @@
  * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --radius-md, --font-sans,
  *         --text-label, --tracking-label, --weight-label, --space-*, --tap-min.
  * Motion hooks: data-pixel-fill (button), data-pixel-layer (cell container),
- *               data-pixel-lit (set while the gradient is mostly in; also steps the ▸ right).
+ *               data-pixel-lit (set while the gradient is mostly in; also shows the ▸).
+ * The ▸ is hidden at rest and appears on hover / keyboard focus. The button never
+ * changes size: the label steps left by half the glyph's footprint and the ▸
+ * appears in the right padding (no tween, 8-bit).
  */
 import PixelIcon from './PixelIcon.astro';
 interface Props {
@@ -37,7 +40,7 @@ const {
   class: className,
   ...rest
 } = Astro.props;
-const classes = ['button', `button--${size}`, className];
+const classes = ['button', `button--${size}`, { 'button--glyph': glyph }, className];
 const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 ---
 
@@ -98,16 +101,25 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       border-radius: inherit;
       pointer-events: none;
     }
-    .button__label,
-    .button > :global(.button__glyph) {
+    .button__label {
       position: relative;
+    }
+    /* The ▸ sits in the right padding, hidden until hover. */
+    .button > :global(.button__glyph) {
+      position: absolute;
+      top: 50%;
+      right: calc(var(--button-pad-x) - var(--button-glyph-shift));
+      visibility: hidden;
+      transform: translateY(-50%);
     }
     .button[data-pixel-lit] {
       color: var(--cta-hover-fg);
     }
-    /* Secondary motion: the ▸ steps one pixel unit right with the fill (no tween). */
+    .button--glyph[data-pixel-lit] .button__label {
+      transform: translateX(calc(var(--button-glyph-shift) * -1));
+    }
     .button[data-pixel-lit] > :global(.button__glyph) {
-      transform: translateX(var(--pixel-unit));
+      visibility: visible;
     }
 
     /* Fallback without the pixel module (no JS, reduced motion): instant swap. */
@@ -115,14 +127,18 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       background: var(--cta-hover-bg);
       color: var(--cta-hover-fg);
     }
+    :global(html:not([data-pixel-hover])) .button--glyph:is(:hover, :focus-visible) .button__label {
+      transform: translateX(calc(var(--button-glyph-shift) * -1));
+    }
     :global(html:not([data-pixel-hover]))
       .button:is(:hover, :focus-visible)
       > :global(.button__glyph) {
-      transform: translateX(var(--pixel-unit));
+      visibility: visible;
     }
 
     .button--sm {
-      padding: var(--space-10) var(--space-16);
+      --button-pad-x: var(--space-16);
+      padding: var(--space-10) var(--button-pad-x);
     }
     /* Visual size stays compact; touch still gets a 44px hit area. */
     .button--sm::after {
@@ -134,8 +150,9 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     }
 
     .button--md {
+      --button-pad-x: var(--space-22);
       min-height: var(--tap-min);
-      padding: var(--space-14) var(--space-22);
+      padding: var(--space-14) var(--button-pad-x);
     }
   }
 </style>

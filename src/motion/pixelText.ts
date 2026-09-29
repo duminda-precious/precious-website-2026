@@ -1,124 +1,234 @@
 /**
- * Pixel text (P2-5). Headings marked data-motion="pixel-text":
- *  1. Resolve: the first time a heading enters the viewport it steps from coarse
- *     pixel blocks to crisp type (--pixel-resolve, one frame per size).
- *  2. Breathe: every --dur-breathe, one heading currently in view gently pixelates
- *     and settles back (--pixel-breathe), so the page feels alive, not glitchy.
+ * M13 pixel text: words resolve from, and now and then break back into, hard pixels
+ * (the language of the butterfly mark). Ported from the parallel prototype's hero
+ * effect (decision 2026-09-29) and applied to every [data-motion="pixel-text"] heading.
  *
- * The text stays real HTML the whole time: pixelation is an SVG filter
- * (sample one pixel per block, then dilate it into a square) applied through CSS
- * `filter: url(#…)`. One filter per block size is injected into the page.
- * Browsers without SVG filters on HTML simply show crisp text.
+ *  1. Resolve: the first time a heading is 40% in view, each word steps from big
+ *     blocks to crisp type (--pixel-resolve), words staggered left to right.
+ *  2. Glitch: every --dur-glitch-min + random(--dur-glitch-range), one word in a
+ *     visible heading (sometimes two) breaks into pixels and snaps back (--pixel-glitch),
+ *     with a small sideways jitter on the biggest blocks.
  *
- * Tokens: --pixel-resolve, --pixel-breathe, --dur-pixel-frame, --dur-breathe.
- * Reduced motion: the module doesn't run (text is always crisp).
+ * How: each word is wrapped in <span class="px">. While it animates, a canvas overlay
+ * draws the word at 1/block resolution, hardens the alpha to on/off pixels (blocks ≥ 3),
+ * and scales it up with nearest-neighbour; the word's own text goes transparent. The
+ * real text stays in the DOM (the canvas is aria-hidden), so reading, selection and
+ * SEO are unaffected.
+ *
+ * Tokens: --pixel-resolve, --pixel-glitch, --dur-pixel-frame-in, --dur-pixel-frame-glitch,
+ *         --dur-pixel-word-stagger, --dur-glitch-min, --dur-glitch-range, --pixel-glitch-double.
+ * Reduced motion / no canvas: the module doesn't run; text is always crisp.
+ * Hooks: data-motion="pixel-text"; .px, .pxon, .pxhide (styles in base.css).
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { duration, list } from './tokens';
+import { duration, list, ratio } from './tokens';
 
-const SVG_NS = 'http://www.w3.org/2000/svg';
-const idFor = (b: number) => `pixel-text-${b}`;
+interface PxWord extends HTMLSpanElement {
+  _busy?: boolean;
+  _cs?: CSSStyleDeclaration;
+  _col?: string;
+  _txt?: string;
+  _base?: number;
+  _c?: HTMLCanvasElement | null;
+  _s?: HTMLCanvasElement;
+}
 
-function filterDefs(blocks: number[]): SVGSVGElement {
-  const svg = document.createElementNS(SVG_NS, 'svg');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('width', '0');
-  svg.setAttribute('height', '0');
-  svg.style.position = 'absolute';
-  svg.innerHTML = blocks
-    .map((b) => {
-      const h = Math.floor(b / 2);
-      return `<filter id="${idFor(b)}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-        <feFlood x="${h}" y="${h}" width="1" height="1" />
-        <feComposite width="${b}" height="${b}" />
-        <feTile result="grid" />
-        <feComposite in="SourceGraphic" in2="grid" operator="in" />
-        <feMorphology operator="dilate" radius="${h}" />
-      </filter>`;
-    })
-    .join('');
-  return svg;
+/** Wrap every word of el's text in <span class="px"> (whitespace stays text). */
+function wrapWords(el: HTMLElement): PxWord[] {
+  const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const nodes: Text[] = [];
+  const out: PxWord[] = [];
+  let n: Node | null;
+  while ((n = tw.nextNode())) if (n.nodeValue?.trim()) nodes.push(n as Text);
+  nodes.forEach((t) => {
+    const frag = document.createDocumentFragment();
+    t.nodeValue!.split(/(\s+)/).forEach((w) => {
+      if (!w) return;
+      if (/^\s+$/.test(w)) {
+        frag.append(document.createTextNode(w));
+        return;
+      }
+      const sp = document.createElement('span') as PxWord;
+      sp.className = 'px';
+      sp.textContent = w;
+      frag.append(sp);
+      out.push(sp);
+    });
+    t.parentNode!.replaceChild(frag, t);
+  });
+  return out;
+}
+
+function baseline(el: HTMLElement): number {
+  const i = document.createElement('i');
+  i.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+  el.append(i);
+  const y = i.offsetTop;
+  i.remove();
+  return y;
 }
 
 export const pixelText: MotionModule = {
   name: 'pixelText',
   init(root) {
-    if (prefersReducedMotion()) return;
-    const targets = Array.from(root.querySelectorAll<HTMLElement>('[data-motion="pixel-text"]'));
-    if (!targets.length) return;
+    if (prefersReducedMotion() || !window.HTMLCanvasElement) return;
+    const headings = Array.from(root.querySelectorAll<HTMLElement>('[data-motion="pixel-text"]'));
+    if (!headings.length) return;
 
-    const resolve = list('--pixel-resolve');
-    const breathe = list('--pixel-breathe');
-    const frameMs = duration('--dur-pixel-frame') * 1000;
-    const breatheMs = duration('--dur-breathe') * 1000;
-
-    const defs = filterDefs([...new Set([...resolve, ...breathe])]);
-    root.body.append(defs);
+    const IN = list('--pixel-resolve');
+    const GLITCH = list('--pixel-glitch');
+    const frameIn = duration('--dur-pixel-frame-in') * 1000;
+    const frameGlitch = duration('--dur-pixel-frame-glitch') * 1000;
+    const stagger = duration('--dur-pixel-word-stagger') * 1000;
+    const glitchMin = duration('--dur-glitch-min') * 1000;
+    const glitchRange = duration('--dur-glitch-range') * 1000;
+    const doubleChance = ratio('--pixel-glitch-double');
+    const DPR = Math.min(2, window.devicePixelRatio || 1);
 
     const timers = new Set<number>();
-    const busy = new Set<HTMLElement>();
+    const later = (fn: () => void, ms: number) => {
+      const t = window.setTimeout(() => {
+        timers.delete(t);
+        fn();
+      }, ms);
+      timers.add(t);
+    };
+
+    const originals = new Map(headings.map((h) => [h, h.innerHTML]));
+    const words = new Map(headings.map((h) => [h, wrapWords(h)]));
+    const resolved = new Set<HTMLElement>();
     const inView = new Set<HTMLElement>();
-    const resolved = new WeakSet<HTMLElement>();
 
-    const setBlock = (el: HTMLElement, b: number | null) => {
-      el.style.filter = b ? `url(#${idFor(b)})` : '';
+    const draw = (el: PxWord, block: number) => {
+      const cs = el._cs!;
+      const fs = parseFloat(cs.fontSize);
+      const pad = Math.ceil(fs * 0.35);
+      const W = el.offsetWidth + pad * 2;
+      const H = el.offsetHeight + pad * 2;
+      let c = el._c;
+      if (!c) {
+        c = document.createElement('canvas');
+        c.setAttribute('aria-hidden', 'true');
+        el.append(c);
+        el._c = c;
+      }
+      c.style.left = `${-pad}px`;
+      c.style.top = `${-pad}px`;
+      c.style.width = `${W}px`;
+      c.style.height = `${H}px`;
+      const b = Math.max(1, block);
+      const sw = Math.ceil(W / b);
+      const sh = Math.ceil(H / b);
+      const s = el._s ?? (el._s = document.createElement('canvas'));
+      s.width = sw;
+      s.height = sh;
+      const x = s.getContext('2d')!;
+      x.save();
+      x.scale(1 / b, 1 / b);
+      x.font = `${cs.fontStyle} ${cs.fontWeight} ${fs}px ${cs.fontFamily}`;
+      try {
+        if ('letterSpacing' in x) (x as CanvasRenderingContext2D).letterSpacing = cs.letterSpacing;
+      } catch {
+        /* older canvas: no letter-spacing */
+      }
+      x.fillStyle = el._col!;
+      x.textBaseline = 'alphabetic';
+      x.fillText(el._txt!, pad, pad + el._base!);
+      x.restore();
+      if (b >= 3) {
+        const d = x.getImageData(0, 0, sw, sh);
+        const a = d.data;
+        for (let i = 3; i < a.length; i += 4) a[i] = a[i]! > 80 ? 255 : 0;
+        x.putImageData(d, 0, 0);
+      }
+      c.width = Math.ceil(W * DPR);
+      c.height = Math.ceil(H * DPR);
+      const g = c.getContext('2d')!;
+      g.imageSmoothingEnabled = false;
+      g.drawImage(s, 0, 0, sw, sh, 0, 0, sw * b * DPR, sh * b * DPR);
+      c.style.transform =
+        b >= 8 && Math.random() < 0.45
+          ? `translateX(${(Math.random() < 0.5 ? -1 : 1) * Math.round(b / 2)}px)`
+          : '';
     };
 
-    /** Play block sizes one frame each, then clear. */
-    const play = (el: HTMLElement, blocks: number[]) => {
-      busy.add(el);
-      blocks.forEach((b, i) => {
-        const t = window.setTimeout(() => {
-          timers.delete(t);
-          setBlock(el, b);
-        }, i * frameMs);
-        timers.add(t);
-      });
-      const end = window.setTimeout(() => {
-        timers.delete(end);
-        setBlock(el, null);
-        busy.delete(el);
-      }, blocks.length * frameMs);
-      timers.add(end);
+    const run = (el: PxWord, seq: number[], ms: number, delay = 0) => {
+      if (el._busy) return;
+      el._busy = true;
+      el._cs = getComputedStyle(el);
+      el._col = el._cs.color;
+      el._txt = el.textContent ?? '';
+      el._base = baseline(el);
+      later(() => {
+        let i = 0;
+        el.classList.add('pxon');
+        el.classList.remove('pxhide');
+        const tick = () => {
+          if (i >= seq.length) {
+            el.classList.remove('pxon');
+            el._c?.remove();
+            el._c = null;
+            el._busy = false;
+            return;
+          }
+          draw(el, seq[i++]!);
+          later(tick, ms);
+        };
+        tick();
+      }, delay);
     };
 
-    // Headings wait coarse until they're seen, then resolve once.
-    targets.forEach((el) => setBlock(el, resolve[0] ?? null));
+    // 1. Resolve on first view. Words wait hidden until their turn.
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach(({ target, isIntersecting }) => {
-          const el = target as HTMLElement;
-          if (isIntersecting) {
-            inView.add(el);
-            if (!resolved.has(el)) {
-              resolved.add(el);
-              play(el, resolve.slice(1));
-            }
-          } else {
-            inView.delete(el);
+          const h = target as HTMLElement;
+          if (!isIntersecting) {
+            inView.delete(h);
+            return;
           }
+          inView.add(h);
+          if (resolved.has(h)) return;
+          resolved.add(h);
+          words.get(h)!.forEach((w, i) => run(w, IN, frameIn, i * stagger));
         });
       },
       { threshold: 0.4 },
     );
-    targets.forEach((el) => io.observe(el));
 
-    // Breathe: one visible, idle heading at a time, only while the tab is visible.
-    const interval = window.setInterval(() => {
-      if (document.hidden) return;
-      const idle = [...inView].filter((el) => resolved.has(el) && !busy.has(el));
-      const pick = idle[Math.floor(Math.random() * idle.length)];
-      if (pick) play(pick, breathe);
-    }, breatheMs);
+    let stopped = false;
+    const start = () => {
+      if (stopped) return;
+      words.forEach((ws) => ws.forEach((w) => w.classList.add('pxhide')));
+      headings.forEach((h) => io.observe(h));
+
+      // 2. Now and then, a word in a visible heading breaks into pixels and snaps back.
+      const idle = () =>
+        later(
+          () => {
+            if (!document.hidden) {
+              const pool = [...inView].filter((h) => resolved.has(h)).flatMap((h) => words.get(h)!);
+              const n = Math.random() < doubleChance ? 2 : 1;
+              for (let k = 0; k < n && pool.length; k++) {
+                run(pool[Math.floor(Math.random() * pool.length)]!, GLITCH, frameGlitch, k * 140);
+              }
+            }
+            idle();
+          },
+          glitchMin + Math.random() * glitchRange,
+        );
+      idle();
+    };
+    // Draw with the brand fonts, never the fallback.
+    (document.fonts?.ready ?? Promise.resolve()).then(start);
 
     return () => {
+      stopped = true;
       io.disconnect();
-      window.clearInterval(interval);
       timers.forEach((t) => window.clearTimeout(t));
       timers.clear();
-      targets.forEach((el) => setBlock(el, null));
-      defs.remove();
+      originals.forEach((html, h) => (h.innerHTML = html));
     };
   },
 };
