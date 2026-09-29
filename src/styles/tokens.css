@@ -84,9 +84,6 @@
     --color-sunset-800: #68193a;
     --color-sunset-900: #420f25;
 
-    /* Sage 700: headline emphasis words and notes. */
-    --color-sage-700: #4e7a3c;
-
     /* Status (product UI only; always pair with an icon or label) */
     --color-success: #1e7a52;
     --color-warning: #9a5b00;
@@ -210,7 +207,6 @@
        in the copy (Chicago style); only the label caps are CSS. */
     --weight-display: var(--weight-regular); /* every Funnel Display style ... */
     --weight-figure: var(--weight-semibold); /* ... except Statement (big numbers) */
-    --weight-emphasis: var(--weight-regular); /* headline emphasis word (Sage colour) */
     --weight-body: var(--weight-regular); /* every Funnel Sans style ... */
     --weight-label: var(--weight-medium); /* ... except labels (all caps) */
     --weight-eyebrow: var(--weight-regular);
@@ -412,8 +408,6 @@
     --border-default: var(--color-stone-300); /* Mist */
     --border-strong: var(--color-stone-400);
 
-    /* Headline emphasis word: Light 300 in Sage 700 */
-    --accent: var(--color-sage-700);
     --link: var(--color-morpho-600);
     --cta-bg: var(--color-stone-900); /* Deep Ink button */
     --cta-fg: var(--color-white);
@@ -447,7 +441,6 @@
       --border-default: var(--color-stone-800);
       --border-strong: var(--color-stone-700);
 
-      --accent: var(--color-stone-50);
       --link: var(--color-morpho-300);
       --cta-bg: var(--color-stone-50);
       --cta-fg: var(--color-stone-900);
@@ -480,7 +473,6 @@
     --border-default: var(--color-stone-800);
     --border-strong: rgb(255 255 255 / 0.7);
 
-    --accent: var(--color-stone-50);
     --link: var(--color-morpho-300);
     --cta-bg: var(--color-white);
     --cta-fg: var(--color-stone-900);

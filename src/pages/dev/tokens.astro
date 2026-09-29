@@ -34,7 +34,7 @@ const primitives = {
   'Morpho (secondary)': scale('morpho'),
   'Swallowtail (accent)': scale('swallowtail'),
   'Sunset Moth (accent, rare)': scale('sunset'),
-  'Sage and status': ['sage-700', 'success', 'warning', 'error', 'info'],
+  Status: ['success', 'warning', 'error', 'info'],
 };
 
 const gradients = ['glasswing-sky', 'morpho-shimmer', 'swallowtail', 'sunset-moth'];
@@ -61,7 +61,6 @@ const semantic = [
   'border-subtle',
   'border-default',
   'border-strong',
-  'accent',
   'link',
   'cta-bg',
   'cta-fg',
@@ -80,7 +79,6 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
   ['text-muted', 'surface-raised', 'Quote role on card', 'normal'],
   ['text-muted', 'surface-page', 'Muted text (legal)', 'normal'],
   ['cta-fg', 'cta-bg', 'Button', 'normal'],
-  ['accent', 'surface-page', 'Headline emphasis (large)', 'large'],
   ['link', 'surface-page', 'Link', 'normal'],
   ['placeholder-fg', 'placeholder-stripe-a', 'Placeholder label', 'normal'],
   ['gate-1-fg', 'gate-1-bg', 'Gate 1 title', 'large'],
@@ -308,14 +306,6 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
               </p>
             </div>
           ))}
-          <div class="type-row">
-            <code class="type-row__name">
-              emphasis · &lt;em&gt; in a heading · Regular 400, Sage 700
-            </code>
-            <h2 class="type-row__sample dev-emphasis">
-              Designed to Be <em>Felt.</em>
-            </h2>
-          </div>
         </Stack>
       </Section>
 
@@ -732,10 +722,6 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       opacity: var(--grain-opacity);
       mix-blend-mode: multiply;
       pointer-events: none;
-    }
-    .dev-emphasis {
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
     }
     .shadow-box {
       display: block;

@@ -11,12 +11,16 @@
  * Tokens: --pixel-cell (cell size), --pixel-steps (batches), --dur-pixel / --dur-pixel-out
  *         (total time in / out; exits are faster),
  *         --cta-hover-bg (the gradient, read through the cell's CSS).
+ * The label ([data-pixel-label]) glitches with the same effect as headings (M13,
+ * pixelWords.ts) on the way in and out.
  * Reduced motion: the module doesn't run; Button's CSS fallback swaps instantly.
- * Hooks: data-pixel-fill, data-pixel-layer, data-pixel-lit; html[data-pixel-hover].
+ * Hooks: data-pixel-fill, data-pixel-layer, data-pixel-label, data-pixel-lit;
+ *        html[data-pixel-hover].
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { count, duration, length } from './tokens';
+import { count, duration, length, list } from './tokens';
+import { pixelRunner, wrapWords } from './pixelWords';
 
 function shuffled(n: number): number[] {
   const a = Array.from({ length: n }, (_, i) => i);
@@ -45,10 +49,16 @@ export const pixelHover: MotionModule = {
     const steps = count('--pixel-steps');
     const stepIn = (duration('--dur-pixel') * 1000) / steps;
     const stepOut = (duration('--dur-pixel-out') * 1000) / steps;
+    const GLITCH = list('--pixel-glitch');
+    const frameGlitch = duration('--dur-pixel-frame-glitch') * 1000;
+    const runner = pixelRunner();
 
     targets.forEach((el) => {
       const layer = el.querySelector<HTMLElement>('[data-pixel-layer]');
       if (!layer) return;
+      const label = el.querySelector<HTMLElement>('[data-pixel-label]');
+      const labelHtml = label?.innerHTML ?? '';
+      const labelWords = label ? wrapWords(label) : [];
 
       let cells: HTMLElement[] = [];
       let order: number[] = [];
@@ -109,6 +119,7 @@ export const pixelHover: MotionModule = {
       };
 
       const run = (on: boolean) => {
+        labelWords.forEach((w) => runner.run(w, GLITCH, frameGlitch));
         build();
         target = on ? cells.length : 0;
         window.clearTimeout(timer);
@@ -126,6 +137,7 @@ export const pixelHover: MotionModule = {
       el.addEventListener('blur', () => run(false), { signal });
 
       resets.push(() => {
+        if (label) label.innerHTML = labelHtml;
         layer.replaceChildren();
         el.removeAttribute('data-pixel-lit');
       });
@@ -133,6 +145,7 @@ export const pixelHover: MotionModule = {
 
     return () => {
       controller.abort();
+      runner.stop();
       timers.forEach((t) => window.clearTimeout(t));
       timers.clear();
       resets.forEach((fn) => fn());

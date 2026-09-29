@@ -93,12 +93,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--color-sunset-800` | `#68193a` |  | — |
 | `--color-sunset-900` | `#420f25` |  | — |
 
-### Sage 700: headline emphasis words and notes.
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--color-sage-700` | `#4e7a3c` |  | — |
-
 ### Status (product UI only; always pair with an icon or label)
 
 | Token | Value | Note | Used in |
@@ -182,7 +176,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--weight-semibold` | `600` |  | — |
 | `--weight-display` | `var(--weight-regular)` | every Funnel Display style ... | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
 | `--weight-figure` | `var(--weight-semibold)` | ... except Statement (big numbers) | — |
-| `--weight-emphasis` | `var(--weight-regular)` | headline emphasis word (Sage colour) | base |
 | `--weight-body` | `var(--weight-regular)` | every Funnel Sans style ... | ProcessSection, TestimonialCard |
 | `--weight-label` | `var(--weight-medium)` | ... except labels (all caps) | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
 | `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
@@ -330,9 +323,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | pixelText, tokens |
-| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | pixelText, tokens |
+| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | pixelHover, pixelText, tokens |
 | `--dur-pixel-frame-in` | `70ms` |  | pixelText, tokens |
-| `--dur-pixel-frame-glitch` | `55ms` |  | pixelText, tokens |
+| `--dur-pixel-frame-glitch` | `55ms` |  | pixelHover, pixelText, tokens |
 | `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | pixelText, tokens |
 | `--dur-glitch-min` | `2.2s` | idle glitch every min + random(range) | pixelText, tokens |
 | `--dur-glitch-range` | `2.4s` |  | pixelText, tokens |
@@ -416,12 +409,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--border-subtle` | `var(--color-stone-200)` |  | CtaFooter, Section |
 | `--border-default` | `var(--color-stone-300)` | Mist | Disclosure |
 | `--border-strong` | `var(--color-stone-400)` |  | ClientsSection, Pill |
-
-### Headline emphasis word: Light 300 in Sage 700
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--accent` | `var(--color-sage-700)` |  | base |
 | `--link` | `var(--color-morpho-600)` |  | — |
 | `--cta-bg` | `var(--color-stone-900)` | Deep Ink button | Button, SiteShell |
 | `--cta-fg` | `var(--color-white)` |  | Button, SiteShell |
@@ -448,7 +435,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--border-subtle` | `var(--color-stone-800)` |  | CtaFooter, Section |
 | `--border-default` | `var(--color-stone-800)` |  | Disclosure |
 | `--border-strong` | `var(--color-stone-700)` |  | ClientsSection, Pill |
-| `--accent` | `var(--color-stone-50)` |  | base |
 | `--link` | `var(--color-morpho-300)` |  | — |
 | `--cta-bg` | `var(--color-stone-50)` |  | Button, SiteShell |
 | `--cta-fg` | `var(--color-stone-900)` |  | Button, SiteShell |
@@ -475,7 +461,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--border-subtle` | `var(--color-stone-800)` |  | CtaFooter, Section |
 | `--border-default` | `var(--color-stone-800)` |  | Disclosure |
 | `--border-strong` | `rgb(255 255 255 / 0.7)` |  | ClientsSection, Pill |
-| `--accent` | `var(--color-stone-50)` |  | base |
 | `--link` | `var(--color-morpho-300)` |  | — |
 | `--cta-bg` | `var(--color-white)` |  | Button, SiteShell |
 | `--cta-fg` | `var(--color-stone-900)` |  | Button, SiteShell |

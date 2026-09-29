@@ -54,18 +54,26 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     {...rest}
   >
     <span class="button__pixels" aria-hidden="true" data-pixel-layer />
-    <span class="button__label">
+    <span class="button__label" data-pixel-label>
       <slot />
     </span>
-    {glyph && <PixelIcon name="play" class="button__glyph" />}
+    {glyph && (
+      <span class="button__glyph" aria-hidden="true">
+        <PixelIcon name="play" />
+      </span>
+    )}
   </a>
 ) : (
   <button type={type} class:list={classes} data-track={track} data-pixel-fill {...rest}>
     <span class="button__pixels" aria-hidden="true" data-pixel-layer />
-    <span class="button__label">
+    <span class="button__label" data-pixel-label>
       <slot />
     </span>
-    {glyph && <PixelIcon name="play" class="button__glyph" />}
+    {glyph && (
+      <span class="button__glyph" aria-hidden="true">
+        <PixelIcon name="play" />
+      </span>
+    )}
   </button>
 )}
 
@@ -105,7 +113,8 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       position: relative;
     }
     /* The ▸ sits in the right padding, hidden until hover. */
-    .button > :global(.button__glyph) {
+    .button > .button__glyph {
+      display: flex;
       position: absolute;
       top: 50%;
       right: calc(var(--button-pad-x) - var(--button-glyph-shift));
@@ -118,7 +127,7 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     .button--glyph[data-pixel-lit] .button__label {
       transform: translateX(calc(var(--button-glyph-shift) * -1));
     }
-    .button[data-pixel-lit] > :global(.button__glyph) {
+    .button[data-pixel-lit] > .button__glyph {
       visibility: visible;
     }
 
@@ -130,9 +139,7 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     :global(html:not([data-pixel-hover])) .button--glyph:is(:hover, :focus-visible) .button__label {
       transform: translateX(calc(var(--button-glyph-shift) * -1));
     }
-    :global(html:not([data-pixel-hover]))
-      .button:is(:hover, :focus-visible)
-      > :global(.button__glyph) {
+    :global(html:not([data-pixel-hover])) .button:is(:hover, :focus-visible) > .button__glyph {
       visibility: visible;
     }
 
