@@ -95,22 +95,46 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
 // [token, sample, leading, tracking, family, uppercase, weight, italic]
 type Row = [string, string, string, string, 'display' | 'sans', boolean, string, boolean?];
 const typeScale: Row[] = [
-  ['hero', 'We design how your product feels.', 'hero', 'hero', 'display', false, 'light'],
-  ['problem', 'Most products look fine.', 'none', 'problem', 'display', false, 'light'],
-  ['closer', 'Designed to be felt.', 'closer', 'closer', 'display', false, 'medium'],
-  ['h1', 'Designed by people', 'heading', 'heading', 'display', false, 'medium'],
-  ['statement', 'The proof is in how it moves.', 'heading', 'heading', 'display', false, 'medium'],
-  ['figure', '+38% completion', 'closer', 'closer', 'display', false, 'semibold'],
-  ['title', 'Lumin Fitness', 'heading', 'title', 'display', false, 'semibold'],
-  ['menu', 'Approach', 'heading', 'heading', 'display', false, 'medium'],
-  ['quote', 'Designed to be felt.', 'quote', 'body', 'sans', false, 'regular', true],
-  ['large', 'Onboarding flow, version three', 'large', 'title', 'sans', false, 'semibold'],
-  ['note', 'This step can go →', 'large', 'body', 'sans', false, 'medium'],
-  ['medium', 'Intro paragraphs and lead text on web pages.', 'medium', 'body', 'sans', false, 'regular'],
-  ['body', 'Default reading text in product and on the site.', 'body', 'body', 'sans', false, 'regular'],
-  ['small', 'Helper text, metadata, footnotes', 'body', 'body', 'sans', false, 'regular'],
-  ['label', 'Book a call', 'none', 'label', 'sans', false, 'semibold'],
-  ['eyebrow', 'Case study · Fintech · 2026', 'none', 'eyebrow', 'sans', true, 'medium'],
+  ['hero', 'We Design How Your Product Feels.', 'hero', 'hero', 'display', false, 'display'],
+  ['problem', 'Most Products Look Fine.', 'none', 'problem', 'display', false, 'display'],
+  [
+    'closer',
+    'Make Your Product Feel Worth Paying For.',
+    'closer',
+    'closer',
+    'display',
+    false,
+    'display',
+  ],
+  ['h1', 'Designed by People', 'heading', 'heading', 'display', false, 'display'],
+  ['statement', 'The Proof Is in How It Moves.', 'heading', 'heading', 'display', false, 'display'],
+  ['figure', '+38% completion', 'closer', 'closer', 'display', false, 'figure'],
+  ['title', 'Lumin Fitness', 'heading', 'title', 'display', false, 'display'],
+  ['menu', 'Approach', 'heading', 'heading', 'display', false, 'display'],
+  ['quote', 'Designed to be felt.', 'quote', 'body', 'sans', false, 'body'],
+  ['large', 'Onboarding flow, version three', 'large', 'title', 'sans', false, 'body'],
+  ['note', 'This step can go →', 'large', 'body', 'sans', false, 'body'],
+  [
+    'medium',
+    'Intro paragraphs and lead text on web pages.',
+    'medium',
+    'body',
+    'sans',
+    false,
+    'body',
+  ],
+  [
+    'body',
+    'Default reading text in product and on the site.',
+    'body',
+    'body',
+    'sans',
+    false,
+    'body',
+  ],
+  ['small', 'Helper text, metadata, footnotes', 'body', 'body', 'sans', false, 'body'],
+  ['label', 'Book a call', 'none', 'label', 'sans', true, 'label'],
+  ['eyebrow', 'Case Study · Fintech · 2026', 'none', 'eyebrow', 'sans', false, 'eyebrow'],
 ];
 
 const spaces = [
@@ -182,9 +206,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       <Section padding="tight">
         <Stack gap="24">
           <h2 class="dev-h">1 · Colour primitives</h2>
-          <p class="dev-muted">
-            Brand guideline v1.0. Components never use these directly.
-          </p>
+          <p class="dev-muted">Brand guideline v1.0. Components never use these directly.</p>
           {Object.entries(primitives).map(([group, names]) => (
             <Stack gap="10">
               <h3 class="dev-h3">{group}</h3>
@@ -269,7 +291,8 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
           <h2 class="dev-h">3 · Typography</h2>
           <p class="dev-muted">
             Funnel Display (<code>--font-display</code>) from Hero to H3 and statements; Funnel Sans
-            (<code>--font-sans</code>) from Quote to Label. Sentence case; eyebrows are the only caps.
+            (<code>--font-sans</code>) from Quote to Label. Display: weight 400, title case
+            (Statement: 600, sentence case). Sans: 400. Labels: 500, all caps. Eyebrows: title case.
             Resize the window to see the fluid sizes.
           </p>
           {typeScale.map(([name, sample, leading, tracking, family, upper, weight, italic]) => (
@@ -286,8 +309,12 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
             </div>
           ))}
           <div class="type-row">
-            <code class="type-row__name">emphasis · &lt;em&gt; in a heading · Light 300, Sage 700</code>
-            <h2 class="type-row__sample dev-emphasis">Designed to be <em>felt.</em></h2>
+            <code class="type-row__name">
+              emphasis · &lt;em&gt; in a heading · Regular 400, Sage 700
+            </code>
+            <h2 class="type-row__sample dev-emphasis">
+              Designed to Be <em>Felt.</em>
+            </h2>
           </div>
         </Stack>
       </Section>
@@ -297,14 +324,17 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
         <Stack gap="24">
           <h2 class="dev-h">4 · Gradients and meshes</h2>
           <p class="dev-muted">
-            Use subtly. One mesh per view, big surfaces only, never on UI components, never body copy
-            on a mesh. Grain (<code>--grain-image</code>) goes on large areas.
+            Use subtly. One mesh per view, big surfaces only, never on UI components, never body
+            copy on a mesh. Grain (<code>--grain-image</code>) goes on large areas.
           </p>
           <h3 class="dev-h3">Linear (180°)</h3>
           <div class="swatches swatches--wide">
             {gradients.map((g) => (
               <figure class="swatch">
-                <div class="swatch__chip swatch__chip--tall grain" style={`background: var(--gradient-${g})`} />
+                <div
+                  class="swatch__chip swatch__chip--tall grain"
+                  style={`background: var(--gradient-${g})`}
+                />
                 <figcaption>
                   <code>--gradient-{g}</code>
                 </figcaption>
@@ -438,7 +468,10 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
                 </Stack>
               ))}
             </Cluster>
-            <Disclosure question="Disclosure: pixel + swaps to × when open" answer="Sample answer." />
+            <Disclosure
+              question="Disclosure: pixel + swaps to × when open"
+              answer="Sample answer."
+            />
           </Stack>
 
           <Stack gap="12">
@@ -628,10 +661,11 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       border-bottom: var(--border-width) solid var(--border-subtle);
       font-family: var(--font-sans);
       font-size: var(--text-label);
-      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      font-weight: var(--weight-label);
     }
     .dev-brand {
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-body);
     }
     .dev-toggle {
       min-height: var(--tap-min);
@@ -646,16 +680,15 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
     }
     .dev-h {
       font-family: var(--font-display);
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-display);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
     }
     .dev-h3 {
       font-family: var(--font-sans);
       font-size: var(--text-eyebrow);
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-eyebrow);
       letter-spacing: var(--tracking-eyebrow);
-      text-transform: uppercase;
       color: var(--text-secondary);
     }
     .dev-muted {
@@ -761,7 +794,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       font-size: var(--text-large);
     }
     .is-fail {
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-body);
       text-decoration: underline;
     }
 

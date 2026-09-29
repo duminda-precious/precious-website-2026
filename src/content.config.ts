@@ -34,7 +34,7 @@ const work = defineCollection({
       poster: z.string().optional(),
       alt: z.string().default(''),
       /** Placeholder text while there's no video. Aspect ratio comes from grid position. */
-      placeholderLabel: z.string().default('case video'),
+      placeholderLabel: z.string().default('Case Video'),
     }),
     /**
      * Position in the homepage Work grid (1 = the large first card). Size and
@@ -188,7 +188,7 @@ const home = defineCollection({
             result: z.string().min(1),
             /** Maps to the --gate-N-* component tokens. */
             tone: z.enum(['gate-1', 'gate-2', 'gate-3']),
-            mediaLabel: z.string().default('photo / loop'),
+            mediaLabel: z.string().default('Photo / Loop'),
             media: z.string().optional(),
             mediaAlt: z.string().default(''),
           }),

@@ -170,19 +170,30 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
 | `--text-small` | `0.875rem` | Small 14 | — |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--text-eyebrow` | `0.75rem` | Eyebrow 12, caps: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
-| `--weight-light` | `300` | Hero, headline emphasis | Hero, base |
-| `--weight-regular` | `400` | body, quotes | — |
-| `--weight-medium` | `500` | Display–H2, eyebrows, notes | ApproachSection, CtaFooter, FaqSection, MediaFrame, MobileMenu, Nav, ProcessSection, SectionHeader, StubLayout, Tag, TeamSection, TestimonialCard, base |
-| `--weight-semibold` | `600` | H3, H4, labels | Button, MobileMenu, Nav, Pill, RevealCard, SiteShell, TextLink, WorkCard |
+| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+
+### Weights: the scale ...
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--weight-light` | `300` |  | — |
+| `--weight-regular` | `400` |  | — |
+| `--weight-medium` | `500` |  | — |
+| `--weight-semibold` | `600` |  | — |
+| `--weight-display` | `var(--weight-regular)` | every Funnel Display style ... | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--weight-figure` | `var(--weight-semibold)` | ... except Statement (big numbers) | — |
+| `--weight-emphasis` | `var(--weight-regular)` | headline emphasis word (Sage colour) | base |
+| `--weight-body` | `var(--weight-regular)` | every Funnel Sans style ... | ProcessSection, TestimonialCard |
+| `--weight-label` | `var(--weight-medium)` | ... except labels (all caps) | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
+| `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
 | `--tracking-hero` | `-0.03em` |  | Hero |
 | `--tracking-problem` | `-0.03em` |  | Hero |
 | `--tracking-closer` | `-0.03em` |  | CtaFooter |
 | `--tracking-heading` | `-0.015em` | H2, menu | ApproachSection, FaqSection, MobileMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
 | `--tracking-title` | `-0.01em` | H3, H4 | MobileMenu, RevealCard, WorkCard |
 | `--tracking-body` | `0` |  | base |
-| `--tracking-label` | `0.01em` |  | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--tracking-eyebrow` | `0.14em` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
+| `--tracking-label` | `0.04em` | all caps needs a little air | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
+| `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag |
 | `--leading-hero` | `1.1` | 88 / 80 | Hero |
 | `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |

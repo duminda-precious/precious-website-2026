@@ -185,9 +185,10 @@ const { services } = Astro.props;
       border: var(--border-width) solid currentColor;
       border-radius: var(--radius-pill);
       font-family: var(--font-sans);
-      font-weight: var(--weight-semibold);
+      font-weight: var(--weight-label);
       letter-spacing: var(--tracking-label);
       font-size: var(--text-label);
+      text-transform: uppercase;
       line-height: var(--leading-none);
     }
     .menu-button:hover {
@@ -258,7 +259,7 @@ const { services } = Astro.props;
       gap: var(--space-12);
       padding-block: var(--space-4);
       font-family: var(--font-display);
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-display);
       font-size: var(--text-menu);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
@@ -297,11 +298,10 @@ const { services } = Astro.props;
       background: var(--nav-badge-bg);
       color: var(--nav-badge-fg);
       font-family: var(--font-sans);
-      font-weight: var(--weight-medium);
+      font-weight: var(--weight-eyebrow);
       letter-spacing: var(--tracking-eyebrow);
       font-size: var(--text-eyebrow);
       line-height: var(--leading-none);
-      text-transform: uppercase;
     }
     .menu__cta {
       margin-top: auto;

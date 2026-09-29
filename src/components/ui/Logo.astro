@@ -45,11 +45,9 @@ const markTransform = isMark
 >
   {!isMark && LOGO_LETTERS.map((d) => <path d={d} fill="currentColor" />)}
   <g transform={markTransform} fill="currentColor" data-logo-mark>
-    {
-      cells.map(([x, y]) => (
-        <rect x={x} y={y} width="1.02" height="1.02" data-logo-pixel />
-      ))
-    }
+    {cells.map(([x, y]) => (
+      <rect x={x} y={y} width="1.02" height="1.02" data-logo-pixel />
+    ))}
   </g>
 </svg>
 

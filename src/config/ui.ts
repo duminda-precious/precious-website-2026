@@ -36,7 +36,7 @@ export const ui = {
     soundOff: 'Sound off',
   },
   footer: {
-    headline: 'Make your product feel worth paying for.',
+    headline: 'Make Your Product Feel Worth Paying For.',
   },
   rating: {
     /** e.g. "Clutch ★★★★★ 4.9"; the stars are decorative. */

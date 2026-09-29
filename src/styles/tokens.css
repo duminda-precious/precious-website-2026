@@ -197,12 +197,23 @@
     --text-body: 1rem; /* Body 16 (never below on mobile) */
     --text-small: 0.875rem; /* Small 14 */
     --text-label: 0.875rem; /* Label 14: buttons, nav, pills */
-    --text-eyebrow: 0.75rem; /* Eyebrow 12, caps: tags, legal, section eyebrows */
+    --text-eyebrow: 0.75rem; /* Eyebrow 12, title case: tags, legal, section eyebrows */
 
-    --weight-light: 300; /* Hero, headline emphasis */
-    --weight-regular: 400; /* body, quotes */
-    --weight-medium: 500; /* Display–H2, eyebrows, notes */
-    --weight-semibold: 600; /* H3, H4, labels */
+    /* Weights: the scale ... */
+    --weight-light: 300;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    /* ... and the roles components use (Duminda, 2026-09-29; overrides the
+       guideline's 300/500/600 mix). Case: Display styles are title case except
+       Statement; labels are all caps; eyebrows are title case. Title case lives
+       in the copy (Chicago style); only the label caps are CSS. */
+    --weight-display: var(--weight-regular); /* every Funnel Display style ... */
+    --weight-figure: var(--weight-semibold); /* ... except Statement (big numbers) */
+    --weight-emphasis: var(--weight-regular); /* headline emphasis word (Sage colour) */
+    --weight-body: var(--weight-regular); /* every Funnel Sans style ... */
+    --weight-label: var(--weight-medium); /* ... except labels (all caps) */
+    --weight-eyebrow: var(--weight-regular);
 
     --tracking-hero: -0.03em;
     --tracking-problem: -0.03em;
@@ -210,8 +221,8 @@
     --tracking-heading: -0.015em; /* H2, menu */
     --tracking-title: -0.01em; /* H3, H4 */
     --tracking-body: 0;
-    --tracking-label: 0.01em;
-    --tracking-eyebrow: 0.14em;
+    --tracking-label: 0.04em; /* all caps needs a little air */
+    --tracking-eyebrow: 0; /* title case, no caps tracking */
 
     --leading-hero: 1.1; /* 88 / 80 */
     --leading-none: 1; /* single-line UI, problem line */

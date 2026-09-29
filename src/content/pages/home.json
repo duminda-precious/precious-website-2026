@@ -4,17 +4,17 @@
     "description": "A senior product design studio in Austin. We join startups as one team for product design, motion and front-end code."
   },
   "hero": {
-    "headline": ["We design", "how your", "product feels."],
-    "problem": ["Most products look fine.", "Few feel good."],
+    "headline": ["We Design", "How Your", "Product Feels."],
+    "problem": ["Most Products Look Fine.", "Few Feel Good."],
     "reel": {
       "video": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-full.mp4",
       "alt": "Precious Studio showreel",
-      "placeholderLabel": "showreel · autoplay, muted",
+      "placeholderLabel": "Showreel · Autoplay, Muted",
       "poster": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-poster.jpg"
     }
   },
   "work": {
-    "heading": "The proof is in how it moves.",
+    "heading": "The Proof Is in How It Moves.",
     "subline": "Real projects, shipped. Each one plays, because a still can't show feel.",
     "seeAll": {
       "label": "See our work",
@@ -22,45 +22,45 @@
     }
   },
   "clients": {
-    "heading": "What working with us feels like."
+    "heading": "What Working with Us Feels Like."
   },
   "team": {
-    "heading": "One team instead of five hires.",
+    "heading": "One Team Instead of Five Hires.",
     "subline": "You get all of them, senior, working as one, for the cost of a single hire.",
     "coreRoles": ["Researcher", "Product designer", "System designer"],
     "extendedRoles": ["Motion designer", "Frontend engineer"],
     "engine": "Personalised AI engine",
     "benefits": ["Full transparency", "Weekly deliveries", "Month-to-month"],
-    "diagramPlaceholder": "[Team diagram]"
+    "diagramPlaceholder": "[Team Diagram]"
   },
   "approach": {
-    "heading": "Where are you starting from?",
+    "heading": "Where Are You Starting From?",
     "gates": [
       {
         "situation": "extend-my-team",
         "pain": "Your product is ready to take off. Your designers are stretched thin.",
         "result": "Senior people join mid-flight and ship with you.",
         "tone": "gate-1",
-        "mediaLabel": "photo / loop"
+        "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "redesign",
         "pain": "It works, but it feels clunky.",
         "result": "Same product, transformed. People enjoy using it.",
         "tone": "gate-2",
-        "mediaLabel": "photo / loop"
+        "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "build-from-zero",
         "pain": "You have an idea and a deadline.",
         "result": "It hatches as a first version that feels finished.",
         "tone": "gate-3",
-        "mediaLabel": "photo / loop"
+        "mediaLabel": "Photo / Loop"
       }
     ]
   },
   "process": {
-    "heading": "Different starting points. One transformation.",
+    "heading": "Different Starting Points. One Transformation.",
     "subline": "One senior team. AI handles the volume. People handle the feel.",
     "agentPrompt": "Have your own designers?",
     "agentLink": {
@@ -83,6 +83,6 @@
     ]
   },
   "faq": {
-    "heading": "Asked, answered."
+    "heading": "Asked, Answered."
   }
 }

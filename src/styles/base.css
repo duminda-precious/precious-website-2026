@@ -22,7 +22,7 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: var(--weight-medium);
+    font-weight: var(--weight-display);
     line-height: var(--leading-heading);
   }
 
@@ -30,7 +30,7 @@
      word drops to Light 300 in Sage 700. Use <em> inside a heading. */
   :is(h1, h2, h3) em {
     font-style: normal;
-    font-weight: var(--weight-light);
+    font-weight: var(--weight-emphasis);
     color: var(--accent);
   }
 

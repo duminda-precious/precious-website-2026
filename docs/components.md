@@ -25,7 +25,7 @@ Layout principle (from the Afternow brief): place things with grid spans, and co
 
 | Component | What it does | Props / variants |
 |---|---|---|
-| `Button` | Label-style text (Funnel Sans 600) and ▸, 12px corners. Colours come from the theme (`--cta-bg/-fg`); gradient + pixel hover arrives in P2-4 | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
+| `Button` | Label-style text (Funnel Sans 500, all caps) and pixel ▸, 12px corners. Colours come from the theme (`--cta-bg/-fg`); gradient + pixel hover arrives in P2-4 | `size` (`sm` \| `md`), `glyph`, `href` (renders `<a>`), `type`, `track` (→ `data-track`), `external`, `class` |
 | `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `label`), `arrow`, `track`, `external`, `class` |
 | `Tag` | Outlined Eyebrow-style label for metadata (case study situation) | `as`, `class` |
 | `Pill` | Rounded Label-style badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |

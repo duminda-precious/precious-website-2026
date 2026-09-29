@@ -7,7 +7,7 @@ export const situations = ['extend-my-team', 'redesign', 'build-from-zero'] as c
 export type Situation = (typeof situations)[number];
 
 export const situationLabels: Record<Situation, string> = {
-  'extend-my-team': 'Extend my team',
+  'extend-my-team': 'Extend My Team',
   redesign: 'Redesign',
-  'build-from-zero': 'Build from zero',
+  'build-from-zero': 'Build from Zero',
 };
