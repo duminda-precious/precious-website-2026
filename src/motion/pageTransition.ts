@@ -6,7 +6,8 @@
  * The cover ([data-pixel-cover] in SiteShell) persists across swaps. The browser's
  * own view-transition cross-fade is switched off in SiteShell, so this is the only
  * animation. Set up once (not per page) because it spans the swap.
- * Tokens: --pixel-cell-page, --pixel-reveal-steps, --dur-pixel-reveal, --pixel-cover-bg.
+ * Tokens: --pixel-cell-page, --pixel-reveal-steps, --dur-page-cover (old page out, faster),
+ *         --dur-page-reveal (new page in, longer), --pixel-cover-bg.
  * Reduced motion: no cover; pages swap instantly.
  */
 import { pixelClip, type PixelClip } from './pixelClip';
@@ -25,7 +26,7 @@ export function setupPageTransition() {
   document.addEventListener('astro:before-preparation', (event) => {
     const el = cover();
     if (!el || prefersReducedMotion()) return;
-    clip ??= pixelClip(el, '--pixel-cell-page');
+    clip ??= pixelClip(el, '--pixel-cell-page', '--dur-page-cover', '--dur-page-reveal');
     el.hidden = false;
     el.style.clipPath = "path('M0 0z')";
     covering = clip.to(true);

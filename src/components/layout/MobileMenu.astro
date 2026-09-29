@@ -11,7 +11,7 @@
  *         --border-width, --nav-badge-*, --dur-base, --ease-standard.
  * Motion hooks: data-menu-root (init/cleanup is lifecycle-safe for View Transitions);
  *               pixel reveal via motion/pixelClip.ts (--pixel-cell-menu, --pixel-reveal-steps,
- *               --dur-pixel-reveal); off with reduced motion.
+ *               --dur-pixel-reveal open / --dur-pixel-reveal-out close); off with reduced motion.
  */
 import Button from '../ui/Button.astro';
 import Logo from '../ui/Logo.astro';
@@ -119,7 +119,12 @@ const { services } = Astro.props;
         const { signal } = controller;
 
         // M16: the menu reveals / hides through pixel cells (not with reduced motion).
-        const clip = pixelClip(dialog, '--pixel-cell-menu');
+        const clip = pixelClip(
+          dialog,
+          '--pixel-cell-menu',
+          '--dur-pixel-reveal',
+          '--dur-pixel-reveal-out',
+        );
         const animate = () => !prefersReducedMotion();
 
         const open = () => {

@@ -14,7 +14,7 @@
  * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --radius-md, --font-sans,
  *         --text-label, --tracking-label, --weight-label, --space-*, --tap-min.
  * Motion hooks: data-pixel-fill (button), data-pixel-layer (cell container),
- *               data-pixel-lit (set while the gradient is mostly in).
+ *               data-pixel-lit (set while the gradient is mostly in; also steps the ▸ right).
  */
 import PixelIcon from './PixelIcon.astro';
 interface Props {
@@ -105,11 +105,20 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     .button[data-pixel-lit] {
       color: var(--cta-hover-fg);
     }
+    /* Secondary motion: the ▸ steps one pixel unit right with the fill (no tween). */
+    .button[data-pixel-lit] > :global(.button__glyph) {
+      transform: translateX(var(--pixel-unit));
+    }
 
     /* Fallback without the pixel module (no JS, reduced motion): instant swap. */
     :global(html:not([data-pixel-hover])) .button:is(:hover, :focus-visible) {
       background: var(--cta-hover-bg);
       color: var(--cta-hover-fg);
+    }
+    :global(html:not([data-pixel-hover]))
+      .button:is(:hover, :focus-visible)
+      > :global(.button__glyph) {
+      transform: translateX(var(--pixel-unit));
     }
 
     .button--sm {

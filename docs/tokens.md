@@ -293,7 +293,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
+| `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | Button, PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
 | `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
@@ -320,7 +320,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--dur-pixel` | `240ms` | whole dissolve | pixelHover, tokens |
+| `--dur-pixel` | `240ms` | hover in: whole dissolve | pixelHover, tokens |
+| `--dur-pixel-out` | `160ms` | hover out (exits faster) | pixelHover, tokens |
 | `--pixel-steps` | `5` | batches: fewer = chunkier | pixelHover, tokens |
 | `--pixel-cell` | `0.375rem` | 6px cells | pixelHover, tokens |
 
@@ -347,7 +348,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--logo-mark-start` | `52.9%` | 401 / 758 | Nav |
 | `--logo-mark-end-inset` | `39.3%` | (758 − 460.1) / 758 | Nav |
 | `--logo-mark-scale` | `1.4` |  | Nav |
-| `--dur-logo-collapse` | `700ms` |  | Nav |
+| `--dur-logo-collapse` | `450ms` |  | Nav |
 
 ### Pixel reveal: page transition (M10) and mobile menu (M16)
 
@@ -356,7 +357,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | pageTransition, pixelClip, tokens |
 | `--pixel-cell-menu` | `1.5rem` | 24px cells for the menu | MobileMenu, pixelClip, tokens |
 | `--pixel-reveal-steps` | `6` |  | pixelClip, tokens |
-| `--dur-pixel-reveal` | `280ms` | each way | pixelClip, tokens |
+| `--dur-pixel-reveal` | `280ms` | menu open | MobileMenu, pixelClip, tokens |
+| `--dur-pixel-reveal-out` | `200ms` | menu close | MobileMenu, pixelClip, tokens |
+| `--dur-page-cover` | `220ms` | page transition: old page covered (exit) | pageTransition, pixelClip, tokens |
+| `--dur-page-reveal` | `320ms` | page transition: new page revealed (entrance) | pageTransition, pixelClip, tokens |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn, tokens |
 | `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |

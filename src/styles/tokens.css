@@ -328,7 +328,8 @@
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
     /* Pixel dissolve (8-bit motion): cells appear in shuffled batches, no tweening */
-    --dur-pixel: 240ms; /* whole dissolve */
+    --dur-pixel: 240ms; /* hover in: whole dissolve */
+    --dur-pixel-out: 160ms; /* hover out (exits faster) */
     --pixel-steps: 5; /* batches: fewer = chunkier */
     --pixel-cell: 0.375rem; /* 6px cells */
     /* Pixel text (P2-5): headings pixelate through these block sizes (px), one
@@ -346,12 +347,15 @@
     --logo-mark-start: 52.9%; /* 401 / 758 */
     --logo-mark-end-inset: 39.3%; /* (758 − 460.1) / 758 */
     --logo-mark-scale: 1.4;
-    --dur-logo-collapse: 700ms;
+    --dur-logo-collapse: 450ms;
     /* Pixel reveal: page transition (M10) and mobile menu (M16) */
     --pixel-cell-page: 2rem; /* 32px cells for the full-screen cover */
     --pixel-cell-menu: 1.5rem; /* 24px cells for the menu */
     --pixel-reveal-steps: 6;
-    --dur-pixel-reveal: 280ms; /* each way */
+    --dur-pixel-reveal: 280ms; /* menu open */
+    --dur-pixel-reveal-out: 200ms; /* menu close */
+    --dur-page-cover: 220ms; /* page transition: old page covered (exit) */
+    --dur-page-reveal: 320ms; /* page transition: new page revealed (entrance) */
     --rise-distance: 120px; /* brief entrance pattern */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;

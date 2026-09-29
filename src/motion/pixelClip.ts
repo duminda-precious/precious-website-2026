@@ -7,6 +7,8 @@
 import { count, duration, length } from './tokens';
 
 type CellToken = '--pixel-cell-page' | '--pixel-cell-menu';
+type DurToken =
+  '--dur-pixel-reveal' | '--dur-pixel-reveal-out' | '--dur-page-cover' | '--dur-page-reveal';
 
 export interface PixelClip {
   /** Animate to all cells lit (show) or none (hide). Resolves when done. */
@@ -15,10 +17,17 @@ export interface PixelClip {
   reset(): void;
 }
 
-export function pixelClip(el: HTMLElement, cellToken: CellToken): PixelClip {
+/** showDur: time to light every cell; hideDur: time to clear them. */
+export function pixelClip(
+  el: HTMLElement,
+  cellToken: CellToken,
+  showDur: DurToken,
+  hideDur: DurToken,
+): PixelClip {
   const cell = length(cellToken);
   const steps = count('--pixel-reveal-steps');
-  const stepMs = (duration('--dur-pixel-reveal') * 1000) / steps;
+  const showStep = (duration(showDur) * 1000) / steps;
+  const hideStep = (duration(hideDur) * 1000) / steps;
 
   let cells: string[] = [];
   let lit = 0;
@@ -65,7 +74,7 @@ export function pixelClip(el: HTMLElement, cellToken: CellToken): PixelClip {
           lit = show ? Math.min(target, lit + batch) : Math.max(target, lit - batch);
           apply();
           if (lit === target) finish();
-          else timer = window.setTimeout(step, stepMs);
+          else timer = window.setTimeout(step, show ? showStep : hideStep);
         };
         step();
       });

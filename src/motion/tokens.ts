@@ -30,6 +30,10 @@ const FALLBACK = {
   '--pixel-cell-menu': '1.5rem',
   '--pixel-reveal-steps': '6',
   '--dur-pixel-reveal': '280ms',
+  '--dur-pixel-reveal-out': '200ms',
+  '--dur-pixel-out': '160ms',
+  '--dur-page-cover': '220ms',
+  '--dur-page-reveal': '320ms',
 } as const;
 
 type MotionVar = keyof typeof FALLBACK;

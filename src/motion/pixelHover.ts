@@ -8,7 +8,8 @@
  * (background-size = element size, offset per cell), so the lit grid reads as one fill.
  * The grid is (re)built lazily on first hover and whenever the element's size changes.
  *
- * Tokens: --pixel-cell (cell size), --pixel-steps (batches), --dur-pixel (total time),
+ * Tokens: --pixel-cell (cell size), --pixel-steps (batches), --dur-pixel / --dur-pixel-out
+ *         (total time in / out; exits are faster),
  *         --cta-hover-bg (the gradient, read through the cell's CSS).
  * Reduced motion: the module doesn't run; Button's CSS fallback swaps instantly.
  * Hooks: data-pixel-fill, data-pixel-layer, data-pixel-lit; html[data-pixel-hover].
@@ -42,7 +43,8 @@ export const pixelHover: MotionModule = {
 
     const cellSize = length('--pixel-cell');
     const steps = count('--pixel-steps');
-    const stepMs = (duration('--dur-pixel') * 1000) / steps;
+    const stepIn = (duration('--dur-pixel') * 1000) / steps;
+    const stepOut = (duration('--dur-pixel-out') * 1000) / steps;
 
     targets.forEach((el) => {
       const layer = el.querySelector<HTMLElement>('[data-pixel-layer]');
@@ -101,7 +103,7 @@ export const pixelHover: MotionModule = {
         el.toggleAttribute('data-pixel-lit', lit > cells.length / 2);
         timers.delete(timer);
         if (lit !== target) {
-          timer = window.setTimeout(step, stepMs);
+          timer = window.setTimeout(step, target > 0 ? stepIn : stepOut);
           timers.add(timer);
         }
       };
