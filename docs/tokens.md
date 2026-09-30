@@ -362,6 +362,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--dur-expand` | `calc(var(--t-medium) * var(--motion-tempo))` | accordions, card CTA pill | ApproachSection, ContentCard, FullMenu |
 | `--dur-accordion-fade` | `calc(var(--t-base) * var(--motion-tempo))` | accordion content fade | FullMenu |
 | `--dur-hover-intent` | `var(--t-quick)` | mega menu stays open this long after the pointer leaves | nav |
+| `--scroll-lerp` | `0.1` | smooth wheel: share of the remaining distance covered each frame (1 = native) | smoothScroll |
+| `--scroll-wheel-multiplier` | `1` | smooth wheel: distance per wheel notch vs native | smoothScroll |
 | `--dur-collapse` | `calc(var(--t-slow) * var(--motion-tempo))` | nav collapse, news stack slide, gate text | ApproachSection, Nav, NewsStack |
 | `--dur-theme` | `calc(var(--t-slower) * var(--motion-tempo))` |  | Nav |
 | `--theme-enter` | `75%` | page turns dark once Work's top passes this viewport height … | themeSwitch |

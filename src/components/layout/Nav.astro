@@ -77,7 +77,7 @@ import { ui } from '../../config/ui';
     </Button>
   </div>
 
-  <div id="nav-mega" class="mega" data-theme="light" role="region" aria-label={ui.megaLabel} data-mega>
+  <div id="nav-mega" class="mega" data-theme="light" role="region" aria-label={ui.megaLabel} data-mega data-lenis-prevent>
     <div class="mega__grid">
       {megaMenu.columns.map((col) => (
         <div class:list={['mega__col', `mega__col--${col.kind}`]} data-mega-col>
@@ -266,6 +266,9 @@ import { ui } from '../../config/ui';
       max-height: calc(100vh - var(--nav-height) - var(--space-16));
       overflow-y: auto;
       overscroll-behavior: contain;
+      /* Still scrolls on short screens, but no bar: it flickered in and out
+         while the items rose in. */
+      scrollbar-width: none;
       visibility: hidden;
       opacity: 0;
       padding: var(--mega-pad) var(--mega-pad) 0;
@@ -273,6 +276,9 @@ import { ui } from '../../config/ui';
       color: var(--nav-dropdown-fg);
       border-radius: var(--radius-md);
       box-shadow: var(--nav-dropdown-shadow);
+    }
+    .mega::-webkit-scrollbar {
+      display: none;
     }
     .mega[data-open] {
       visibility: visible;

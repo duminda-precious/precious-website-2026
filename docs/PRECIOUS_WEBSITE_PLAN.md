@@ -98,6 +98,8 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - **Buttons:** 4px corners; hover is the pixel wash bloom with a landing butterfly; every text button's label glitches on hover; section CTAs glitch while in view.
 - **Kept from the repo where the design is a prototype:** responsive stacking below md/lg (the design is desktop-first), the footer's sticky reveal from 992px, the footer headline wrapping on phones.
 
+**2026-09-30b: smooth scroll returns, wheel only** (Duminda). Reverses the Lenis removal above. Lenis eases mouse-wheel and trackpad scrolling only; touch and keys stay native, and anchors keep the butterfly wing jump. It hands the wheel to the hero whenever the hero owns the scroll (the held first scroll, the lock, the glide back to the top), which was the conflict that got it removed. Stops while the full menu locks the page; off for reduced motion. Tokens `--scroll-lerp`, `--scroll-wheel-multiplier`; module `src/motion/smoothScroll.ts` (M19).
+
 ---
 
 ## 1. Context
