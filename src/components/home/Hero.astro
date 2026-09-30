@@ -9,6 +9,7 @@
  *           and the reel shrinks into the section padding with rounded corners.
  *           Scrolling back up inside the hero returns to rest.
  * The real title text stays in the DOM (the pixels are a canvas overlay).
+ * Phones (below md): no two states; title → news stack → 16:9 reel in the side padding.
  * Props: headline (lines), reel, news.
  * Tokens: --text-hero, --tracking-hero, --leading-hero, --hero-fg, --hero-veil-bg,
  *         --hero-veil, --blur-reel-max, --nav-height, --gutter, --z-raised, --z-float,
@@ -154,6 +155,46 @@ const { headline, reel, news } = Astro.props;
     }
     .hero__title :global(.px) {
       pointer-events: auto;
+    }
+    /* Phones (below md): a plain hero. Title, then the news stack, then the reel as a
+       16:9 block inside the side padding. No held scroll, no blur, no veil
+       (heroReveal.ts skips phones); the sound toggle is always there. */
+    @media (max-width: 47.49rem) {
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-32);
+        height: auto;
+        padding: calc(var(--nav-height) + var(--space-48)) var(--gutter) 0;
+      }
+      .hero__center {
+        position: static;
+        order: 1;
+        padding: 0;
+      }
+      .hero :global(.news) {
+        order: 2;
+      }
+      .hero__reel {
+        position: relative;
+        order: 3;
+        inset: auto;
+        aspect-ratio: 16 / 9;
+        border-radius: var(--radius-md);
+      }
+      .hero__video {
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        filter: none;
+      }
+      .hero__veil {
+        display: none;
+      }
+      .hero__reel :global(.hero__sound) {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
     @media (prefers-reduced-motion: reduce) {
       .hero__video,

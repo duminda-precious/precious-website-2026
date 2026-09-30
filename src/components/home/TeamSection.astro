@@ -116,9 +116,14 @@ const stages = ['h', 'v'] as const;
       right: var(--team-inset);
       justify-content: flex-end;
     }
+    /* Phones: the vertical stage is full bleed so the flow spills past the side
+       padding to the screen edges; the chips stay inside the padding. */
+    .flow--v {
+      margin-inline: calc(var(--gutter) * -1);
+    }
     .flow--v .flow__col {
-      left: var(--space-16);
-      right: var(--space-16);
+      left: var(--gutter);
+      right: var(--gutter);
       height: var(--team-v-block);
       justify-content: center;
     }

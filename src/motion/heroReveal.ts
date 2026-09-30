@@ -17,6 +17,8 @@
  *         --dur-hero-word-stagger, --dur-pixel-word-stagger, --dur-hero-lock,
  *         --dur-hero-return, --dur-glitch-min/-range, --hero-inset-scroll, --nav-height,
  *         --radius-md, --motion-tempo.
+ * Phones (below md): none of this. The hero is a plain column (Hero.astro CSS); only the
+ *   title's hover/idle glitch runs, and the sound toggle is always reachable.
  * Reduced motion: same two states, switched instantly (no pixels, no glides).
  */
 import type { MotionModule } from './index';
@@ -35,6 +37,7 @@ export const heroReveal: MotionModule = {
     const sound = hero.querySelector<HTMLElement>('[data-hero-sound]');
     const html = root.documentElement;
     const RM = prefersReducedMotion();
+    const phone = window.matchMedia('(max-width: 47.49rem)');
     const controller = new AbortController();
     const { signal } = controller;
     const runner = pixelRunner();
@@ -61,7 +64,8 @@ export const heroReveal: MotionModule = {
     const gutter = () =>
       parseFloat(getComputedStyle(hero.querySelector('.hero__center') ?? hero).paddingLeft) || 16;
     const update = () => {
-      if (reel) {
+      if (reel && phone.matches) reel.removeAttribute('style');
+      else if (reel) {
         const e = smoothstep(0, 1, window.scrollY / (num('--hero-inset-scroll') || 320));
         const g = gutter() * e;
         reel.style.inset = `${length('--nav-height') * e}px ${g}px ${g}px`;
@@ -83,13 +87,20 @@ export const heroReveal: MotionModule = {
     };
     window.addEventListener('scroll', onScroll, { passive: true, signal });
     window.addEventListener('resize', onScroll, { signal });
-    update();
+    // Crossing into phone width: drop back to the plain hero.
+    const onPhone = () => {
+      if (phone.matches && revealed) setState(false, true);
+      sound?.setAttribute('tabindex', revealed || phone.matches ? '0' : '-1');
+      update();
+    };
+    phone.addEventListener('change', onPhone, { signal });
+    onPhone();
 
     const setState = (on: boolean, instant = false) => {
       lock = true;
       revealed = on;
       hero.toggleAttribute('data-revealed', on);
-      sound?.setAttribute('tabindex', on ? '0' : '-1');
+      sound?.setAttribute('tabindex', on || phone.matches ? '0' : '-1');
       const quick = instant || RM || !words.length;
       if (on) {
         const OUT = list('--pixel-dissolve');
@@ -115,7 +126,7 @@ export const heroReveal: MotionModule = {
     const interactive = (t: EventTarget | null) =>
       t instanceof Element && !!t.closest('a, button, input, textarea, select, [contenteditable]');
     const intent = (dir: number, ev?: Event) => {
-      if (html.classList.contains('is-scroll-locked')) return;
+      if (phone.matches || html.classList.contains('is-scroll-locked')) return;
       const stop = () => ev?.cancelable && ev.preventDefault();
       if (lock) return stop();
       if (!revealed && dir > 0 && window.scrollY <= 2) {
@@ -152,6 +163,7 @@ export const heroReveal: MotionModule = {
     document.addEventListener(
       'precious:jump',
       (e) => {
+        if (phone.matches) return;
         const id = (e as CustomEvent<{ id: string }>).detail?.id;
         const toHero = !id || id === 'hero';
         if (!toHero && !revealed) setState(true, true);
@@ -187,7 +199,7 @@ export const heroReveal: MotionModule = {
         ),
       );
       // Arriving mid-page (reload, back button): start revealed.
-      if (window.scrollY > 2) setState(true, true);
+      if (window.scrollY > 2 && !phone.matches) setState(true, true);
       if (!RM) idle();
     });
 

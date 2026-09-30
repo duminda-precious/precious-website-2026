@@ -1,21 +1,23 @@
 /**
  * Pixel rain (Claude Design): the footer and the AI card background share it.
  * On a [data-rain] canvas:
- *   - a soft wash band of --pixel-cell-rain cells fills the bottom third; it breathes,
- *     ripples sideways as a gentle wave, and its colours drift along it; brightness
- *     is capped low so the content above stays dominant;
+ *   - a wash band of --pixel-cell-rain cells fills the canvas from --rain-band-top down;
+ *     it breathes, ripples sideways in two waves (a slow swell and a faster turbulent
+ *     one) and its colours drift along it, all at --rain-speed; cells peak at
+ *     --rain-band-max so the content above stays dominant;
  *   - small clusters of cells fall straight down at a steady speed (up to five at a
  *     time, fewer on narrow canvases), fading in at the top and out near the bottom,
  *     each leaving a soft trail (cells fade up fast and down slowly: LCD ghosting).
  * Hovering or focusing the section's CTA ([data-rain-cta] in the same
  * [data-rain-scope]) brightens it all slightly.
  * Runs only while the canvas is on screen.
- * Tokens: --pixel-cell-rain, --color-wash-*, --motion-tempo.
+ * Tokens: --pixel-cell-rain, --rain-band-top, --rain-band-max, --rain-speed, --color-wash-*,
+ *         --motion-tempo.
  * Reduced motion: one still frame of the band, no drops.
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { hexRgb, length, tempo, washes } from './tokens';
+import { hexRgb, length, num, tempo, washes } from './tokens';
 
 interface Cell {
   px: number;
@@ -36,6 +38,9 @@ interface Drop {
 function rain(cv: HTMLCanvasElement, cta: HTMLElement | null): () => void {
   const RM = prefersReducedMotion();
   const S = length('--pixel-cell-rain') || 8;
+  const TOP = num('--rain-band-top');
+  const MAX = num('--rain-band-max');
+  const SPD = num('--rain-speed') || 1;
   const WC = washes();
   const mix = (a: string, b: string, t: number) => {
     const A = hexRgb(a);
@@ -84,7 +89,7 @@ function rain(cv: HTMLCanvasElement, cta: HTMLElement | null): () => void {
     cells = [];
     for (let r = 0; r < rows; r++) {
       const v = (r * S) / H;
-      if (v < 0.66) continue;
+      if (v < TOP) continue;
       for (let c = 0; c < cols; c++) cells.push({ px: c * S, py: r * S, v, u: c / cols, j: Math.random(), a: 0 });
     }
   };
@@ -105,14 +110,19 @@ function rain(cv: HTMLCanvasElement, cta: HTMLElement | null): () => void {
     boost += (bt - boost) * Math.min(1, dt * 2.5);
     x.clearRect(0, 0, W, H);
     const kk = RM ? 1 : 1 - Math.pow(0.95, Math.max(1, dt * 60));
-    const br = 0.82 + 0.18 * Math.sin(t * 0.4);
+    const ts2 = t * SPD;
+    const br = 0.82 + 0.18 * Math.sin(ts2 * 0.4);
     for (const c of cells) {
-      const wv = 0.5 + 0.5 * Math.sin(c.u * 7 + t * 0.22 + c.j * 1.2) * Math.sin(c.u * 2.6 - t * 0.14);
-      const m = sm(0.66, 1, c.v) * ((0.5 + 0.5 * wv) * br * (1 + 0.6 * boost));
+      // Slow swell × sideways ripple, plus a faster turbulent wave that also varies
+      // with depth, so the band churns instead of sliding as one sheet.
+      const swell = Math.sin(c.u * 7 + ts2 * 0.22 + c.j * 1.2) * Math.sin(c.u * 2.6 - ts2 * 0.14);
+      const churn = Math.sin(c.u * 13 - ts2 * 0.9 + c.v * 9 + c.j * 2) * Math.sin(c.v * 5 + ts2 * 0.55);
+      const wv = 0.5 + 0.5 * (swell * 0.7 + churn * 0.45);
+      const m = sm(TOP, 1, c.v) * ((0.5 + 0.5 * wv) * br * (1 + 0.6 * boost));
       c.a += (m - c.a) * kk;
       if (c.a < 0.02) continue;
-      x.globalAlpha = Math.min(0.2, c.a * 0.14);
-      x.fillStyle = RAMP[((Math.floor((c.u * 1.4 + t * 0.025) * 32) % 32) + 32) % 32]!;
+      x.globalAlpha = Math.min(MAX, c.a * MAX * 0.7);
+      x.fillStyle = RAMP[((Math.floor((c.u * 1.4 + c.v * 0.6 + ts2 * 0.025) * 32) % 32) + 32) % 32]!;
       x.fillRect(c.px, c.py, S, S);
     }
     if (!RM) {

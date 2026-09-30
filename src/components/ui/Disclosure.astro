@@ -1,15 +1,15 @@
 ---
 /**
  * Disclosure: one FAQ item on native <details>/<summary> (M6). The pixel "+" turns
- * into a pixel "×" when open: motion/disclosure.ts trades their pixels over
- * --icon-swap-steps LCD frames with the previous frame ghosting, and animates the
- * height. Opening one item closes the others in the same group (data-group).
+ * into a pixel "×" when open: motion/disclosure.ts plays the button-label pixel glitch
+ * on the icon, swapping at the coarsest frame, and animates the height.
+ * Opening one item closes the others in the same group (data-group).
  * Without JS (or with reduced motion) it switches instantly.
  * Props: question, answer, group (items sharing it open one at a time).
  * Tokens: --border-default, --space-*, --tap-min, --text-body, --leading-body,
- *         --text-secondary, --pixel-unit-lg, --pixel-ghost.
+ *         --text-secondary, --pixel-unit-lg.
  * Motion hooks: data-motion="disclosure", data-disclosure-content, data-closing,
- *               data-group, data-icon-plus/-close/-ghost, data-icon-live.
+ *               data-group, data-icon, data-icon-plus/-close, data-icon-live.
  */
 import { pixelPath, pixelSize } from './pixelIcons';
 interface Props {
@@ -24,17 +24,19 @@ const { cols, rows } = pixelSize('plus');
 <details class="disclosure" data-motion="disclosure" data-group={group}>
   <summary class="disclosure__summary">
     <span>{question}</span>
+    <span class="disclosure__iconbox">
     <svg
       class="disclosure__icon"
+      data-icon
       viewBox={`0 0 ${cols} ${rows}`}
       shape-rendering="crispEdges"
       aria-hidden="true"
       style={`--px-cols: ${cols}; --px-rows: ${rows}`}
     >
-      <path class="disclosure__ghost" d="" data-icon-ghost></path>
       <path class="disclosure__plus" d={pixelPath('plus')} data-icon-plus></path>
       <path class="disclosure__close" d={pixelPath('close')} data-icon-close></path>
     </svg>
+    </span>
   </summary>
   <div class="disclosure__content" data-disclosure-content>
     <p class="disclosure__answer">{answer}</p>
@@ -61,8 +63,10 @@ const { cols, rows } = pixelSize('plus');
       height: calc(var(--px-rows) * var(--pixel-unit-lg));
       fill: currentColor;
     }
-    .disclosure__ghost {
-      opacity: var(--pixel-ghost);
+    .disclosure__iconbox {
+      position: relative;
+      display: inline-flex;
+      flex: none;
     }
     /* Static state (no JS): + closed, × open. disclosure.ts drives both paths itself. */
     .disclosure__close,
