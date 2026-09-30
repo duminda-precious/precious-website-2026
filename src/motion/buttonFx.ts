@@ -18,7 +18,7 @@
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { color, count, cssVar, ease, length, ms } from './tokens';
+import { color, count, cssVar, ease, hexRgb, length, ms } from './tokens';
 import { pixelIcons } from '../components/ui/pixelIcons';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -47,7 +47,11 @@ function washCanvas(w: number, h: number): HTMLCanvasElement {
   k.width = w;
   k.height = h;
   const c = k.getContext('2d')!;
-  c.fillStyle = color('--color-slate-100');
+  const base = color('--color-slate-100');
+  // Fade each glow to the base colour at zero alpha. Canvas gradients don't
+  // premultiply, so fading to transparent black would muddy the wash grey.
+  const clear = `rgba(${hexRgb(base).join(',')},0)`;
+  c.fillStyle = base;
   c.fillRect(0, 0, w, h);
   const R = Math.max(w, h) * 1.1;
   const spots: [number, number, string][] = [
@@ -58,7 +62,7 @@ function washCanvas(w: number, h: number): HTMLCanvasElement {
   spots.forEach(([cx, cy, col]) => {
     const g = c.createRadialGradient(cx, cy, 0, cx, cy, R * 0.75);
     g.addColorStop(0, col);
-    g.addColorStop(1, 'rgba(0,0,0,0)');
+    g.addColorStop(1, clear);
     c.fillStyle = g;
     c.fillRect(0, 0, w, h);
   });
