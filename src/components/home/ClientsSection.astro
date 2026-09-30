@@ -1,16 +1,16 @@
 ---
 /**
- * ClientsSection: three-zone header (statement + Clutch rating), the testimonial
- * slider, the client logo ticker, and a centred Book a call.
- * Slider (M9): a horizontal scroll-snap row, one card per "page" with the next
- * peeking; swipe/trackpad natively, or the ← → buttons (src/motion/slider.ts).
- * Ticker (M4/M8): client names loop continuously, full bleed. The list renders
- * twice for a seamless loop (the copy is aria-hidden + inert). Pauses on hover,
- * focus and off-screen; stops under reduced motion (then wraps as a static row).
+ * ClientsSection (Claude Design): "What Working with Us Feels Like."
+ * Header: statement with the Clutch rating directly under it; Book a call top-right.
+ * Slider (M9): a full-bleed horizontal scroll-snap row of testimonial cards that loops
+ * endlessly (three copies; it re-centres on the middle copy when scrolling settles)
+ * and advances one card every --dur-autoplay, pausing on hover, focus, a hidden tab,
+ * and under reduced motion. Round ← → buttons move one card; on hover they turn
+ * solid and their arrow glitches.
  * Props: heading, testimonials.
- * Tokens: --gutter, --slide-gap, --ticker-gap, --dur-marquee, --ease-linear, --space-*,
- *         --border-strong, --radius-pill, --tap-min, --text-large, --text-secondary.
- * Motion hooks: data-motion="slider", data-motion="marquee".
+ * Tokens: --gutter, --slide-gap, --tap-min, --border-strong, --radius-pill, --space-*,
+ *         --dur-press, --text-primary, --surface-page.
+ * Motion hooks: data-motion="slider", data-slider-track, data-slider-prev/-next, data-slide-copy.
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
@@ -29,12 +29,13 @@ interface Props {
 }
 const { heading, testimonials } = Astro.props;
 const stars = '★'.repeat(Math.round(site.clutchRating));
+const copies = [0, 1, 2];
 ---
 
 <Section id="clients" labelledby="clients-title">
   <SectionHeader headingId="clients-title">
     {heading}
-    <Pill slot="action">
+    <Pill slot="meta">
       <span aria-hidden="true">
         {ui.rating.source} {stars} {site.clutchRating}
       </span>
@@ -42,21 +43,25 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
         {ui.rating.srLabel(site.clutchRating, site.clutchRatingMax)}
       </span>
     </Pill>
+    <Button slot="action" size="md" href={bookCall.href} track={bookCall.track} cta>
+      {bookCall.label}
+    </Button>
   </SectionHeader>
 
   <div class="slider" data-motion="slider">
-    <ul
-      class="slider__track"
-      aria-label={ui.slider.label}
-      tabindex="0"
-      data-slider-track
-      data-lenis-prevent-wheel
-    >
-      {testimonials.map(({ data }) => (
-        <li class="slider__slide">
-          <TestimonialCard testimonial={data} />
-        </li>
-      ))}
+    <ul class="slider__track" aria-label={ui.slider.label} tabindex="0" data-slider-track>
+      {copies.map((copy) =>
+        testimonials.map(({ data }) => (
+          <li
+            class="slider__slide"
+            aria-hidden={copy === 1 ? undefined : 'true'}
+            inert={copy === 1 ? undefined : true}
+            data-slide-copy={copy}
+          >
+            <TestimonialCard testimonial={data} />
+          </li>
+        )),
+      )}
     </ul>
     <div class="slider__controls">
       <button class="slider__arrow" type="button" aria-label={ui.slider.prev} data-slider-prev>
@@ -67,17 +72,11 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       </button>
     </div>
   </div>
-
-  <div class="clients__cta">
-    <Button href={bookCall.href} track={bookCall.track}>
-      {bookCall.label}
-    </Button>
-  </div>
 </Section>
 
 <style>
   @layer components {
-    /* ---- Slider: full bleed, one card per page ---- */
+    /* Full bleed, one card per page, next card peeks. */
     .slider {
       margin-inline: calc(var(--gutter) * -1);
     }
@@ -89,8 +88,8 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
       scroll-padding-inline: var(--gutter);
+      scroll-behavior: smooth;
       scrollbar-width: none;
-      list-style: none;
     }
     .slider__track::-webkit-scrollbar {
       display: none;
@@ -106,6 +105,7 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       margin-top: var(--space-16);
       padding-inline: var(--gutter);
     }
+    /* Outlined round arrows; on hover they fill solid in two LCD steps. */
     .slider__arrow {
       display: inline-grid;
       place-items: center;
@@ -113,20 +113,24 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       height: var(--tap-min);
       border: var(--border-width) solid var(--border-strong);
       border-radius: var(--radius-pill);
-      font-size: var(--text-large);
-      line-height: var(--leading-none);
+      transition:
+        background-color var(--dur-press) steps(2),
+        color var(--dur-press) steps(2),
+        border-color var(--dur-press) steps(2);
     }
-    .slider__arrow:hover:not(:disabled) {
-      opacity: var(--hover-opacity);
+    .slider__arrow:hover,
+    .slider__arrow:focus-visible {
+      background: var(--text-primary);
+      color: var(--surface-page);
+      border-color: var(--text-primary);
     }
-    .slider__arrow:disabled {
-      opacity: var(--disabled-opacity);
-      cursor: default;
-    }
-
-    .clients__cta {
-      display: flex;
-      justify-content: center;
+    @media (prefers-reduced-motion: reduce) {
+      .slider__track {
+        scroll-behavior: auto;
+      }
+      .slider__arrow {
+        transition: none;
+      }
     }
   }
 </style>

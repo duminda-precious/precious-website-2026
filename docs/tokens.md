@@ -137,15 +137,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-menu` | `clamp(2rem, 1.4rem + 2vw, 3.25rem)` | 32 → 52: full-page menu links | FullMenu |
 | `--text-statement` | `clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem)` | H2 28 → 40: section headings | ApproachSection, FaqSection, ProcessSection, SectionHeader, StubLayout, TeamSection |
 | `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
-| `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | ContentCard, RevealCard |
+| `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | ApproachSection, ContentCard, RevealCard |
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
-| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, TeamSection |
+| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | TeamSection |
 | `--text-note` | `1.5rem` | 24: team hub label (desktop) | — |
-| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | FullMenu, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | ApproachSection, FullMenu, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, Nav, NewsStack, RevealCard, TextLink, base, contact |
 | `--text-small` | `0.875rem` | Small 14 | Nav, NewsStack |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, ContentCard, Hero, Nav, Pill, SiteShell, TextLink |
-| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | ContentCard, CtaFooter, MediaFrame, Nav, SectionHeader, Tag, TeamSection |
+| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | ApproachSection, ContentCard, CtaFooter, MediaFrame, Nav, SectionHeader, Tag, TeamSection |
 | `--text-micro` | `0.625rem` | 10: placeholder labels in small thumbnails | NewsStack |
 
 ### Weights: the scale ...
@@ -165,12 +165,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--tracking-problem` | `-0.03em` |  | — |
 | `--tracking-closer` | `-0.03em` |  | CtaFooter |
 | `--tracking-heading` | `-0.015em` | H2, menu | ApproachSection, FaqSection, FullMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
-| `--tracking-title` | `-0.01em` | H3, H4 | ContentCard, RevealCard |
+| `--tracking-title` | `-0.01em` | H3, H4 | ApproachSection, ContentCard, RevealCard |
 | `--tracking-body` | `0` |  | base |
 | `--tracking-label` | `0.04em` | all caps needs a little air | Button, ContentCard, Hero, Nav, NewsStack, Pill, SiteShell, TextLink |
 | `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, SectionHeader, Tag, TeamSection |
 | `--leading-hero` | `1.02` | tight two-line hero (Claude Design) | Hero |
-| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, ContentCard, CtaFooter, Hero, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
+| `--leading-none` | `1` | single-line UI, problem line | Button, ContentCard, CtaFooter, Hero, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
 | `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, ContentCard, FaqSection, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, base |
 | `--leading-large` | `1.25` | H4 30 / 24 | TeamSection |
@@ -179,7 +179,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--leading-snug` | `1.3` | list titles (mega menu, news) | FullMenu, Nav, NewsStack |
 | `--leading-compact` | `1.45` | small descriptions | Nav, NewsStack |
 | `--leading-quote` | `1.2` | 48 / 40 | — |
-| `--leading-medium` | `1.6` | Body L 32 / 20 | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--leading-medium` | `1.6` | Body L 32 / 20 | ApproachSection, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--leading-body` | `1.625` | Body 26 / 16 | Disclosure, base |
 
 ### Measure: place with the grid, constrain with ch/em (brief §2.3).
@@ -187,11 +187,11 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--measure-statement` | `34ch` |  | ProcessSection, SectionHeader, TeamSection |
-| `--measure-subline` | `44ch` |  | SectionHeader, TeamSection |
+| `--measure-subline` | `44ch` |  | ApproachSection, SectionHeader, TeamSection |
 | `--measure-quote` | `36em` |  | TestimonialCard |
 | `--measure-closer` | `13ch` |  | CtaFooter |
 | `--measure-card` | `34ch` | mega menu descriptions | Nav |
-| `--measure-gate` | `40ch` | Approach description | — |
+| `--measure-gate` | `40ch` | Approach description | ApproachSection |
 | `--measure-point` | `26ch` | AI card points | — |
 
 ### SPACING
@@ -202,15 +202,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-2` | `0.125rem` |  | Nav |
 | `--space-4` | `0.25rem` |  | FullMenu, Nav, NewsStack, RevealCard, TestimonialCard |
 | `--space-6` | `0.375rem` |  | ContentCard, Nav, Pill, Tag |
-| `--space-8` | `0.5rem` |  | ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
+| `--space-8` | `0.5rem` |  | ApproachSection, ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
 | `--space-10` | `0.625rem` |  | Button, ContentCard, FullMenu, Hero, Nav, NewsStack, Pill, Tag, TeamSection, buttonFx |
-| `--space-12` | `0.75rem` |  | ContentCard, Nav, NewsStack, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection |
+| `--space-12` | `0.75rem` |  | ApproachSection, ContentCard, Nav, NewsStack, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection |
 | `--space-14` | `0.875rem` |  | Button, Hero, Nav, Pill, ProcessSection |
-| `--space-16` | `1rem` |  | Button, ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Hero, Nav, NewsStack, SiteShell |
+| `--space-16` | `1rem` |  | ApproachSection, Button, ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Hero, Nav, NewsStack, SectionHeader, SiteShell |
 | `--space-18` | `1.125rem` |  | Disclosure, ProcessSection, TeamSection |
-| `--space-20` | `1.25rem` |  | FullMenu, Nav |
+| `--space-20` | `1.25rem` |  | ApproachSection, FullMenu, Nav |
 | `--space-22` | `1.375rem` |  | Button, RevealCard |
-| `--space-24` | `1.5rem` |  | ClientTicker, CtaFooter, FaqSection, FullMenu, Nav, SectionHeader, TeamSection, contact |
+| `--space-24` | `1.5rem` |  | ApproachSection, ClientTicker, CtaFooter, FaqSection, FullMenu, Nav, SectionHeader, TeamSection, contact |
 | `--space-26` | `1.625rem` |  | — |
 | `--space-28` | `1.75rem` |  | TestimonialCard |
 | `--space-32` | `2rem` |  | CtaFooter, Nav, ProcessSection |
@@ -236,12 +236,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--grid-columns` | `12` |  | FullMenu, Grid12, Nav, WorkSection |
+| `--grid-columns` | `12` |  | ApproachSection, FullMenu, Grid12, Nav, WorkSection |
 | `--section-py` | `calc(var(--section-gap) / 2)` | each side; two sections meet at one gap | CtaFooter, Section |
 | `--section-py-tight` | `clamp(1.25rem, 3vw, 2.5rem)` | process card wrapper (prototype) | Section |
 | `--inset-card` | `clamp(1.5rem, 3vw, 2.5rem)` | testimonial (prototype) | Nav, TestimonialCard |
 | `--inset-panel` | `clamp(2rem, 6vw, 4.5rem)` | process card (prototype) | ProcessSection |
-| `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | FullMenu, Hero, Nav, base, fullMenu, heroReveal, pageTransition |
+| `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | FullMenu, Hero, Nav, approach, base, fullMenu, heroReveal, pageTransition |
 | `--tap-min` | `2.75rem` | 44px touch target | Button, ClientsSection, Disclosure, Nav, Pill |
 | `--gesture-swipe` | `36px` | minimum swipe that flips a card | newsStack |
 | `--gesture-wheel` | `24px` | wheel travel that flips a card | newsStack |
@@ -267,7 +267,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--radius-none` | `0` |  | — |
 | `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, ContentCard, IconButton, SiteShell, TeamSection |
 | `--radius-sm` | `0.5rem` | 8 | Nav, NewsStack |
-| `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | ContentCard, MediaFrame, Nav, NewsStack, ProcessSection, RevealCard, SiteShell, TestimonialCard, heroReveal, nav |
+| `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | ApproachSection, ContentCard, MediaFrame, Nav, NewsStack, ProcessSection, RevealCard, SiteShell, TestimonialCard, heroReveal, nav |
 | `--radius-lg` | `1.25rem` | 20 | — |
 | `--radius-xl` | `1.375rem` | 22: team diagram bracket (prototype shape) | — |
 | `--radius-pill` | `999px` | tags, pills | ClientsSection, ContentCard, Hero, Nav, Pill, Tag |
@@ -291,10 +291,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
-| `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
+| `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | Disclosure, PixelIcon |
 | `--border-width` | `1px` |  | ClientsSection, ContentCard, CtaFooter, Disclosure, Pill, ProcessSection, Section, Tag, TeamSection, TextLink |
-| `--focus-width` | `2px` |  | base |
-| `--focus-offset` | `3px` |  | base |
+| `--focus-width` | `2px` |  | ApproachSection, base |
+| `--focus-offset` | `3px` |  | ApproachSection, base |
 
 ### Blur (only these amounts)
 
@@ -315,9 +315,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | ContentCard, FullMenu, Hero, Nav, NewsStack, SiteShell, gsap |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | ApproachSection, ContentCard, FullMenu, Hero, Nav, NewsStack, SiteShell, gsap |
 | `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap |
-| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | ContentCard, Nav, NewsStack, buttonFx, fullMenu, gsap |
+| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | ApproachSection, ContentCard, Nav, NewsStack, buttonFx, fullMenu, gsap |
 | `--ease-linear` | `linear` |  | ClientTicker |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
 | `--ease-emphasized` | `cubic-bezier(0.05, 0.7, 0.1, 1)` | mega menu open, hub burst | nav |
@@ -325,7 +325,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--ease-exit` | `cubic-bezier(0.3, 0, 1, 1)` | accelerating exits | buttonFx, nav |
 | `--ease-breathe` | `cubic-bezier(0.37, 0, 0.63, 1)` | ambient loops | — |
 | `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | symmetric reveals | — |
-| `--dur-press` | `120ms` | button press | buttonFx |
+| `--dur-press` | `120ms` | button press | ClientsSection, buttonFx |
 | `--dur-fast` | `200ms` | hovers | ContentCard, buttonFx |
 | `--dur-base` | `300ms` |  | Hero, NewsStack, RevealCard, disclosure, gsap |
 | `--dur-reveal` | `450ms` |  | RevealCard |
@@ -338,10 +338,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--dur-cascade-column` | `50ms` | … added per column | nav |
 | `--dur-cascade-item` | `25ms` | … and per item | nav |
 | `--dur-stack-fade` | `400ms` | news stack card fade | NewsStack |
-| `--dur-expand` | `420ms` | accordions, card CTA pill | ContentCard, FullMenu |
+| `--dur-expand` | `420ms` | accordions, card CTA pill | ApproachSection, ContentCard, FullMenu |
 | `--dur-accordion-fade` | `280ms` | accordion content fade | FullMenu |
 | `--dur-hover-intent` | `160ms` | mega menu stays open this long after the pointer leaves | nav |
-| `--dur-collapse` | `560ms` | nav collapse, news stack slide, gate text | Nav, NewsStack |
+| `--dur-collapse` | `560ms` | nav collapse, news stack slide, gate text | ApproachSection, Nav, NewsStack |
 | `--dur-theme` | `800ms` |  | Nav |
 | `--dur-page` | `900ms` |  | SiteShell, themeSwitch |
 | `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn |
@@ -361,7 +361,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | heroReveal |
 | `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | buttonGlitch, heroReveal |
 | `--pixel-dissolve` | `3 7 14 20 28 36` | hero title out on the first scroll | heroReveal |
-| `--pixel-ghost` | `0.18` | LCD ghost: the previous frame lingers at this opacity | logoWings, wing |
+| `--pixel-ghost` | `0.18` | LCD ghost: the previous frame lingers at this opacity | Disclosure, logoWings, wing |
 | `--dur-pixel-frame-in` | `70ms` |  | heroReveal |
 | `--dur-pixel-frame-glitch` | `55ms` |  | buttonGlitch, heroReveal |
 | `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | heroReveal |
@@ -399,7 +399,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--dur-icon-frame` | `55ms` |  | — |
+| `--dur-icon-frame` | `55ms` |  | disclosure |
 
 ### Canvas scenes: team funnel, AI card + footer rain
 
@@ -423,7 +423,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--dur-autoplay` | `4s` | testimonials, hero news | newsStack |
+| `--dur-autoplay` | `4s` | testimonials, hero news | newsStack, slider |
+| `--dur-scroll-settle` | `140ms` | slider re-centres after scrolling stops this long | slider |
+| `--dur-icon-glitch` | `330ms` | slider arrow glitch on hover | slider |
+| `--icon-swap-steps` | `5` | FAQ + → × pixel frames | disclosure |
 
 ### Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
 
@@ -466,8 +469,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--hero-veil` | `0.75` | white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px | Hero |
 | `--pixel-tint` | `0.3` | share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 | wing |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn |
-| `--hover-opacity` | `0.7` |  | ClientsSection, Nav, Pill, base |
-| `--disabled-opacity` | `0.3` |  | ClientsSection |
+| `--hover-opacity` | `0.7` |  | Nav, Pill, base |
+| `--disabled-opacity` | `0.3` |  | — |
 
 ### Testimonial slider (one card per "page", next card peeks)
 
@@ -506,14 +509,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-slate-25)` | cool near-white | CtaFooter, Section, base |
+| `--surface-page` | `var(--color-slate-25)` | cool near-white | ClientsSection, CtaFooter, Section, base |
 | `--surface-raised` | `var(--color-slate-100)` | testimonial card, containers | TestimonialCard |
 | `--surface-muted` | `var(--color-slate-100)` | sunken surfaces | — |
 | `--surface-hover` | `var(--color-slate-150)` | link hover fill (mega menu) | Nav |
 | `--surface-overlay` | `var(--color-white)` | full-page menu | FullMenu |
 | `--surface-inverse` | `var(--color-slate-900)` |  | base |
-| `--text-primary` | `var(--color-slate-900)` | Deep Ink, never #000 | ContentCard, CtaFooter, FullMenu, Nav, base |
-| `--text-secondary` | `var(--color-slate-600)` |  | ClientTicker, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, NewsStack, SectionHeader, StubLayout, contact, utilities |
+| `--text-primary` | `var(--color-slate-900)` | Deep Ink, never #000 | ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, base |
+| `--text-secondary` | `var(--color-slate-600)` |  | ApproachSection, ClientTicker, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, NewsStack, SectionHeader, StubLayout, contact, utilities |
 | `--text-tertiary` | `var(--color-slate-600)` |  | TeamSection |
 | `--text-muted` | `var(--color-slate-600)` | lightest text that passes AA on the page | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-white)` |  | base |
@@ -524,7 +527,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--link` | `var(--color-accent-teal)` |  | — |
 | `--cta-bg` | `var(--color-slate-900)` | Deep Ink button | Button, IconButton, SiteShell |
 | `--cta-fg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
-| `--focus-ring` | `var(--color-accent-teal)` |  | RevealCard, base |
+| `--focus-ring` | `var(--color-accent-teal)` |  | ApproachSection, RevealCard, base |
 | `--tag-border` | `var(--border-strong)` |  | ContentCard, Tag |
 | `--placeholder-stripe-a` | `var(--color-slate-100)` |  | ContentCard, MediaFrame |
 | `--placeholder-stripe-b` | `var(--color-slate-50)` |  | ContentCard, MediaFrame |
@@ -534,13 +537,13 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-slate-900)` |  | CtaFooter, Section, base |
+| `--surface-page` | `var(--color-slate-900)` |  | ClientsSection, CtaFooter, Section, base |
 | `--surface-raised` | `var(--color-slate-800)` |  | TestimonialCard |
 | `--surface-muted` | `var(--color-slate-800)` |  | — |
 | `--surface-hover` | `var(--color-slate-800)` |  | Nav |
 | `--surface-inverse` | `var(--color-white)` |  | base |
-| `--text-primary` | `var(--color-slate-50)` |  | ContentCard, CtaFooter, FullMenu, Nav, base |
-| `--text-secondary` | `var(--color-slate-400)` |  | ClientTicker, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, NewsStack, SectionHeader, StubLayout, contact, utilities |
+| `--text-primary` | `var(--color-slate-50)` |  | ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, base |
+| `--text-secondary` | `var(--color-slate-400)` |  | ApproachSection, ClientTicker, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, NewsStack, SectionHeader, StubLayout, contact, utilities |
 | `--text-tertiary` | `var(--color-slate-400)` |  | TeamSection |
 | `--text-muted` | `var(--color-slate-400)` |  | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-slate-900)` |  | base |
@@ -551,7 +554,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--link` | `var(--color-wash-sky)` |  | — |
 | `--cta-bg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
 | `--cta-fg` | `var(--color-slate-900)` |  | Button, IconButton, SiteShell |
-| `--focus-ring` | `var(--color-wash-sky)` |  | RevealCard, base |
+| `--focus-ring` | `var(--color-wash-sky)` |  | ApproachSection, RevealCard, base |
 | `--tag-border` | `var(--color-slate-700)` |  | ContentCard, Tag |
 | `--placeholder-stripe-a` | `var(--color-slate-800)` |  | ContentCard, MediaFrame |
 | `--placeholder-stripe-b` | `var(--color-slate-900)` |  | ContentCard, MediaFrame |
@@ -582,7 +585,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--gate-media-fg` | `var(--color-slate-900)` |  | MediaFrame |
+| `--gate-media-fg` | `var(--color-slate-900)` |  | ApproachSection, MediaFrame |
+| `--gate-shift` | `24px` | sticky text slides this far as it swaps | ApproachSection |
 | `--gate-1-media` | `var(--wash-mint-sky)` |  | RevealCard |
 | `--gate-2-media` | `var(--wash-blush-rose)` |  | RevealCard |
 | `--gate-3-media` | `var(--wash-lavender)` |  | RevealCard |

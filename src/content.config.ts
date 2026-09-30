@@ -193,6 +193,8 @@ const home = defineCollection({
     }),
     approach: z.object({
       heading: z.string().min(1),
+      /** Line under the heading (Claude Design). */
+      subline: z.string().min(1),
       gates: z
         .array(
           z.object({

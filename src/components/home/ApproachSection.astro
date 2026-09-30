@@ -1,13 +1,24 @@
 ---
 /**
- * ApproachSection: centred heading + the three gate cards (RevealCard), side by
- * side where they fit (min ~280px each), stacked on phones.
- * Props: heading, gates (from home.json).
- * Tokens: --text-statement, --tracking-heading, --leading-heading, --header-gap, --grid-gap-col.
+ * ApproachSection (Claude Design): "Where Are You Starting From?"
+ * Left-aligned heading and a line under it. Then, on the 12-column grid:
+ *   cols 1–5   one text panel (title, description, arrow CTA) that stays centred on
+ *              screen and lines up with each card as it passes; it crossfades to the
+ *              card nearest the middle of the screen (motion/approach.ts)
+ *   cols 7–12  the three media cards stacked vertically (soft wash until the loops arrive)
+ * Hovering or focusing a card brings it into focus too. Below md the panel is hidden
+ * and each card shows its own text under its media.
+ * Props: heading, subline, gates.
+ * Tokens: --gate-N-media, --gate-media-fg, --radius-md, --text-statement, --text-title,
+ *         --text-medium, --measure-subline, --measure-gate, --text-secondary, --header-gap,
+ *         --grid-*, --gate-shift, --dur-expand, --dur-collapse, --ease-standard, --ease-out-expo, --space-*.
+ * Motion hooks: data-gates, data-gate, data-gate-side, data-gate-text, data-gate-panel,
+ *               data-active (motion/approach.ts).
  */
 import Section from '../primitives/Section.astro';
-import RevealCard from '../ui/RevealCard.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
 import { situationLabels, type Situation } from '../../config/taxonomy';
+import { bookCall } from '../../config/navigation';
 
 interface Gate {
   situation: Situation;
@@ -20,45 +31,180 @@ interface Gate {
 }
 interface Props {
   heading: string;
+  subline: string;
   gates: Gate[];
 }
-const { heading, gates } = Astro.props;
+const { heading, subline, gates } = Astro.props;
 ---
 
 <Section id="approach" labelledby="approach-title">
-  <h2 id="approach-title" class="approach__heading">
-    {heading}
-  </h2>
-  <div class="approach__grid">
-    {gates.map((g) => (
-      <RevealCard
-        tone={g.tone}
-        title={situationLabels[g.situation]}
-        pain={g.pain}
-        result={g.result}
-        mediaLabel={g.mediaLabel}
-        media={g.media}
-        mediaAlt={g.mediaAlt}
-      />
-    ))}
+  <h2 id="approach-title" class="approach__heading">{heading}</h2>
+  <p class="approach__sub">{subline}</p>
+
+  <div class="approach__grid" data-gates>
+    <div class="approach__side" data-gate-side>
+      <div class="approach__panels" data-gate-text>
+        {gates.map((g, i) => (
+          <div class="approach__panel" data-gate-panel data-active={i === 0 ? '' : undefined}>
+            <h3 class="approach__title">{situationLabels[g.situation]}</h3>
+            <p class="approach__pain">{g.pain}</p>
+            <a class="approach__result" href={bookCall.href} tabindex="-1">
+              <PixelIcon name="arrow-right" />
+              {g.result}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="approach__list">
+      {gates.map((g) => (
+        <article class="approach__card" tabindex="0" data-gate>
+          <div class="approach__media" style={`--gate-media: var(--${g.tone}-media)`}>
+            {g.media ? <img src={g.media} alt={g.mediaAlt} loading="lazy" /> : g.mediaLabel}
+          </div>
+          <div class="approach__inline">
+            <h3 class="approach__title">{situationLabels[g.situation]}</h3>
+            <p class="approach__pain">{g.pain}</p>
+            <a class="approach__result" href={bookCall.href}>
+              <PixelIcon name="arrow-right" />
+              {g.result}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </Section>
 
 <style>
   @layer components {
     .approach__heading {
-      margin-bottom: var(--header-gap);
       font-family: var(--font-display);
       font-weight: var(--weight-display);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
-      text-align: center;
+    }
+    .approach__sub {
+      max-width: var(--measure-subline);
+      margin-top: var(--space-12);
+      margin-bottom: var(--header-gap);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+      color: var(--text-secondary);
+      text-wrap: pretty;
     }
     .approach__grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+      grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      column-gap: var(--grid-gap-col);
+    }
+    .approach__side {
+      display: none;
+    }
+    .approach__list {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
       gap: var(--grid-gap-col);
+    }
+    .approach__card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-20);
+      outline: none;
+    }
+    .approach__card:focus-visible .approach__media {
+      outline: var(--focus-width) solid var(--focus-ring);
+      outline-offset: var(--focus-offset);
+    }
+    .approach__media {
+      aspect-ratio: 3 / 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: var(--gate-media);
+      font-size: var(--text-eyebrow);
+      color: var(--gate-media-fg);
+    }
+    .approach__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .approach__inline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      padding-bottom: var(--space-24);
+    }
+    .approach__title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-display);
+      font-size: var(--text-title);
+      letter-spacing: var(--tracking-title);
+      line-height: var(--leading-heading);
+    }
+    .approach__pain {
+      max-width: var(--measure-gate);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+      color: var(--text-secondary);
+      text-wrap: pretty;
+    }
+    .approach__result {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    /* From md: sticky text panel on the left, cards on the right. */
+    @media (min-width: 47.5rem) {
+      .approach__side {
+        display: block;
+        grid-column: 1 / span 5;
+        position: relative;
+      }
+      .approach__list {
+        grid-column: 7 / -1;
+      }
+      .approach__inline {
+        display: none;
+      }
+      .approach__panels {
+        position: absolute;
+        inset: 0 0 auto;
+        display: grid;
+        will-change: transform;
+      }
+      .approach__panel {
+        grid-area: 1 / 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        opacity: 0;
+        transform: translateY(var(--gate-shift));
+        pointer-events: none;
+        transition:
+          opacity var(--dur-expand) var(--ease-standard),
+          transform var(--dur-collapse) var(--ease-out-expo);
+      }
+      .approach__panel[data-active] {
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+      }
+      .approach__panel[data-before] {
+        transform: translateY(calc(var(--gate-shift) * -1));
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .approach__panel {
+        transition: none;
+      }
     }
   }
 </style>

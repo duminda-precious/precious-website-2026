@@ -34,7 +34,7 @@ const [home, work, testimonials, clients, faq] = await Promise.all([
     engine={home.team.engine}
     benefits={home.team.benefits}
   />
-  <ApproachSection heading={home.approach.heading} gates={home.approach.gates} />
+  <ApproachSection {...home.approach} />
   <ProcessSection {...home.process} />
   <FaqSection heading={home.faq.heading} items={faq} />
   <JournalSection {...home.journal} />

@@ -387,6 +387,9 @@
     --hero-inset-scroll: 320; /* px of scroll over which the reel shrinks into the padding */
     /* Autoplay */
     --dur-autoplay: 4s; /* testimonials, hero news */
+    --dur-scroll-settle: 140ms; /* slider re-centres after scrolling stops this long */
+    --dur-icon-glitch: 330ms; /* slider arrow glitch on hover */
+    --icon-swap-steps: 5; /* FAQ + → × pixel frames */
     /* Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
        Mark position inside the logo (from reference/brand/logo-white.svg). */
     --logo-mark-start: 52.9%; /* 401 / 758 */
@@ -593,6 +596,7 @@
        descriptions (not colourised). The media shows the wash until the
        videos arrive. */
     --gate-media-fg: var(--color-slate-900);
+    --gate-shift: 24px; /* sticky text slides this far as it swaps */
     --gate-1-media: var(--wash-mint-sky);
     --gate-2-media: var(--wash-blush-rose);
     --gate-3-media: var(--wash-lavender);

@@ -21,6 +21,7 @@ import { logoWings } from './logoWings';
 import { nav } from './nav';
 import { fullMenu } from './fullMenu';
 import { cardEdge } from './cardEdge';
+import { approach } from './approach';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -46,6 +47,7 @@ const modules: MotionModule[] = [
   nav,
   fullMenu,
   cardEdge,
+  approach,
 ];
 
 let cleanups: (() => void)[] = [];

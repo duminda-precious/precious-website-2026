@@ -92,26 +92,27 @@
     "gates": [
       {
         "situation": "extend-my-team",
-        "pain": "Your product is ready to take off. Your designers are stretched thin.",
+        "pain": "Your roadmap is growing faster than your design team can keep up.",
         "result": "Senior people join mid-flight and ship with you.",
         "tone": "gate-1",
         "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "redesign",
-        "pain": "It works, but it feels clunky.",
+        "pain": "Your product works, but it feels clunky and people notice every day.",
         "result": "Same product, transformed. People enjoy using it.",
         "tone": "gate-2",
         "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "build-from-zero",
-        "pain": "You have an idea and a deadline.",
+        "pain": "You have an idea, a deadline, and no design team to build it yet.",
         "result": "It hatches as a first version that feels finished.",
         "tone": "gate-3",
         "mediaLabel": "Photo / Loop"
       }
-    ]
+    ],
+    "subline": "Every team comes to us at a different point. Find the one that sounds like yours."
   },
   "process": {
     "heading": "Different Starting Points. One Transformation.",

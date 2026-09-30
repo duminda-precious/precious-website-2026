@@ -6,7 +6,8 @@
  *   action (optional)   cols 10–12, flush right, top-aligned
  * Below lg (992px) everything stacks full width, left-aligned (brief §7).
  * Props: headingId (for aria-labelledby on the Section), headingLevel (2 default), class.
- * Slots: eyebrow, default (statement text), sub (optional line under the statement), action.
+ * Slots: eyebrow, default (statement text), sub (optional line under the statement),
+ *        meta (optional element under that, e.g. a rating pill), action.
  * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
  *         --text-medium, --text-secondary, --text-eyebrow, --tracking-eyebrow, --header-gap, --space-*.
  */
@@ -21,6 +22,7 @@ const { headingId, headingLevel = 2, class: className } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const hasEyebrow = Astro.slots.has('eyebrow');
 const hasSub = Astro.slots.has('sub');
+const hasMeta = Astro.slots.has('meta');
 const hasAction = Astro.slots.has('action');
 ---
 
@@ -38,6 +40,11 @@ const hasAction = Astro.slots.has('action');
       <p class="section-header__sub">
         <slot name="sub" />
       </p>
+    )}
+    {hasMeta && (
+      <div class="section-header__meta">
+        <slot name="meta" />
+      </div>
     )}
   </div>
   {hasAction && (
@@ -80,6 +87,9 @@ const hasAction = Astro.slots.has('action');
       color: var(--text-secondary);
     }
 
+    .section-header__meta {
+      margin-top: var(--space-16);
+    }
     @media (min-width: 62rem) {
       .section-header__eyebrow {
         grid-column: 1 / span 3;
