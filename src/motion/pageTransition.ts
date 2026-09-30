@@ -22,8 +22,7 @@ const wait = (t: number) => new Promise((r) => window.setTimeout(r, t));
 /** Background of the view we're going to: dark for dark-themed targets. */
 function bgFor(target: Element | null): string {
   const dark =
-    target?.closest('[data-theme="ink"], [data-theme="dark"]') ||
-    target?.querySelector(':scope > [data-theme="ink"]');
+    target?.closest('[data-theme="dark"]') || target?.querySelector(':scope > [data-theme="dark"]');
   return dark ? cssVar('--page-bg-dark') || color('--color-slate-900') : cssVar('--page-bg');
 }
 
@@ -56,7 +55,9 @@ export function setupPageTransition() {
     if (id && !target) return;
     e.preventDefault();
     const jump = () => {
-      const y = target ? target.getBoundingClientRect().top + window.scrollY - length('--nav-height') : 0;
+      const y = target
+        ? target.getBoundingClientRect().top + window.scrollY - length('--nav-height')
+        : 0;
       document.dispatchEvent(new CustomEvent('precious:jump', { detail: { id } }));
       window.scrollTo({ top: y, behavior: 'instant' });
       history.replaceState(null, '', id ? `#${id}` : location.pathname);

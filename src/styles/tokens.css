@@ -49,10 +49,12 @@
     --color-wash-peach: #f7d9d2;
     --color-wash-lilac: #ead9f3;
 
-    /* Accents: the deep brand tones. Links, focus, small highlights. */
-    --color-accent-teal: #2f6f8f;
-    --color-accent-rose: #a4434f;
-    --color-accent-violet: #6a4fa3;
+    /* Accents: saturated brand tones, as light as the glows. Small highlights
+       and the logo ripple; too light for text on the light page (use teal-deep). */
+    --color-accent-teal: #3aa8df;
+    --color-accent-rose: #df3a4e;
+    --color-accent-violet: #6f3adf;
+    --color-accent-teal-deep: #0e77ab; /* links and focus on light: 4.7:1 on the page */
 
     /* Glow: saturated sky and pink, only as low-alpha light on Deep Ink (AI card). */
     --color-glow-sky: #5eb8de;
@@ -130,9 +132,6 @@
         transparent 65%
       );
 
-    /* Grain: 4–6% monochrome noise over large gradient areas (anti-banding). */
-    --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-    --grain-opacity: 0.05;
 
     /* ---------------------------------------------------------------------
        TYPOGRAPHY (theme-independent), brand guideline §05.
@@ -494,7 +493,8 @@
 
   /* -----------------------------------------------------------------------
      2. SEMANTIC TOKENS: THEMES
-     Light is the default. Sections opt in with data-theme="dark" | "ink".
+     Light is the default. Sections opt in with data-theme="dark" (Work stage,
+     AI card, footer). Two themes only (decision 2026-09-30d: Ink merged into Dark).
      -------------------------------------------------------------------- */
   :root,
   [data-theme='light'] {
@@ -516,10 +516,10 @@
     --border-default: var(--color-slate-200);
     --border-strong: var(--color-slate-400);
 
-    --link: var(--color-accent-teal);
+    --link: var(--color-accent-teal-deep);
     --cta-bg: var(--color-slate-900); /* Deep Ink button */
     --cta-fg: var(--color-white);
-    --focus-ring: var(--color-accent-teal);
+    --focus-ring: var(--color-accent-teal-deep);
 
     --tag-border: var(--border-strong);
     --placeholder-stripe-a: var(--color-slate-100);
@@ -573,37 +573,6 @@
     }
   }
 
-  /* Ink: footer and AI card. Deep Ink based. */
-  [data-theme='ink'] {
-    --surface-page: var(--color-slate-900);
-    --surface-raised: var(--color-slate-800);
-    --surface-muted: var(--color-slate-800);
-    --surface-hover: var(--color-slate-800);
-    --surface-inverse: var(--color-white);
-
-    --text-primary: var(--color-slate-50);
-    --text-secondary: var(--color-slate-400);
-    --text-tertiary: var(--color-slate-400);
-    --text-muted: var(--color-slate-400);
-    --text-on-inverse: var(--color-slate-900);
-    --text-strong: var(--color-white);
-
-    --border-subtle: var(--color-slate-800);
-    --border-default: var(--color-slate-800);
-    --border-strong: color-mix(in srgb, var(--color-white) 70%, transparent);
-
-    --link: var(--color-wash-sky);
-    --cta-bg: var(--color-white);
-    --cta-fg: var(--color-slate-900);
-    --focus-ring: var(--color-wash-sky);
-
-    --tag-border: var(--color-slate-700);
-    --placeholder-stripe-a: var(--color-slate-800);
-    --placeholder-stripe-b: var(--color-slate-900);
-    --placeholder-fg: var(--color-slate-400);
-
-    color-scheme: dark;
-  }
 
   /* -----------------------------------------------------------------------
      3. COMPONENT TOKENS

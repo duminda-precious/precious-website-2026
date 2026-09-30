@@ -39,7 +39,7 @@ const primitives = {
     'peach',
     'lilac',
   ].map((k) => `wash-${k}`),
-  'Accents (links, focus, small highlights)': ['teal', 'rose', 'violet'].map((k) => `accent-${k}`),
+  'Accents (small highlights; deep teal = links, focus)': ['teal', 'rose', 'violet', 'teal-deep'].map((k) => `accent-${k}`),
   Status: ['success', 'warning', 'error', 'info'],
 };
 
@@ -180,7 +180,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
         <strong class="dev-brand">Design system · /dev/tokens</strong>
         <Cluster gap="8" role="group" aria-label="Preview theme">
           <span class="dev-muted">Theme</span>
-          {['light', 'dark', 'ink'].map((t) => (
+          {['light', 'dark'].map((t) => (
             <button
               class="dev-toggle"
               type="button"
@@ -419,7 +419,7 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
               <Logo class="logo-demo-row__wordmark" label="Precious Studio" />
               <Logo variant="mark" class="logo-demo-row__mark" />
             </div>
-            <div class="logo-demo-row logo-demo-row--dark" data-theme="ink">
+            <div class="logo-demo-row logo-demo-row--dark" data-theme="dark">
               <Logo class="logo-demo-row__wordmark" />
               <Logo variant="mark" class="logo-demo-row__mark" />
             </div>
@@ -692,19 +692,6 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
     }
     .swatch__chip--tall {
       aspect-ratio: 3 / 4;
-    }
-    .grain {
-      position: relative;
-      overflow: hidden;
-    }
-    .grain::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--grain-image);
-      opacity: var(--grain-opacity);
-      mix-blend-mode: multiply;
-      pointer-events: none;
     }
     .shadow-box {
       display: block;

@@ -83,7 +83,7 @@ Quick-access map. Paths are relative to the repo root.
 
 | What | Where | Notes |
 |---|---|---|
-| All tokens (primitive → semantic → component) | `src/styles/tokens.css` | Tier 1 primitives (Slate, washes, accents), gradients, typography, spacing, layout, motion; tier 2 themes (`light`, `dark`, `ink`); tier 3 component tokens (nav, hero, news, gates, team, process, footer …) |
+| All tokens (primitive → semantic → component) | `src/styles/tokens.css` | Tier 1 primitives (Slate, washes, accents), gradients, typography, spacing, layout, motion; tier 2 themes (`light`, `dark`); tier 3 component tokens (nav, hero, news, gates, team, process, footer …) |
 | Token catalogue, one row per token, with where it's used | `docs/tokens.md` | Update it whenever you add or change a token |
 | Live token and component preview | `/dev/tokens` (`src/pages/dev/tokens.astro`) | Dev-only page |
 | Brand and design-system page | `/brand` (`src/pages/brand.astro`, `src/components/brand/`) | Hidden: linked from nowhere, `noindex, nofollow`, not in the sitemap. Story and voice copy in `src/content/pages/brand.json`; every value read from `tokens.css` (`src/lib/designTokens.ts`). Logo SVG downloads at `/brand/*.svg` |
@@ -187,7 +187,7 @@ These combine `CLAUDE.md` with the phase-3 changes. `CLAUDE.md` still applies; t
 Three tiers in `src/styles/tokens.css`:
 
 1. **Primitives:** raw values: the Slate scale (25–900), wash hues (sky, lavender, rose, mint, sage, blush, peach, lilac), accents (teal, rose, violet), glows, font stacks, type scale, spacing scale (`--space-*`), radii, durations (`--t-*`). **Components never use primitives directly.**
-2. **Semantic:** meaning, remapped per theme (`data-theme="light" | "dark" | "ink"`): `--surface-*`, `--text-*`, `--border-*`, and the semantic `--dur-*`, `--ease-*`.
+2. **Semantic:** meaning, remapped per theme (`data-theme="light" | "dark"`): `--surface-*`, `--text-*`, `--border-*`, and the semantic `--dur-*`, `--ease-*`.
 3. **Component:** only where a component needs its own knob (`--nav-*`, `--hero-*`, `--news-*`, `--gate-*`, `--team-*`, `--process-*`, `--footer-*`, `--button-height` …).
 
 Alpha colours use `color-mix()`. Gradients (`--wash-*`) reference primitives.
@@ -199,7 +199,7 @@ Alpha colours use `color-mix()`. Gradients (`--wash-*`) reference primitives.
 - **Type roles:** `.type-statement` (section headings), `.type-subline`, `.type-title` (card titles), `.type-label` (buttons, nav, pills, uppercase mono), `.type-overline`. Components add layout only.
 - **Buttons:** one size, 40px (`--button-height`), square corners (4px). `Button` for actions and CTAs (`cta` prop adds the periodic label glitch), `IconButton` for icon-only, `TextLink` for inline links.
 - **Cards:** `ContentCard` (tag, title, image, CTA; hover pixel edge). Radius `--radius-md` for media and cards.
-- **Themes per section:** set `data-theme` on a section to switch palette (the Work section uses the page theme switch; the AI card and footer use `ink`).
+- **Themes per section:** set `data-theme` on a section to switch palette (the Work section uses the page theme switch; the AI card and footer use `dark`).
 - **Mobile:** below 760px, stack to one column; tap targets at least 44px (`--tap-min`); no horizontal scroll.
 
 ### 6.3 Adding to the system
@@ -305,7 +305,7 @@ All `precious-homepage-preview-dk3n41d0v.vercel.app` and `picsum.photos` URLs mu
 ### 10.1 How to build an inner page
 
 1. Read the live-site version of the page (if any) and the content doc.
-2. Propose a section outline built **only from existing components and homepage patterns** (hero-style title, `SectionHeader` sections, `Grid12` layouts, `ContentCard` grids, `Disclosure` lists, AI/ink card, footer CTA). Post it for approval.
+2. Propose a section outline built **only from existing components and homepage patterns** (hero-style title, `SectionHeader` sections, `Grid12` layouts, `ContentCard` grids, `Disclosure` lists, AI/dark card, footer CTA). Post it for approval.
 3. Add the schema fields and content file(s), then the page, replacing `StubLayout`.
 4. Set real SEO (`title`, `description`), `noindex: false`, canonical, and OG image.
 5. Run the QA matrix (§13).

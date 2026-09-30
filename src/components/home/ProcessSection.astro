@@ -12,7 +12,7 @@
  * Below 1100px the points take the full width and the button drops under them;
  * below md the points stack.
  * Props: heading, subline, stat, points, agentLink.
- * Tokens: ink theme, --process-*, --glow-ai, --section-py, --section-py-tight, --gutter,
+ * Tokens: dark theme, --process-*, --glow-ai, --section-py, --section-py-tight, --gutter,
  *         --grid-*, --text-closer, --text-medium, --text-eyebrow, --space-*. Header: SectionHeader.
  * Motion hooks: data-ai, data-ai-window, data-ai-rise, data-ai-stat, data-rain,
  *               data-rain-scope, data-rain-cta.
@@ -32,7 +32,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <section id="process" class="ai" aria-labelledby="process-title" data-ai>
-  <div class="ai__card" data-theme="ink" data-rain-scope>
+  <div class="ai__card" data-theme="dark" data-rain-scope>
     <div class="ai__window" aria-hidden="true">
       <div class="ai__glow" data-ai-window>
         <canvas class="ai__rain" data-rain></canvas>

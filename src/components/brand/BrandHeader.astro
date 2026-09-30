@@ -1,7 +1,7 @@
 ---
 /**
  * BrandHeader: the top of /brand.
- *   bar    sticky: butterfly mark + title (link to the top), theme switch (Light · Dark · Ink)
+ *   bar    sticky: butterfly mark + title (link to the top), theme switch (Light · Dark)
  *   cover  wordmark, title, tagline, and the numbered contents index
  * The theme buttons carry data-brand-theme; the page script applies the theme.
  * Props: title, tagline, index ({ id, number, name }[]), ui (index/theme labels), themes.
@@ -20,7 +20,7 @@ interface Props {
   tagline: string;
   index: { id: string; number: string; name: string }[];
   ui: { index: string; theme: string };
-  themes: { light: string; dark: string; ink: string };
+  themes: { light: string; dark: string };
 }
 const { title, tagline, index, ui, themes } = Astro.props;
 ---

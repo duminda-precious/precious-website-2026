@@ -26,9 +26,7 @@ const { name, title, values, refs, note, ui } = Astro.props;
 const themed = typeof values !== 'string';
 const value = themed ? values.light : values;
 const perTheme = (v: PerTheme | undefined) =>
-  v
-    ? { 'data-theme-values': '', 'data-light': v.light, 'data-dark': v.dark, 'data-ink': v.ink }
-    : {};
+  v ? { 'data-theme-values': '', 'data-light': v.light, 'data-dark': v.dark } : {};
 ---
 
 <figure class="swatch">

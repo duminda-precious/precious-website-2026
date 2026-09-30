@@ -1,16 +1,16 @@
 ---
 /**
- * GradientSection (/brand 05): every gradient token (--wash-*, --glow-*) plus grain.
- * Each card: the gradient with grain, its tokens.css note, the primitives it uses, and
+ * GradientSection (/brand 05): every gradient token (--wash-*, --glow-*).
+ * Each card: the gradient, its tokens.css note, the primitives it uses, and
  * copy buttons for the token and the resolved CSS (hex values, works outside the site).
- * Glows are light on Deep Ink, so they preview on the ink theme.
+ * Glows are light on Deep Ink, so they preview on the dark theme.
  * Props: gradients (brand.json → gradients), ui.
- * Tokens: --wash-*, --glow-*, --grain-image, --grain-opacity, ink theme, --radius-md,
+ * Tokens: --wash-*, --glow-*, dark theme, --radius-md,
  *         --radius-pill, --border-subtle, --text-small, --text-secondary, --space-*.
  */
 import BrandSection from './BrandSection.astro';
 import CopyValue from './CopyValue.astro';
-import { tokensMatching, token, resolve, references, label } from '../../lib/designTokens';
+import { tokensMatching, resolve, references, label } from '../../lib/designTokens';
 import type { Brand } from '../../lib/content';
 
 interface Props {
@@ -22,24 +22,22 @@ const { gradients, ui } = Astro.props;
 const cards = tokensMatching(/^(wash|glow)-/).map((t) => ({
   token: t,
   title: label(t.name.replace(/^wash-/, '')),
-  onInk: t.name.startsWith('glow-'),
+  onDark: t.name.startsWith('glow-'),
   uses: references(t.value)
     .filter((r) => r.startsWith('color-'))
     .map((r) => ({ name: r, title: label(r.replace(/^color-/, '')) })),
   css: resolve(t.value),
 }));
-const grain = token('grain-image');
-const grainOpacity = token('grain-opacity');
 ---
 
 <BrandSection id="gradients" section={gradients}>
   <div class="grads">
     {cards.map((c) => (
       <figure class="grads__card">
-        <div class="grads__frame" data-theme={c.onInk ? 'ink' : 'light'}>
+        <div class="grads__frame" data-theme={c.onDark ? 'dark' : 'light'}>
           <div
             class="grads__preview"
-            style={`background: var(--${c.token.name})${c.onInk ? ', var(--surface-page)' : ''}`}
+            style={`background: var(--${c.token.name})${c.onDark ? ', var(--surface-page)' : ''}`}
           />
         </div>
         <figcaption class="grads__caption">
@@ -65,23 +63,6 @@ const grainOpacity = token('grain-opacity');
         </figcaption>
       </figure>
     ))}
-    <figure class="grads__card">
-      <div class="grads__frame" data-theme="light">
-        <div class="grads__preview grads__preview--grain"></div>
-      </div>
-      <figcaption class="grads__caption">
-        <span class="grads__title">{gradients.grain}</span>
-        {grain.group && <span class="grads__note">{grain.group}</span>}
-        <span class="grads__copy">
-          <CopyValue value={`var(--${grain.name})`} label={ui.copyToken}>
-            --{grain.name}
-          </CopyValue>
-          <CopyValue value={grainOpacity.value} label={ui.copyToken}>
-            --{grainOpacity.name}: {grainOpacity.value}
-          </CopyValue>
-        </span>
-      </figcaption>
-    </figure>
   </div>
 </BrandSection>
 
@@ -107,20 +88,6 @@ const grainOpacity = token('grain-opacity');
       position: relative;
       aspect-ratio: 4 / 3;
       border-radius: var(--radius-md);
-    }
-    .grads__preview::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: var(--grain-image);
-      opacity: var(--grain-opacity);
-      mix-blend-mode: multiply;
-      pointer-events: none;
-    }
-    /* Grain at its real strength, over the button wash. */
-    .grads__preview--grain {
-      background: var(--wash-button);
     }
     .grads__caption {
       display: flex;

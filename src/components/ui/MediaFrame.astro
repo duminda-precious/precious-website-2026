@@ -6,8 +6,8 @@
  * Props:
  *   aspect  one of mediaAspects ('3/2', '5/4', '1/1', '4/3', '16/9', …) | 'fill'
  *           ('fill' stretches to the parent, used by gate cards)
- *   tone    'auto'   → stripes follow the section theme (light / dark / ink)
- *           'gradient' → brand gradient + grain (gate cards; parent sets --mf-gradient)
+ *   tone    'auto'   → stripes follow the section theme (light / dark)
+ *           'gradient' → brand gradient (gate cards; parent sets --mf-gradient)
  *           'logo'   → testimonial logo slot (finer stripes)
  *   label   placeholder text (Eyebrow style), e.g. "case video"
  *   video, poster       → <video muted playsinline loop preload="none">
@@ -15,7 +15,7 @@
  *   rounded (default true), class
  *   default slot        → overlays positioned inside the frame (e.g. sound pill)
  *
- * Tokens: --placeholder-stripe-a/b, --placeholder-fg, --gate-media-fg, --grain-*, --logo-stripe-*,
+ * Tokens: --placeholder-stripe-a/b, --placeholder-fg, --gate-media-fg, --logo-stripe-*,
  *         --stripe-size, --stripe-size-sm, --radius-md, --font-sans, --text-eyebrow.
  * Motion hooks: data-motion="video-in-view" on <video> (M7).
  */
@@ -111,15 +111,6 @@ const style = aspect === 'fill' ? undefined : `--media-aspect: ${aspect}`;
     }
     .media-frame--gradient.media-frame--placeholder {
       background: var(--mf-gradient);
-    }
-    .media-frame--gradient.media-frame--placeholder::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--grain-image);
-      opacity: var(--grain-opacity);
-      mix-blend-mode: multiply;
-      pointer-events: none;
     }
     .media-frame--logo {
       --mf-a: var(--logo-stripe-a);

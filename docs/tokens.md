@@ -46,13 +46,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--color-wash-peach` | `#f7d9d2` |  | — |
 | `--color-wash-lilac` | `#ead9f3` |  | — |
 
-### Accents: the deep brand tones. Links, focus, small highlights.
+### Accents: saturated brand tones, as light as the glows. Small highlights
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-accent-teal` | `#2f6f8f` |  | logoWings |
-| `--color-accent-rose` | `#a4434f` |  | logoWings |
-| `--color-accent-violet` | `#6a4fa3` |  | logoWings |
+| `--color-accent-teal` | `#3aa8df` |  | logoWings |
+| `--color-accent-rose` | `#df3a4e` |  | logoWings |
+| `--color-accent-violet` | `#6f3adf` |  | logoWings |
+| `--color-accent-teal-deep` | `#0e77ab` | links and focus on light: 4.7:1 on the page | — |
 
 ### Glow: saturated sky and pink, only as low-alpha light on Deep Ink (AI card).
 
@@ -82,7 +83,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--wash-button` | `radial-gradient(82% 82% at 0% 0%, var(--color-wash-mint) 0%, transparent 100%), radial-gradient(82% 82% at 100% 0%, var(--color-wash-sky) 0%, transparent 100%), radial-gradient(82% 82% at 50% 120%, var(--color-wash-rose) 0%, transparent 100%), var(--color-slate-100)` |  | GradientSection |
+| `--wash-button` | `radial-gradient(82% 82% at 0% 0%, var(--color-wash-mint) 0%, transparent 100%), radial-gradient(82% 82% at 100% 0%, var(--color-wash-sky) 0%, transparent 100%), radial-gradient(82% 82% at 50% 120%, var(--color-wash-rose) 0%, transparent 100%), var(--color-slate-100)` |  | — |
 
 ### Starting-point media (Approach)
 
@@ -110,13 +111,6 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--glow-ai` | `radial-gradient(70% 90% at 0% 0%, color-mix(in srgb, var(--color-glow-sky) 32%, transparent) 0%, color-mix(in srgb, var(--color-glow-sky) 10%, transparent) 35%, transparent 65%), radial-gradient(70% 90% at 100% 0%, color-mix(in srgb, var(--color-glow-pink) 28%, transparent) 0%, color-mix(in srgb, var(--color-glow-pink) 8%, transparent) 35%, transparent 65%)` |  | ProcessSection |
-
-### Grain: 4–6% monochrome noise over large gradient areas (anti-banding).
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--grain-image` | `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")` |  | GradientSection, LogoSection, MediaFrame |
-| `--grain-opacity` | `0.05` |  | GradientSection, LogoSection, MediaFrame |
 
 ### TYPOGRAPHY (theme-independent), brand guideline §05.
 
@@ -566,41 +560,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--border-subtle` | `var(--color-slate-200)` |  | BrandHeader, GradientSection, LogoSection, Section, Swatch |
 | `--border-default` | `var(--color-slate-200)` |  | Disclosure, LayoutSection, MotionSection, TypeSection, VoiceSection |
 | `--border-strong` | `var(--color-slate-400)` |  | BrandHeader, ColourSection, ComponentsSection, LayoutSection, MotionSection, Pill, StorySection, TypeSection, VoiceSection |
-| `--link` | `var(--color-accent-teal)` |  | — |
+| `--link` | `var(--color-accent-teal-deep)` |  | — |
 | `--cta-bg` | `var(--color-slate-900)` | Deep Ink button | BrandHeader, Button, IconButton, SiteShell, brand |
 | `--cta-fg` | `var(--color-white)` |  | BrandHeader, Button, IconButton, SiteShell, brand |
-| `--focus-ring` | `var(--color-accent-teal)` |  | ApproachSection, base |
+| `--focus-ring` | `var(--color-accent-teal-deep)` |  | ApproachSection, base |
 | `--tag-border` | `var(--border-strong)` |  | Tag |
 | `--placeholder-stripe-a` | `var(--color-slate-100)` |  | ContentCard, MediaFrame |
 | `--placeholder-stripe-b` | `var(--color-slate-50)` |  | ContentCard, MediaFrame |
 | `--placeholder-fg` | `var(--color-slate-600)` |  | ContentCard, MediaFrame, NewsStack |
-
-## Semantic colours: ink (footer, process card)
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--surface-page` | `var(--color-slate-900)` |  | BrandHeader, CtaFooter, GradientSection, LayoutSection, LogoSection, Section, StorySection, base, brand |
-| `--surface-raised` | `var(--color-slate-800)` |  | LayoutSection, LogoSection, MotionSection, TestimonialCard |
-| `--surface-muted` | `var(--color-slate-800)` |  | — |
-| `--surface-hover` | `var(--color-slate-800)` |  | Nav |
-| `--surface-inverse` | `var(--color-white)` |  | base |
-| `--text-primary` | `var(--color-slate-50)` |  | ContentCard, CopyValue, CtaFooter, FullMenu, LayoutSection, LogoSection, MotionSection, Nav, VoiceSection, base, brand |
-| `--text-secondary` | `var(--color-slate-400)` |  | BrandHeader, ClientTicker, ColourSection, ComponentsSection, ContentCard, CopyValue, CtaFooter, Disclosure, FullMenu, GradientSection, LayoutSection, LogoSection, MotionSection, Nav, NewsStack, ProcessSection, StorySection, Swatch, TypeSection, VoiceSection, base, brand, contact, utilities |
-| `--text-tertiary` | `var(--color-slate-400)` |  | — |
-| `--text-muted` | `var(--color-slate-400)` |  | CtaFooter, TestimonialCard |
-| `--text-on-inverse` | `var(--color-slate-900)` |  | base |
-| `--text-strong` | `var(--color-white)` |  | — |
-| `--border-subtle` | `var(--color-slate-800)` |  | BrandHeader, GradientSection, LogoSection, Section, Swatch |
-| `--border-default` | `var(--color-slate-800)` |  | Disclosure, LayoutSection, MotionSection, TypeSection, VoiceSection |
-| `--border-strong` | `color-mix(in srgb, var(--color-white) 70%, transparent)` |  | BrandHeader, ColourSection, ComponentsSection, LayoutSection, MotionSection, Pill, StorySection, TypeSection, VoiceSection |
-| `--link` | `var(--color-wash-sky)` |  | — |
-| `--cta-bg` | `var(--color-white)` |  | BrandHeader, Button, IconButton, SiteShell, brand |
-| `--cta-fg` | `var(--color-slate-900)` |  | BrandHeader, Button, IconButton, SiteShell, brand |
-| `--focus-ring` | `var(--color-wash-sky)` |  | ApproachSection, base |
-| `--tag-border` | `var(--color-slate-700)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-slate-800)` |  | ContentCard, MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-slate-900)` |  | ContentCard, MediaFrame |
-| `--placeholder-fg` | `var(--color-slate-400)` |  | ContentCard, MediaFrame, NewsStack |
 
 ## Component tokens
 
