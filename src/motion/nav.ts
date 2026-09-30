@@ -115,12 +115,17 @@ export const nav: MotionModule = {
 
     if (trigger && host && panel) {
       const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)');
+      // After a deliberate close (Esc, click, outside click) hover can't reopen it
+      // until the pointer has left the trigger and panel.
+      let suppress = false;
       const enter = () => {
-        if (!hoverable.matches || el.hasAttribute('data-mini')) return;
+        if (!hoverable.matches || el.hasAttribute('data-mini') || suppress) return;
         window.clearTimeout(leaveT);
         setMega(true);
       };
-      const leave = () => {
+      const leave = (e: MouseEvent) => {
+        const to = e.relatedTarget as Node | null;
+        if (!to || (!host.contains(to) && !panel.contains(to))) suppress = false;
         if (!hoverable.matches) return;
         window.clearTimeout(leaveT);
         leaveT = window.setTimeout(() => setMega(false), ms('--dur-hover-intent', true));
@@ -133,6 +138,7 @@ export const nav: MotionModule = {
         'click',
         () => {
           window.clearTimeout(leaveT);
+          if (open) suppress = true;
           setMega(!open);
         },
         { signal },
@@ -141,6 +147,7 @@ export const nav: MotionModule = {
         'keydown',
         (e) => {
           if (e.key === 'Escape' && open) {
+            suppress = true;
             setMega(false);
             trigger.focus();
           }
@@ -150,7 +157,10 @@ export const nav: MotionModule = {
       document.addEventListener(
         'click',
         (e) => {
-          if (open && !host.contains(e.target as Node) && !panel.contains(e.target as Node)) setMega(false);
+          if (open && !host.contains(e.target as Node) && !panel.contains(e.target as Node)) {
+            suppress = true;
+            setMega(false);
+          }
         },
         { signal },
       );

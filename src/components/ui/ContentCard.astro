@@ -7,7 +7,7 @@
  *   - a ragged band of pixels steps in around the media's outer edges and blurs what's
  *     behind it; the centre stays clear; the pixels then breathe (fade in and out);
  *   - the CTA in the media's corner expands from a square arrow into a labelled pill.
- * No fade on hover (overrides the global link hover).
+ * No fade on hover (overrides the global link hover). The chip is the Tag component.
  * Props:
  *   href, tag, title, summary?, cta (label, e.g. "View case study"),
  *   video?, poster?, image?, alt?, placeholder (label when there's no media),
@@ -15,12 +15,13 @@
  *   headingLevel (2 | 3), class
  * Tokens: --card-cta-bg/-fg, --icon-button, --radius-md, --radius-xs, --radius-pill,
  *         --placeholder-stripe-a/-b, --placeholder-fg, --stripe-size, --edge-fill, --blur-edge,
- *         --tag-border, --text-title, --tracking-title, --leading-heading, --text-eyebrow,
+ *         --text-title, --tracking-title, --leading-heading, --text-eyebrow,
  *         --text-label, --tracking-label, --weight-label, --text-secondary,
  *         --dur-expand, --dur-fast, --ease-out-expo, --ease-standard, --space-*.
  * Motion hooks: data-card, data-card-edge, data-motion="video-in-view".
  */
 import PixelIcon from './PixelIcon.astro';
+import Tag from './Tag.astro';
 
 interface Props {
   href: string;
@@ -88,7 +89,7 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
       <PixelIcon name="arrow-right" />
     </span>
   </div>
-  <div class="card__tags"><span class="card__tag">{tag}</span></div>
+  <div class="card__tags"><Tag>{tag}</Tag></div>
   <Heading class="card__title">{title}</Heading>
   {summary && <p class="card__summary">{summary}</p>}
 </a>
@@ -180,15 +181,6 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-6);
-    }
-    .card__tag {
-      flex: none;
-      padding: var(--space-6) var(--space-10);
-      border: var(--border-width) solid var(--tag-border);
-      border-radius: var(--radius-pill);
-      font-size: var(--text-eyebrow);
-      line-height: var(--leading-none);
-      white-space: nowrap;
     }
     .card__title {
       font-family: var(--font-display);

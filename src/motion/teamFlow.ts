@@ -564,8 +564,8 @@ function flow(stage: HTMLElement) {
       kf.push(kf[0]!);
       loops.push(
         b.animate(kf, {
-          duration: 14000 + Math.random() * 10000,
-          delay: -Math.random() * 8000,
+          duration: ms('--dur-hub-drift') + Math.random() * ms('--dur-hub-drift-range'),
+          delay: -Math.random() * ms('--dur-hub-breathe'),
           iterations: Infinity,
           easing: ease('--ease-breathe'),
         }),

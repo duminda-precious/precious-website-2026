@@ -205,7 +205,6 @@
     --measure-statement: 34ch;
     --measure-subline: 44ch;
     --measure-quote: 36em;
-    --measure-closer: 13ch;
     --measure-card: 34ch; /* mega menu descriptions */
     --measure-gate: 40ch; /* Approach description */
     --measure-point: 26ch; /* AI card points */
@@ -252,7 +251,6 @@
     --section-py: calc(var(--section-gap) / 2); /* each side; two sections meet at one gap */
     --section-py-tight: clamp(1.25rem, 3vw, 2.5rem); /* process card wrapper (prototype) */
     --inset-card: clamp(1.5rem, 3vw, 2.5rem); /* testimonial (prototype) */
-    --inset-panel: clamp(2rem, 6vw, 4.5rem); /* process card (prototype) */
     --nav-height: 3.875rem; /* brief header height ~62px; also the anchor offset */
     --tap-min: 2.75rem; /* 44px touch target */
     --gesture-swipe: 36px; /* minimum swipe that flips a card */
@@ -270,7 +268,6 @@
     --news-fade-1: 0.8;
     --news-fade-2: 0.5;
     --team-max: 87.5rem; /* 1400: funnel width cap */
-    --nav-mini-at: 68.75rem; /* 1100: below this the nav is always collapsed (doc only; use literal in @media) */
 
     /* Radii (guideline: soft, never sharp, never blobby) */
     --radius-none: 0;
@@ -322,7 +319,6 @@
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1); /* chevrons, link fills, press */
     --ease-exit: cubic-bezier(0.3, 0, 1, 1); /* accelerating exits */
     --ease-breathe: cubic-bezier(0.37, 0, 0.63, 1); /* ambient loops */
-    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric reveals */
     --dur-press: 120ms; /* button press */
     --dur-fast: 200ms; /* hovers */
     --dur-base: 300ms;
@@ -341,12 +337,11 @@
     --dur-hover-intent: 160ms; /* mega menu stays open this long after the pointer leaves */
     --dur-collapse: 560ms; /* nav collapse, news stack slide, gate text */
     --dur-theme: 800ms;
+    --theme-enter: 75%; /* page turns dark once Work's top passes this viewport height … */
+    --theme-exit: 45%; /* … until its bottom rises above this */
     --dur-page: 900ms;
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
     --dur-marquee: 60s;
-    /* Button hover: the gradient fades over the fill (exits faster) */
-    --dur-fill-in: 240ms;
-    --dur-fill-out: 160ms;
     /* Pixel text (M13, ported from the parallel prototype): words pixelate
        through these block sizes (px), one frame each. */
     --pixel-resolve: 36 28 21 15 10 6 3; /* first view: coarse → crisp */
@@ -359,7 +354,6 @@
     --dur-cta-stagger: 40ms; /* word to word on a CTA's idle glitch */
     --dur-glitch-min: 2.2s; /* idle glitch every min + random(range) */
     --dur-glitch-range: 2.4s;
-    --pixel-glitch-double: 0.3; /* chance a glitch hits two words */
     /* Butterfly logo: wing flap frames (8fps) and the hover colour ripple */
     --dur-wing-frame: 125ms;
     --dur-logo-ripple: 1500ms;
@@ -389,6 +383,8 @@
     --dur-hub-wash: 800ms; /* the engine core fills with colour */
     --dur-hub-breathe: 8s; /* engine halo breathes */
     --dur-hub-spin: 16s; /* engine rim turns */
+    --dur-hub-drift: 14s; /* wash blobs drift inside the core, each 14s … */
+    --dur-hub-drift-range: 10s; /* … plus up to this */
     /* Hero: veil fade and the held first scroll */
     --dur-veil: 900ms;
     --dur-hero-lock: 950ms;
@@ -453,7 +449,6 @@
     --z-raised: 1; /* in-component layering */
     --z-float: 2; /* hero news stack */
     --z-nav: 5;
-    --z-dropdown: 10;
     --z-menu: 50;
     --z-skip: 100;
     --z-cover: 200; /* page-transition pixel cover */
@@ -608,15 +603,6 @@
     --gate-1-media: var(--wash-mint-sky);
     --gate-2-media: var(--wash-blush-rose);
     --gate-3-media: var(--wash-lavender);
-    --gate-1-bg: var(--color-slate-100);
-    --gate-1-fg: var(--color-slate-900);
-    --gate-1-pain: var(--color-slate-600);
-    --gate-2-bg: var(--color-slate-100);
-    --gate-2-fg: var(--color-slate-900);
-    --gate-2-pain: var(--color-slate-600);
-    --gate-3-bg: var(--color-slate-100);
-    --gate-3-fg: var(--color-slate-900);
-    --gate-3-pain: var(--color-slate-600);
 
     /* Team funnel (Claude Design 2a): white chips either side of a round engine,
        a pixel flow between them. Two stages: horizontal (md up) and vertical. */

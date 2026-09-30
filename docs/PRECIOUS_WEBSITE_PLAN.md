@@ -90,6 +90,14 @@ Handoff document for Claude Code (Opus 5.5). Read this whole file before writing
 - **Tweaks** (Motion tempo, Hero veil, Pixel tint) become tokens with the design's defaults (`--motion-tempo: 1`, `--hero-veil: 0.75`, `--pixel-tint: 0.3`); no on-page controls.
 - **Placeholders** from the design (journal posts, news stack, stock images, LinkedIn URL, links that go nowhere) stay in bracket form or are marked TODO. The design's unverified "Clutch top 100" headline is not used.
 
+**2026-09-30: the Claude Design file is the source of truth** (Duminda). Where `Precious Home.dc.html` conflicts with earlier decisions, brand guidelines or layouts, the design wins. Built in p2-08 … p2-14 with the design-system audit fixed along the way (every value a token; tokens reference primitives). Notable consequences:
+
+- **Removed:** Lenis smooth scroll (fought the held first scroll), the M1 400vh hero, heading pixel-resolve (section titles no longer animate), logo pop, the ▸ button glyph, RevealCard, MobileMenu (replaced by FullMenu), the problem line on the page.
+- **Theme switch** and the dark theme run at every width (was 760px up).
+- **Nav** is mini (butterfly + 4-dot button) whenever scrolled or below 1100px; links still go to pages (decision above).
+- **Buttons:** 4px corners; hover is the pixel wash bloom with a landing butterfly; every text button's label glitches on hover; section CTAs glitch while in view.
+- **Kept from the repo where the design is a prototype:** responsive stacking below md/lg (the design is desktop-first), the footer's sticky reveal from 992px, the footer headline wrapping on phones.
+
 ---
 
 ## 1. Context

@@ -12,7 +12,7 @@
  * taller than the viewport, it stays in normal flow (data-footer-static).
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
- *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
+ *         --text-closer, --tracking-closer, --leading-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
 import Button from '../ui/Button.astro';
@@ -146,7 +146,12 @@ import { ui } from '../../config/ui';
     }
     .footer__line {
       display: block;
-      white-space: nowrap;
+    }
+    /* Each line stays on one line where it fits; phones let it wrap. */
+    @media (min-width: 47.5rem) {
+      .footer__line {
+        white-space: nowrap;
+      }
     }
     .footer__col {
       grid-column: span 6;
