@@ -277,7 +277,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--shadow-e1` | `0 1px 2px color-mix(in srgb, var(--color-slate-900) 8%, transparent)` | cards, chips | — |
-| `--shadow-e2` | `0 4px 12px color-mix(in srgb, var(--color-slate-900) 8%, transparent)` | dropdowns | — |
+| `--shadow-e2` | `0 1px 2px color-mix(in srgb, var(--color-slate-900) 4%, transparent), 0 8px 24px color-mix(in srgb, var(--color-slate-900) 8%, transparent)` | dropdowns, menus: a tight contact edge + soft lift | — |
 | `--shadow-e3` | `0 16px 40px color-mix(in srgb, var(--color-slate-900) 14%, transparent)` | modals | — |
 
 ### Logo (the footer logo is sized by its grid columns, not a token)
@@ -599,6 +599,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--nav-dropdown-bg` | `var(--color-slate-25)` |  | Nav |
 | `--nav-dropdown-fg` | `var(--color-slate-900)` |  | Nav |
 | `--nav-dropdown-note-bg` | `var(--color-slate-100)` |  | Nav |
+| `--nav-dropdown-shadow` | `var(--shadow-e2)` |  | Nav |
 | `--nav-badge-bg` | `var(--color-slate-900)` |  | Nav |
 | `--nav-links-max` | `60rem` | collapse animates max-width from this to 0 | Nav |
 | `--nav-cta-max` | `12rem` |  | Nav |
@@ -606,6 +607,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--mega-width` | `60rem` | 960: Services panel, right-aligned on the gutter | Nav |
 | `--mega-drop` | `8px` | panel unfolds down this far … | nav |
 | `--mega-rise` | `6px` | … columns and the note band rise this far | nav |
+| `--mega-shadow-reach` | `var(--space-32)` | the unfold clip extends this far so --shadow-e2 shows | nav |
 
 ### Page wrapper (animated by the theme switch)
 

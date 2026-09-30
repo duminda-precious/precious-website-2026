@@ -11,12 +11,12 @@
  * rises in as one piece. Close: faster (--dur-mega-out, --ease-exit); items hold
  * where they are instead of snapping to full opacity.
  * Tokens: --dur-mega-in, --dur-mega-out, --dur-nav-fade, --dur-cascade-*, --dur-hover-intent, --ease-emphasized,
- *         --ease-exit, --ease-snappy, --radius-md, --mega-drop, --mega-rise.
+ *         --ease-exit, --ease-snappy, --radius-md, --mega-drop, --mega-rise, --mega-shadow-reach.
  * Reduced motion: the panel shows and hides at once.
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { cssVar, ease, ms } from './tokens';
+import { cssVar, ease, length, ms } from './tokens';
 
 const MINI_BELOW = '(max-width: 68.74rem)';
 
@@ -38,6 +38,11 @@ export const nav: MotionModule = {
     let leaveT = 0;
     let hoverOpenedAt = 0;
     const R = () => cssVar('--radius-md');
+    // The clip reaches past the panel's edges so its shadow isn't cut off.
+    const clip = (bottom: string, top = true) => {
+      const b = `-${length('--mega-shadow-reach')}px`;
+      return `inset(${top ? b : 0} ${b} ${bottom} ${b} round ${R()})`;
+    };
     // Stagger caps at this many links per column, so long columns don't trail.
     const CASCADE_STEPS = 3;
 
@@ -55,8 +60,8 @@ export const nav: MotionModule = {
         anims.push(
           panel.animate(
             [
-              { opacity: 0, transform: drop, clipPath: `inset(0 0 100% 0 round ${R()})` },
-              { opacity: 1, transform: 'none', clipPath: `inset(0 0 0 0 round ${R()})` },
+              { opacity: 0, transform: drop, clipPath: clip('100%', false) },
+              { opacity: 1, transform: 'none', clipPath: clip(`-${length('--mega-shadow-reach')}px`) },
             ],
             { duration: ms('--dur-mega-in'), easing: ease('--ease-emphasized'), fill: 'forwards' },
           ),
@@ -94,11 +99,11 @@ export const nav: MotionModule = {
         anims.forEach((a) => a.pause());
         const a = panel.animate(
           [
-            { opacity: 1, transform: 'none', clipPath: `inset(0 0 0 0 round ${R()})` },
+            { opacity: 1, transform: 'none', clipPath: clip(`-${length('--mega-shadow-reach')}px`) },
             {
               opacity: 0,
               transform: `translateY(calc(${cssVar('--mega-rise')} * -1))`,
-              clipPath: `inset(0 0 12% 0 round ${R()})`,
+              clipPath: clip('12%'),
             },
           ],
           { duration: ms('--dur-mega-out'), easing: ease('--ease-exit'), fill: 'forwards' },
