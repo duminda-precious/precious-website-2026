@@ -189,7 +189,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--measure-statement` | `34ch` |  | SectionHeader |
 | `--measure-subline` | `44ch` |  | base |
 | `--measure-quote` | `36em` |  | TestimonialCard |
-| `--measure-card` | `34ch` | mega menu descriptions | Nav |
+| `--measure-card` | `50ch` | mega menu descriptions: about the 6-column Services span | Nav |
 | `--measure-gate` | `40ch` | Approach description | ApproachSection |
 | `--measure-subline-wide` | `60ch` | AI card description (two lines) | ProcessSection |
 
@@ -212,10 +212,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-24` | `1.5rem` |  | ApproachSection, ClientTicker, CtaFooter, FaqSection, FullMenu, Nav, ProcessSection, SectionHeader, contact |
 | `--space-26` | `1.625rem` |  | — |
 | `--space-28` | `1.75rem` |  | TestimonialCard |
-| `--space-32` | `2rem` |  | CtaFooter, Hero, Nav, ProcessSection |
+| `--space-32` | `2rem` |  | CtaFooter, Hero, ProcessSection |
 | `--space-34` | `2.125rem` |  | — |
 | `--space-40` | `2.5rem` |  | — |
-| `--space-48` | `3rem` |  | CtaFooter, FullMenu, Hero, TestimonialCard |
+| `--space-48` | `3rem` |  | CtaFooter, FullMenu, TestimonialCard |
 | `--space-56` | `3.5rem` |  | — |
 | `--space-64` | `4rem` |  | — |
 | `--space-80` | `5rem` |  | CtaFooter |
@@ -251,12 +251,13 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--news-width` | `25rem` | 400: hero news stack | NewsStack |
 | `--news-height` | `6.5rem` | 104 | NewsStack |
 | `--news-pad` | `var(--space-12)` |  | NewsStack |
+| `--hero-title-pad-sm` | `25vh` | phones: space above and below the hero title | Hero |
 | `--news-thumb` | `6.6875rem` | 107: 4:3 at the 80px content height | NewsStack |
 | `--news-peek` | `8px` | each card behind sits this much lower … | NewsStack |
 | `--news-scale-step` | `0.06` | … and this much smaller | NewsStack |
-| `--news-bg-0` | `var(--color-slate-50)` | front card | NewsStack |
-| `--news-bg-1` | `var(--color-slate-100)` | second card | NewsStack |
-| `--news-bg-2` | `var(--color-slate-150)` | third card | NewsStack |
+| `--news-bg-0` | `var(--color-slate-50)` | front card; each card behind is a step darker | NewsStack |
+| `--news-bg-1` | `var(--color-slate-100)` |  | NewsStack |
+| `--news-bg-2` | `var(--color-slate-150)` |  | NewsStack |
 | `--team-max` | `87.5rem` | 1400: funnel width cap | TeamSection |
 
 ### Radii (guideline: soft, never sharp, never blobby)
@@ -303,7 +304,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | Disclosure, PixelIcon |
-| `--border-width` | `1px` |  | CtaFooter, Disclosure, Pill, Section, Tag, TextLink |
+| `--border-width` | `1px` |  | Disclosure, Pill, Section, Tag, TextLink |
 | `--focus-width` | `2px` |  | ApproachSection, base |
 | `--focus-offset` | `3px` |  | ApproachSection, base |
 
@@ -550,7 +551,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-muted` | `var(--color-slate-600)` | lightest text that passes AA on the page | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-white)` |  | base |
 | `--text-strong` | `var(--color-slate-900)` |  | — |
-| `--border-subtle` | `var(--color-slate-200)` |  | CtaFooter, Section |
+| `--border-subtle` | `var(--color-slate-200)` |  | Section |
 | `--border-default` | `var(--color-slate-200)` |  | Disclosure |
 | `--border-strong` | `var(--color-slate-400)` |  | Pill |
 | `--link` | `var(--color-accent-teal)` |  | — |
@@ -577,7 +578,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-muted` | `var(--color-slate-400)` |  | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-slate-900)` |  | base |
 | `--text-strong` | `var(--color-white)` |  | — |
-| `--border-subtle` | `var(--color-slate-800)` |  | CtaFooter, Section |
+| `--border-subtle` | `var(--color-slate-800)` |  | Section |
 | `--border-default` | `var(--color-slate-800)` |  | Disclosure |
 | `--border-strong` | `color-mix(in srgb, var(--color-white) 70%, transparent)` |  | Pill |
 | `--link` | `var(--color-wash-sky)` |  | — |
@@ -602,6 +603,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--nav-links-max` | `60rem` | collapse animates max-width from this to 0 | Nav |
 | `--nav-cta-max` | `12rem` |  | Nav |
 | `--nav-badge-fg` | `var(--color-white)` |  | Nav |
+| `--mega-width` | `60rem` | 960: Services panel, right-aligned on the gutter | Nav |
+| `--mega-drop` | `8px` | panel unfolds down this far … | nav |
+| `--mega-rise` | `6px` | … columns and the note band rise this far | nav |
 
 ### Page wrapper (animated by the theme switch)
 

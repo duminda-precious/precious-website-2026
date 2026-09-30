@@ -205,7 +205,7 @@
     --measure-statement: 34ch;
     --measure-subline: 44ch;
     --measure-quote: 36em;
-    --measure-card: 34ch; /* mega menu descriptions */
+    --measure-card: 50ch; /* mega menu descriptions: about the 6-column Services span */
     --measure-gate: 40ch; /* Approach description */
     --measure-subline-wide: 60ch; /* AI card description (two lines) */
 
@@ -611,6 +611,9 @@
     --nav-links-max: 60rem; /* collapse animates max-width from this to 0 */
     --nav-cta-max: 12rem;
     --nav-badge-fg: var(--color-white);
+    --mega-width: 60rem; /* 960: Services panel, right-aligned on the gutter */
+    --mega-drop: 8px; /* panel unfolds down this far … */
+    --mega-rise: 6px; /* … columns and the note band rise this far */
 
     /* Page wrapper (animated by the theme switch) */
     --page-bg: var(--color-slate-25);

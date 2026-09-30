@@ -95,9 +95,9 @@ import { ui } from '../../config/ui';
         </div>
       ))}
     </div>
-    <div class="mega__note" data-mega-col>
-      <p>{megaMenu.note}</p>
-      <Button href={megaMenu.all.href} cta>{megaMenu.all.label}</Button>
+    <div class="mega__note" data-mega-note>
+      <p class="mega__note-text">{megaMenu.note}</p>
+      <Button href={megaMenu.all.href} class="mega__note-cta" cta>{megaMenu.all.label}</Button>
     </div>
   </div>
 </header>
@@ -254,18 +254,21 @@ import { ui } from '../../config/ui';
       }
     }
 
-    /* Services mega menu */
+    /* Services mega menu: a panel of --mega-width on the right gutter, with its
+       own 12-column grid (Services 6 · Approach 3 · Industries 3). It only shows
+       at ≥1100px (below that the nav is always mini), so there is no stacked layout. */
     .mega {
+      --mega-pad: var(--inset-card);
       position: absolute;
       top: calc(100% + var(--space-8));
-      left: var(--gutter);
       right: var(--gutter);
+      width: min(var(--mega-width), 100% - var(--gutter) * 2);
       max-height: calc(100vh - var(--nav-height) - var(--space-16));
       overflow-y: auto;
       overscroll-behavior: contain;
       visibility: hidden;
       opacity: 0;
-      padding: var(--inset-card);
+      padding: var(--mega-pad) var(--mega-pad) 0;
       background: var(--nav-dropdown-bg);
       color: var(--nav-dropdown-fg);
       border-radius: var(--radius-md);
@@ -274,28 +277,22 @@ import { ui } from '../../config/ui';
       visibility: visible;
       opacity: 1;
     }
-    .mega__grid {
+    .mega__grid,
+    .mega__note {
       display: grid;
       grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
       column-gap: var(--grid-gap-col);
-      row-gap: var(--space-32);
     }
     .mega__col {
-      grid-column: 1 / -1;
       display: flex;
       flex-direction: column;
       gap: var(--space-14);
     }
-    @media (min-width: 62rem) {
-      .mega__col--rich {
-        grid-column: 1 / span 5;
-      }
-      .mega__col--plain {
-        grid-column: span 3;
-      }
-      .mega__col--plain:last-child {
-        grid-column: 9 / -1;
-      }
+    .mega__col--rich {
+      grid-column: 1 / span 6;
+    }
+    .mega__col--plain {
+      grid-column: span 3;
     }
     .mega__heading {
       color: var(--text-secondary);
@@ -333,19 +330,25 @@ import { ui } from '../../config/ui';
       line-height: var(--leading-compact);
       color: var(--text-secondary);
     }
+    /* The note is a band across the panel's foot. It bleeds to the panel edges and
+       pads back by the same amount, so its columns match the grid above: the text
+       sits in the Services columns and the button ends on column 12. */
     .mega__note {
-      display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: var(--space-16);
-      margin-top: var(--inset-card);
-      padding: var(--space-20) var(--space-24);
-      border-radius: var(--radius-sm);
+      margin: var(--mega-pad) calc(var(--mega-pad) * -1) 0;
+      padding: var(--space-20) var(--mega-pad);
       background: var(--nav-dropdown-note-bg);
       font-size: var(--text-small);
       line-height: var(--leading-compact);
       color: var(--text-secondary);
+    }
+    .mega__note-text {
+      grid-column: 1 / span 6;
+      max-width: var(--measure-card);
+    }
+    .mega__note :global(.mega__note-cta) {
+      grid-column: 7 / -1;
+      justify-self: end;
     }
 
     @media (prefers-reduced-motion: reduce) {
