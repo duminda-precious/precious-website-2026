@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..600&amp;family=Funnel+Sans:ital,wght@0,400..600;1,400&amp;display=swap">
+<script src="pixel.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#efe7db;font-family:'Funnel Sans',Helvetica,Arial,sans-serif;color:#1c1714;-webkit-font-smoothing:antialiased}
+a{color:#3b73a0}a:hover{color:#2f5d84}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+</style>
+</helmet>
+<section style="display:flex;flex-direction:column;gap:32px;padding:64px">
+<div style="display:flex;flex-direction:column;gap:8px;max-width:720px">
+<p style="font-size:12px;color:#6b625a">Turn 3 · Motion explorations for the Precious homepage</p>
+<h1 style="font-family:'Funnel Display',sans-serif;font-weight:400;font-size:40px;letter-spacing:-0.015em;line-height:1.15">Metamorphosis, on an LCD.</h1>
+<p style="font-size:18px;line-height:1.6;color:#6b625a;text-wrap:pretty">Scroll inside 2a; press the button in 2b.</p>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+<div id="2a" style="display:flex;flex-direction:column;gap:14px;width:960px;flex:none">
+<div style="display:flex;align-items:center;gap:10px"><span style="padding:4px 8px;border-radius:4px;background:#1c1714;color:#fff;font-size:12px;font-weight:500">2a</span><span style="font-size:14px;font-weight:500">Hero: two states</span><span style="font-size:14px;color:#6b625a">· scroll inside the frame, then scroll back to the top</span></div>
+<div ref="{{ heroScroll }}" style="position:relative;height:560px;border-radius:12px;overflow-y:auto;overflow-x:hidden;background:#fff;box-shadow:0 16px 40px rgb(28 23 20 / 0.14);scrollbar-width:none">
+<div style="position:relative;height:560px;overflow:hidden">
+<div ref="{{ reelBox }}" style="position:absolute;inset:0;overflow:hidden;border-radius:0">
+<video src="https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-full.mp4" poster="https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-poster.jpg" muted="{{ true }}" playsInline="{{ true }}" loop="{{ true }}" autoPlay="{{ true }}" ref="{{ video }}" style="position:absolute;inset:-60px;width:calc(100% + 120px);height:calc(100% + 120px);object-fit:cover;filter:blur(40px);transition:filter 900ms cubic-bezier(0.4,0,0.2,1)"></video>
+<div ref="{{ veil }}" style="position:absolute;inset:0;background:#fff;opacity:0.7;transition:opacity 900ms cubic-bezier(0.4,0,0.2,1)"></div>
+</div>
+<h2 ref="{{ head }}" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Funnel Display',sans-serif;font-weight:400;font-size:88px;letter-spacing:-0.03em;line-height:1.02;color:#1c1714">
+<span style="white-space:nowrap">We Design How</span><span style="white-space:nowrap">Your Product Feels.</span>
+</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:40px;padding:96px 32px">
+<h3 style="font-family:'Funnel Display',sans-serif;font-weight:400;font-size:40px;letter-spacing:-0.015em;line-height:1.15">The Proof Is in How It Moves.</h3>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px"><div style="aspect-ratio:3 / 2;border-radius:12px;background:repeating-linear-gradient(45deg,#f6f1e9 0 8px,#faf7f2 8px 16px)"></div><div style="aspect-ratio:5 / 4;border-radius:12px;background:repeating-linear-gradient(45deg,#f6f1e9 0 8px,#faf7f2 8px 16px)"></div><div style="aspect-ratio:1;border-radius:12px;background:repeating-linear-gradient(45deg,#f6f1e9 0 8px,#faf7f2 8px 16px)"></div></div>
+</div>
+</div>
+<ol style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;font-size:14px;line-height:1.5;color:#3a332e;list-style:none">
+<li style="border-top:1px solid #b7aa9c;padding-top:8px"><strong style="font-weight:500">State 1.</strong> The title sits on the reel, which is blurred 40px under a 70% white veil, so it could be a gradient or a video. The heading's idle glitch keeps running.</li>
+<li style="border-top:1px solid #b7aa9c;padding-top:8px"><strong style="font-weight:500">State 2.</strong> The first scroll is held while the title glitches out word by word (repo engine, 3 → 36px blocks) and the veil and blur clear over 900ms. After that the page scrolls normally, and the reel shrinks from full-bleed into the hero's section padding (62px nav height on top, 22px gutters, 12px corners, from Hero.astro) as the next section comes up. Back at the top, scrolling up anywhere within the hero glides back to the top and reverses it: the title resolves in and the veil returns.</li>
+</ol>
+</div>
+
+<div id="2b" style="display:flex;flex-direction:column;gap:14px;width:960px;flex:none">
+<div style="display:flex;align-items:center;gap:10px"><span style="padding:4px 8px;border-radius:4px;background:#1c1714;color:#fff;font-size:12px;font-weight:500">2b</span><span style="font-size:14px;font-weight:500">Wing page transition, feathered</span><span style="font-size:14px;color:#6b625a">· press the button</span></div>
+<div style="position:relative;height:540px;border-radius:12px;overflow:hidden;background:{{ pageBg }};color:{{ pageFg }};box-shadow:0 16px 40px rgb(28 23 20 / 0.14)">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:64px">
+<p style="font-size:12px;color:{{ pageFg2 }}">{{ pageEyebrow }}</p>
+<h2 style="max-width:14ch;font-family:'Funnel Display',sans-serif;font-weight:400;font-size:64px;letter-spacing:-0.03em;line-height:1.06">{{ pageTitle }}</h2>
+<button onClick="{{ go }}" style="align-self:flex-start;padding:14px 22px;border-radius:4px;background:{{ pageFg }};color:{{ pageBg }};font-weight:500;letter-spacing:0.04em;font-size:14px;text-transform:uppercase;line-height:1">{{ pageCta }}</button>
+</div>
+<canvas ref="{{ cover }}" width="960" height="540" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+</div>
+<p style="font-size:14px;line-height:1.5;color:#3a332e;max-width:720px;text-wrap:pretty">Same wing order as before. The cells stay sharp squares. At the outer edge of the wing they come in at lower opacity, tinted from the wing palette (Apricot, Morpho, Swallowtail, Sunset Moth 400s), building up over about a sixth of the sweep, and each step leaves an 18% ghost of the previous frame. It runs in 6 LCD steps.</p>
+</div>
+
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const BF=['#....#.#....#','.##...#...##.','.####...####.','.#####.#####.','..####.####..','...###.###...','..#..#.#..#..','....##.##....','...###.###...','...#.....#...','..#.......#..'];
+const rnd=(i,k)=>{const s=Math.sin(i*127.1+k*311.7)*43758.5453;return s-Math.floor(s);};
+const ss=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t);};
+const clamp=x=>Math.min(1,Math.max(0,x));
+const expo=t=>t>=1?1:1-Math.pow(2,-10*t);
+const TINTS=['#f2b592','#72a7cc','#45ac8b','#e26496','#9ec4dd','#ec9f74'];
+const W=960,H=560,C=8,COLS=W/C,ROWS=H/C,FPS=12,GHOST=0.18,INK='#1c1714';
+const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
+class Component extends DCLogic {
+  state={page:0,p:0};
+  heroScroll=React.createRef();video=React.createRef();head=React.createRef();cv=React.createRef();cover=React.createRef();
+  veil=React.createRef();reelBox=React.createRef();
+  onScrollBox(){const sc=this.heroScroll.current,b=this.reelBox.current;if(!sc||!b)return;const t=Math.min(1,Math.max(0,sc.scrollTop/320));const e=t*t*(3-2*t);
+    b.style.inset=`${62*e}px ${22*e}px ${22*e}px`;b.style.borderRadius=`${12*e}px`;}
+
+  componentDidMount(){
+    this.revealed=false;this.lock=false;
+    const boot=()=>{if(!window.PxEngine){this.bt=setTimeout(boot,100);return;}
+      document.fonts.ready.then(()=>{this.run=window.PxEngine.runner();this.words=window.PxEngine.wrapWords(this.head.current);this.idle();});};
+    boot();
+    this.onWheel=(ev)=>{const sc=this.heroScroll.current;
+      if(this.lock){ev.preventDefault();return;}
+      if(!this.revealed&&ev.deltaY>0){ev.preventDefault();this.toState(true);}
+      else if(this.revealed&&ev.deltaY<0&&sc.scrollTop<560){ev.preventDefault();this.lock=true;sc.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>this.toState(false),sc.scrollTop>0?420:0);}};
+    this.heroScroll.current.addEventListener('wheel',this.onWheel,{passive:false});
+    this.onSc=()=>this.onScrollBox();this.heroScroll.current.addEventListener('scroll',this.onSc,{passive:true});
+  }
+  componentWillUnmount(){clearTimeout(this.bt);clearTimeout(this.it);clearTimeout(this.ca);this.run&&this.run.stop();this.heroScroll.current&&this.heroScroll.current.removeEventListener('wheel',this.onWheel);}
+  idle(){this.it=setTimeout(()=>{if(!this.revealed&&!this.lock&&this.words){const w=this.words[Math.floor(Math.random()*this.words.length)];this.run.run(w,window.PxEngine.GLITCH,55);}this.idle();},2200+Math.random()*2400);}
+  toState(on){
+    if(!this.words)return;this.lock=true;this.revealed=on;
+    const OUT=[3,7,14,20,28,36],IN=window.PxEngine.IN,v=this.video.current,veil=this.veil.current;
+    if(on){
+      this.words.forEach((w,i)=>{this.run.run(w,OUT,55,i*60);setTimeout(()=>{w.style.visibility='hidden';},i*60+(OUT.length-0.4)*55);});
+      veil.style.opacity='0';v.style.filter='blur(0px)';
+    }else{
+      this.words.forEach((w,i)=>{w.style.visibility='hidden';this.run.run(w,IN,70,i*70);});
+      veil.style.opacity='0.7';v.style.filter='blur(40px)';
+    }
+    setTimeout(()=>{this.lock=false;},950);
+  }
+  transition(){
+    const c=this.cover.current;if(!c||this.busy)return;this.busy=true;const x=c.getContext('2d');
+    const CW=960,CH=540,S=32,cols=Math.ceil(CW/S),rows=Math.ceil(CH/S);
+    const bw=13,bh=11,scale=Math.min(CW/bw,CH/bh)*0.9,ox=(CW-bw*scale)/2,oy=(CH-bh*scale)/2;
+    const cells=[];for(let r=0;r<rows;r++)for(let q=0;q<cols;q++){const cx=q*S+S/2,cy=r*S+S/2;const gx=Math.floor((cx-ox)/scale),gy=Math.floor((cy-oy)/scale);
+      const inW=gy>=0&&gy<bh&&gx>=0&&gx<bw&&BF[gy][gx]==='#';const d=Math.hypot(cx-CW/2,(cy-CH/2)*1.4)/Math.hypot(CW/2,CH/2);
+      cells.push({q,r,o:(inW?0:0.45)+d*0.55+rnd(q*99+r,7)*0.12,lucky:rnd(q*17+r,11)<0.3,tint:TINTS[Math.floor(rnd(q*31+r,9)*TINTS.length)]});}
+    const maxO=Math.max(...cells.map(e=>e.o)),FEATHER=0.18,STEPS=6;
+    const buf=mk(CW,CH),bx=buf.getContext('2d'),prev=mk(CW,CH),px=prev.getContext('2d');
+    const paint=f=>{bx.clearRect(0,0,CW,CH);bx.fillStyle=INK;const th=f*(maxO+FEATHER);
+      for(const e of cells){const a=clamp((th-e.o)/FEATHER);if(a<=0)continue;bx.globalAlpha=a;bx.fillStyle=a<0.55&&e.lucky?e.tint:INK;bx.fillRect(e.q*S,e.r*S,S,S);}bx.globalAlpha=1;
+      x.clearRect(0,0,CW,CH);x.globalAlpha=GHOST;x.drawImage(prev,0,0);x.globalAlpha=1;x.drawImage(buf,0,0);
+      if(f>=1){x.fillStyle=INK;x.fillRect(0,0,CW,CH);}
+      px.clearRect(0,0,CW,CH);px.drawImage(buf,0,0);};
+    const run=(dur,dir,done)=>{let s=0;const tick=()=>{s++;paint(dir>0?s/STEPS:1-s/STEPS);if(s<STEPS)this.ca=setTimeout(tick,dur/STEPS);else done();};tick();};
+    run(220,1,()=>{this.setState(st=>({page:1-st.page}));setTimeout(()=>run(320,-1,()=>{x.clearRect(0,0,CW,CH);px.clearRect(0,0,CW,CH);this.busy=false;}),160);});
+  }
+  renderVals(){
+    const s=this.state;
+    const P=[{bg:'#ffffff',fg:'#1c1714',fg2:'#6b625a',eb:'Home',title:'Make Your Product Feel Worth Paying For.',cta:'See our work'},{bg:'#1c1714',fg:'#faf7f2',fg2:'#b7aa9c',eb:'Work',title:'The Proof Is in How It Moves.',cta:'Back home'}][s.page];
+    return {heroScroll:this.heroScroll,video:this.video,head:this.head,veil:this.veil,reelBox:this.reelBox,cover:this.cover,go:()=>this.transition(),
+      pageBg:P.bg,pageFg:P.fg,pageFg2:P.fg2,pageEyebrow:P.eb,pageTitle:P.title,pageCta:P.cta};
+  }
+}
+</script>
+</body>
+</html>

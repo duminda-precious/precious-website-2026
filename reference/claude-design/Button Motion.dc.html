@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..600&amp;family=Funnel+Sans:wght@400..600&amp;display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#f6f1e9;font-family:'Funnel Sans','Helvetica Neue',Arial,sans-serif;color:#1c1714;-webkit-font-smoothing:antialiased}
+a{color:#1c1714;text-decoration:none}a:hover{color:#6b625a}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+</style>
+</helmet>
+<section ref="{{ rootRef }}" style="display:flex;flex-direction:column;gap:40px;padding:64px">
+<div style="display:flex;flex-direction:column;gap:12px;max-width:760px">
+<p style="font-size:12px;color:#6b625a">Turn 5 · Button motion</p>
+<h1 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:40px;letter-spacing:-0.02em;line-height:1.1">Button motion</h1>
+<p style="line-height:1.6;color:#6b625a;text-wrap:pretty">Pixel bloom and the butterfly mark combined. Hover, press and leave it on light and dark.</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:1200px">
+<div style="display:flex;flex-direction:column;gap:8px;padding:20px;background:#fff;border-radius:12px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#6b625a">Review · current buttons</p>
+<ul style="display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.5;padding-left:16px">
+<li>Label glitches on both enter and leave. Two glitches per pass reads as noise; keep enter only.</li>
+<li>No press state. Add a 120ms squash (0.97) so clicks register.</li>
+<li>Gradient wipe (280ms in, 200ms out) is right for the weight, but it's smooth while everything else in the brand steps. Stepping it would match.</li>
+<li>No visible focus ring; keyboard users get the gradient only on real links.</li>
+<li>Reduced motion currently drops the gradient entirely. It should swap instantly instead.</li>
+</ul>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:24px">
+<sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+<div id="{{ v.id }}" style="display:flex;flex-direction:column;gap:16px;width:420px;padding:24px;background:#fff;border-radius:12px">
+<div style="display:flex;align-items:center;gap:10px"><span style="padding:4px 8px;border-radius:999px;background:#1c1714;color:#fff;font-size:12px">{{ v.id }}</span><h2 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:22px">{{ v.name }}</h2></div>
+<p style="font-size:14px;line-height:1.5;color:#6b625a;min-height:63px;text-wrap:pretty">{{ v.desc }}</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden">
+<div style="display:flex;align-items:center;justify-content:center;height:140px;background:#ffffff;border:1px solid #e3d9cb;border-radius:8px 0 0 8px">
+<a href="#" data-v="{{ v.key }}" style="position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:0;padding:14px 22px;border-radius:4px;background:#1c1714;color:#ffffff;font-weight:500;letter-spacing:0.04em;font-size:14px;text-transform:uppercase;line-height:1;white-space:nowrap"><span data-lbl="" style="position:relative;display:inline-flex;align-items:center">Book a call</span></a>
+</div>
+<div style="display:flex;align-items:center;justify-content:center;height:140px;background:#1c1714;border-radius:0 8px 8px 0">
+<a href="#" data-v="{{ v.key }}" style="position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:0;padding:14px 22px;border-radius:4px;background:#faf7f2;color:#1c1714;font-weight:500;letter-spacing:0.04em;font-size:14px;text-transform:uppercase;line-height:1;white-space:nowrap"><span data-lbl="" style="position:relative;display:inline-flex;align-items:center">See our work</span></a>
+</div>
+</div>
+<p style="font-size:12px;color:#6b625a">{{ v.spec }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const GR=['#f4f1ee','#f6ccaf','#90c1c5','#66bfd6'];
+const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+class Component extends DCLogic {
+  rootRef=React.createRef();
+  componentDidMount(){this.t=setTimeout(()=>this.bind(),50);}
+  componentWillUnmount(){clearTimeout(this.t);(this.off||[]).forEach(f=>f());}
+  on(el,ev,fn){el.addEventListener(ev,fn);(this.off=this.off||[]).push(()=>el.removeEventListener(ev,fn));}
+  press(b){this.on(b,'pointerdown',()=>b.animate([{transform:'scale(1)'},{transform:'scale(0.97)'}],{duration:120,easing:'cubic-bezier(0.2,0,0,1)',fill:'forwards'}));
+    const up=()=>b.animate([{transform:'scale(0.97)'},{transform:'scale(1.01)',offset:0.6},{transform:'scale(1)'}],{duration:240,easing:'cubic-bezier(0.2,0,0,1)',fill:'forwards'});this.on(b,'pointerup',up);}
+  canvasFor(b){const c=document.createElement('canvas');c.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;image-rendering:pixelated';b.prepend(c);return c;}
+  grad(x,w,h){const g=x.createLinearGradient(0,0,0,h);GR.forEach((c,i)=>g.addColorStop(i/3,c));return g;}
+  // 4a — cells bloom from the entry point, shimmer, dissolve toward the exit point
+  bloom(b){const c=this.canvasFor(b),S=6;let cells=[],x,W,H,raf,loopT,stepT;
+    const fit=()=>{W=b.offsetWidth;H=b.offsetHeight;c.width=W;c.height=H;x=c.getContext('2d');cells=[];for(let r=0;r<Math.ceil(H/S);r++)for(let q=0;q<Math.ceil(W/S);q++)cells.push({q,r,on:0,j:Math.random(),w:0,wt:0,g:0});};
+    const draw=()=>{x.clearRect(0,0,W,H);const gr=this.grad(x,W,H);for(const e of cells){const a=Math.max(e.on,e.g);if(a<=0)continue;x.globalAlpha=a;x.fillStyle=gr;x.fillRect(e.q*S,e.r*S,S,S);if(e.w>0.01&&e.on){x.globalAlpha=e.w;x.fillStyle='#ffffff';x.fillRect(e.q*S,e.r*S,S,S);}}x.globalAlpha=1;cells.forEach(e=>e.g=e.on?0:e.g>0.05?e.g*0.18/0.18*0:0);};
+    const run=(px,py,dir)=>{clearTimeout(stepT);clearInterval(loopT);const D=Math.hypot(W,H);cells.forEach(e=>e.d=Math.hypot(e.q*S-px,e.r*S-py)/D+e.j*0.25);let s=0;const N=10,F=0.4;
+      const tick=()=>{s++;const th=(s/N)*(1.25+F);cells.forEach(e=>{const k=Math.min(1,Math.max(0,(th-e.d)/F)),v=k*k*(3-2*k);e.on=dir>0?v:1-v;});drawG();if(s<N)stepT=setTimeout(tick,40);else if(dir>0)shimmer();else{cells.forEach(e=>e.on=0);drawG();}};tick();};
+    const drawG=()=>{x.clearRect(0,0,W,H);const gr=this.grad(x,W,H);for(const e of cells){const a=e.on||e.g;if(a<=0)continue;x.globalAlpha=a;x.fillStyle=gr;x.fillRect(e.q*S,e.r*S,S,S);if(e.on&&e.w>0.01){x.globalAlpha=e.w;x.fillStyle='#ffffff';x.fillRect(e.q*S,e.r*S,S,S);}}x.globalAlpha=1;cells.forEach(e=>{if(!e.on)e.g=0;});};
+    let mx=0,my=0;const t0=performance.now();this.on(b,'pointermove',e=>{const r=b.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
+    const shimmer=()=>{if(RM())return;loopT=setInterval(()=>{const t=(performance.now()-t0)/1000;cells.forEach(e=>{const d=Math.hypot(e.q*S+S/2-mx,e.r*S+S/2-my),fall=Math.max(0,1-d/75),ring=Math.pow(Math.max(0,Math.sin(d/5-t*5)),3);e.wt=(fall*ring*0.85+(d<S?0.35:0))*(0.6+e.j*0.4);e.w+=(e.wt-e.w)*0.2;});drawG();},40);};
+    const pt=e=>{const r=b.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];};
+    const lbl=b.querySelector('[data-lbl]'),col=getComputedStyle(b).color;
+    this.on(b,'pointerenter',e=>{fit();{const r=b.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;}lbl.style.color='#1c1714';if(RM()){cells.forEach(k=>k.on=1);draw();return;}run(...pt(e),1);});
+    this.on(b,'pointerleave',e=>{lbl.style.color=col;if(RM()){cells.forEach(k=>k.on=0);draw();return;}cells.forEach(k=>{k.w=0;k.wt=0;});run(...pt(e),-1);});this.press(b);}
+  // 4b — the butterfly lands beside the label, flaps while hovered, lifts off on leave
+  butterfly(b,bare){const lbl=b.querySelector('[data-lbl]');const F=[['X...X','XX.XX','.XXX.','X...X'],['.X.X.','.XXX.','.XXX.','.X.X.']];
+    const NS='http://www.w3.org/2000/svg',svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 5 4');svg.setAttribute('width','15');svg.setAttribute('height','12');svg.style.cssText='fill:currentColor;flex:none;width:0;opacity:0;margin-right:0;overflow:visible';
+    const p=document.createElementNS(NS,'path');svg.append(p);b.insertBefore(svg,lbl);const set=k=>{let d='';F[k].forEach((row,y)=>[...row].forEach((ch,xx)=>{if(ch==='X')d+=`M${xx} ${y}h1v1h-1z`;}));p.setAttribute('d',d);};set(0);
+    let flap,f=0;const tr='width 320ms cubic-bezier(0.16,1,0.3,1),margin 320ms cubic-bezier(0.16,1,0.3,1),opacity 200ms';
+    this.on(b,'pointerenter',()=>{svg.style.transition=tr;svg.style.width='15px';svg.style.marginRight='10px';svg.style.opacity='1';
+      if(RM())return;svg.animate([{transform:'translateY(-14px)',opacity:0},{transform:'translateY(2px)',opacity:1,offset:0.7},{transform:'none'}],{duration:385,easing:'steps(7,end)'});
+      clearInterval(flap);flap=setInterval(()=>{f=1-f;set(f);},125);});
+    this.on(b,'pointerleave',()=>{clearInterval(flap);if(!RM()){const a=svg.animate([{transform:'none',opacity:1},{transform:'translateY(-6px)',opacity:1,offset:0.4},{transform:'translateY(-18px)',opacity:0}],{duration:275,easing:'steps(5,end)',fill:'forwards'});a.onfinish=()=>{a.cancel();set(0);};}
+      svg.style.transition='width 240ms cubic-bezier(0.3,0,1,1) 120ms,margin 240ms cubic-bezier(0.3,0,1,1) 120ms,opacity 120ms';svg.style.width='0';svg.style.marginRight='0';svg.style.opacity='0';});
+    if(bare)return;const g=document.createElement('span');g.style.cssText='position:absolute;inset:0;z-index:-1;opacity:0;background:linear-gradient(180deg,#f4f1ee 0%,#f6ccaf 40%,#90c1c5 72%,#66bfd6 100%);transition:opacity 200ms steps(3)';b.prepend(g);
+    const col=getComputedStyle(b).color;this.on(b,'pointerenter',()=>{g.style.opacity='1';b.style.color='#1c1714';});this.on(b,'pointerleave',()=>{g.style.opacity='0';b.style.color=col;});this.press(b);}
+  // 4c — LCD scanline: rows step in top→bottom, a scan band loops, rows retract bottom→top
+  scan(b){const c=this.canvasFor(b),R=4;let x,W,H,rows=0,loop,st,band=-1;const lbl=b.querySelector('[data-lbl]'),col=getComputedStyle(b).color;
+    const fit=()=>{W=b.offsetWidth;H=b.offsetHeight;c.width=W;c.height=H;x=c.getContext('2d');};
+    const draw=()=>{x.clearRect(0,0,W,H);x.fillStyle=this.grad(x,W,H);x.fillRect(0,0,W,rows*R);if(band>=0){x.fillStyle='rgba(255,255,255,0.55)';x.fillRect(0,band*R,W,R);x.fillStyle='rgba(255,255,255,0.22)';x.fillRect(0,(band-1)*R,W,R);}};
+    const N=()=>Math.ceil(H/R);
+    this.on(b,'pointerenter',()=>{fit();clearInterval(st);clearInterval(loop);lbl.style.color='#1c1714';if(RM()){rows=N();draw();return;}
+      st=setInterval(()=>{rows=Math.min(N(),rows+2);draw();if(rows>=N()){clearInterval(st);let t=0;loop=setInterval(()=>{t++;band=(t%(N()+14))-2;if(band>=N())band=-1;draw();},55);}},35);});
+    this.on(b,'pointerleave',()=>{clearInterval(st);clearInterval(loop);band=-1;lbl.style.color=col;if(RM()){rows=0;draw();return;}st=setInterval(()=>{rows=Math.max(0,rows-3);draw();if(!rows)clearInterval(st);},30);});
+    this.on(b,'pointerenter',()=>{if(RM())return;const t=[...lbl.textContent];lbl.animate([{transform:'translateY(0)'},{transform:'translateY(-2px)',offset:0.3},{transform:'translateY(1px)',offset:0.6},{transform:'none'}],{duration:220,easing:'steps(4,end)'});});this.press(b);}
+  // 4d — the gradient tracks the cursor; clicks throw a burst of pixels from the click point
+  magnet(b){const g=document.createElement('span');g.style.cssText='position:absolute;inset:-40%;z-index:-1;opacity:0;background:radial-gradient(closest-side,#66bfd6,#90c1c5 40%,#f6ccaf 75%,#f4f1ee);transition:opacity 180ms steps(3)';b.prepend(g);
+    const col=getComputedStyle(b).color;let tx=0,ty=0,cx=0,cy=0,raf=0,inside=false;
+    const tick=()=>{cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;g.style.transform=`translate(${cx}px,${cy}px)`;b.style.transform=`translate(${cx*0.06}px,${cy*0.12}px)`;if(inside||Math.abs(cx)+Math.abs(cy)>0.3)raf=requestAnimationFrame(tick);else{b.style.transform='';raf=0;}};
+    this.on(b,'pointerenter',()=>{inside=true;g.style.opacity='1';b.style.color='#1c1714';if(!RM()&&!raf)raf=requestAnimationFrame(tick);});
+    this.on(b,'pointermove',e=>{if(RM())return;const r=b.getBoundingClientRect();tx=(e.clientX-r.left-r.width/2)*0.5;ty=(e.clientY-r.top-r.height/2)*0.5;});
+    this.on(b,'pointerleave',()=>{inside=false;tx=ty=0;g.style.opacity='0';b.style.color=col;});
+    this.on(b,'pointerdown',e=>{if(RM())return;const r=b.getBoundingClientRect(),ox=e.clientX-r.left,oy=e.clientY-r.top;
+      for(let k=0;k<14;k++){const d=document.createElement('span'),a=Math.random()*6.28,dist=18+Math.random()*26,sz=Math.random()<0.5?4:6;
+        d.style.cssText=`position:absolute;left:${ox}px;top:${oy}px;width:${sz}px;height:${sz}px;background:${['#f6ccaf','#90c1c5','#66bfd6','#1c1714'][k%4]};pointer-events:none;z-index:2`;b.parentElement.style.position='relative';
+        const host=b.parentElement,br=host.getBoundingClientRect();d.style.left=(e.clientX-br.left)+'px';d.style.top=(e.clientY-br.top)+'px';host.append(d);
+        d.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${Math.cos(a)*dist}px,${Math.sin(a)*dist}px)`,opacity:0}],{duration:420,easing:'steps(6,end)'}).onfinish=()=>d.remove();}});
+    this.press(b);}
+  combo(b){this.bloom(b);this.butterfly(b,true);b.querySelector('svg').style.color='#1c1714';}
+  bind(){const root=this.rootRef.current;if(!root)return;root.querySelectorAll('[data-v]').forEach(b=>{this.on(b,'click',e=>e.preventDefault());this[b.dataset.v]&&this[b.dataset.v](b);});}
+  renderVals(){return {rootRef:this.rootRef,variants:[
+    {id:'5a',key:'combo',name:'Pixel bloom + butterfly',desc:'The gradient fills in as pixel cells spreading from where the cursor enters, and a pixel butterfly lands beside the label. While hovered, the butterfly flaps at 8fps and a few cells shimmer. On leave the butterfly lifts off and the cells dissolve toward the exit point.',spec:'Bloom 5 × 55ms · land 420ms ease-out · flap 125ms · shimmer 110ms · lift-off 240ms + dissolve 5 × 55ms'}]};}
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # CLAUDE.md — Precious Studio website
 
+**Phase 3 (content, pages, launch): start with `docs/HANDOVER.md`.** It is the entry point, the reference index and the precedence rules, and it overrides the plan where they differ.
+
 Full plan: `docs/PRECIOUS_WEBSITE_PLAN.md`. Read it before writing code, **starting with §0.1 Decisions log**, which overrides older parts of the plan. Layout/type/spacing/UI patterns: `docs/AFTERNOW_PATTERN_BRIEF.md`.
 
 ## 0. How to work (read first, follow always)

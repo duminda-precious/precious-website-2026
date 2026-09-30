@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..600&amp;family=Funnel+Sans:wght@400..600&amp;display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#f6f9fb;font-family:'Funnel Sans','Helvetica Neue',Arial,sans-serif;color:#141c22;-webkit-font-smoothing:antialiased}
+a{color:#141c22;text-decoration:none}a:hover{color:#566874}
+</style>
+</helmet>
+<section style="display:flex;flex-direction:column;gap:56px;padding:64px;max-width:1360px">
+<div style="display:flex;flex-direction:column;gap:12px;max-width:760px">
+<p style="font-size:12px;color:#566874">Turn 6 · Gradient system proposal</p>
+<h1 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:40px;letter-spacing:-0.02em;line-height:1.1">Soft-wash gradients</h1>
+<p style="line-height:1.6;color:#566874;text-wrap:pretty">The current vertical peach-to-sky gradient replaced by five two-tone washes. Each wash is two soft radial glows pinned to the top corners that fade into cool white by about 45% of the height. Surfaces move from white to stone (#eef3f6 on #f6f9fb) so the washes have something to melt into.</p>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#566874">1 · Washes</p>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:1;border:1px solid #dbe4ea;background:radial-gradient(120% 90% at 0% 0%,#d6f1de 0%,transparent 55%),radial-gradient(120% 90% at 100% 0%,#9ccfe4 0%,transparent 55%),#eef3f6"></div><p style="font-size:14px">Mint · Sky</p><p style="font-size:12px;color:#566874">#d6f1de → #9ccfe4</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:1;border:1px solid #dbe4ea;background:radial-gradient(120% 90% at 0% 0%,#f7d9d2 0%,transparent 55%),radial-gradient(120% 90% at 100% 0%,#f2c3c6 0%,transparent 55%),#eef3f6"></div><p style="font-size:14px">Blush · Rose</p><p style="font-size:12px;color:#566874">#f7d9d2 → #f2c3c6</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:1;border:1px solid #dbe4ea;background:radial-gradient(120% 90% at 0% 0%,#a7c3c3 0%,transparent 55%),radial-gradient(120% 90% at 100% 0%,#f6c6d2 0%,transparent 55%),#eef3f6"></div><p style="font-size:14px">Sage · Pink</p><p style="font-size:12px;color:#566874">#a7c3c3 → #f6c6d2</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:1;border:1px solid #dbe4ea;background:radial-gradient(120% 90% at 0% 0%,#dcc8f1 0%,transparent 55%),radial-gradient(120% 90% at 100% 0%,#ead9f3 0%,transparent 55%),#eef3f6"></div><p style="font-size:14px">Lavender</p><p style="font-size:12px;color:#566874">#dcc8f1 → #ead9f3</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="aspect-ratio:1;border:1px solid #dbe4ea;background:radial-gradient(120% 90% at 0% 0%,#f6d7bd 0%,transparent 55%),radial-gradient(120% 90% at 100% 0%,#f3c6a9 0%,transparent 55%),#eef3f6"></div><p style="font-size:14px">Peach (brand)</p><p style="font-size:12px;color:#566874">#f6d7bd → #f3c6a9</p></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#566874">2 · Service cards (replacing the solid-colour gate cards)</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+<article style="display:flex;flex-direction:column;gap:14px;min-height:360px;padding:32px;border:1px solid #dbe4ea;background:radial-gradient(120% 60% at 0% 0%,#d6f1de 0%,transparent 55%),radial-gradient(120% 60% at 100% 0%,#9ccfe4 0%,transparent 55%),#eef3f6">
+<div style="display:grid;place-items:center;width:64px;height:64px;margin-bottom:28px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgb(20 28 34 / 0.06)"><svg viewBox="0 0 13 11" width="26" height="22" style="fill:#141c22"><path d="M0 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM12 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM2 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM10 6h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM3 9h1v1h-1zM9 9h1v1h-1zM2 10h1v1h-1zM10 10h1v1h-1z"></path></svg></div>
+<h3 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:28px;letter-spacing:-0.01em;line-height:1.15">Extend My Team</h3>
+<p style="max-width:32ch;line-height:1.55;color:#3c4d58">Your roadmap is growing faster than your design team can keep up.</p>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;margin-top:auto;color:#2f6f8f;font-weight:500">Senior people join mid-flight<svg viewBox="0 0 7 5" width="14" height="10" style="fill:currentColor"><path d="M4 0h1v1h-1zM5 1h1v1h-1zM0 2h7v1h-7zM5 3h1v1h-1zM4 4h1v1h-1z"></path></svg></a>
+</article>
+<article style="display:flex;flex-direction:column;gap:14px;min-height:360px;padding:32px;border:1px solid #dbe4ea;background:radial-gradient(120% 60% at 0% 0%,#f7d9d2 0%,transparent 55%),radial-gradient(120% 60% at 100% 0%,#f2c3c6 0%,transparent 55%),#eef3f6">
+<div style="display:grid;place-items:center;width:64px;height:64px;margin-bottom:28px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgb(20 28 34 / 0.06)"><svg viewBox="0 0 13 11" width="26" height="22" style="fill:#141c22"><path d="M0 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM12 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM2 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM10 6h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM3 9h1v1h-1zM9 9h1v1h-1zM2 10h1v1h-1zM10 10h1v1h-1z"></path></svg></div>
+<h3 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:28px;letter-spacing:-0.01em;line-height:1.15">Redesign</h3>
+<p style="max-width:32ch;line-height:1.55;color:#3c4d58">Your product works, but it feels clunky and people notice every day.</p>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;margin-top:auto;color:#a4434f;font-weight:500">Same product, transformed<svg viewBox="0 0 7 5" width="14" height="10" style="fill:currentColor"><path d="M4 0h1v1h-1zM5 1h1v1h-1zM0 2h7v1h-7zM5 3h1v1h-1zM4 4h1v1h-1z"></path></svg></a>
+</article>
+<article style="display:flex;flex-direction:column;gap:14px;min-height:360px;padding:32px;border:1px solid #dbe4ea;background:radial-gradient(120% 60% at 0% 0%,#dcc8f1 0%,transparent 55%),radial-gradient(120% 60% at 100% 0%,#ead9f3 0%,transparent 55%),#eef3f6">
+<div style="display:grid;place-items:center;width:64px;height:64px;margin-bottom:28px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgb(20 28 34 / 0.06)"><svg viewBox="0 0 13 11" width="26" height="22" style="fill:#141c22"><path d="M0 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM12 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM2 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM10 6h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM3 9h1v1h-1zM9 9h1v1h-1zM2 10h1v1h-1zM10 10h1v1h-1z"></path></svg></div>
+<h3 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:28px;letter-spacing:-0.01em;line-height:1.15">Build from Zero</h3>
+<p style="max-width:32ch;line-height:1.55;color:#3c4d58">You have an idea, a deadline, and no design team to build it yet.</p>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;margin-top:auto;color:#6a4fa3;font-weight:500">A first version that feels finished<svg viewBox="0 0 7 5" width="14" height="10" style="fill:currentColor"><path d="M4 0h1v1h-1zM5 1h1v1h-1zM0 2h7v1h-7zM5 3h1v1h-1zM4 4h1v1h-1z"></path></svg></a>
+</article>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px">
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#566874">3 · Button hover fill</p>
+<div style="display:flex;align-items:center;justify-content:center;gap:16px;height:200px;border:1px solid #dbe4ea;background:#f6f9fb">
+<span style="display:inline-flex;align-items:center;padding:14px 22px;border-radius:4px;background:#141c22;color:#fff;font-weight:500;letter-spacing:0.04em;font-size:14px;text-transform:uppercase;line-height:1">Rest</span>
+<span style="display:inline-flex;align-items:center;padding:14px 22px;border-radius:4px;background:radial-gradient(140% 160% at 0% 0%,#d6f1de 0%,transparent 60%),radial-gradient(140% 160% at 100% 0%,#9ccfe4 0%,transparent 60%),radial-gradient(140% 160% at 50% 100%,#f6c6d2 0%,transparent 70%),#eef3f6;color:#141c22;font-weight:500;letter-spacing:0.04em;font-size:14px;text-transform:uppercase;line-height:1">Hover</span>
+</div>
+<p style="font-size:14px;line-height:1.5;color:#566874">The pixel bloom fills with a three-glow wash (mint, sky, pink) instead of the vertical stripe gradient.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#566874">4 · On dark (AI card, Work section)</p>
+<div style="display:flex;flex-direction:column;justify-content:flex-end;gap:10px;height:200px;padding:28px;background:radial-gradient(80% 90% at 0% 0%,rgb(94 184 222 / 0.55) 0%,rgb(94 184 222 / 0.18) 35%,transparent 65%),radial-gradient(80% 90% at 100% 0%,rgb(240 140 170 / 0.5) 0%,rgb(240 140 170 / 0.15) 35%,transparent 65%),radial-gradient(60% 60% at 50% 0%,rgb(150 220 180 / 0.3) 0%,transparent 60%),#141c22;color:#f4f8fa">
+<p style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-size:28px;letter-spacing:-0.015em;line-height:1.15">AI, Wired into Your Design Team.</p>
+<p style="color:#9fb1bc">On dark, the same hues run more saturated so they glow instead of greying out.</p>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#566874">5 · Section background</p>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:280px;padding:48px;text-align:center;background:radial-gradient(60% 80% at 15% 0%,#d6f1de 0%,transparent 60%),radial-gradient(60% 80% at 85% 0%,#f2c3c6 0%,transparent 60%),radial-gradient(50% 60% at 50% 0%,#dcc8f1 0%,transparent 70%),#f6f9fb">
+<h2 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:40px;letter-spacing:-0.015em;line-height:1.15">One Team. Every Discipline.</h2>
+<p style="max-width:44ch;font-size:18px;line-height:1.6;color:#566874">A wide wash across the top of a section, used once or twice per page to mark a new chapter.</p>
+</div>
+</div>
+</section>
+</x-dc>
+</body>
+</html>
