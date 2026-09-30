@@ -58,7 +58,7 @@ In page order. Each takes its copy from `src/content/pages/home.json` or a colle
 | `Hero` | `home.hero` (headline, problem, reel) | Scroll sequence from 760px; in-flow stack on phones |
 | `WorkSection` + `WorkCard` | `home.work`, `work` collection (first 5 by `homeOrder`) | Dark stage. Card size/aspect by position (`src/config/layout.ts`). Whole card clickable |
 | `ClientsSection` + `TestimonialCard` | `home.clients`, `testimonials`, `clients` | Rating pill, testimonial slider with arrows, logo ticker, Book a call |
-| `TeamSection` | `home.team` | Diagram (parallel prototype layout): 5 numbered role chips → Glasswing Sky hub with the pixel butterfly ("Powered by" + engine) → 3 outlined benefit chips with pixel markers; wires from lg; stacks below lg |
+| `TeamSection` | `home.team` | Diagram (parallel prototype layout): 5 numbered role chips → soft-wash hub with the pixel butterfly ("Powered by" + engine) → 3 outlined benefit chips with pixel markers; wires from lg; stacks below lg |
 | `ApproachSection` | `home.approach.gates` | Three `RevealCard`s |
 | `ProcessSection` | `home.process` | Black card, steps on the right |
 | `FaqSection` | `home.faq`, `faq` collection | Heading cols 1–3, questions cols 4–12 |

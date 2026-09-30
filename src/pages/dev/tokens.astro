@@ -23,29 +23,26 @@ import Disclosure from '../../components/ui/Disclosure.astro';
 import { mediaAspects } from '../../components/ui/media';
 import { workGridPositions } from '../../config/layout';
 
-const scale = (n: string) =>
-  ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'].map((k) => `${n}-${k}`);
 const primitives = {
-  'Stone (100 Chrysalis · 200 Cocoon · 300 Mist · 600 Stone · 800 Bark · 900 Deep Ink)': [
+  'Slate (25 page · 100 containers · 150 hover · 200 borders · 600 secondary · 900 Deep Ink)': [
     'white',
-    ...scale('stone'),
+    ...['25', '50', '100', '150', '200', '400', '600', '700', '800', '900'].map((k) => `slate-${k}`),
   ],
-  'Apricot (primary)': scale('apricot'),
-  'Morpho (secondary)': scale('morpho'),
-  'Swallowtail (accent)': scale('swallowtail'),
-  'Sunset Moth (accent, rare)': scale('sunset'),
+  'Wash (fills, glows, pixel tints; never text)': [
+    'sky',
+    'lavender',
+    'rose',
+    'mint',
+    'sage',
+    'blush',
+    'peach',
+    'lilac',
+  ].map((k) => `wash-${k}`),
+  'Accents (links, focus, small highlights)': ['teal', 'rose', 'violet'].map((k) => `accent-${k}`),
   Status: ['success', 'warning', 'error', 'info'],
 };
 
-const gradients = ['glasswing-sky', 'morpho-shimmer', 'swallowtail', 'sunset-moth'];
-const meshes = [
-  'apricot-dawn',
-  'morpho-iridescence',
-  'swallowtail-canopy',
-  'sunset-moth',
-  'pearl-haze',
-  'metamorphosis',
-];
+const washes = ['button', 'mint-sky', 'blush-rose', 'lavender', 'hub', 'rim', 'edge'];
 
 const semantic = [
   'surface-page',
@@ -312,32 +309,17 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       <!-- GRADIENTS -->
       <Section padding="tight" surface>
         <Stack gap="24">
-          <h2 class="dev-h">4 · Gradients and meshes</h2>
+          <h2 class="dev-h">4 · Soft washes</h2>
           <p class="dev-muted">
-            Use subtly. One mesh per view, big surfaces only, never on UI components, never body
-            copy on a mesh. Grain (<code>--grain-image</code>) goes on large areas.
+            Radial glows of wash hues on Slate 100. Button hover fills, the team hub, starting-point
+            media, rims and edge glows. Never behind body copy.
           </p>
-          <h3 class="dev-h3">Linear (180°)</h3>
           <div class="swatches swatches--wide">
-            {gradients.map((g) => (
+            {washes.map((w) => (
               <figure class="swatch">
-                <div
-                  class="swatch__chip swatch__chip--tall grain"
-                  style={`background: var(--gradient-${g})`}
-                />
+                <div class="swatch__chip swatch__chip--tall" style={`background: var(--wash-${w})`} />
                 <figcaption>
-                  <code>--gradient-{g}</code>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <h3 class="dev-h3">Meshes</h3>
-          <div class="swatches swatches--wide">
-            {meshes.map((m) => (
-              <figure class="swatch">
-                <div class="swatch__chip grain" style={`background: var(--mesh-${m})`} />
-                <figcaption>
-                  <code>--mesh-{m}</code>
+                  <code>--wash-{w}</code>
                 </figcaption>
               </figure>
             ))}

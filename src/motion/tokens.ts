@@ -34,6 +34,9 @@ const FALLBACK = {
   '--dur-pixel-reveal-out': '200ms',
   '--dur-page-cover': '220ms',
   '--dur-page-reveal': '320ms',
+  '--motion-tempo': '1',
+  '--hero-veil': '0.75',
+  '--pixel-tint': '0.3',
 } as const;
 
 type MotionVar = keyof typeof FALLBACK;
@@ -57,8 +60,14 @@ export function count(name: '--pixel-pop-steps' | '--pixel-reveal-steps'): numbe
 }
 
 /** A 0–1 number token, e.g. a probability. */
-export function ratio(name: '--pixel-glitch-double'): number {
+export function ratio(name: '--pixel-glitch-double' | '--hero-veil' | '--pixel-tint'): number {
   return Math.min(1, Math.max(0, parseFloat(readVar(name)) || 0));
+}
+
+/** Motion tempo: multiply pixel-motion durations by this (Calm 1.5 · Standard 1 · Lively 0.65). */
+export function tempo(): number {
+  const n = parseFloat(readVar('--motion-tempo'));
+  return Number.isFinite(n) && n > 0 ? n : 1;
 }
 
 /** A space-separated number list token, e.g. --pixel-resolve "12 8 5 3". */

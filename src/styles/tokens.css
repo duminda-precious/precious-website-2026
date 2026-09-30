@@ -9,8 +9,9 @@
      2. Semantic    meaning ("surface-page", "text-secondary"); remapped per theme
      3. Component   only where a component needs its own knob (nav, gates, team)
 
-   Colour and type follow the brand guideline (decision 2026-09-29, phase 2).
-   Page base is white (Duminda's direction), not the guideline's Chrysalis.
+   Type follows the brand guideline (decision 2026-09-29, phase 2). Colour
+   follows the cool palette and soft washes from the Claude Design handoff
+   (decision 2026-09-30); page base is Slate 25, a cool near-white.
    Sizes are in rem (1rem = 16px) so user font scaling is respected.
    ========================================================================== */
 
@@ -18,71 +19,40 @@
   :root {
     /* ---------------------------------------------------------------------
        1. PRIMITIVES
-       Each wing colour has a 9-step scale: 50–200 backgrounds, 300 borders,
-       400–600 fills, 700–900 text. 500 is the core colour.
+       Cool palette (Claude Design handoff, 2026-09-30; replaces the guideline's
+       warm Stone and wing scales, see plan §0.1). Only the steps the design
+       uses are defined.
        ------------------------------------------------------------------ */
     --color-white: #ffffff;
 
-    /* Stone: warm neutrals. 100 = Chrysalis, 200 = Cocoon, 300 = Mist,
-       600 = Stone (secondary text), 800 = Bark (body), 900 = Deep Ink. */
-    --color-stone-50: #faf7f2;
-    --color-stone-100: #f6f1e9;
-    --color-stone-200: #efe7db;
-    --color-stone-300: #e3d9cb;
-    --color-stone-400: #b7aa9c;
-    --color-stone-500: #8a7f74;
-    --color-stone-600: #6b625a;
-    --color-stone-700: #4f4741;
-    --color-stone-800: #3a332e;
-    --color-stone-900: #1c1714;
+    /* Slate: cool neutrals, biased blue-cyan. 25 = page, 100 = containers,
+       150 = hover fill, 200 = borders, 600 = secondary text, 900 = Deep Ink. */
+    --color-slate-25: #f6f9fb;
+    --color-slate-50: #f4f8fa;
+    --color-slate-100: #eef3f6;
+    --color-slate-150: #e3ebf0;
+    --color-slate-200: #dbe4ea;
+    --color-slate-400: #9fb1bc;
+    --color-slate-600: #566874;
+    --color-slate-700: #3c4d58;
+    --color-slate-800: #26333c;
+    --color-slate-900: #141c22;
 
-    /* Apricot: primary. Never white text on it; never 500 as text. */
-    --color-apricot-50: #fef6f1;
-    --color-apricot-100: #fcebdf;
-    --color-apricot-200: #f9dac6;
-    --color-apricot-300: #f6ccaf;
-    --color-apricot-400: #f2b592;
-    --color-apricot-500: #ec9f74;
-    --color-apricot-600: #d07f52;
-    --color-apricot-700: #9a5530;
-    --color-apricot-800: #6e3b21;
-    --color-apricot-900: #422313;
+    /* Wash: the soft brand hues. Pale fills, glows and pixel tints only;
+       never text. */
+    --color-wash-sky: #9ccfe4;
+    --color-wash-lavender: #dcc8f1;
+    --color-wash-rose: #f6c6d2;
+    --color-wash-mint: #d6f1de;
+    --color-wash-sage: #a7c3c3;
+    --color-wash-blush: #f2c3c6;
+    --color-wash-peach: #f7d9d2;
+    --color-wash-lilac: #ead9f3;
 
-    /* Morpho: expertise. Links, data, focus. */
-    --color-morpho-50: #f0f6fa;
-    --color-morpho-100: #e1edf5;
-    --color-morpho-200: #c3dbeb;
-    --color-morpho-300: #9ec4dd;
-    --color-morpho-400: #72a7cc;
-    --color-morpho-500: #4a89b8;
-    --color-morpho-600: #3b73a0;
-    --color-morpho-700: #2f5d84;
-    --color-morpho-800: #234766;
-    --color-morpho-900: #173045;
-
-    /* Swallowtail: calm, research. 500 is large text / icons only. */
-    --color-swallowtail-50: #eaf7f2;
-    --color-swallowtail-100: #ddf1e9;
-    --color-swallowtail-200: #b3e0cf;
-    --color-swallowtail-300: #7fc9af;
-    --color-swallowtail-400: #45ac8b;
-    --color-swallowtail-500: #12876a;
-    --color-swallowtail-600: #0f7159;
-    --color-swallowtail-700: #0e5c49;
-    --color-swallowtail-800: #0b4336;
-    --color-swallowtail-900: #072a22;
-
-    /* Sunset Moth: feeling. Sparingly, for delight. */
-    --color-sunset-50: #fdeef3;
-    --color-sunset-100: #fae1eb;
-    --color-sunset-200: #f4bcd2;
-    --color-sunset-300: #ec90b3;
-    --color-sunset-400: #e26496;
-    --color-sunset-500: #d63f7c;
-    --color-sunset-600: #b42a64;
-    --color-sunset-700: #91214f;
-    --color-sunset-800: #68193a;
-    --color-sunset-900: #420f25;
+    /* Accents: the deep brand tones. Links, focus, small highlights. */
+    --color-accent-teal: #2f6f8f;
+    --color-accent-rose: #a4434f;
+    --color-accent-violet: #6a4fa3;
 
     /* Status (product UI only; always pair with an icon or label) */
     --color-success: #1e7a52;
@@ -96,71 +66,33 @@
     --font-family-code: ui-monospace, Menlo, Consolas, monospace;
 
     /* ---------------------------------------------------------------------
-       GRADIENTS (brand guideline §04). Use subtly: big surfaces, accents,
-       button hover fill. One mesh per view; never a mesh on UI components;
-       never body copy on a mesh. Add the grain overlay on large areas.
+       GRADIENTS: soft washes. Radial glows of wash hues on a Slate 100 base.
+       Used on button hover fills, the team diagram hub and the starting-point
+       media. Never behind body copy.
        ------------------------------------------------------------------ */
-    --gradient-glasswing-sky: linear-gradient(
-      180deg,
-      #f4f1ee 0%,
-      #f6ccaf 40%,
-      #90c1c5 72%,
-      #66bfd6 100%
-    ); /* signature */
-    --gradient-morpho-shimmer: linear-gradient(
-      180deg,
-      #f4f1ee 0%,
-      #d6e6ef 38%,
-      #9ec4dd 70%,
-      #4a89b8 100%
-    ); /* expertise */
-    --gradient-swallowtail: linear-gradient(
-      180deg,
-      #f4f1ee 0%,
-      #ddebd6 38%,
-      #a9d0ba 70%,
-      #62a98c 100%
-    ); /* growth */
-    --gradient-sunset-moth: linear-gradient(
-      180deg,
-      #f4f1ee 0%,
-      #f2bacd 34%,
-      #f5cb9e 64%,
-      #7fc4c4 100%
-    ); /* celebration, rare */
-
-    /* Meshes: base + four radial points (x/y from top-left). Radii follow the
-       guideline's Apricot Dawn CSS example, applied to every mesh. */
-    --mesh-apricot-dawn:
-      radial-gradient(60% 69% at 22% 10%, #f4f1ee 0%, #f4f1ee00 100%),
-      radial-gradient(48% 55% at 82% 30%, #ec9f74 0%, #ec9f7400 100%),
-      radial-gradient(52% 60% at 12% 92%, #66bfd6 0%, #66bfd600 100%),
-      radial-gradient(52% 60% at 88% 90%, #9ea871 0%, #9ea87100 100%), #f6ccaf;
-    --mesh-morpho-iridescence:
-      radial-gradient(60% 69% at 82% 12%, #d6e6ef 0%, #d6e6ef00 100%),
-      radial-gradient(48% 55% at 30% 40%, #72a7cc 0%, #72a7cc00 100%),
-      radial-gradient(52% 60% at 74% 90%, #2f5d84 0%, #2f5d8400 100%),
-      radial-gradient(52% 60% at 10% 90%, #90c1c5 0%, #90c1c500 100%), #4a89b8;
-    --mesh-swallowtail-canopy:
-      radial-gradient(60% 69% at 18% 82%, #b9de8c 0%, #b9de8c00 100%),
-      radial-gradient(48% 55% at 70% 26%, #12876a 0%, #12876a00 100%),
-      radial-gradient(52% 60% at 94% 94%, #072a22 0%, #072a2200 100%),
-      radial-gradient(52% 60% at 42% 6%, #7fd3ee 0%, #7fd3ee00 100%), #0e5c49;
-    --mesh-sunset-moth:
-      radial-gradient(60% 69% at 22% 6%, #f4f1ee 0%, #f4f1ee00 100%),
-      radial-gradient(48% 55% at 78% 30%, #f2bacd 0%, #f2bacd00 100%),
-      radial-gradient(52% 60% at 24% 64%, #f5cb9e 0%, #f5cb9e00 100%),
-      radial-gradient(52% 60% at 80% 94%, #7fc4c4 0%, #7fc4c400 100%), #f5cb9e;
-    --mesh-pearl-haze:
-      radial-gradient(60% 69% at 14% 18%, #f6c7ae 0%, #f6c7ae00 100%),
-      radial-gradient(48% 55% at 84% 22%, #c3dbeb 0%, #c3dbeb00 100%),
-      radial-gradient(52% 60% at 72% 88%, #f4bcd2 0%, #f4bcd200 100%),
-      radial-gradient(52% 60% at 16% 86%, #ddf1e9 0%, #ddf1e900 100%), #f6f1e9;
-    --mesh-metamorphosis:
-      radial-gradient(60% 69% at 24% 26%, #9ec4dd 0%, #9ec4dd00 100%),
-      radial-gradient(48% 55% at 52% 10%, #d63f7c 0%, #d63f7c00 100%),
-      radial-gradient(52% 60% at 70% 66%, #ec9f74 0%, #ec9f7400 100%),
-      radial-gradient(52% 60% at 92% 92%, #f6ccaf 0%, #f6ccaf00 100%), #4a89b8;
+    /* Button hover: mint top-left, sky top-right, rose from below */
+    --wash-button:
+      radial-gradient(82% 82% at 0% 0%, #d6f1de 0%, #eef3f600 100%),
+      radial-gradient(82% 82% at 100% 0%, #9ccfe4 0%, #eef3f600 100%),
+      radial-gradient(82% 82% at 50% 120%, #f6c6d2 0%, #eef3f600 100%), #eef3f6;
+    /* Starting-point media (Approach) */
+    --wash-mint-sky:
+      radial-gradient(120% 90% at 0% 0%, #d6f1de 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, #9ccfe4 0%, transparent 60%), #eef3f6;
+    --wash-blush-rose:
+      radial-gradient(120% 90% at 0% 0%, #f7d9d2 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, #f2c3c6 0%, transparent 60%), #eef3f6;
+    --wash-lavender:
+      radial-gradient(120% 90% at 0% 0%, #dcc8f1 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, #ead9f3 0%, transparent 60%), #eef3f6;
+    /* Team hub core */
+    --wash-hub:
+      radial-gradient(45% 45% at 28% 30%, #d6f1de 0%, transparent 100%),
+      radial-gradient(45% 45% at 72% 30%, #9ccfe4 0%, transparent 100%),
+      radial-gradient(50% 45% at 50% 78%, #f6c6d2 0%, transparent 100%), #eef3f6;
+    /* Rims and edge glows (team hub, output chips) */
+    --wash-rim: conic-gradient(#9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4);
+    --wash-edge: linear-gradient(90deg, #9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4);
 
     /* Grain: 4–6% monochrome noise over large gradient areas (anti-banding). */
     --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -292,9 +224,9 @@
     --radius-pill: 999px; /* tags, pills */
 
     /* Elevation: tinted with Deep Ink, never black */
-    --shadow-e1: 0 1px 2px rgb(28 23 20 / 0.08); /* cards */
-    --shadow-e2: 0 4px 12px rgb(28 23 20 / 0.08); /* dropdowns */
-    --shadow-e3: 0 16px 40px rgb(28 23 20 / 0.14); /* modals */
+    --shadow-e1: 0 1px 2px rgb(20 28 34 / 0.08); /* cards */
+    --shadow-e2: 0 4px 12px rgb(20 28 34 / 0.08); /* dropdowns */
+    --shadow-e3: 0 16px 40px rgb(20 28 34 / 0.14); /* modals */
 
     /* Logo (the footer logo is sized by its grid columns, not a token) */
     --logo-height-nav: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem); /* 14 → 18 */
@@ -354,6 +286,11 @@
     --dur-page-cover: 220ms; /* page transition: old page covered (exit) */
     --dur-page-reveal: 320ms; /* page transition: new page revealed (entrance) */
     --rise-distance: 120px; /* brief entrance pattern */
+    /* Feel controls (the Claude Design "Tweaks"; defaults as designed).
+       Read at runtime by src/motion/tokens.ts. */
+    --motion-tempo: 1; /* multiplies every pixel-motion duration: Calm 1.5 · Standard 1 · Lively 0.65 */
+    --hero-veil: 0.75; /* white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px */
+    --pixel-tint: 0.3; /* share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 */
     --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
     --disabled-opacity: 0.3;
@@ -390,38 +327,40 @@
      -------------------------------------------------------------------- */
   :root,
   [data-theme='light'] {
-    --surface-page: var(--color-white); /* very white, minimal (Duminda) */
-    --surface-raised: var(--color-stone-50); /* testimonial card */
-    --surface-muted: var(--color-stone-200); /* Cocoon: sunken surfaces, team chips */
-    --surface-inverse: var(--color-stone-900);
+    --surface-page: var(--color-slate-25); /* cool near-white */
+    --surface-raised: var(--color-slate-100); /* testimonial card, containers */
+    --surface-muted: var(--color-slate-100); /* sunken surfaces */
+    --surface-hover: var(--color-slate-150); /* link hover fill (mega menu) */
+    --surface-overlay: var(--color-white); /* full-page menu */
+    --surface-inverse: var(--color-slate-900);
 
-    --text-primary: var(--color-stone-900); /* Deep Ink, never #000 */
-    --text-secondary: var(--color-stone-600); /* Stone */
-    --text-tertiary: var(--color-stone-600);
-    --text-muted: var(--color-stone-600); /* lightest text that passes AA on white */
+    --text-primary: var(--color-slate-900); /* Deep Ink, never #000 */
+    --text-secondary: var(--color-slate-600);
+    --text-tertiary: var(--color-slate-600);
+    --text-muted: var(--color-slate-600); /* lightest text that passes AA on the page */
     --text-on-inverse: var(--color-white);
-    --text-strong: var(--color-stone-900);
+    --text-strong: var(--color-slate-900);
 
-    --border-subtle: var(--color-stone-200);
-    --border-default: var(--color-stone-300); /* Mist */
-    --border-strong: var(--color-stone-400);
+    --border-subtle: var(--color-slate-200);
+    --border-default: var(--color-slate-200);
+    --border-strong: var(--color-slate-400);
 
-    --link: var(--color-morpho-600);
-    --cta-bg: var(--color-stone-900); /* Deep Ink button */
+    --link: var(--color-accent-teal);
+    --cta-bg: var(--color-slate-900); /* Deep Ink button */
     --cta-fg: var(--color-white);
-    --focus-ring: var(--color-morpho-600);
+    --focus-ring: var(--color-accent-teal);
 
     --tag-border: var(--border-strong);
-    --placeholder-stripe-a: var(--color-stone-100);
-    --placeholder-stripe-b: var(--color-stone-50);
-    --placeholder-fg: var(--color-stone-600);
+    --placeholder-stripe-a: var(--color-slate-100);
+    --placeholder-stripe-b: var(--color-slate-50);
+    --placeholder-fg: var(--color-slate-600);
 
     color-scheme: light;
   }
 
   /* Dark: the whole page while the Work stage is in view (M2 sets
      .page[data-page-theme="dark"]). Deep Ink based. From md (760px) only: on phones
-     the page stays white throughout and the stage inherits the light tokens.
+     the page stays light throughout and the stage inherits the light tokens.
      While the switch runs (html[data-theme-switch]) the stage itself follows the
      page theme, so it is never light-on-white before the flip. Without JS the stage
      keeps its own dark theme. Other dark-themed blocks always apply it. */
@@ -429,70 +368,72 @@
     [data-theme='dark']:not([data-theme-stage]),
     html:not([data-theme-switch]) [data-theme='dark'][data-theme-stage],
     [data-page-theme='dark'] {
-      --surface-page: var(--color-stone-900);
-      --surface-raised: var(--color-stone-800);
-      --surface-muted: var(--color-stone-800);
-      --surface-inverse: var(--color-stone-50);
+      --surface-page: var(--color-slate-900);
+      --surface-raised: var(--color-slate-800);
+      --surface-muted: var(--color-slate-800);
+      --surface-hover: var(--color-slate-800);
+      --surface-inverse: var(--color-slate-50);
 
-      --text-primary: var(--color-stone-50);
-      --text-secondary: var(--color-stone-400);
-      --text-tertiary: var(--color-stone-400);
-      --text-muted: var(--color-stone-400);
-      --text-on-inverse: var(--color-stone-900);
+      --text-primary: var(--color-slate-50);
+      --text-secondary: var(--color-slate-400);
+      --text-tertiary: var(--color-slate-400);
+      --text-muted: var(--color-slate-400);
+      --text-on-inverse: var(--color-slate-900);
       --text-strong: var(--color-white);
 
-      --border-subtle: var(--color-stone-800);
-      --border-default: var(--color-stone-800);
-      --border-strong: var(--color-stone-700);
+      --border-subtle: var(--color-slate-800);
+      --border-default: var(--color-slate-800);
+      --border-strong: var(--color-slate-700);
 
-      --link: var(--color-morpho-300);
-      --cta-bg: var(--color-stone-50);
-      --cta-fg: var(--color-stone-900);
-      --focus-ring: var(--color-morpho-300);
+      --link: var(--color-wash-sky);
+      --cta-bg: var(--color-slate-50);
+      --cta-fg: var(--color-slate-900);
+      --focus-ring: var(--color-wash-sky);
 
-      --tag-border: var(--color-stone-600);
-      --placeholder-stripe-a: var(--color-stone-800);
-      --placeholder-stripe-b: var(--color-stone-900);
-      --placeholder-fg: var(--color-stone-400);
+      --tag-border: var(--color-slate-700);
+      --placeholder-stripe-a: var(--color-slate-800);
+      --placeholder-stripe-b: var(--color-slate-900);
+      --placeholder-fg: var(--color-slate-400);
       --client-logo-filter: invert(1); /* dark monochrome logos → light */
-      /* Team diagram chips follow the theme (the hub keeps its gradient) */
-      --team-chip-bg: var(--color-stone-800);
-      --team-chip-fg: var(--color-stone-50);
-      --team-chip-number: var(--color-stone-400);
-      --team-benefit-border: var(--color-stone-700);
-      --team-benefit-marker: var(--color-stone-50);
+      /* Team diagram chips follow the theme (the hub keeps its wash) */
+      --team-chip-bg: var(--color-slate-800);
+      --team-chip-fg: var(--color-slate-50);
+      --team-chip-number: var(--color-slate-400);
+      --team-benefit-border: var(--color-slate-700);
+      --team-benefit-marker: var(--color-slate-50);
 
       color-scheme: dark;
     }
   }
 
-  /* Ink: footer and process card. Deep Ink based. */
+  /* Ink: footer and AI card. Deep Ink based. */
   [data-theme='ink'] {
-    --surface-page: var(--color-stone-900);
-    --surface-raised: var(--color-stone-800);
-    --surface-muted: var(--color-stone-800);
+    --surface-page: var(--color-slate-900);
+    --surface-raised: var(--color-slate-800);
+    --surface-muted: var(--color-slate-800);
+    --surface-hover: var(--color-slate-800);
     --surface-inverse: var(--color-white);
 
-    --text-primary: var(--color-stone-50);
-    --text-secondary: var(--color-stone-400);
-    --text-tertiary: var(--color-stone-400);
-    --text-muted: var(--color-stone-400);
-    --text-on-inverse: var(--color-stone-900);
+    --text-primary: var(--color-slate-50);
+    --text-secondary: var(--color-slate-400);
+    --text-tertiary: var(--color-slate-400);
+    --text-muted: var(--color-slate-400);
+    --text-on-inverse: var(--color-slate-900);
     --text-strong: var(--color-white);
 
-    --border-subtle: var(--color-stone-800);
-    --border-default: var(--color-stone-800);
+    --border-subtle: var(--color-slate-800);
+    --border-default: var(--color-slate-800);
     --border-strong: rgb(255 255 255 / 0.7);
 
-    --link: var(--color-morpho-300);
+    --link: var(--color-wash-sky);
     --cta-bg: var(--color-white);
-    --cta-fg: var(--color-stone-900);
-    --focus-ring: var(--color-morpho-300);
+    --cta-fg: var(--color-slate-900);
+    --focus-ring: var(--color-wash-sky);
 
-    --tag-border: var(--color-stone-600);
-    --placeholder-stripe-a: var(--color-stone-800);
-    --placeholder-stripe-b: var(--color-stone-900);
-    --placeholder-fg: var(--color-stone-400);
+    --tag-border: var(--color-slate-700);
+    --placeholder-stripe-a: var(--color-slate-800);
+    --placeholder-stripe-b: var(--color-slate-900);
+    --placeholder-fg: var(--color-slate-400);
 
     color-scheme: dark;
   }
@@ -503,75 +444,76 @@
   :root {
     /* Nav (brief M7): no bar background; the link cluster gets a rounded
        backdrop once scrolled. -dark variants apply over the dark Work stage. */
-    --nav-fg: var(--color-stone-900);
-    --nav-cluster-bg: var(--color-stone-100);
-    --nav-fg-dark: var(--color-stone-50);
-    --nav-cluster-bg-dark: var(--color-stone-800);
-    --nav-dropdown-bg: var(--color-white);
-    --nav-dropdown-fg: var(--color-stone-900);
-    --nav-dropdown-border: var(--color-stone-300);
+    --nav-fg: var(--color-slate-900);
+    --nav-cluster-bg: var(--color-slate-100);
+    --nav-fg-dark: var(--color-slate-50);
+    --nav-cluster-bg-dark: var(--color-slate-800);
+    --nav-dropdown-bg: var(--color-slate-25);
+    --nav-dropdown-fg: var(--color-slate-900);
+    --nav-dropdown-border: var(--color-slate-200);
     --nav-dropdown-shadow: var(--shadow-e2);
-    --nav-badge-bg: var(--color-stone-900);
+    --nav-badge-bg: var(--color-slate-900);
     --nav-badge-fg: var(--color-white);
 
     /* Page wrapper (animated by the theme switch) */
-    --page-bg: var(--color-white);
-    --page-bg-dark: var(--color-stone-900);
+    --page-bg: var(--color-slate-25);
+    --page-bg-dark: var(--color-slate-900);
 
-    /* Gate cards (Approach): light wing tints, Deep Ink text. The media area
-       shows the matching linear gradient until the videos arrive. */
-    --gate-media-fg: var(--color-stone-900);
-    --gate-1-media: var(--gradient-glasswing-sky);
-    --gate-2-media: var(--gradient-morpho-shimmer);
-    --gate-3-media: var(--gradient-swallowtail);
-    --gate-1-bg: var(--color-apricot-100);
-    --gate-1-fg: var(--color-stone-900);
-    --gate-1-pain: var(--color-apricot-800);
-    --gate-2-bg: var(--color-morpho-100);
-    --gate-2-fg: var(--color-stone-900);
-    --gate-2-pain: var(--color-morpho-800);
-    --gate-3-bg: var(--color-swallowtail-100);
-    --gate-3-fg: var(--color-stone-900);
-    --gate-3-pain: var(--color-swallowtail-800);
+    /* Gate cards (Approach): one soft wash per card, Deep Ink titles, grey
+       descriptions (not colourised). The media shows the wash until the
+       videos arrive. */
+    --gate-media-fg: var(--color-slate-900);
+    --gate-1-media: var(--wash-mint-sky);
+    --gate-2-media: var(--wash-blush-rose);
+    --gate-3-media: var(--wash-lavender);
+    --gate-1-bg: var(--color-slate-100);
+    --gate-1-fg: var(--color-slate-900);
+    --gate-1-pain: var(--color-slate-600);
+    --gate-2-bg: var(--color-slate-100);
+    --gate-2-fg: var(--color-slate-900);
+    --gate-2-pain: var(--color-slate-600);
+    --gate-3-bg: var(--color-slate-100);
+    --gate-3-fg: var(--color-slate-900);
+    --gate-3-pain: var(--color-slate-600);
 
     /* Team diagram (layout from the parallel prototype): numbered role chips →
-       gradient hub → outlined benefit chips. The hub is the section's gradient. */
+       wash hub → outlined benefit chips. Chips are white (Claude Design). */
     --team-col-max: 22.5rem; /* 360: each chip column */
     --team-gap: clamp(1.25rem, 3vw, 3rem); /* 20 → 48: columns ↔ hub (wire length) */
     --team-chip-height: 3.25rem; /* 52 */
-    --team-chip-bg: var(--color-stone-100);
-    --team-chip-fg: var(--color-stone-900);
+    --team-chip-bg: var(--color-white);
+    --team-chip-fg: var(--color-slate-900);
     --team-chip-shadow: var(--shadow-e1);
-    --team-chip-number: var(--color-stone-600);
-    --team-benefit-border: var(--color-stone-300);
-    --team-benefit-marker: var(--color-stone-900);
+    --team-chip-number: var(--color-slate-600);
+    --team-benefit-border: var(--color-slate-200);
+    --team-benefit-marker: var(--color-slate-900);
     --team-hub-size: clamp(9.375rem, 15vw, 11.875rem); /* 150 → 190 */
-    --team-hub-bg: var(--gradient-glasswing-sky);
-    --team-hub-fg: var(--color-stone-900);
-    --team-wire: rgb(107 98 90 / 0.35); /* Stone at 35% */
+    --team-hub-bg: var(--wash-hub);
+    --team-hub-fg: var(--color-slate-900);
+    --team-wire: rgb(86 104 116 / 0.35); /* Slate 600 at 35% */
 
     /* Button ▸: hidden at rest; on hover the label steps left by half the glyph's
        footprint (3-pixel play glyph + gap) and the glyph appears in the padding. */
     --button-glyph-shift: calc((3 * var(--pixel-unit) + var(--space-8)) / 2); /* 7px */
 
-    /* Button hover: the gradient that fades in over the fill (M12) */
-    --cta-hover-bg: var(--gradient-glasswing-sky);
-    --cta-hover-fg: var(--color-stone-900);
+    /* Button hover: the soft wash that pixels in over the fill (M12) */
+    --cta-hover-bg: var(--wash-button);
+    --cta-hover-fg: var(--color-slate-900);
 
     /* Page-transition cover */
-    --pixel-cover-bg: var(--color-stone-900);
+    --pixel-cover-bg: var(--color-slate-900);
 
-    /* Process card */
-    --process-bg: var(--color-stone-900);
-    --process-fg: var(--color-white);
+    /* AI card (process section) */
+    --process-bg: var(--color-slate-900);
+    --process-fg: var(--color-slate-50);
     --process-rule: rgb(255 255 255 / 0.7);
 
     /* Solid pill (showreel sound control sits on the reel, always light) */
     --pill-solid-bg: var(--color-white);
-    --pill-solid-fg: var(--color-stone-900);
+    --pill-solid-fg: var(--color-slate-900);
 
     /* Testimonial logo slot */
-    --logo-stripe-a: var(--color-stone-200);
-    --logo-stripe-b: var(--color-stone-100);
+    --logo-stripe-a: var(--color-slate-150);
+    --logo-stripe-b: var(--color-slate-100);
   }
 }
