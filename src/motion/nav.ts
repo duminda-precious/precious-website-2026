@@ -5,15 +5,18 @@
  *                  the 4-dot menu button (CSS in Nav.astro).
  * Mega menu: opens on hover (mouse) or click on the Services trigger; closes when the
  * pointer leaves for --dur-hover-intent, on Escape, on outside click, or when the
- * nav goes mini. Open: the panel unfolds downward (--dur-mega-in, --ease-emphasized)
- * and the columns cascade in left to right. Close: faster (--dur-mega-out, --ease-exit).
+ * nav goes mini. A click that lands while a hover-open is still unfolding keeps it
+ * open. Open: the panel unfolds downward (--dur-mega-in, --ease-emphasized), each
+ * column's heading and first few links cascade in left to right, then the note band
+ * rises in as one piece. Close: faster (--dur-mega-out, --ease-exit); items hold
+ * where they are instead of snapping to full opacity.
  * Tokens: --dur-mega-in, --dur-mega-out, --dur-nav-fade, --dur-cascade-*, --dur-hover-intent, --ease-emphasized,
- *         --ease-exit, --ease-snappy, --radius-md.
+ *         --ease-exit, --ease-snappy, --radius-md, --mega-drop, --mega-rise, --mega-shadow-reach.
  * Reduced motion: the panel shows and hides at once.
  */
 import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
-import { cssVar, ease, ms } from './tokens';
+import { cssVar, ease, length, ms } from './tokens';
 
 const MINI_BELOW = '(max-width: 68.74rem)';
 
@@ -33,60 +36,83 @@ export const nav: MotionModule = {
     let open = false;
     let anims: Animation[] = [];
     let leaveT = 0;
+    let hoverOpenedAt = 0;
     const R = () => cssVar('--radius-md');
+    // The clip reaches past the panel's edges so its shadow isn't cut off.
+    const clip = (bottom: string, top = true) => {
+      const b = `-${length('--mega-shadow-reach')}px`;
+      return `inset(${top ? b : 0} ${b} ${bottom} ${b} round ${R()})`;
+    };
+    // Stagger caps at this many links per column, so long columns don't trail.
+    const CASCADE_STEPS = 3;
 
     const setMega = (want: boolean) => {
       if (!panel || !trigger || want === open) return;
       open = want;
       trigger.setAttribute('aria-expanded', String(want));
-      anims.forEach((a) => a.cancel());
-      anims = [];
       if (want) {
+        anims.forEach((a) => a.cancel());
+        anims = [];
         panel.setAttribute('data-open', '');
         if (prefersReducedMotion()) return;
+        const drop = `translateY(calc(${cssVar('--mega-drop')} * -1))`;
+        const rise = `translateY(${cssVar('--mega-rise')})`;
         anims.push(
           panel.animate(
             [
-              { opacity: 0, transform: 'translateY(-8px)', clipPath: `inset(0 0 100% 0 round ${R()})` },
-              { opacity: 1, transform: 'none', clipPath: `inset(0 0 0 0 round ${R()})` },
+              { opacity: 0, transform: drop, clipPath: clip('100%', false) },
+              { opacity: 1, transform: 'none', clipPath: clip(`-${length('--mega-shadow-reach')}px`) },
             ],
             { duration: ms('--dur-mega-in'), easing: ease('--ease-emphasized'), fill: 'forwards' },
           ),
         );
-        panel.querySelectorAll<HTMLElement>('[data-mega-col]').forEach((col, ci) => {
+        const start = ms('--dur-cascade-start');
+        const perCol = ms('--dur-cascade-column');
+        const perItem = ms('--dur-cascade-item');
+        const riseIn = (el: Element, delay: number) =>
+          anims.push(
+            el.animate([{ opacity: 0, transform: rise }, { opacity: 1, transform: 'none' }], {
+              duration: ms('--dur-nav-fade'),
+              delay,
+              easing: ease('--ease-snappy'),
+              fill: 'backwards',
+            }),
+          );
+        const cols = panel.querySelectorAll<HTMLElement>('[data-mega-col]');
+        cols.forEach((col, ci) => {
           const items = [col.firstElementChild, ...col.querySelectorAll('[data-mega-item]')].filter(
             Boolean,
-          ) as HTMLElement[];
-          items.forEach((it, k) =>
-            anims.push(
-              it.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], {
-                duration: ms('--dur-nav-fade'),
-                delay:
-                  ms('--dur-cascade-start') +
-                  ci * ms('--dur-cascade-column') +
-                  Math.min(k, 6) * ms('--dur-cascade-item'),
-                easing: ease('--ease-snappy'),
-                fill: 'backwards',
-              }),
-            ),
-          );
+          ) as Element[];
+          items.forEach((it, k) => riseIn(it, start + ci * perCol + Math.min(k, CASCADE_STEPS) * perItem));
         });
+        // The note band (text + button) arrives together, after the last column starts.
+        const note = panel.querySelector('[data-mega-note]');
+        if (note) riseIn(note, start + cols.length * perCol);
       } else {
         if (prefersReducedMotion()) {
+          anims.forEach((a) => a.cancel());
+          anims = [];
           panel.removeAttribute('data-open');
           return;
         }
+        // Freeze the cascade where it is; the panel fades over it.
+        anims.forEach((a) => a.pause());
         const a = panel.animate(
           [
-            { opacity: 1, transform: 'none', clipPath: `inset(0 0 0 0 round ${R()})` },
-            { opacity: 0, transform: 'translateY(-6px)', clipPath: `inset(0 0 12% 0 round ${R()})` },
+            { opacity: 1, transform: 'none', clipPath: clip(`-${length('--mega-shadow-reach')}px`) },
+            {
+              opacity: 0,
+              transform: `translateY(calc(${cssVar('--mega-rise')} * -1))`,
+              clipPath: clip('12%'),
+            },
           ],
           { duration: ms('--dur-mega-out'), easing: ease('--ease-exit'), fill: 'forwards' },
         );
         a.onfinish = () => {
           if (!open) {
             panel.removeAttribute('data-open');
-            a.cancel();
+            anims.forEach((x) => x.cancel());
+            anims = [];
           }
         };
         anims.push(a);
@@ -121,6 +147,7 @@ export const nav: MotionModule = {
       const enter = () => {
         if (!hoverable.matches || el.hasAttribute('data-mini') || suppress) return;
         window.clearTimeout(leaveT);
+        if (!open) hoverOpenedAt = performance.now();
         setMega(true);
       };
       const leave = (e: MouseEvent) => {
@@ -138,6 +165,8 @@ export const nav: MotionModule = {
         'click',
         () => {
           window.clearTimeout(leaveT);
+          // Hover opened it a moment ago: this click meant "open", so keep it.
+          if (open && performance.now() - hoverOpenedAt < ms('--dur-mega-in')) return;
           if (open) suppress = true;
           setMega(!open);
         },
