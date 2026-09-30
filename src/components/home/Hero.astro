@@ -96,6 +96,7 @@ const { headline, reel, news } = Astro.props;
       inset: calc(var(--blur-reel-max) * -1);
       width: calc(100% + var(--blur-reel-max) * 2);
       height: calc(100% + var(--blur-reel-max) * 2);
+      max-width: none; /* the reset caps media at 100%, which left a strip on the right */
       object-fit: cover;
       filter: blur(calc(var(--hero-veil) * var(--blur-reel-max)));
       transition: filter var(--dur-veil) var(--ease-standard);
