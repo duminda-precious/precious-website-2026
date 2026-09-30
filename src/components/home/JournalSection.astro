@@ -1,0 +1,68 @@
+---
+/**
+ * JournalSection (Claude Design): "What's Happening?" after the FAQ. Header like Work
+ * (statement left, "Read our journal" button right), then four ContentCards in four
+ * columns down to 760px, one column below. Images alternate square and 5:6 so the
+ * bottom edges don't line up. Cards rise in one after another (softer than Work).
+ * Placeholders: stock images, bracketed tags and titles (home.journal).
+ * Props: heading, cta, cardCta, items.
+ * Tokens: --grid-gap-row, --grid-gap-col, --rise-distance-soft, --dur-rise-soft.
+ * Motion hooks: data-motion="rise-in" (M3).
+ */
+import Section from '../primitives/Section.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import ContentCard from '../ui/ContentCard.astro';
+
+interface Props {
+  heading: string;
+  cta: { label: string; href: string };
+  cardCta: string;
+  items: { tag: string; title: string; image?: string; href: string }[];
+}
+const { heading, cta, cardCta, items } = Astro.props;
+const aspects = ['1 / 1', '5 / 6'];
+---
+
+<Section id="journal" labelledby="journal-title">
+  <SectionHeader headingId="journal-title">
+    {heading}
+    <Button slot="action" href={cta.href} cta>{cta.label}</Button>
+  </SectionHeader>
+  <ul class="journal-grid">
+    {items.map((j, i) => (
+      <li data-motion="rise-in">
+        <ContentCard
+          href={j.href}
+          tag={j.tag}
+          title={j.title}
+          cta={cardCta}
+          image={j.image}
+          aspect={aspects[i % 2]}
+          seed={i + 10}
+        />
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  @layer components {
+    .journal-grid {
+      --rise-distance: var(--rise-distance-soft);
+      --dur-rise: var(--dur-rise-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--grid-gap-row) var(--grid-gap-col);
+      align-items: start;
+    }
+    .journal-grid > li {
+      min-width: 0;
+    }
+    @media (min-width: 47.5rem) {
+      .journal-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+</style>

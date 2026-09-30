@@ -2,12 +2,14 @@
 /** Homepage: sections in prototype order; all copy from content files. */
 import SiteShell from '../components/layout/SiteShell.astro';
 import Hero from '../components/home/Hero.astro';
+import ClientTicker from '../components/home/ClientTicker.astro';
 import WorkSection from '../components/home/WorkSection.astro';
 import ClientsSection from '../components/home/ClientsSection.astro';
 import TeamSection from '../components/home/TeamSection.astro';
 import ApproachSection from '../components/home/ApproachSection.astro';
 import ProcessSection from '../components/home/ProcessSection.astro';
 import FaqSection from '../components/home/FaqSection.astro';
+import JournalSection from '../components/home/JournalSection.astro';
 import { getHome, getHomeWork, getTestimonials, getClients, getFaq } from '../lib/content';
 
 const [home, work, testimonials, clients, faq] = await Promise.all([
@@ -21,8 +23,9 @@ const [home, work, testimonials, clients, faq] = await Promise.all([
 
 <SiteShell {...home.seo}>
   <Hero headline={home.hero.headline} reel={home.hero.reel} news={home.hero.news} />
+  <ClientTicker clients={clients} />
   <WorkSection {...home.work} items={work} />
-  <ClientsSection heading={home.clients.heading} testimonials={testimonials} clients={clients} />
+  <ClientsSection heading={home.clients.heading} testimonials={testimonials} />
   <TeamSection
     heading={home.team.heading}
     subline={home.team.subline}
@@ -34,4 +37,5 @@ const [home, work, testimonials, clients, faq] = await Promise.all([
   <ApproachSection heading={home.approach.heading} gates={home.approach.gates} />
   <ProcessSection {...home.process} />
   <FaqSection heading={home.faq.heading} items={faq} />
+  <JournalSection {...home.journal} />
 </SiteShell>

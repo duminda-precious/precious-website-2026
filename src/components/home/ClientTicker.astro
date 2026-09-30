@@ -1,0 +1,90 @@
+---
+/**
+ * ClientTicker (Claude Design): the client logo loop, full bleed, between the hero
+ * and Work. The list renders twice for a seamless loop (the copy is aria-hidden and
+ * inert). It pauses when off-screen or while a logo has keyboard focus; it doesn't
+ * pause on hover (design). Reduced motion: no loop; the logos wrap as a static row.
+ * Props: clients.
+ * Tokens: --ticker-py, --ticker-gap, --ticker-logo-height, --dur-marquee, --ease-linear,
+ *         --gutter, --text-secondary, --space-24.
+ * Motion hooks: data-motion="marquee" (motion/marquee.ts sets data-offscreen).
+ */
+import type { CollectionEntry } from 'astro:content';
+import ClientLogo from '../ui/ClientLogo.astro';
+import { ui } from '../../config/ui';
+
+interface Props {
+  clients: CollectionEntry<'clients'>[];
+}
+const { clients } = Astro.props;
+---
+
+<div class="ticker" data-motion="marquee">
+  <div class="ticker__track">
+    <ul class="ticker__set" aria-label={ui.clientsListLabel}>
+      {clients.map(({ data: c }) => (
+        <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt={c.name} /> : c.name}</li>
+      ))}
+    </ul>
+    <ul class="ticker__set" aria-hidden="true" inert>
+      {clients.map(({ data: c }) => (
+        <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt="" /> : c.name}</li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  @layer components {
+    .ticker {
+      padding-block: var(--ticker-py);
+      overflow: hidden;
+    }
+    .ticker__track {
+      display: flex;
+      gap: var(--ticker-gap);
+      width: max-content;
+      animation: ticker var(--dur-marquee) var(--ease-linear) infinite;
+    }
+    .ticker__set {
+      display: flex;
+      align-items: center;
+      gap: var(--ticker-gap);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .ticker__item {
+      --client-logo-height: var(--ticker-logo-height);
+      display: flex;
+      align-items: center;
+      height: var(--ticker-logo-height);
+    }
+    @keyframes ticker {
+      to {
+        transform: translateX(calc(-50% - var(--ticker-gap) / 2));
+      }
+    }
+    .ticker:focus-within .ticker__track,
+    .ticker[data-offscreen] .ticker__track {
+      animation-play-state: paused;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ticker {
+        padding-inline: var(--gutter);
+      }
+      .ticker__track {
+        width: auto;
+        animation: none;
+      }
+      .ticker__set {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-24);
+        width: 100%;
+      }
+      .ticker__set[aria-hidden] {
+        display: none;
+      }
+    }
+  }
+</style>

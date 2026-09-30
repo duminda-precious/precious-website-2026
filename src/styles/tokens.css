@@ -410,7 +410,9 @@
     --dur-menu-card-stagger: 80ms;
     --menu-rise: 24px; /* rise distance for menu links */
     --menu-card-rise: 32px; /* … and cards */
-    --rise-distance: 120px; /* brief entrance pattern */
+    --rise-distance: 120px; /* brief entrance pattern (Work cards) */
+    --rise-distance-soft: 40px; /* journal cards */
+    --dur-rise-soft: 700ms;
     /* Feel controls (the Claude Design "Tweaks"; defaults as designed).
        Read at runtime by src/motion/tokens.ts. */
     --motion-tempo: 1; /* multiplies every pixel-motion duration: Calm 1.5 · Standard 1 · Lively 0.65 */
@@ -425,6 +427,7 @@
     --slide-min-height: 27.5rem; /* 440 */
     /* Client logo ticker (continuous, linear, full bleed) */
     --ticker-gap: var(--space-80);
+    --ticker-py: clamp(5rem, 4rem + 4vw, 8rem); /* 80 → 128 around the ticker */
     --ticker-logo-height: 1.75rem; /* 28: logos scale to this height */
     --testimonial-logo-height: 1.75rem; /* 28 */
     --testimonial-logo-max-width: 12.5rem; /* 200: the logo slot */

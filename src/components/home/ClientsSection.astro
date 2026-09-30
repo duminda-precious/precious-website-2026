@@ -7,7 +7,7 @@
  * Ticker (M4/M8): client names loop continuously, full bleed. The list renders
  * twice for a seamless loop (the copy is aria-hidden + inert). Pauses on hover,
  * focus and off-screen; stops under reduced motion (then wraps as a static row).
- * Props: heading, testimonials, clients.
+ * Props: heading, testimonials.
  * Tokens: --gutter, --slide-gap, --ticker-gap, --dur-marquee, --ease-linear, --space-*,
  *         --border-strong, --radius-pill, --tap-min, --text-large, --text-secondary.
  * Motion hooks: data-motion="slider", data-motion="marquee".
@@ -17,7 +17,6 @@ import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
 import PixelIcon from '../ui/PixelIcon.astro';
-import ClientLogo from '../ui/ClientLogo.astro';
 import Button from '../ui/Button.astro';
 import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
@@ -27,9 +26,8 @@ import { ui } from '../../config/ui';
 interface Props {
   heading: string;
   testimonials: CollectionEntry<'testimonials'>[];
-  clients: CollectionEntry<'clients'>[];
 }
-const { heading, testimonials, clients } = Astro.props;
+const { heading, testimonials } = Astro.props;
 const stars = '★'.repeat(Math.round(site.clutchRating));
 ---
 
@@ -67,21 +65,6 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       <button class="slider__arrow" type="button" aria-label={ui.slider.next} data-slider-next>
         <PixelIcon name="arrow-right" size="lg" />
       </button>
-    </div>
-  </div>
-
-  <div class="ticker" data-motion="marquee">
-    <div class="ticker__track">
-      <ul class="ticker__set" aria-label={ui.clientsListLabel}>
-        {clients.map(({ data: c }) => (
-          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt={c.name} /> : c.name}</li>
-        ))}
-      </ul>
-      <ul class="ticker__set ticker__set--copy" aria-hidden="true" inert>
-        {clients.map(({ data: c }) => (
-          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt="" /> : c.name}</li>
-        ))}
-      </ul>
     </div>
   </div>
 
@@ -139,60 +122,6 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
     .slider__arrow:disabled {
       opacity: var(--disabled-opacity);
       cursor: default;
-    }
-
-    /* ---- Ticker: continuous logo loop, full bleed ---- */
-    .ticker {
-      margin: var(--space-56) calc(var(--gutter) * -1);
-      overflow: hidden;
-    }
-    .ticker__track {
-      display: flex;
-      gap: var(--ticker-gap);
-      width: max-content;
-      animation: ticker var(--dur-marquee) var(--ease-linear) infinite;
-    }
-    .ticker__set {
-      display: flex;
-      align-items: center;
-      gap: var(--ticker-gap);
-      list-style: none;
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-    .ticker__item {
-      --client-logo-height: var(--ticker-logo-height);
-      display: flex;
-      align-items: center;
-      height: var(--ticker-logo-height);
-    }
-    @keyframes ticker {
-      to {
-        transform: translateX(calc(-50% - var(--ticker-gap) / 2));
-      }
-    }
-    .ticker:hover .ticker__track,
-    .ticker:focus-within .ticker__track,
-    .ticker[data-offscreen] .ticker__track {
-      animation-play-state: paused;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .ticker {
-        margin-inline: 0;
-      }
-      .ticker__track {
-        width: auto;
-        animation: none;
-      }
-      .ticker__set {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: var(--space-24);
-        width: 100%;
-      }
-      .ticker__set--copy {
-        display: none;
-      }
     }
 
     .clients__cta {
