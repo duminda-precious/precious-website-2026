@@ -1,0 +1,53 @@
+---
+/**
+ * BrandLayout: the standalone document shell for /brand (decision 2026-09-30c).
+ * No site nav or footer. Never indexed or followed, excluded from the sitemap
+ * (astro.config.mjs), and not linked from anywhere: reachable by its URL only.
+ * Boots only the motion the page shows (logo wings, button hover and glitch, card
+ * edge, disclosure, smooth wheel scroll); each module keeps its own reduced-motion branch.
+ * Props: title, description.
+ */
+import '../styles/global.css';
+import FontLinks from '../components/layout/FontLinks.astro';
+import { site } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Pin cascade-layer order before any bundled stylesheet. -->
+    <style is:inline>
+      @layer reset, tokens, base, components, utilities;
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <FontLinks />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { setupGsap } from '../motion/gsap';
+      import { smoothScroll } from '../motion/smoothScroll';
+      import { logoWings } from '../motion/logoWings';
+      import { buttonFx } from '../motion/buttonFx';
+      import { buttonGlitch } from '../motion/buttonGlitch';
+      import { cardEdge } from '../motion/cardEdge';
+      import { disclosure } from '../motion/disclosure';
+
+      setupGsap();
+      [smoothScroll, logoWings, buttonFx, buttonGlitch, cardEdge, disclosure].forEach((m) =>
+        m.init(document),
+      );
+    </script>
+  </body>
+</html>

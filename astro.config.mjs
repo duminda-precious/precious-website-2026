@@ -11,8 +11,8 @@ export default defineConfig({
   build: { format: 'file' },
   integrations: [
     sitemap({
-      // Dev pages (/dev/*) are never indexed.
-      filter: (page) => !page.includes('/dev/'),
+      // Dev pages (/dev/*) and the hidden brand page (/brand) are never indexed.
+      filter: (page) => !/\/(dev\/|brand(\/|$))/.test(page),
     }),
   ],
 });

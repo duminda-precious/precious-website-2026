@@ -1,0 +1,28 @@
+---
+/**
+ * BrandSection: one numbered section of /brand. A Section band with a top hairline
+ * and the three-zone SectionHeader: eyebrow ("04 · Colour"), statement, optional intro.
+ * Props: id, section ({ number, name, title, intro? }).
+ * Tokens: none of its own (Section, SectionHeader).
+ */
+import Section from '../primitives/Section.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+
+interface Props {
+  id: string;
+  section: { number: string; name: string; title: string; intro?: string | undefined };
+}
+const { id, section } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+<Section id={id} divider labelledby={headingId}>
+  <SectionHeader headingId={headingId}>
+    <Fragment slot="eyebrow">
+      {section.number} · {section.name}
+    </Fragment>
+    {section.title}
+    {section.intro && <Fragment slot="sub">{section.intro}</Fragment>}
+  </SectionHeader>
+  <slot />
+</Section>

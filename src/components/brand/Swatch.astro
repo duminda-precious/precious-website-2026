@@ -1,0 +1,113 @@
+---
+/**
+ * Swatch: one colour on /brand. The chip and the value copy the colour; the token
+ * name copies var(--token).
+ *   Fixed (primitives): `values` is the hex.
+ *   Themed (semantic):  `values` and `refs` hold one entry per theme; the page script
+ *                       swaps them when the theme changes ([data-theme-values]: what is
+ *                       copied; [data-theme-text]: what is shown).
+ * Props: name (token without dashes), title, values, refs?, note? (text, or one per theme), ui.
+ * Tokens: --radius-md, --border-subtle, --text-small, --text-secondary, --leading-compact, --space-*.
+ */
+import CopyValue from './CopyValue.astro';
+import type { Theme } from '../../lib/designTokens';
+import type { Brand } from '../../lib/content';
+
+type PerTheme = Record<Theme, string>;
+interface Props {
+  name: string;
+  title: string;
+  values: string | PerTheme;
+  refs?: PerTheme;
+  note?: string | PerTheme;
+  ui: Brand['ui'];
+}
+const { name, title, values, refs, note, ui } = Astro.props;
+const themed = typeof values !== 'string';
+const value = themed ? values.light : values;
+const perTheme = (v: PerTheme | undefined) =>
+  v
+    ? { 'data-theme-values': '', 'data-light': v.light, 'data-dark': v.dark, 'data-ink': v.ink }
+    : {};
+---
+
+<figure class="swatch">
+  <button
+    type="button"
+    class="swatch__chip"
+    style={`background: var(--${name})`}
+    data-copy={value}
+    data-copy-label={ui.copyHex}
+    aria-label={`${ui.copyHex} ${value}`}
+    data-no-glitch
+    {...perTheme(themed ? values : undefined)}
+  ></button>
+  <figcaption class="swatch__caption">
+    <span class="swatch__title">{title}</span>
+    {refs && (
+      <span class="swatch__ref" data-theme-text {...perTheme(refs)}>
+        {refs.light}
+      </span>
+    )}
+    <CopyValue value={`var(--${name})`} label={ui.copyToken}>
+      --{name}
+    </CopyValue>
+    {themed ? (
+      <CopyValue value={value} label={ui.copyHex} data-theme-text {...perTheme(values)} />
+    ) : (
+      <CopyValue value={value} label={ui.copyHex} />
+    )}
+    {typeof note === 'object' ? (
+      <span class="swatch__note" data-theme-text {...perTheme(note)}>
+        {note.light}
+      </span>
+    ) : (
+      note && <span class="swatch__note">{note}</span>
+    )}
+  </figcaption>
+</figure>
+
+<style>
+  @layer components {
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+      min-width: 0;
+    }
+    .swatch__chip {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-md);
+      border: var(--border-width) solid var(--border-subtle);
+      transition: transform var(--dur-fast) var(--ease-standard);
+    }
+    .swatch__chip:hover {
+      transform: translateY(calc(var(--space-2) * -1));
+    }
+    .swatch__caption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+    }
+    .swatch__title {
+      font-weight: var(--weight-label);
+    }
+    .swatch__ref,
+    .swatch__note {
+      color: var(--text-secondary);
+    }
+    .swatch__note {
+      margin-top: var(--space-4);
+    }
+    .swatch__note:empty {
+      display: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .swatch__chip {
+        transition: none;
+      }
+    }
+  }
+</style>

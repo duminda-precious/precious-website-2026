@@ -132,7 +132,7 @@ const services = defineCollection({
 /* ----------------------------------------------------------------- pages */
 /** Inner pages (stubs for now): SEO + H1. The id is the route, e.g. "about". */
 const pages = defineCollection({
-  loader: glob({ base: './src/content/pages', pattern: ['*.json', '!home.json'] }),
+  loader: glob({ base: './src/content/pages', pattern: ['*.json', '!home.json', '!brand.json'] }),
   schema: z.object({
     seo: seo.extend({ noindex: z.boolean().default(true) }),
     heading: z.string().min(1),
@@ -249,6 +249,151 @@ const home = defineCollection({
   }),
 });
 
+/* ----------------------------------------------------------------- brand */
+/**
+ * /brand: the hidden brand and design-system page (decision 2026-09-30c).
+ * Story and voice copy comes from the Brand Identity Guidelines PDF (pages 2 and 5);
+ * design-system values are never written here, they are read from tokens.css.
+ */
+const brandSection = z.object({
+  /** "04" */
+  number: z.string().min(1),
+  /** Short name, used in the eyebrow and the index: "Colour". */
+  name: z.string().min(1),
+  /** The section statement. */
+  title: z.string().min(1),
+  intro: z.string().optional(),
+});
+const labelled = z.object({ label: z.string().min(1), text: z.string().min(1) });
+
+const brand = defineCollection({
+  loader: glob({ base: './src/content/pages', pattern: 'brand.json' }),
+  schema: z.object({
+    seo: seo.extend({ noindex: z.literal(true) }),
+    title: z.string().min(1),
+    tagline: z.string().min(1),
+    story: brandSection.extend({
+      lead: z.string().min(1),
+      body: z.array(z.string().min(1)).min(1),
+      positioning: labelled,
+      facts: z.array(labelled).min(1),
+    }),
+    voice: brandSection.extend({
+      voice: z.object({ label: z.string(), qualifier: z.string(), text: z.string() }),
+      tone: z.object({
+        label: z.string(),
+        qualifier: z.string(),
+        rows: z.array(z.object({ context: z.string(), tone: z.string() })).min(1),
+      }),
+      say: z.object({
+        sayLabel: z.string(),
+        dontLabel: z.string(),
+        rows: z.array(z.tuple([z.string(), z.string()])).min(1),
+      }),
+      rules: z
+        .array(
+          z.object({
+            title: z.string(),
+            text: z.string().optional(),
+            /** Words to cut, shown in italics after "Delete:". */
+            cut: z.string().optional(),
+            after: z.string().optional(),
+          }),
+        )
+        .min(1),
+      /** Prefix for the rules' word lists: "Delete:". */
+      deleteLabel: z.string(),
+      closing: z.object({ lead: z.string(), text: z.string() }),
+      taglines: z.object({
+        label: z.string(),
+        primary: z.string(),
+        alternatesLabel: z.string(),
+        alternates: z.array(z.string()).min(1),
+      }),
+    }),
+    logo: brandSection.extend({
+      onPage: z.string(),
+      onInk: z.string(),
+      onWashes: z.string(),
+      animated: labelled,
+      downloads: z.object({
+        label: z.string(),
+        wordmark: z.string(),
+        mark: z.string(),
+        ink: z.string(),
+        white: z.string(),
+      }),
+    }),
+    colour: brandSection.extend({
+      primitives: z.string(),
+      /** Primitive groups, in order; `tokens` is the token-name prefix after "color-". */
+      groups: z.array(z.object({ title: z.string(), tokens: z.array(z.string()).min(1) })).min(1),
+      semantic: labelled,
+      themes: z.object({ light: z.string(), dark: z.string(), ink: z.string() }),
+    }),
+    gradients: brandSection.extend({
+      /** Label of the grain card (its note comes from tokens.css). */
+      grain: z.string(),
+      uses: z.string(),
+    }),
+    type: brandSection.extend({
+      /** The large specimen glyphs: "Aa". */
+      glyph: z.string(),
+      families: z.object({ display: z.string(), sans: z.string() }),
+      specimen: z.array(z.string()).min(1),
+      weightsLabel: z.string(),
+      rolesLabel: z.string(),
+      /** Sample text per type role, keyed by the --text-* suffix. */
+      samples: z.record(z.string(), z.string()),
+    }),
+    layout: brandSection.extend({
+      grid: z.string(),
+      breakpoints: z.string(),
+      fluid: z.string(),
+      spacing: z.string(),
+      radius: z.string(),
+      elevation: z.string(),
+    }),
+    components: brandSection.extend({
+      buttons: z.string(),
+      links: z.string(),
+      tags: z.string(),
+      card: z.string(),
+      media: z.string(),
+      icons: z.string(),
+      disclosure: z.string(),
+      samples: z.object({
+        button: z.string(),
+        textLink: z.string(),
+        labelLink: z.string(),
+        plainLink: z.string(),
+        pill: z.string(),
+        pillSolid: z.string(),
+        cardTitle: z.string(),
+        cardSummary: z.string(),
+        cardCta: z.string(),
+        media: z.string(),
+        question: z.string(),
+        answer: z.string(),
+        iconLabels: z.object({ menu: z.string(), close: z.string(), next: z.string() }),
+      }),
+    }),
+    motion: brandSection.extend({
+      durations: z.string(),
+      easings: z.string(),
+      play: z.string(),
+    }),
+    ui: z.object({
+      index: z.string(),
+      theme: z.string(),
+      copied: z.string(),
+      copyHex: z.string(),
+      copyToken: z.string(),
+      copyCss: z.string(),
+    }),
+  }),
+});
+
 export const collections = {
   work,
   services,
@@ -259,4 +404,5 @@ export const collections = {
   journal,
   pages,
   home,
+  brand,
 };

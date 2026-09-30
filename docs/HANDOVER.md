@@ -86,6 +86,7 @@ Quick-access map. Paths are relative to the repo root.
 | All tokens (primitive → semantic → component) | `src/styles/tokens.css` | Tier 1 primitives (Slate, washes, accents), gradients, typography, spacing, layout, motion; tier 2 themes (`light`, `dark`, `ink`); tier 3 component tokens (nav, hero, news, gates, team, process, footer …) |
 | Token catalogue, one row per token, with where it's used | `docs/tokens.md` | Update it whenever you add or change a token |
 | Live token and component preview | `/dev/tokens` (`src/pages/dev/tokens.astro`) | Dev-only page |
+| Brand and design-system page | `/brand` (`src/pages/brand.astro`, `src/components/brand/`) | Hidden: linked from nowhere, `noindex, nofollow`, not in the sitemap. Story and voice copy in `src/content/pages/brand.json`; every value read from `tokens.css` (`src/lib/designTokens.ts`). Logo SVG downloads at `/brand/*.svg` |
 | Shared type roles | `src/styles/base.css` | `.type-statement`, `.type-subline`, `.type-title`, `.type-label`, `.type-overline` |
 | Reset and layer order | `src/styles/reset.css`, `src/styles/global.css` | `@layer reset, tokens, base, components, utilities` |
 | Utilities | `src/styles/utilities.css` | `.visually-hidden` etc. |
@@ -138,7 +139,7 @@ Quick-access map. Paths are relative to the repo root.
 
 ### 3.5 Pages and routing
 
-`src/pages/`: `index`, `about`, `ai`, `approach`, `contact`, `privacy`, `404`, `services/index` + `services/[slug]`, `work/index` + `work/[slug]`, `journal/index` + `journal/[slug]`, `careers/index` + `careers/[slug]`, `dev/tokens`, `dev/content`. Every non-home page currently renders `StubLayout`.
+`src/pages/`: `index`, `about`, `ai`, `approach`, `contact`, `privacy`, `404`, `services/index` + `services/[slug]`, `work/index` + `work/[slug]`, `journal/index` + `journal/[slug]`, `careers/index` + `careers/[slug]`, `dev/tokens`, `dev/content`, and the hidden `brand` (+ `brand/[file]` logo SVGs). Every non-home page except `/brand` currently renders `StubLayout`.
 
 ### 3.6 Commands
 

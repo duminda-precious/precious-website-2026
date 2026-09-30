@@ -52,6 +52,24 @@ Aspect ratios accepted by `MediaFrame` are listed in `src/components/ui/media.ts
 | `CtaFooter` | Two-line closing headline + Book a call over the pixel rain, footer link columns, legal line, flapping wordmark. Sticky reveal from 992px |
 | `StubLayout` | Placeholder page: H1, "being rebuilt" line, link home. Props: `seo`, `heading`, `message`, `showBookCall` |
 
+## Brand page (`src/components/brand/`)
+
+Used only by the hidden `/brand` page (`src/pages/brand.astro`, `src/layouts/BrandLayout.astro`). Values come from `src/lib/designTokens.ts` (tokens.css parsed at build), copy from `brand.json`.
+
+| Component | What it does |
+|---|---|
+| `BrandHeader` | Sticky bar (mark, title, Light · Dark · Ink theme switch) and the cover (wordmark, title, tagline, numbered contents) |
+| `BrandSection` | One numbered section: Section with a top hairline + SectionHeader (eyebrow "04 · Colour", statement, intro) |
+| `StorySection`, `VoiceSection` | Brand story and voice & tone from the guidelines (pp. 2 and 5) |
+| `LogoSection` | Wordmark and mark on the page, on ink and on every surface wash; the animated mark; SVG downloads (`src/lib/logoFiles.ts` → `src/pages/brand/[file].ts`) |
+| `ColourSection` + `Swatch` | Primitive groups and semantic colours per theme; click to copy hex or token |
+| `GradientSection` | Every `--wash-*` / `--glow-*` token with grain, its note, the primitives it uses; copy token or resolved CSS |
+| `TypeSection` | The two families (specimen, weights in use) and every type role with its size range, leading, tracking, weight |
+| `LayoutSection` | Grid, breakpoints, fluid layout roles, spacing, radius, elevation |
+| `ComponentsSection` | The UI kit, live |
+| `MotionSection` | Duration palette and easings, each with a track that plays it |
+| `CopyValue` | Small text button that copies a value; the page script announces it |
+
 ## Homepage sections (`src/components/home/`)
 
 In page order. Each takes its copy from `src/content/pages/home.json` or a collection.

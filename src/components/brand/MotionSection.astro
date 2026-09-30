@@ -1,0 +1,150 @@
+---
+/**
+ * MotionSection (/brand 09): the duration palette (--t-*) and the easings (--ease-*),
+ * each with its tokens.css note and a track that plays it (click to run, click again
+ * to return; the page script toggles aria-pressed). Durations run on --ease-standard,
+ * easings over --t-slower so the curve shows. The tempo line reads --motion-tempo.
+ * Props: motion (brand.json → motion), ui.
+ * Tokens: --t-*, --ease-*, --motion-tempo, --radius-pill, --border-default, --border-strong,
+ *         --surface-raised, --text-primary, --text-small, --text-secondary, --space-*.
+ * Reduced motion: the dot jumps without travelling.
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import CopyValue from './CopyValue.astro';
+import { token, tokensMatching } from '../../lib/designTokens';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  motion: Brand['motion'];
+  ui: Brand['ui'];
+}
+const { motion, ui } = Astro.props;
+const tempo = token('motion-tempo');
+const groups = [
+  {
+    title: motion.durations,
+    rows: tokensMatching(/^t-/).map((t) => ({
+      token: t,
+      demo: `--demo-dur: var(--${t.name}); --demo-ease: var(--ease-standard)`,
+    })),
+  },
+  {
+    title: motion.easings,
+    rows: tokensMatching(/^ease-/).map((t) => ({
+      token: t,
+      demo: `--demo-dur: var(--t-slower); --demo-ease: var(--${t.name})`,
+    })),
+  },
+];
+---
+
+<BrandSection id="motion" section={motion}>
+  <Grid12 class="mo">
+    {groups.map((g) => (
+      <GridItem span={6} class="mo__block">
+        <h3 class="mo__heading">{g.title}</h3>
+        <ul class="mo__list">
+          {g.rows.map((r) => (
+            <li class="mo__row">
+              <div class="mo__meta">
+                <CopyValue value={`var(--${r.token.name})`} label={ui.copyToken}>
+                  --{r.token.name}
+                </CopyValue>
+                <span class="mo__note">
+                  {r.token.value}
+                  {r.token.note && ` · ${r.token.note}`}
+                </span>
+              </div>
+              <button
+                type="button"
+                class="mo__track"
+                style={r.demo}
+                aria-pressed="false"
+                aria-label={`${motion.play} --${r.token.name}`}
+                data-motion-demo
+                data-no-glitch
+              >
+                <span class="mo__dot" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </GridItem>
+    ))}
+    <GridItem span={12}>
+      <p class="mo__note">
+        --{tempo.name}: {tempo.value} · {tempo.note}
+      </p>
+    </GridItem>
+  </Grid12>
+</BrandSection>
+
+<style>
+  @layer components {
+    .mo {
+      row-gap: var(--space-48);
+    }
+    .mo :global(.mo__block) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .mo__heading {
+      padding-bottom: var(--space-12);
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+      border-bottom: var(--border-width) solid var(--border-strong);
+    }
+    .mo__list {
+      list-style: none;
+    }
+    .mo__row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-16);
+      padding-block: var(--space-12);
+      border-bottom: var(--border-width) solid var(--border-default);
+    }
+    .mo__meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+    .mo__note {
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+      overflow-wrap: anywhere;
+    }
+    .mo__track {
+      position: relative;
+      height: var(--tap-min);
+      border-radius: var(--radius-pill);
+      background: var(--surface-raised);
+    }
+    .mo__dot {
+      position: absolute;
+      top: 50%;
+      left: var(--space-8);
+      width: var(--space-16);
+      height: var(--space-16);
+      border-radius: var(--radius-pill);
+      background: var(--text-primary);
+      translate: 0 -50%;
+      transition: left var(--demo-dur) var(--demo-ease);
+    }
+    .mo__track[aria-pressed='true'] .mo__dot {
+      left: calc(100% - var(--space-24));
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mo__dot {
+        transition: none;
+      }
+    }
+  }
+</style>

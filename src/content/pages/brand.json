@@ -1,0 +1,261 @@
+{
+  "seo": {
+    "title": "Brand & Design System · Precious Studio",
+    "description": "The Precious Studio brand and design system: story, voice, logo, colour, gradients, type, layout, components and motion.",
+    "noindex": true
+  },
+  "title": "Brand & Design System",
+  "tagline": "Designed to be felt.",
+  "story": {
+    "number": "01",
+    "name": "Our Story",
+    "title": "Good Design Is Felt Before It's Understood.",
+    "lead": "Precious is a UI/UX design agency led by people, not templates. We design digital products for enterprises, growing businesses and international teams — and we design them the way a person would want to use them.",
+    "body": [
+      "The name is a promise. Every product we touch is somebody's livelihood, somebody's idea, somebody's first impression. We treat it as precious: researched carefully, crafted by hand, tested with real people, and delivered with care.",
+      "We use AI where it makes us faster and sharper — but people lead every decision. In a market filling up with generic, auto-generated interfaces, that's the difference: work with fingerprints on it. Expertise you can see, and feeling you can sense."
+    ],
+    "positioning": {
+      "label": "Positioning Statement",
+      "text": "For organisations whose digital products carry real weight, Precious is the UI/UX partner that pairs senior-level expertise with human feeling — because every decision we make is researched with, and designed for, real people."
+    },
+    "facts": [
+      { "label": "Brand Essence", "text": "Human craft, felt." },
+      { "label": "Promise", "text": "Your product, treated as precious." },
+      {
+        "label": "Archetype",
+        "text": "The Creator, with a Caregiver's heart — obsessed with craft, motivated by people."
+      },
+      {
+        "label": "Audience",
+        "text": "Enterprise & corporate teams · SMEs & local businesses · International, remote clients."
+      }
+    ]
+  },
+  "voice": {
+    "number": "02",
+    "name": "Voice & Tone",
+    "title": "Say It like You've Done It a Hundred Times.",
+    "voice": {
+      "label": "Voice",
+      "qualifier": "(constant):",
+      "text": "confident, direct, expert, human. We lead with the answer, back it with evidence and stand behind it. Short sentences. Active verbs. No hedging."
+    },
+    "tone": {
+      "label": "Tone",
+      "qualifier": "(flexes by context — confidence never drops):",
+      "rows": [
+        { "context": "Proposals", "tone": "Decisive — recommend one option and say why" },
+        { "context": "Case studies", "tone": "Results first, stated as fact, with numbers" },
+        { "context": "Social", "tone": "Opinionated, sharp, generous with know-how" },
+        { "context": "UI errors", "tone": "Calm and in control — what happened, what to do" },
+        { "context": "Success", "tone": "Brief and assured — no confetti copy" }
+      ]
+    },
+    "say": {
+      "sayLabel": "We Say",
+      "dontLabel": "We Don't Say",
+      "rows": [
+        [
+          "\"Cut the sign-up to two screens. It will lift completion.\"",
+          "\"We think it might be worth maybe exploring a shorter flow?\""
+        ],
+        [
+          "\"We tested it with 12 of your customers. Three things need to change.\"",
+          "\"We leverage data-driven insights to unlock value.\""
+        ],
+        [
+          "\"No — that will hurt retention. Here's what works instead.\"",
+          "\"Great idea! We'll just try to make it work.\""
+        ],
+        [
+          "\"We redesigned the checkout. Conversion rose 38%.\"",
+          "\"We hopefully helped improve the experience a bit.\""
+        ],
+        [
+          "\"That didn't save. Check your connection and try again.\"",
+          "\"Oops! Sorry, something went wrong 😢\""
+        ],
+        [
+          "\"We design products people come back to.\"",
+          "\"Elevate your digital journey in today's fast-paced landscape.\""
+        ]
+      ]
+    },
+    "rules": [
+      {
+        "title": "Confidence Rules",
+        "text": "Lead with the recommendation. Use active voice and \"will\", not \"might\". State results as facts, with numbers. Own decisions: \"we recommend\", never \"you could perhaps\"."
+      },
+      {
+        "title": "Cut the Hedges",
+        "cut": "just, maybe, perhaps, kind of, sort of, hopefully, we think, try to, a bit, sorry",
+        "after": "(unless we're truly at fault). No questions where a statement will do."
+      },
+      {
+        "title": "Cut the Slop",
+        "cut": "leverage, seamless, unlock, elevate, empower, delve, journey, game-changer, cutting-edge.",
+        "after": "If a sentence could sit on any agency's site, rewrite it."
+      }
+    ],
+    "deleteLabel": "Delete:",
+    "closing": {
+      "lead": "Confident, never arrogant.",
+      "text": "We're sure because we've done the research — so we show the evidence, credit the client's team and never talk down."
+    },
+    "taglines": {
+      "label": "Taglines",
+      "primary": "Designed to be felt.",
+      "alternatesLabel": "Alternates:",
+      "alternates": [
+        "Human-led. Designed to be felt.",
+        "Small changes. Big effects.",
+        "Precise enough to trust. Human enough to love.",
+        "We make products people choose."
+      ]
+    }
+  },
+  "logo": {
+    "number": "03",
+    "name": "Logo",
+    "title": "Wordmark and Butterfly Mark",
+    "intro": "The logo takes the text colour of wherever it sits: Deep Ink on light, white on dark. The butterfly is drawn on a 13 × 11 pixel grid.",
+    "onPage": "On the Page",
+    "onInk": "On Ink",
+    "onWashes": "On the Washes",
+    "animated": {
+      "label": "Animated Mark",
+      "text": "On the site the wings flap at 8fps. Hover it to send the brand colours through the pixels."
+    },
+    "downloads": {
+      "label": "Download SVG",
+      "wordmark": "Wordmark",
+      "mark": "Butterfly mark",
+      "ink": "Deep Ink",
+      "white": "White"
+    }
+  },
+  "colour": {
+    "number": "04",
+    "name": "Colour",
+    "title": "Primitives and Themes",
+    "intro": "Primitives hold the raw values. Semantic tokens give them a meaning and remap per theme; components only use semantic and component tokens. Click a swatch to copy its value.",
+    "primitives": "Primitives",
+    "groups": [
+      { "title": "Neutrals", "tokens": ["white", "slate-"] },
+      { "title": "Wash", "tokens": ["wash-"] },
+      { "title": "Accents", "tokens": ["accent-"] },
+      { "title": "Glow", "tokens": ["glow-"] },
+      { "title": "Status", "tokens": ["success", "warning", "error", "info"] }
+    ],
+    "semantic": {
+      "label": "Semantic Colour",
+      "text": "What components use. Switch the theme at the top of the page to see each theme's values."
+    },
+    "themes": {
+      "light": "Light",
+      "dark": "Dark (Work)",
+      "ink": "Ink (Footer)"
+    }
+  },
+  "gradients": {
+    "number": "05",
+    "name": "Gradients",
+    "title": "Soft Washes",
+    "intro": "Radial glows of the wash hues on a Slate 100 base, for button hovers, the team hub and the starting-point media. Never behind body copy.",
+    "grain": "Grain",
+    "uses": "Uses"
+  },
+  "type": {
+    "number": "06",
+    "name": "Typography",
+    "title": "Funnel Display and Funnel Sans",
+    "intro": "Funnel Display sets Hero to H3 and statements; Funnel Sans sets quote to label. Display styles are title case except Statement, labels are all caps, eyebrows are title case.",
+    "glyph": "Aa",
+    "families": {
+      "display": "Hero, headlines and statements",
+      "sans": "Quote to label: body, UI, notes and eyebrows"
+    },
+    "specimen": [
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      "abcdefghijklmnopqrstuvwxyz",
+      "0123456789 & ? ! @ % “ ”"
+    ],
+    "weightsLabel": "Weights in Use",
+    "rolesLabel": "Type Roles",
+    "samples": {
+      "hero": "We Design How Your Product Feels.",
+      "closer": "Make Your Product Feel Worth Paying For.",
+      "h1": "Designed by People",
+      "menu": "Approach",
+      "statement": "The Proof Is in How It Moves.",
+      "figure": "+38% completion",
+      "title": "Lumin Fitness",
+      "quote": "Designed to be felt.",
+      "large": "Onboarding flow, version three",
+      "note": "This step can go →",
+      "medium": "Intro paragraphs and lead text on web pages.",
+      "body": "Default reading text in product and on the site.",
+      "small": "Helper text, metadata, footnotes",
+      "label": "Book a call",
+      "eyebrow": "Case Study · Fintech · 2026"
+    }
+  },
+  "layout": {
+    "number": "07",
+    "name": "Layout",
+    "title": "Grid, Space, Radius, Elevation",
+    "intro": "One full-bleed 12-column grid with fluid side padding and no max-width. Width comes from span and measure.",
+    "grid": "Grid",
+    "breakpoints": "Breakpoints",
+    "fluid": "Fluid Layout",
+    "spacing": "Spacing",
+    "radius": "Corner Radius",
+    "elevation": "Elevation"
+  },
+  "components": {
+    "number": "08",
+    "name": "Components",
+    "title": "Buttons, Links, Tags, Cards",
+    "intro": "Built on the tokens only. One button size: 40px, 4px corners.",
+    "buttons": "Buttons",
+    "links": "Text Links",
+    "tags": "Tags and Pills",
+    "card": "Content Card",
+    "media": "Media Frame",
+    "icons": "Pixel Icons",
+    "disclosure": "Disclosure",
+    "samples": {
+      "button": "Book a call",
+      "textLink": "View case study",
+      "labelLink": "See our work",
+      "plainLink": "Senior people join and ship with you.",
+      "pill": "Clutch ★★★★★ 4.9",
+      "pillSolid": "Sound on",
+      "cardTitle": "[Case study title]",
+      "cardSummary": "[One line: problem → outcome]",
+      "cardCta": "View case study",
+      "media": "[Case video]",
+      "question": "[Sample question]",
+      "answer": "[Sample answer.]",
+      "iconLabels": { "menu": "Menu", "close": "Close", "next": "Next" }
+    }
+  },
+  "motion": {
+    "number": "09",
+    "name": "Motion",
+    "title": "Durations and Easings",
+    "intro": "Premium: calm, decelerating, no overshoot. Every animation duration is a palette step multiplied by the motion tempo.",
+    "durations": "Duration Palette",
+    "easings": "Easings",
+    "play": "Play"
+  },
+  "ui": {
+    "index": "Contents",
+    "theme": "Theme",
+    "copied": "Copied",
+    "copyHex": "Copy",
+    "copyToken": "Copy token",
+    "copyCss": "Copy CSS"
+  }
+}

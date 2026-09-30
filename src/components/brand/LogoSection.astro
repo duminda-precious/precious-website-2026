@@ -1,0 +1,200 @@
+---
+/**
+ * LogoSection (/brand 03): the wordmark and butterfly mark.
+ *   On the page / on ink  Deep Ink on the light page, white on ink, each with SVG downloads
+ *                         (static files from src/pages/brand/[file].svg.ts)
+ *   On the washes         Deep Ink on every surface wash in tokens.css (radial --wash-*)
+ *   Animated mark         the live butterfly: wings flap, hover sends the ripple (logoWings)
+ * Props: logo (brand.json → logo), ui.
+ * Tokens: light and ink themes, --wash-*, --grain-image, --grain-opacity, --radius-md,
+ *         --inset-card, --border-subtle, --text-eyebrow, --text-secondary, --space-*.
+ * Motion hooks: data-logo-hover (logoWings.ts).
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import Logo from '../ui/Logo.astro';
+import TextLink from '../ui/TextLink.astro';
+import CopyValue from './CopyValue.astro';
+import { tokensMatching, label } from '../../lib/designTokens';
+import { logoFiles } from '../../lib/logoFiles';
+import { site } from '../../config/site';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  logo: Brand['logo'];
+  ui: Brand['ui'];
+}
+const { logo, ui } = Astro.props;
+const surfaces = tokensMatching(/^wash-/).filter((t) => t.value.startsWith('radial-gradient'));
+const downloads = (tone: 'ink' | 'white') =>
+  logoFiles
+    .filter((f) => f.tone === tone)
+    .map((f) => ({ href: `/brand/${f.file}`, label: logo.downloads[f.variant] }));
+---
+
+<BrandSection id="logo" section={logo}>
+  <Grid12 class="logo-sec">
+    {(
+      [
+        ['light', logo.onPage, 'ink'],
+        ['ink', logo.onInk, 'white'],
+      ] as const
+    ).map(([theme, title, tone]) => (
+      <GridItem span={6} class="logo-sec__item">
+        <div class="logo-sec__panel" data-theme={theme} data-logo-hover>
+          <Logo label={site.name} class="logo-sec__wordmark" />
+          <Logo variant="mark" class="logo-sec__mark" />
+        </div>
+        <div class="logo-sec__caption">
+          <p class="logo-sec__label">
+            {title} · {logo.downloads[tone]}
+          </p>
+          <div class="logo-sec__downloads" data-no-glitch>
+            <span class="logo-sec__label">{logo.downloads.label}</span>
+            {downloads(tone).map((d) => (
+              <TextLink href={d.href} variant="label" download>
+                {d.label}
+              </TextLink>
+            ))}
+          </div>
+        </div>
+      </GridItem>
+    ))}
+
+    <GridItem span={12} class="logo-sec__item">
+      <h3 class="logo-sec__heading">{logo.onWashes}</h3>
+      <div class="logo-sec__washes">
+        {surfaces.map((t) => (
+          <figure class="logo-sec__wash">
+            <div
+              class="logo-sec__wash-panel"
+              data-theme="light"
+              style={`background: var(--${t.name})`}
+              data-logo-hover
+            >
+              <Logo class="logo-sec__wash-logo" />
+            </div>
+            <figcaption class="logo-sec__caption">
+              <span>{label(t.name.replace(/^wash-/, ''))}</span>
+              <CopyValue value={`var(--${t.name})`} label={ui.copyToken}>
+                --{t.name}
+              </CopyValue>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </GridItem>
+
+    <GridItem span={12} class="logo-sec__item">
+      <h3 class="logo-sec__heading">{logo.animated.label}</h3>
+      <div class="logo-sec__animated" data-logo-hover>
+        <Logo variant="mark" label={site.name} class="logo-sec__big-mark" />
+        <p class="logo-sec__label">{logo.animated.text}</p>
+      </div>
+    </GridItem>
+  </Grid12>
+</BrandSection>
+
+<style>
+  @layer components {
+    .logo-sec {
+      row-gap: var(--space-64);
+    }
+    .logo-sec :global(.logo-sec__item) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+    .logo-sec__panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-32);
+      aspect-ratio: 16 / 9;
+      padding: var(--inset-card);
+      border-radius: var(--radius-md);
+      border: var(--border-width) solid var(--border-subtle);
+      background: var(--surface-page);
+      color: var(--text-primary);
+    }
+    .logo-sec :global(.logo-sec__wordmark) {
+      width: 70%;
+      height: auto;
+    }
+    .logo-sec :global(.logo-sec__mark) {
+      width: 12%;
+      height: auto;
+    }
+    .logo-sec__caption {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-8) var(--space-16);
+    }
+    .logo-sec__label {
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+    }
+    .logo-sec__downloads {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-8) var(--space-24);
+    }
+    .logo-sec__heading {
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+    }
+    .logo-sec__washes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+      gap: var(--space-24) var(--grid-gap-col);
+    }
+    .logo-sec__wash {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      font-size: var(--text-small);
+    }
+    .logo-sec__wash-panel {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 3 / 2;
+      padding: var(--inset-card);
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+    }
+    .logo-sec__wash-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain-image);
+      opacity: var(--grain-opacity);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .logo-sec :global(.logo-sec__wash-logo) {
+      width: 100%;
+      height: auto;
+    }
+    .logo-sec__animated {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-24) var(--space-48);
+      padding: var(--inset-card);
+      border-radius: var(--radius-md);
+      background: var(--surface-raised);
+    }
+    .logo-sec :global(.logo-sec__big-mark) {
+      width: var(--space-120);
+      height: auto;
+    }
+  }
+</style>

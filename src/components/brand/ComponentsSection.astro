@@ -1,0 +1,163 @@
+---
+/**
+ * ComponentsSection (/brand 08): the site's UI kit, live. The real components with
+ * their hover motion (button bloom and glitch, card edge, disclosure); sample copy
+ * comes from brand.json, so nothing here is site content.
+ * Props: components (brand.json → components).
+ * Tokens: --gate-2-media (gradient media sample), --text-large, --leading-large,
+ *         --tracking-title, --border-strong, --text-small, --text-secondary, --space-*.
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import Cluster from '../primitives/Cluster.astro';
+import Button from '../ui/Button.astro';
+import IconButton from '../ui/IconButton.astro';
+import TextLink from '../ui/TextLink.astro';
+import Tag from '../ui/Tag.astro';
+import Pill from '../ui/Pill.astro';
+import ContentCard from '../ui/ContentCard.astro';
+import MediaFrame from '../ui/MediaFrame.astro';
+import PixelIcon from '../ui/PixelIcon.astro';
+import Disclosure from '../ui/Disclosure.astro';
+import { pixelIcons, type PixelIconName } from '../ui/pixelIcons';
+import { situations, situationLabels } from '../../config/taxonomy';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  components: Brand['components'];
+}
+const { components: c } = Astro.props;
+const s = c.samples;
+// Animation frames (butterfly flap, button butterfly) are not standalone icons.
+const icons = Object.keys(pixelIcons).filter(
+  (n) => !/^(butterfly-|button-fly-)/.test(n),
+) as PixelIconName[];
+const here = '#components';
+---
+
+<BrandSection id="components" section={c}>
+  <Grid12 class="kit">
+    <GridItem span={6} class="kit__block">
+      <h3 class="kit__heading">{c.buttons}</h3>
+      <Cluster gap="16">
+        <Button type="button">{s.button}</Button>
+        <Button type="button" cta>
+          {s.button}
+        </Button>
+        <IconButton icon="dots" label={s.iconLabels.menu} />
+        <IconButton icon="close" label={s.iconLabels.close} />
+        <IconButton icon="arrow-right" label={s.iconLabels.next} />
+      </Cluster>
+    </GridItem>
+
+    <GridItem span={6} class="kit__block">
+      <h3 class="kit__heading">{c.links}</h3>
+      <Cluster gap="24">
+        <TextLink href={here}>{s.textLink}</TextLink>
+        <TextLink href={here} variant="label">
+          {s.labelLink}
+        </TextLink>
+        <TextLink href={here} variant="plain">
+          {s.plainLink}
+        </TextLink>
+      </Cluster>
+    </GridItem>
+
+    <GridItem span={6} class="kit__block">
+      <h3 class="kit__heading">{c.tags}</h3>
+      <Cluster gap="12">
+        {situations.map((k) => (
+          <Tag>{situationLabels[k]}</Tag>
+        ))}
+        <Pill>{s.pill}</Pill>
+        <Pill variant="solid" as="button" aria-pressed="false">
+          {s.pillSolid}
+        </Pill>
+      </Cluster>
+    </GridItem>
+
+    <GridItem span={6} class="kit__block">
+      <h3 class="kit__heading">{c.icons}</h3>
+      <Cluster gap="24">
+        {icons.map((n) => (
+          <figure class="kit__icon">
+            <Cluster gap="12">
+              <PixelIcon name={n} />
+              <PixelIcon name={n} size="lg" />
+            </Cluster>
+            <figcaption class="kit__note">{n}</figcaption>
+          </figure>
+        ))}
+      </Cluster>
+    </GridItem>
+
+    <GridItem span={4} class="kit__block">
+      <h3 class="kit__heading">{c.card}</h3>
+      <ContentCard
+        href={here}
+        tag={situationLabels.redesign}
+        title={s.cardTitle}
+        summary={s.cardSummary}
+        cta={s.cardCta}
+        placeholder={s.media}
+        aspect="4 / 3"
+        seed={7}
+        headingLevel={3}
+      />
+    </GridItem>
+
+    <GridItem span={8} class="kit__block">
+      <h3 class="kit__heading">{c.media}</h3>
+      <div class="kit__media">
+        <MediaFrame aspect="16/9" label={s.media} />
+        <div class="kit__gradient-media">
+          <MediaFrame aspect="16/9" tone="gradient" label={s.media} />
+        </div>
+      </div>
+    </GridItem>
+
+    <GridItem span={6} class="kit__block">
+      <h3 class="kit__heading">{c.disclosure}</h3>
+      <Disclosure question={s.question} answer={s.answer} />
+    </GridItem>
+  </Grid12>
+</BrandSection>
+
+<style>
+  @layer components {
+    .kit {
+      row-gap: var(--space-64);
+    }
+    .kit :global(.kit__block) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-24);
+    }
+    .kit__heading {
+      padding-bottom: var(--space-12);
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+      border-bottom: var(--border-width) solid var(--border-strong);
+    }
+    .kit__icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-8);
+    }
+    .kit__note {
+      font-size: var(--text-small);
+      color: var(--text-secondary);
+    }
+    .kit__media {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+      gap: var(--grid-gap-col);
+    }
+    .kit__gradient-media {
+      --mf-gradient: var(--gate-2-media);
+    }
+  }
+</style>

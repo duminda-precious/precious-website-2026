@@ -1,0 +1,182 @@
+---
+/**
+ * BrandHeader: the top of /brand.
+ *   bar    sticky: butterfly mark + title (link to the top), theme switch (Light · Dark · Ink)
+ *   cover  wordmark, title, tagline, and the numbered contents index
+ * The theme buttons carry data-brand-theme; the page script applies the theme.
+ * Props: title, tagline, index ({ id, number, name }[]), ui (index/theme labels), themes.
+ * Tokens: --nav-height, --gutter, --surface-page, --border-subtle, --text-h1,
+ *         --text-medium, --text-secondary, --text-eyebrow, --radius-xs, --tap-min,
+ *         --button-height, --cta-bg, --cta-fg, --border-strong, --z-nav, --space-*.
+ */
+import Logo from '../ui/Logo.astro';
+import { site } from '../../config/site';
+import Section from '../primitives/Section.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+
+interface Props {
+  title: string;
+  tagline: string;
+  index: { id: string; number: string; name: string }[];
+  ui: { index: string; theme: string };
+  themes: { light: string; dark: string; ink: string };
+}
+const { title, tagline, index, ui, themes } = Astro.props;
+---
+
+<div class="brand-bar" data-no-glitch>
+  <a class="brand-bar__home" href="#top" data-logo-hover>
+    <Logo variant="mark" class="brand-bar__mark" />
+    <span>{title}</span>
+  </a>
+  <div class="brand-bar__themes" role="group" aria-label={ui.theme}>
+    {(Object.entries(themes) as [keyof typeof themes, string][]).map(([key, name]) => (
+      <button
+        class="brand-bar__theme"
+        type="button"
+        data-brand-theme={key}
+        aria-pressed={key === 'light' ? 'true' : 'false'}
+      >
+        {name}
+      </button>
+    ))}
+  </div>
+</div>
+
+<Section as="header" id="top" padding="default" class="brand-cover">
+  <Grid12 class="brand-cover__grid">
+    <GridItem span={7} class="brand-cover__wordmark">
+      <Logo label={site.name} class="brand-cover__logo" />
+    </GridItem>
+    <GridItem span={7} class="brand-cover__titles">
+      <h1 class="brand-cover__title">{title}</h1>
+      <p class="brand-cover__tagline">{tagline}</p>
+    </GridItem>
+    <GridItem span={4} start={9} as="nav" class="brand-cover__index" aria-label={ui.index}>
+      <p class="brand-cover__index-label">{ui.index}</p>
+      <ol class="brand-cover__list">
+        {index.map((s) => (
+          <li>
+            <a href={`#${s.id}`}>
+              <span class="brand-cover__num">{s.number}</span>
+              {s.name}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </GridItem>
+  </Grid12>
+</Section>
+
+<style>
+  @layer components {
+    .brand-bar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-nav);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-16);
+      min-height: var(--nav-height);
+      padding: var(--space-8) var(--gutter);
+      background: var(--surface-page);
+      border-bottom: var(--border-width) solid var(--border-subtle);
+      transition:
+        background-color var(--dur-page) var(--ease-standard),
+        border-color var(--dur-page) var(--ease-standard);
+    }
+    .brand-bar__home {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-12);
+      min-width: 0;
+      font-size: var(--text-small);
+    }
+    .brand-bar__home:hover {
+      opacity: 1;
+    }
+    .brand-bar__home span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .brand-bar :global(.brand-bar__mark) {
+      flex: none;
+      height: var(--space-20);
+      width: auto;
+    }
+    .brand-bar__themes {
+      display: flex;
+      flex: none;
+      gap: var(--space-4);
+    }
+    .brand-bar__theme {
+      min-height: var(--button-height);
+      padding: 0 var(--space-12);
+      border: var(--border-width) solid var(--border-strong);
+      border-radius: var(--radius-xs);
+      font-size: var(--text-small);
+      transition:
+        background-color var(--dur-fast) var(--ease-standard),
+        color var(--dur-fast) var(--ease-standard);
+    }
+    .brand-bar__theme[aria-pressed='true'] {
+      background: var(--cta-bg);
+      border-color: var(--cta-bg);
+      color: var(--cta-fg);
+    }
+
+    .brand-cover__grid {
+      row-gap: var(--space-48);
+    }
+    .brand-cover :global(.brand-cover__logo) {
+      width: 100%;
+      height: auto;
+    }
+    .brand-cover__title {
+      font-size: var(--text-h1);
+      letter-spacing: var(--tracking-heading);
+    }
+    .brand-cover__tagline {
+      margin-top: var(--space-12);
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+      color: var(--text-secondary);
+    }
+    .brand-cover__index-label {
+      margin-bottom: var(--space-16);
+      font-size: var(--text-eyebrow);
+      line-height: var(--leading-none);
+      color: var(--text-secondary);
+    }
+    .brand-cover__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8) var(--grid-gap-col);
+      list-style: none;
+    }
+    .brand-cover__list a {
+      display: flex;
+      gap: var(--space-8);
+      padding-block: var(--space-4);
+    }
+    .brand-cover__num {
+      min-width: 2ch;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    @media (min-width: 62rem) {
+      .brand-cover__list {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .brand-bar,
+      .brand-bar__theme {
+        transition: none;
+      }
+    }
+  }
+</style>
