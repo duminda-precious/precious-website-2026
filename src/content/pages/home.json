@@ -166,25 +166,25 @@
     "items": [
       {
         "tag": "[News]",
-        "title": "[Studio news headline]",
+        "title": "[Placeholder headline for a studio news post]",
         "image": "https://picsum.photos/seed/precious-j1/800/800",
         "href": "#"
       },
       {
         "tag": "[Strategy]",
-        "title": "When a redesign is the wrong answer",
+        "title": "[Placeholder headline for a strategy article]",
         "image": "https://picsum.photos/seed/precious-j2/800/960",
         "href": "#"
       },
       {
         "tag": "[Journal]",
-        "title": "What two weeks of design sprints taught us about scope",
+        "title": "[Placeholder headline for a journal entry]",
         "image": "https://picsum.photos/seed/precious-j3/800/800",
         "href": "#"
       },
       {
         "tag": "[AI]",
-        "title": "Where an AI design agent helps, and where it gets in the way",
+        "title": "[Placeholder headline for an AI article]",
         "image": "https://picsum.photos/seed/precious-j4/800/960",
         "href": "#"
       }
