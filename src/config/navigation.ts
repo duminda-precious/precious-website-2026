@@ -155,6 +155,22 @@ export const footerNav: FooterColumn[] = [
       { label: 'Careers', href: '/careers' },
       { label: 'Journal', href: '/journal' },
       { label: 'Contact', href: '/contact' },
+    ],
+  },
+  {
+    heading: 'Culture',
+    /** Placeholders until the Culture pages exist. */
+    links: [
+      { label: '[Culture link 1]', href: '#' },
+      { label: '[Culture link 2]', href: '#' },
+      { label: '[Culture link 3]', href: '#' },
+    ],
+  },
+  {
+    heading: 'Social',
+    links: [
+      { label: 'LinkedIn', href: site.socials.linkedin, external: true },
+      { label: 'Dribbble', href: site.socials.dribbble, external: true },
       { label: 'Clutch', href: site.socials.clutch, external: true },
     ],
   },
