@@ -1,12 +1,12 @@
 ---
 /**
  * LogoSection (/brand 03): the wordmark and butterfly mark.
- *   On the page / on ink  Deep Ink on the light page, white on ink, each with SVG downloads
+ *   On the page / on dark  Deep Ink on the light page, white on dark, each with SVG downloads
  *                         (static files from src/pages/brand/[file].svg.ts)
  *   On the washes         Deep Ink on every surface wash in tokens.css (radial --wash-*)
  *   Animated mark         the live butterfly: wings flap, hover sends the ripple (logoWings)
  * Props: logo (brand.json → logo), ui.
- * Tokens: light and ink themes, --wash-*, --grain-image, --grain-opacity, --radius-md,
+ * Tokens: light and dark themes, --wash-*, --radius-md,
  *         --inset-card, --border-subtle, --text-eyebrow, --text-secondary, --space-*.
  * Motion hooks: data-logo-hover (logoWings.ts).
  */
@@ -38,7 +38,7 @@ const downloads = (tone: 'ink' | 'white') =>
     {(
       [
         ['light', logo.onPage, 'ink'],
-        ['ink', logo.onInk, 'white'],
+        ['dark', logo.onDark, 'white'],
       ] as const
     ).map(([theme, title, tone]) => (
       <GridItem span={6} class="logo-sec__item">
@@ -169,15 +169,6 @@ const downloads = (tone: 'ink' | 'white') =>
       overflow: hidden;
       border-radius: var(--radius-md);
       color: var(--text-primary);
-    }
-    .logo-sec__wash-panel::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--grain-image);
-      opacity: var(--grain-opacity);
-      mix-blend-mode: multiply;
-      pointer-events: none;
     }
     .logo-sec :global(.logo-sec__wash-logo) {
       width: 100%;

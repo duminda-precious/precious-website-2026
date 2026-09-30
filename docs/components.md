@@ -14,7 +14,7 @@ Every component lives in `src/components/` and has a header comment listing its 
 
 | Component | What it does | Props |
 |---|---|---|
-| `Section` | A page band: side gutter, vertical padding, optional theme | `id`, `theme` (`light` \| `dark` \| `ink`), `padding` (`default` \| `tight` \| `none`), `surface` (paint the theme background), `stage` (dark-section trigger for the theme switch), `divider`, `as`, `labelledby`, `class` |
+| `Section` | A page band: side gutter, vertical padding, optional theme | `id`, `theme` (`light` \| `dark`), `padding` (`default` \| `tight` \| `none`), `surface` (paint the theme background), `stage` (dark-section trigger for the theme switch), `divider`, `as`, `labelledby`, `class` |
 | `Grid12` | The one layout grid: 12 columns, full width, no max-width | `rowGap` (`none` \| `grid` \| `header`), `as`, `class` |
 | `GridItem` | A cell in `Grid12`; full width below its breakpoint | `span`, `start`, `from` (`md` \| `lg` \| `always`), `justify` (`start` \| `end`), `measure` (`statement` \| `subline` \| `quote`), `as`, `class` |
 | `SectionHeader` | Three-zone header: optional eyebrow · statement (+ sub, + meta) · action on the right. Stacks below 992px | `headingId`, `headingLevel` (2 \| 3), `align` (`start` \| `center`), `class`, any attribute. Slots: `eyebrow`, default (statement), `sub`, `meta`, `action` |
@@ -63,7 +63,7 @@ Used only by the hidden `/brand` page (`src/pages/brand.astro`, `src/layouts/Bra
 | `StorySection`, `VoiceSection` | Brand story and voice & tone from the guidelines (pp. 2 and 5) |
 | `LogoSection` | Wordmark and mark on the page, on ink and on every surface wash; the animated mark; SVG downloads (`src/lib/logoFiles.ts` → `src/pages/brand/[file].ts`) |
 | `ColourSection` + `Swatch` | Primitive groups and semantic colours per theme; click to copy hex or token |
-| `GradientSection` | Every `--wash-*` / `--glow-*` token with grain, its note, the primitives it uses; copy token or resolved CSS |
+| `GradientSection` | Every `--wash-*` / `--glow-*` token, its note, the primitives it uses; copy token or resolved CSS |
 | `TypeSection` | The two families (specimen, weights in use) and every type role with its size range, leading, tracking, weight |
 | `LayoutSection` | Grid, breakpoints, fluid layout roles, spacing, radius, elevation |
 | `ComponentsSection` | The UI kit, live |

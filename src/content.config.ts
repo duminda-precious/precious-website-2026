@@ -313,7 +313,7 @@ const brand = defineCollection({
     }),
     logo: brandSection.extend({
       onPage: z.string(),
-      onInk: z.string(),
+      onDark: z.string(),
       onWashes: z.string(),
       animated: labelled,
       downloads: z.object({
@@ -329,11 +329,9 @@ const brand = defineCollection({
       /** Primitive groups, in order; `tokens` is the token-name prefix after "color-". */
       groups: z.array(z.object({ title: z.string(), tokens: z.array(z.string()).min(1) })).min(1),
       semantic: labelled,
-      themes: z.object({ light: z.string(), dark: z.string(), ink: z.string() }),
+      themes: z.object({ light: z.string(), dark: z.string() }),
     }),
     gradients: brandSection.extend({
-      /** Label of the grain card (its note comes from tokens.css). */
-      grain: z.string(),
       uses: z.string(),
     }),
     type: brandSection.extend({

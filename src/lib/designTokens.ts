@@ -7,11 +7,11 @@
  *   value  the declaration as written (whitespace collapsed)
  *   note   the comment on the same line, after the declaration
  *   group  the nearest comment above it (section banners excluded)
- *   scope  root (:root), or the theme block it sits in: light | dark | ink
+ *   scope  root (:root), or the theme block it sits in: light | dark
  */
 import css from '../styles/tokens.css?raw';
 
-export type Scope = 'root' | 'light' | 'dark' | 'ink' | 'other';
+export type Scope = 'root' | 'light' | 'dark' | 'other';
 
 export interface Token {
   /** Name without the leading dashes, e.g. "color-slate-25". */
@@ -35,7 +35,6 @@ const isBanner = (comment: string) => /-{5,}|={5,}/.test(comment);
 
 function scopeOf(selector: string | undefined): Scope {
   if (!selector) return 'other';
-  if (selector.includes("data-theme='ink'")) return 'ink';
   if (selector.includes("data-theme='dark'") || selector.includes('data-page-theme')) return 'dark';
   if (selector.includes("data-theme='light'")) return 'light';
   if (selector.trim() === ':root') return 'root';
@@ -118,7 +117,7 @@ export const allTokens = parse(css);
 const byScope = (scope: Scope) =>
   new Map(allTokens.filter((t) => t.scope === scope).map((t) => [t.name, t]));
 const root = byScope('root');
-const themes = { light: byScope('light'), dark: byScope('dark'), ink: byScope('ink') };
+const themes = { light: byScope('light'), dark: byScope('dark') };
 export type Theme = keyof typeof themes;
 export const themeNames = Object.keys(themes) as Theme[];
 

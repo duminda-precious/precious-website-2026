@@ -121,7 +121,7 @@
     "title": "Wordmark and Butterfly Mark",
     "intro": "The logo takes the text colour of wherever it sits: Deep Ink on light, white on dark. The butterfly is drawn on a 13 × 11 pixel grid.",
     "onPage": "On the Page",
-    "onInk": "On Ink",
+    "onDark": "On Dark",
     "onWashes": "On the Washes",
     "animated": {
       "label": "Animated Mark",
@@ -154,8 +154,7 @@
     },
     "themes": {
       "light": "Light",
-      "dark": "Dark (Work)",
-      "ink": "Ink (Footer)"
+      "dark": "Dark"
     }
   },
   "gradients": {
@@ -163,7 +162,6 @@
     "name": "Gradients",
     "title": "Soft Washes",
     "intro": "Radial glows of the wash hues on a Slate 100 base, for button hovers, the team hub and the starting-point media. Never behind body copy.",
-    "grain": "Grain",
     "uses": "Uses"
   },
   "type": {

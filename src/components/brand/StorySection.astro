@@ -1,10 +1,10 @@
 ---
 /**
  * StorySection (/brand 01): the brand story from the guidelines (p. 2). Lead and
- * body on the left; the positioning statement on an ink card and the four brand
+ * body on the left; the positioning statement on a dark card and the four brand
  * facts on the right.
  * Props: story (brand.json → story).
- * Tokens: ink theme, --text-medium, --leading-medium, --text-secondary, --text-large,
+ * Tokens: dark theme, --text-medium, --leading-medium, --text-secondary, --text-large,
  *         --leading-large, --tracking-title, --inset-card, --radius-md, --border-strong,
  *         --text-eyebrow, --space-*.
  */
@@ -28,7 +28,7 @@ const { story } = Astro.props;
       ))}
     </GridItem>
     <GridItem span={5} start={8} class="story__aside">
-      <div class="story__card" data-theme="ink">
+      <div class="story__card" data-theme="dark">
         <p class="story__label">{story.positioning.label}</p>
         <p class="story__statement">{story.positioning.text}</p>
       </div>

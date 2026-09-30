@@ -2,7 +2,7 @@
 /**
  * Section: vertical rhythm, side gutter and theme for a page band.
  * Props:
- *   id, theme ('light' | 'dark' | 'ink'), padding ('default' | 'tight' | 'none'),
+ *   id, theme ('light' | 'dark'), padding ('default' | 'tight' | 'none'),
  *   surface (paint the theme's page surface; off = transparent),
  *   stage (adds data-theme-stage so the M2 theme switch reacts to it),
  *   divider (top hairline), as, class, labelledby.
@@ -11,7 +11,7 @@
  */
 interface Props {
   id?: string;
-  theme?: 'light' | 'dark' | 'ink';
+  theme?: 'light' | 'dark';
   padding?: 'default' | 'tight' | 'none';
   surface?: boolean;
   stage?: boolean;
