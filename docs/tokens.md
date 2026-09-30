@@ -254,8 +254,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--news-thumb` | `6.6875rem` | 107: 4:3 at the 80px content height | NewsStack |
 | `--news-peek` | `8px` | each card behind sits this much lower … | NewsStack |
 | `--news-scale-step` | `0.06` | … and this much smaller | NewsStack |
-| `--news-fade-1` | `0.8` |  | NewsStack |
-| `--news-fade-2` | `0.5` |  | NewsStack |
+| `--news-bg-0` | `var(--color-slate-50)` | front card | NewsStack |
+| `--news-bg-1` | `var(--color-slate-100)` | second card | NewsStack |
+| `--news-bg-2` | `var(--color-slate-150)` | third card | NewsStack |
 | `--team-max` | `87.5rem` | 1400: funnel width cap | TeamSection |
 
 ### Radii (guideline: soft, never sharp, never blobby)
@@ -310,13 +311,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--blur-glass` | `32px` | frosted cards over video | NewsStack |
 | `--blur-edge` | `14px` | pixel edge on card media | ContentCard |
 | `--blur-glow` | `10px` | chip edge glow | teamFlow |
 | `--blur-halo` | `16px` | hub halo | teamFlow |
 | `--blur-reel-max` | `57px` | hero reel blur at veil 1 (blur = veil × this) | Hero |
-| `--glass-bg` | `color-mix(in srgb, var(--color-white) 40%, transparent)` |  | NewsStack |
-| `--glass-saturate` | `1.3` |  | NewsStack |
 | `--edge-fill` | `color-mix(in srgb, var(--color-white) 12%, transparent)` |  | ContentCard |
 | `--stripe-size` | `8px` | placeholder stripe band | ContentCard, MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
