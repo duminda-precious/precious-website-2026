@@ -149,8 +149,22 @@ const home = defineCollection({
     hero: z.object({
       /** H1, one entry per line (lines never wrap). */
       headline: z.array(z.string().min(1)).min(1),
-      /** The second layer: "Most products look fine. / Few feel good." */
+      /** Former second layer; not shown since the two-step hero (Claude Design). Kept for reuse. */
       problem: z.array(z.string().min(1)).min(1),
+      /** Hero news stack (bottom-left): mini news / trust cards. Placeholders. */
+      news: z
+        .array(
+          z.object({
+            title: z.string().min(1),
+            body: z.string().min(1),
+            /** Accessible name of the arrow link. */
+            cta: z.string().min(1),
+            href: z.string().min(1),
+            /** Thumbnail placeholder wash. */
+            tint: z.enum(['sky', 'lavender', 'rose', 'mint', 'neutral']),
+          }),
+        )
+        .min(1),
       reel: z.object({
         video: z.string().optional(),
         poster: z.string().optional(),

@@ -253,9 +253,10 @@
     --section-py-tight: clamp(1.25rem, 3vw, 2.5rem); /* process card wrapper (prototype) */
     --inset-card: clamp(1.5rem, 3vw, 2.5rem); /* testimonial (prototype) */
     --inset-panel: clamp(2rem, 6vw, 4.5rem); /* process card (prototype) */
-    --hero-scroll: 400vh;
     --nav-height: 3.875rem; /* brief header height ~62px; also the anchor offset */
     --tap-min: 2.75rem; /* 44px touch target */
+    --gesture-swipe: 36px; /* minimum swipe that flips a card */
+    --gesture-wheel: 24px; /* wheel travel that flips a card */
     --icon-button: 2.5rem; /* 40: square icon buttons (menu, close, card CTA) */
     --icon-button-sm: 2rem; /* 32: news card arrow */
     --icon-glyph: 0.75rem; /* 12: dots / close glyph inside an icon button */
@@ -264,6 +265,10 @@
     --news-width: 20rem; /* 320: hero news stack */
     --news-height: 5.25rem; /* 84 */
     --news-thumb: 4rem; /* 64 */
+    --news-peek: 8px; /* each card behind sits this much lower … */
+    --news-scale-step: 0.06; /* … and this much smaller */
+    --news-fade-1: 0.8;
+    --news-fade-2: 0.5;
     --team-max: 87.5rem; /* 1400: funnel width cap */
     --nav-mini-at: 68.75rem; /* 1100: below this the nav is always collapsed (doc only; use literal in @media) */
 
@@ -299,6 +304,7 @@
     --blur-halo: 16px; /* hub halo */
     --blur-reel-max: 57px; /* hero reel blur at veil 1 (blur = veil × this) */
     --glass-bg: color-mix(in srgb, var(--color-white) 62%, transparent);
+    --glass-saturate: 1.3;
     --edge-fill: color-mix(in srgb, var(--color-white) 12%, transparent);
     --stripe-size: 8px; /* placeholder stripe band */
     --stripe-size-sm: 6px;
@@ -375,6 +381,9 @@
     /* Hero: veil fade and the held first scroll */
     --dur-veil: 900ms;
     --dur-hero-lock: 950ms;
+    --dur-hero-word-stagger: 60ms; /* word to word as the title dissolves */
+    --dur-hero-return: 420ms; /* smooth scroll back to the top before the title resolves */
+    --dur-news-lock: 480ms; /* news stack: minimum time between wheel flips */
     --hero-inset-scroll: 320; /* px of scroll over which the reel shrinks into the padding */
     /* Autoplay */
     --dur-autoplay: 4s; /* testimonials, hero news */
@@ -622,6 +631,15 @@
     --process-bg: var(--color-slate-900);
     --process-fg: var(--color-slate-50);
     --process-rule: color-mix(in srgb, var(--color-white) 70%, transparent);
+
+    /* Hero (two-step): title and news cards sit on the veiled reel */
+    --hero-fg: var(--color-slate-900);
+    --hero-veil-bg: var(--color-white);
+    --news-thumb-sky: var(--color-wash-sky);
+    --news-thumb-lavender: var(--color-wash-lavender);
+    --news-thumb-rose: var(--color-wash-rose);
+    --news-thumb-mint: var(--color-wash-mint);
+    --news-thumb-neutral: var(--color-slate-150);
 
     /* Solid pill (showreel sound control sits on the reel, always light) */
     --pill-solid-bg: var(--color-white);

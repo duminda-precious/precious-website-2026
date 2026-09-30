@@ -42,20 +42,6 @@
     opacity: var(--hover-opacity);
   }
 
-  /* Lenis smooth scroll (from lenis.css). */
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-  .lenis.lenis-stopped {
-    overflow: clip;
-  }
 
   /* M13 pixel text: words are wrapped in .px at runtime (motion/pixelText.ts).
      While a word animates, its text goes transparent under a canvas overlay. */
@@ -74,14 +60,14 @@
     pointer-events: none;
   }
 
-  /* Set by the mobile menu while open. */
+  /* Set by the full-page menu while open. */
   html.is-scroll-locked {
     overflow: hidden;
   }
 
   :focus-visible {
-    outline: 2px solid var(--focus-ring);
-    outline-offset: 3px;
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
   }
 
   ::selection {

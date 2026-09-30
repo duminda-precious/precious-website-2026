@@ -32,15 +32,36 @@ export const buttonGlitch: MotionModule = {
     const visible = new Set<Element>();
     const labels = new Map<Element, PxWord[]>();
 
+    /** The label: [data-pixel-label], or an inner span wrapped around the button's own
+     *  text (so flex buttons keep their word spaces). Re-created if the text was replaced. */
+    const labelOf = (el: HTMLElement): HTMLElement | null => {
+      const explicit = el.querySelector<HTMLElement>('[data-pixel-label]');
+      if (explicit) return explicit;
+      const inner = el.querySelector<HTMLElement>(':scope > [data-glitch-label]');
+      if (inner) return inner;
+      if (!el.textContent?.trim() || el.children.length) return null;
+      const span = document.createElement('span');
+      span.setAttribute('data-glitch-label', '');
+      span.append(...el.childNodes);
+      el.append(span);
+      return span;
+    };
+
     candidates.forEach((el) => {
       if (el.closest('[data-no-glitch]')) return;
-      const label =
-        el.querySelector<HTMLElement>('[data-pixel-label]') ?? (el.textContent?.trim() ? el : null);
+      const label = labelOf(el);
       if (!label) return;
-      const original = label.innerHTML;
-      const words = wrapWords(label);
+      let words = wrapWords(label);
       if (!words.length) return;
-      const glitch = () => words.forEach((w) => runner.run(w, GLITCH, frame()));
+      // Text swapped by another script (e.g. Sound on/off): wrap the new words.
+      const current = () => {
+        if (!words[0]?.isConnected) {
+          const l = labelOf(el);
+          words = l ? wrapWords(l) : [];
+        }
+        return words;
+      };
+      const glitch = () => current().forEach((w) => runner.run(w, GLITCH, frame()));
       el.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && glitch(), { signal });
       el.addEventListener('pointerleave', (e) => e.pointerType === 'mouse' && glitch(), { signal });
       let keyboard = false;
@@ -60,7 +81,10 @@ export const buttonGlitch: MotionModule = {
         },
         { signal },
       );
-      restores.push(() => (label.innerHTML = original));
+      // Unwrap the words again (keeps whatever text is current).
+      restores.push(() =>
+        el.querySelectorAll('.px').forEach((sp) => sp.replaceWith(sp.textContent ?? '')),
+      );
       if (el.hasAttribute('data-cta')) {
         ctas.push(words);
         labels.set(label, words);

@@ -6,8 +6,8 @@
  */
 import { setupGsap, ScrollTrigger } from './gsap';
 import { onReducedMotionChange } from './reducedMotion';
-import { lenis } from './lenis';
-import { hero } from './hero';
+import { heroReveal } from './heroReveal';
+import { newsStack } from './newsStack';
 import { soundToggle } from './soundToggle';
 import { themeSwitch } from './themeSwitch';
 import { marquee } from './marquee';
@@ -29,10 +29,10 @@ export interface MotionModule {
   init(root: Document): (() => void) | void;
 }
 
-/** Order matters: Lenis first so ScrollTriggers see the smooth-scroll proxy. */
+/** Registry order = init order. */
 const modules: MotionModule[] = [
-  lenis,
-  hero,
+  heroReveal,
+  newsStack,
   soundToggle,
   themeSwitch,
   marquee,

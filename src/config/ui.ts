@@ -33,6 +33,11 @@ export const ui = {
     prev: 'Previous testimonial',
     next: 'Next testimonial',
   },
+  news: {
+    label: 'News',
+    /** Placeholder label in the thumbnail until images exist. */
+    thumb: 'Image',
+  },
   reel: {
     soundOn: 'Sound on',
     soundOff: 'Sound off',

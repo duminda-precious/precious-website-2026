@@ -20,7 +20,7 @@ const [home, work, testimonials, clients, faq] = await Promise.all([
 ---
 
 <SiteShell {...home.seo}>
-  <Hero headline={home.hero.headline} problem={home.hero.problem} reel={home.hero.reel} />
+  <Hero headline={home.hero.headline} reel={home.hero.reel} news={home.hero.news} />
   <WorkSection {...home.work} items={work} />
   <ClientsSection heading={home.clients.heading} testimonials={testimonials} clients={clients} />
   <TeamSection

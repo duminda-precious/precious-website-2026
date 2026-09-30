@@ -5,9 +5,8 @@
   },
   "hero": {
     "headline": [
-      "We Design",
-      "How Your",
-      "Product Feels."
+      "We Design How",
+      "Your Product Feels."
     ],
     "problem": [
       "Most Products Look Fine.",
@@ -18,7 +17,44 @@
       "alt": "Precious Studio showreel",
       "placeholderLabel": "Showreel · Autoplay, Muted",
       "poster": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-poster.jpg"
-    }
+    },
+    "news": [
+      {
+        "title": "[Journal article title]",
+        "body": "[Placeholder summary of the article, up to two lines long.]",
+        "cta": "Read article",
+        "href": "#",
+        "tint": "sky"
+      },
+      {
+        "title": "[Award or press mention]",
+        "body": "[Placeholder line naming the award or publication.]",
+        "cta": "See mention",
+        "href": "#",
+        "tint": "lavender"
+      },
+      {
+        "title": "[Clutch review highlight]",
+        "body": "[Placeholder quote from a recent client review.]",
+        "cta": "Read review",
+        "href": "#",
+        "tint": "rose"
+      },
+      {
+        "title": "[Case study highlight]",
+        "body": "[Placeholder result from a recent project.]",
+        "cta": "View case study",
+        "href": "#",
+        "tint": "mint"
+      },
+      {
+        "title": "[Studio announcement]",
+        "body": "[Placeholder note about studio news or a launch.]",
+        "cta": "Read more",
+        "href": "#",
+        "tint": "neutral"
+      }
+    ]
   },
   "work": {
     "heading": "The Proof Is in How It Moves.",
