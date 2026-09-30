@@ -31,6 +31,7 @@ This is the single entry point. Read it top to bottom before your first commit, 
 14. Open decisions and inputs from Duminda
 15. Delivery workflow and phase plan
 16. Known issues and tech debt
+17. Design backlog (to discuss)
 
 ---
 
@@ -456,3 +457,17 @@ Each phase ends with: stop → summary → test checklist → open questions →
 - `src/config/redirects.ts` is empty.
 - Homepage news stack: frosted on desktop, solid depth greys on phones (`--news-bg-*`); `docs/motion.md` M1b describes the desktop state.
 - The sandbox used during phase 2 blocked external media and fonts, so real-media rendering (reel, logos, fonts) has not been visually verified yet. Check it first in P3-02.
+
+---
+
+## 17. Design backlog (to discuss)
+
+Small design ideas from Duminda, parked for a later conversation. **Don't build any of these until Duminda has discussed and approved it.** When one comes up, propose options (with a quick prototype if useful) and wait for a decision. Record the outcome in the PLAN §0.1 decisions log and remove the row here.
+
+| # | Idea | Where it lives today | Notes for the discussion |
+|---|---|---|---|
+| D1 | **Page transition starts from the trigger.** The butterfly wing cover should grow from the button or link that was clicked, not from the middle of the screen. | `src/motion/pageTransition.ts`, `src/motion/wing.ts` (M10 in `docs/motion.md`) | Take the click point (or the link's centre for keyboard use) as the origin. Decide the fallback for back/forward and programmatic navigation (centre?). The full-page menu already opens from its button (`fullMenu.ts`), which is a starting point. |
+| D2 | **Subtle grid in the hero background.** A barely visible pixel grid in the hero's background layer, whose pixels react to the cursor. | `src/components/home/Hero.astro` (reel + veil layers), `src/motion/heroReveal.ts` (M1) | Decide: visible in the rest state only, or after the reveal too; what the cursor does (light up, displace, trail); off on touch and under reduced motion; canvas cost next to the reel's blur. Needs new tokens (grid size, opacity, reaction radius). |
+| D3 | **Explore the personalized AI engine flow.** Experiment with more options for the Team funnel's pixel flow animation. | `src/motion/teamFlow.ts`, `src/components/home/TeamSection.astro` (M16); design reference `reference/claude-design/Team Funnel.dc.html` | Explore several directions side by side (e.g. in a `/dev` page) before picking one. Keep the roles → engine → outputs story readable on phones. |
+| D4 | **AI section: a stronger window/portal.** The fixed background should be more prominent so the card reads as a window onto a fixed scene. Possibly an entirely new layout, depending on the final content. | `src/components/home/ProcessSection.astro`, `src/motion/aiCard.ts`, `src/motion/pixelRain.ts` (M17) | Settle the content first (heading, stat, points, CTA), then explore layout options. Push the fixed layer further (more visible glow, rain or imagery behind a clear frame edge). Check the scroll feel on iOS, where fixed layers behave differently. |
+
