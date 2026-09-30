@@ -1,0 +1,224 @@
+---
+/**
+ * LayoutSection (/brand 07): the grid and the spatial tokens.
+ *   Grid         the live 12-column Grid12, with column count, gutter and gap
+ *   Breakpoints  from src/styles/breakpoints.ts
+ *   Fluid        the brief's fluid layout roles (gutter, gaps, section gap) as ranges
+ *   Spacing      every --space-* step, drawn at its size
+ *   Radius       every --radius-* step; Elevation every --shadow-e* step, with notes
+ * Props: layout (brand.json → layout), ui.
+ * Tokens: --grid-columns, --gutter, --grid-gap-*, --header-gap, --section-gap, --space-*,
+ *         --radius-*, --shadow-*, --surface-raised, --text-small, --text-secondary,
+ *         --border-default, --border-strong.
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import CopyValue from './CopyValue.astro';
+import { token, tokensMatching, formatRange, px } from '../../lib/designTokens';
+import { breakpoints } from '../../styles/breakpoints';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  layout: Brand['layout'];
+  ui: Brand['ui'];
+}
+const { layout, ui } = Astro.props;
+
+const columns = Number(token('grid-columns').value);
+const fluid = ['gutter', 'grid-gap-col', 'grid-gap-row', 'header-gap', 'section-gap'].map(token);
+const spaces = tokensMatching(/^space-\d+$/).filter((t) => px(t.value));
+const radii = tokensMatching(/^radius-/).filter((t) => (px(t.value) ?? 0) > 0);
+const shadows = tokensMatching(/^shadow-e\d+$/);
+const bps = Object.entries(breakpoints).map(([name, rem]) => ({ name, rem, px: px(rem) }));
+---
+
+<BrandSection id="layout" section={layout}>
+  <div class="lay">
+    <div class="lay__block">
+      <h3 class="lay__heading">{layout.grid}</h3>
+      <Grid12 class="lay__grid" aria-hidden="true">
+        {Array.from({ length: columns }, (_, i) => (
+          <span>{i + 1}</span>
+        ))}
+      </Grid12>
+      <p class="lay__note">
+        --grid-columns {columns} · --gutter {formatRange(token('gutter').value)} · --grid-gap-col{' '}
+        {formatRange(token('grid-gap-col').value)}
+      </p>
+    </div>
+
+    <Grid12 class="lay__cols">
+      <GridItem span={4} class="lay__block">
+        <h3 class="lay__heading">{layout.spacing}</h3>
+        <ul class="lay__list">
+          {spaces.map((t) => (
+            <li class="lay__space">
+              <CopyValue value={`var(--${t.name})`} label={ui.copyToken}>
+                --{t.name}
+              </CopyValue>
+              <span class="lay__bar" style={`width: var(--${t.name})`} />
+              <span class="lay__note">{px(t.value)}px</span>
+            </li>
+          ))}
+        </ul>
+      </GridItem>
+
+      <GridItem span={4} class="lay__block">
+        <h3 class="lay__heading">{layout.fluid}</h3>
+        <ul class="lay__list">
+          {fluid.map((t) => (
+            <li class="lay__row">
+              <CopyValue value={`var(--${t.name})`} label={ui.copyToken}>
+                --{t.name}
+              </CopyValue>
+              <span class="lay__note">
+                {formatRange(t.value)}
+                {t.note && ` · ${t.note}`}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <h3 class="lay__heading">{layout.breakpoints}</h3>
+        <ul class="lay__list">
+          {bps.map((b) => (
+            <li class="lay__row lay__row--inline">
+              <span>{b.name}</span>
+              <span class="lay__note">
+                {b.rem} · {b.px}px
+              </span>
+            </li>
+          ))}
+        </ul>
+      </GridItem>
+
+      <GridItem span={4} class="lay__block">
+        <h3 class="lay__heading">{layout.radius}</h3>
+        <div class="lay__tiles">
+          {radii.map((t) => (
+            <figure class="lay__tile">
+              <span class="lay__radius" style={`border-radius: var(--${t.name})`} />
+              <figcaption>
+                <CopyValue value={`var(--${t.name})`} label={ui.copyToken}>
+                  --{t.name}
+                </CopyValue>
+                <span class="lay__note">{t.note || t.value}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <h3 class="lay__heading">{layout.elevation}</h3>
+        <div class="lay__tiles">
+          {shadows.map((t) => (
+            <figure class="lay__tile">
+              <span class="lay__shadow" style={`box-shadow: var(--${t.name})`} />
+              <figcaption>
+                <CopyValue value={`var(--${t.name})`} label={ui.copyToken}>
+                  --{t.name}
+                </CopyValue>
+                <span class="lay__note">{t.note}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </GridItem>
+    </Grid12>
+  </div>
+</BrandSection>
+
+<style>
+  @layer components {
+    .lay {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-64);
+    }
+    .lay__cols {
+      row-gap: var(--space-64);
+    }
+    .lay__block,
+    .lay :global(.lay__block) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+    .lay__heading {
+      padding-bottom: var(--space-12);
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+      border-bottom: var(--border-width) solid var(--border-strong);
+    }
+    .lay__heading:not(:first-child) {
+      margin-top: var(--space-32);
+    }
+    .lay__grid > span {
+      display: grid;
+      place-items: end center;
+      min-height: var(--space-120);
+      padding-bottom: var(--space-8);
+      border-radius: var(--radius-xs);
+      background: var(--surface-raised);
+      font-size: var(--text-small);
+      color: var(--text-secondary);
+    }
+    .lay__note {
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+    }
+    .lay__list {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+    }
+    .lay__space {
+      display: grid;
+      grid-template-columns: 7rem 1fr auto;
+      align-items: center;
+      gap: var(--space-12);
+      padding-block: var(--space-4);
+    }
+    .lay__bar {
+      height: var(--space-8);
+      border-radius: var(--radius-xs);
+      background: var(--text-primary);
+    }
+    .lay__row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding-block: var(--space-10);
+      border-bottom: var(--border-width) solid var(--border-default);
+    }
+    .lay__row--inline {
+      flex-direction: row;
+      justify-content: space-between;
+      font-size: var(--text-small);
+    }
+    .lay__tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));
+      gap: var(--space-24) var(--space-16);
+    }
+    .lay__tile {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+    }
+    .lay__tile figcaption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .lay__radius {
+      aspect-ratio: 1;
+      background: var(--text-primary);
+    }
+    .lay__shadow {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-md);
+      background: var(--surface-page);
+    }
+  }
+</style>

@@ -65,3 +65,12 @@ export async function getPage(id: string) {
   if (!entry) throw new Error(`src/content/pages/${id}.json is missing.`);
   return entry.data;
 }
+
+/** /brand copy (story, voice, section titles, samples). Throws at build time if brand.json is missing. */
+export async function getBrand() {
+  const entry = await getEntry('brand', 'brand');
+  if (!entry) throw new Error('src/content/pages/brand.json is missing.');
+  return entry.data;
+}
+
+export type Brand = Awaited<ReturnType<typeof getBrand>>;

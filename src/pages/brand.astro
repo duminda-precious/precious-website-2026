@@ -1,0 +1,172 @@
+---
+/**
+ * /brand: the hidden brand and design-system page (decision 2026-09-30c).
+ * Not linked from anywhere, noindex/nofollow, excluded from the sitemap: reachable
+ * by its URL only. Layout and content order follow the Brand Identity Guidelines;
+ * the look is the site's own design system. Story and voice copy come from
+ * brand.json; every design-system value is read from tokens.css (lib/designTokens.ts),
+ * so this page follows any token change.
+ * Script: click to copy ([data-copy], announced in the toast), theme switch
+ * ([data-brand-theme] → data-theme on the page, swaps [data-theme-values]), motion
+ * tracks ([data-motion-demo] toggle aria-pressed).
+ * Tokens: --surface-page, --cta-bg, --cta-fg, --radius-xs, --text-small, --z-nav,
+ *         --dur-page, --dur-fast, --ease-standard, --gutter, --space-*.
+ */
+import BrandLayout from '../layouts/BrandLayout.astro';
+import BrandHeader from '../components/brand/BrandHeader.astro';
+import StorySection from '../components/brand/StorySection.astro';
+import VoiceSection from '../components/brand/VoiceSection.astro';
+import LogoSection from '../components/brand/LogoSection.astro';
+import ColourSection from '../components/brand/ColourSection.astro';
+import GradientSection from '../components/brand/GradientSection.astro';
+import TypeSection from '../components/brand/TypeSection.astro';
+import LayoutSection from '../components/brand/LayoutSection.astro';
+import ComponentsSection from '../components/brand/ComponentsSection.astro';
+import MotionSection from '../components/brand/MotionSection.astro';
+import Section from '../components/primitives/Section.astro';
+import { getBrand } from '../lib/content';
+import { site } from '../config/site';
+
+const brand = await getBrand();
+const { ui } = brand;
+const index = (
+  [
+    ['story', brand.story],
+    ['voice', brand.voice],
+    ['logo', brand.logo],
+    ['colour', brand.colour],
+    ['gradients', brand.gradients],
+    ['type', brand.type],
+    ['layout', brand.layout],
+    ['components', brand.components],
+    ['motion', brand.motion],
+  ] as const
+).map(([id, s]) => ({ id, number: s.number, name: s.name }));
+---
+
+<BrandLayout title={brand.seo.title} description={brand.seo.description}>
+  <div class="brand" data-brand data-theme="light">
+    <BrandHeader
+      title={brand.title}
+      tagline={brand.tagline}
+      index={index}
+      ui={ui}
+      themes={brand.colour.themes}
+    />
+    <main>
+      <StorySection story={brand.story} />
+      <VoiceSection voice={brand.voice} />
+      <LogoSection logo={brand.logo} ui={ui} />
+      <ColourSection colour={brand.colour} ui={ui} />
+      <GradientSection gradients={brand.gradients} ui={ui} />
+      <TypeSection type={brand.type} tagline={brand.tagline} ui={ui} />
+      <LayoutSection layout={brand.layout} ui={ui} />
+      <ComponentsSection components={brand.components} />
+      <MotionSection motion={brand.motion} ui={ui} />
+    </main>
+    <Section as="footer" padding="tight" divider>
+      <p class="brand__foot">
+        © {new Date().getFullYear()} {site.legalName}
+      </p>
+    </Section>
+  </div>
+  <p
+    class="brand-toast"
+    role="status"
+    aria-live="polite"
+    data-copy-status
+    data-copied={ui.copied}
+  ></p>
+</BrandLayout>
+
+<script>
+  import { ms } from '../motion/tokens';
+
+  const root = document.querySelector<HTMLElement>('[data-brand]')!;
+  const toast = document.querySelector<HTMLElement>('[data-copy-status]')!;
+  let hideT = 0;
+
+  async function copy(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      return;
+    }
+    toast.textContent = `${toast.dataset.copied}: ${text.length > 60 ? `${text.slice(0, 60)}…` : text}`;
+    toast.toggleAttribute('data-show', true);
+    window.clearTimeout(hideT);
+    hideT = window.setTimeout(() => toast.removeAttribute('data-show'), ms('--t-long'));
+  }
+
+  function setTheme(theme: string) {
+    root.dataset.theme = theme;
+    document
+      .querySelectorAll<HTMLButtonElement>('[data-brand-theme]')
+      .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.brandTheme === theme)));
+    root.querySelectorAll<HTMLElement>('[data-theme-values]').forEach((el) => {
+      const value = el.dataset[theme] ?? '';
+      if (el.hasAttribute('data-copy')) {
+        el.dataset.copy = value;
+        el.setAttribute('aria-label', `${el.dataset.copyLabel ?? ''} ${value}`.trim());
+      }
+      if (el.hasAttribute('data-theme-text')) el.textContent = value;
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Element;
+    const copyEl = target.closest<HTMLElement>('[data-copy]');
+    if (copyEl) return void copy(copyEl.dataset.copy ?? '');
+    const themeEl = target.closest<HTMLElement>('[data-brand-theme]');
+    if (themeEl) return setTheme(themeEl.dataset.brandTheme ?? 'light');
+    const demo = target.closest<HTMLElement>('[data-motion-demo]');
+    if (demo)
+      demo.setAttribute('aria-pressed', String(demo.getAttribute('aria-pressed') !== 'true'));
+  });
+</script>
+
+<style>
+  @layer components {
+    .brand {
+      min-height: 100svh;
+      background: var(--surface-page);
+      color: var(--text-primary);
+      transition:
+        background-color var(--dur-page) var(--ease-standard),
+        color var(--dur-page) var(--ease-standard);
+    }
+    .brand__foot {
+      font-size: var(--text-small);
+      color: var(--text-secondary);
+    }
+    .brand-toast {
+      position: fixed;
+      left: 50%;
+      bottom: var(--gutter);
+      z-index: var(--z-nav);
+      max-width: calc(100% - var(--gutter) * 2);
+      padding: var(--space-10) var(--space-16);
+      border-radius: var(--radius-xs);
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+      font-size: var(--text-small);
+      overflow-wrap: anywhere;
+      opacity: 0;
+      translate: -50% var(--space-8);
+      pointer-events: none;
+      transition:
+        opacity var(--dur-fast) var(--ease-standard),
+        translate var(--dur-fast) var(--ease-standard);
+    }
+    .brand-toast[data-show] {
+      opacity: 1;
+      translate: -50% 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .brand,
+      .brand-toast {
+        transition: none;
+      }
+    }
+  }
+</style>

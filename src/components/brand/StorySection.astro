@@ -1,0 +1,100 @@
+---
+/**
+ * StorySection (/brand 01): the brand story from the guidelines (p. 2). Lead and
+ * body on the left; the positioning statement on an ink card and the four brand
+ * facts on the right.
+ * Props: story (brand.json → story).
+ * Tokens: ink theme, --text-medium, --leading-medium, --text-secondary, --text-large,
+ *         --leading-large, --tracking-title, --inset-card, --radius-md, --border-strong,
+ *         --text-eyebrow, --space-*.
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  story: Brand['story'];
+}
+const { story } = Astro.props;
+---
+
+<BrandSection id="story" section={story}>
+  <Grid12 class="story">
+    <GridItem span={6} class="story__text">
+      <p class="story__lead">{story.lead}</p>
+      {story.body.map((p) => (
+        <p class="story__body">{p}</p>
+      ))}
+    </GridItem>
+    <GridItem span={5} start={8} class="story__aside">
+      <div class="story__card" data-theme="ink">
+        <p class="story__label">{story.positioning.label}</p>
+        <p class="story__statement">{story.positioning.text}</p>
+      </div>
+      <dl class="story__facts">
+        {story.facts.map((f) => (
+          <div class="story__fact">
+            <dt class="story__label">{f.label}</dt>
+            <dd>{f.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </GridItem>
+  </Grid12>
+</BrandSection>
+
+<style>
+  @layer components {
+    .story {
+      row-gap: var(--space-48);
+    }
+    .story :global(.story__text) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+      max-width: var(--measure-subline);
+    }
+    .story__lead {
+      font-size: var(--text-medium);
+      line-height: var(--leading-medium);
+    }
+    .story__body {
+      color: var(--text-secondary);
+    }
+    .story :global(.story__aside) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .story__card {
+      padding: var(--inset-card);
+      border-radius: var(--radius-md);
+      background: var(--surface-page);
+    }
+    .story__label {
+      font-size: var(--text-eyebrow);
+      line-height: var(--leading-none);
+      color: var(--text-secondary);
+    }
+    .story__statement {
+      margin-top: var(--space-16);
+      font-family: var(--font-display);
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+    }
+    .story__facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-32) var(--grid-gap-col);
+    }
+    .story__fact {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      padding-top: var(--space-16);
+      border-top: var(--border-width) solid var(--border-strong);
+    }
+  }
+</style>

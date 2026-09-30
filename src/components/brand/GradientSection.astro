@@ -1,0 +1,161 @@
+---
+/**
+ * GradientSection (/brand 05): every gradient token (--wash-*, --glow-*) plus grain.
+ * Each card: the gradient with grain, its tokens.css note, the primitives it uses, and
+ * copy buttons for the token and the resolved CSS (hex values, works outside the site).
+ * Glows are light on Deep Ink, so they preview on the ink theme.
+ * Props: gradients (brand.json → gradients), ui.
+ * Tokens: --wash-*, --glow-*, --grain-image, --grain-opacity, ink theme, --radius-md,
+ *         --radius-pill, --border-subtle, --text-small, --text-secondary, --space-*.
+ */
+import BrandSection from './BrandSection.astro';
+import CopyValue from './CopyValue.astro';
+import { tokensMatching, token, resolve, references, label } from '../../lib/designTokens';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  gradients: Brand['gradients'];
+  ui: Brand['ui'];
+}
+const { gradients, ui } = Astro.props;
+
+const cards = tokensMatching(/^(wash|glow)-/).map((t) => ({
+  token: t,
+  title: label(t.name.replace(/^wash-/, '')),
+  onInk: t.name.startsWith('glow-'),
+  uses: references(t.value)
+    .filter((r) => r.startsWith('color-'))
+    .map((r) => ({ name: r, title: label(r.replace(/^color-/, '')) })),
+  css: resolve(t.value),
+}));
+const grain = token('grain-image');
+const grainOpacity = token('grain-opacity');
+---
+
+<BrandSection id="gradients" section={gradients}>
+  <div class="grads">
+    {cards.map((c) => (
+      <figure class="grads__card">
+        <div class="grads__frame" data-theme={c.onInk ? 'ink' : 'light'}>
+          <div
+            class="grads__preview"
+            style={`background: var(--${c.token.name})${c.onInk ? ', var(--surface-page)' : ''}`}
+          />
+        </div>
+        <figcaption class="grads__caption">
+          <span class="grads__title">{c.title}</span>
+          {c.token.group && <span class="grads__note">{c.token.group}</span>}
+          <span class="grads__uses">
+            <span class="grads__note">{gradients.uses}</span>
+            {c.uses.map((u) => (
+              <span class="grads__use">
+                <span class="grads__dot" style={`background: var(--${u.name})`} />
+                {u.title}
+              </span>
+            ))}
+          </span>
+          <span class="grads__copy">
+            <CopyValue value={`var(--${c.token.name})`} label={ui.copyToken}>
+              --{c.token.name}
+            </CopyValue>
+            <CopyValue value={c.css} label={ui.copyCss}>
+              {ui.copyCss}
+            </CopyValue>
+          </span>
+        </figcaption>
+      </figure>
+    ))}
+    <figure class="grads__card">
+      <div class="grads__frame" data-theme="light">
+        <div class="grads__preview grads__preview--grain"></div>
+      </div>
+      <figcaption class="grads__caption">
+        <span class="grads__title">{gradients.grain}</span>
+        {grain.group && <span class="grads__note">{grain.group}</span>}
+        <span class="grads__copy">
+          <CopyValue value={`var(--${grain.name})`} label={ui.copyToken}>
+            --{grain.name}
+          </CopyValue>
+          <CopyValue value={grainOpacity.value} label={ui.copyToken}>
+            --{grainOpacity.name}: {grainOpacity.value}
+          </CopyValue>
+        </span>
+      </figcaption>
+    </figure>
+  </div>
+</BrandSection>
+
+<style>
+  @layer components {
+    .grads {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+      gap: var(--space-40) var(--grid-gap-col);
+    }
+    .grads__card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      min-width: 0;
+    }
+    .grads__frame {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface-page);
+    }
+    .grads__preview {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-md);
+    }
+    .grads__preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--grain-image);
+      opacity: var(--grain-opacity);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    /* Grain at its real strength, over the button wash. */
+    .grads__preview--grain {
+      background: var(--wash-button);
+    }
+    .grads__caption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+    }
+    .grads__title {
+      font-weight: var(--weight-label);
+    }
+    .grads__note {
+      color: var(--text-secondary);
+    }
+    .grads__uses {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4) var(--space-12);
+    }
+    .grads__use {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .grads__dot {
+      width: var(--space-10);
+      height: var(--space-10);
+      border-radius: var(--radius-pill);
+      border: var(--border-width) solid var(--border-subtle);
+    }
+    .grads__copy {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4) var(--space-16);
+    }
+  }
+</style>

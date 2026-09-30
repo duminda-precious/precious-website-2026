@@ -1,0 +1,190 @@
+---
+/**
+ * VoiceSection (/brand 02): voice and tone from the guidelines (p. 5). Voice, tone by
+ * context and the taglines on the left; "We say / We don't say", the three writing
+ * rules and the closing line on the right.
+ * Deviation: the guidelines' "Sentence case, numerals, British/International spelling"
+ * is left out; the site sets Display copy in title case (plan §0.1, 2026-09-29).
+ * Props: voice (brand.json → voice).
+ * Tokens: --text-medium, --leading-medium, --text-secondary, --text-small, --text-eyebrow,
+ *         --text-title, --tracking-title, --border-default, --border-strong, --space-*.
+ */
+import BrandSection from './BrandSection.astro';
+import Grid12 from '../primitives/Grid12.astro';
+import GridItem from '../primitives/GridItem.astro';
+import type { Brand } from '../../lib/content';
+
+interface Props {
+  voice: Brand['voice'];
+}
+const { voice } = Astro.props;
+---
+
+<BrandSection id="voice" section={voice}>
+  <Grid12 class="voice">
+    <GridItem span={5} class="voice__col">
+      <p class="voice__lead">
+        <strong>{voice.voice.label}</strong>
+        {` ${voice.voice.qualifier} ${voice.voice.text}`}
+      </p>
+      <div class="voice__block">
+        <p class="voice__lead">
+          <strong>{voice.tone.label}</strong>
+          {` ${voice.tone.qualifier}`}
+        </p>
+        <table class="voice__table">
+          <tbody>
+            {voice.tone.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.context}</th>
+                <td>{r.tone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="voice__taglines">
+        <p class="voice__label">{voice.taglines.label}</p>
+        <p class="voice__tagline">{voice.taglines.primary}</p>
+        <p class="voice__small">
+          {`${voice.taglines.alternatesLabel} ${voice.taglines.alternates.join(' · ')}`}
+        </p>
+      </div>
+    </GridItem>
+
+    <GridItem span={6} start={7} class="voice__col">
+      <table class="voice__table voice__table--say">
+        <thead>
+          <tr>
+            <th scope="col">{voice.say.sayLabel}</th>
+            <th scope="col">{voice.say.dontLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {voice.say.rows.map(([say, dont]) => (
+            <tr>
+              <td>{say}</td>
+              <td>{dont}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="voice__rules">
+        {voice.rules.map((r) => (
+          <div class="voice__rule">
+            <h3 class="voice__rule-title">{r.title}</h3>
+            <p class="voice__small">
+              {r.text}
+              {r.cut && (
+                <>
+                  {`${voice.deleteLabel} `}
+                  <em>{r.cut}</em>
+                  {` ${r.after ?? ''}`}
+                </>
+              )}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p class="voice__small">
+        <strong>{voice.closing.lead}</strong>
+        {` ${voice.closing.text}`}
+      </p>
+    </GridItem>
+  </Grid12>
+</BrandSection>
+
+<style>
+  @layer components {
+    .voice {
+      row-gap: var(--space-64);
+    }
+    .voice :global(.voice__col) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+    }
+    .voice__lead {
+      max-width: var(--measure-subline);
+    }
+    .voice__lead strong,
+    .voice__small strong {
+      font-weight: var(--weight-label);
+      color: var(--text-primary);
+    }
+    .voice__block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+    .voice__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+    }
+    .voice__table th,
+    .voice__table td {
+      padding: var(--space-12) var(--space-12) var(--space-12) 0;
+      border-bottom: var(--border-width) solid var(--border-default);
+      text-align: left;
+      vertical-align: top;
+    }
+    .voice__table tbody th {
+      width: 35%;
+      font-weight: var(--weight-label);
+    }
+    .voice__table thead th {
+      font-size: var(--text-eyebrow);
+      font-weight: var(--weight-eyebrow);
+      color: var(--text-secondary);
+      border-bottom-color: var(--border-strong);
+    }
+    .voice__table--say td {
+      width: 50%;
+    }
+    .voice__table--say td + td {
+      color: var(--text-secondary);
+    }
+    .voice__taglines {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      padding-top: var(--space-16);
+      border-top: var(--border-width) solid var(--border-strong);
+    }
+    .voice__label {
+      font-size: var(--text-eyebrow);
+      line-height: var(--leading-none);
+      color: var(--text-secondary);
+    }
+    .voice__tagline {
+      font-family: var(--font-display);
+      font-size: var(--text-title);
+      line-height: var(--leading-heading);
+      letter-spacing: var(--tracking-title);
+    }
+    .voice__small {
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+    }
+    .voice__rules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+      gap: var(--space-24) var(--grid-gap-col);
+    }
+    .voice__rule {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      padding-top: var(--space-16);
+      border-top: var(--border-width) solid var(--border-strong);
+    }
+    .voice__rule-title {
+      font-size: var(--text-large);
+      line-height: var(--leading-large);
+      letter-spacing: var(--tracking-title);
+    }
+  }
+</style>

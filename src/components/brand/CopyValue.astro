@@ -1,0 +1,47 @@
+---
+/**
+ * CopyValue: a small text button that copies a value (hex, token, CSS) to the
+ * clipboard. The /brand page script handles every [data-copy] and announces it.
+ * Props: value (what is copied), label (the verb, e.g. "Copy token"), class, any attribute.
+ * Slot: the visible text (defaults to the value).
+ * Tokens: --font-code, --text-small, --text-secondary, --text-primary, --dur-link, --ease-snappy.
+ */
+interface Props {
+  value: string;
+  label: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { value, label, class: className, ...rest } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['copy-value', className]}
+  data-copy={value}
+  data-copy-label={label}
+  aria-label={`${label} ${value}`}
+  data-no-glitch
+  {...rest}
+>
+  <slot>{value}</slot>
+</button>
+
+<style>
+  @layer components {
+    .copy-value {
+      max-width: 100%;
+      font-family: var(--font-code);
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      text-align: left;
+      overflow-wrap: anywhere;
+      color: var(--text-secondary);
+      transition: color var(--dur-link) var(--ease-snappy);
+    }
+    .copy-value:hover {
+      color: var(--text-primary);
+      text-decoration: underline;
+    }
+  }
+</style>

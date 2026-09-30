@@ -110,6 +110,10 @@ Set `"noindex": false` once the page has real content, so search engines index i
 - `src/config/navigation.ts`: top nav, the Services dropdown label, the `New` badge, Book a call (goes to `/contact`), footer columns.
 - `src/config/ui.ts`: shared labels (menu, slider buttons, sound toggle, 404 message, footer headline).
 
+## The brand page (`/brand`)
+
+A hidden page (not linked, not indexed) that presents the brand and the design system. Its copy is in `src/content/pages/brand.json`: the story and voice text from the brand guidelines, each section's number, name, title and intro, the labels, and the sample text for type and components. Colours, gradients, type sizes, spacing and motion values are **not** in that file; the page reads them from `src/styles/tokens.css`, so changing a token updates the page.
+
 ## When to restart the dev server
 
 Adding or editing entries updates live. After changing `src/content.config.ts` (the schemas) or `astro.config.mjs`, stop `pnpm dev` and start it again.
