@@ -164,10 +164,13 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
     .news__card :global(.news__link) {
       align-self: end;
     }
-    /* Phones: full width at the bottom. */
+    /* Phones: in the hero's flow, full width, with room for the peeking cards. */
     @media (max-width: 47.49rem) {
       .news {
+        position: relative;
+        inset: auto;
         max-width: none;
+        margin-bottom: calc(var(--news-peek) * 2);
       }
     }
     @media (prefers-reduced-motion: reduce) {

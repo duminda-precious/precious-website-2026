@@ -10,7 +10,7 @@
  * The mega menu opens on hover (mouse) or click, closes on pointer leave (after
  * --dur-hover-intent), Escape, or when the nav goes mini.
  * Props: none (links from src/config/navigation.ts).
- * Tokens: --nav-height, --gutter, --logo-height-nav, --logo-mark-*, --nav-dropdown-*,
+ * Tokens: --nav-height, --gutter, --logo-height-nav(-sm), --logo-height-mark-sm, --logo-mark-*, --nav-dropdown-*,
  *         --nav-badge-*, --surface-hover, --grid-*, --radius-*, --text-*, --space-*,
  *         --dur-collapse, --dur-nav-fade, --dur-logo-collapse, --dur-theme, --dur-link,
  *         --dur-chevron, --ease-out-expo, --ease-standard, --ease-snappy, --z-nav.
@@ -142,6 +142,20 @@ import { ui } from '../../config/ui';
     .nav[data-scrolled] :global(.nav__logo) {
       clip-path: inset(-30% var(--logo-mark-end-inset) -30% var(--logo-mark-start));
       transform: translateX(calc(var(--logo-mark-start) * -1)) scale(var(--logo-mark-scale));
+    }
+    /* Phones: the wordmark fills the space beside the menu button; once scrolled the
+       butterfly is as tall as the buttons (the brand box grows instead of scaling). */
+    @media (max-width: 47.49rem) {
+      .nav__brand {
+        height: var(--logo-height-nav-sm);
+        transition: height var(--dur-logo-collapse) var(--ease-out-expo);
+      }
+      .nav[data-scrolled] .nav__brand {
+        height: var(--logo-height-mark-sm);
+      }
+      .nav[data-scrolled] :global(.nav__logo) {
+        transform: translateX(calc(var(--logo-mark-start) * -1));
+      }
     }
 
     .nav__cluster {
@@ -336,6 +350,7 @@ import { ui } from '../../config/ui';
 
     @media (prefers-reduced-motion: reduce) {
       .nav,
+      .nav__brand,
       .nav :global(.nav__logo),
       .nav__links,
       .nav :global(.nav__menu),
