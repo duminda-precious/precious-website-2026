@@ -191,7 +191,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--measure-quote` | `36em` |  | TestimonialCard |
 | `--measure-card` | `34ch` | mega menu descriptions | Nav |
 | `--measure-gate` | `40ch` | Approach description | ApproachSection |
-| `--measure-point` | `26ch` | AI card points | ProcessSection |
+| `--measure-subline-wide` | `60ch` | AI card description (two lines) | ProcessSection |
 
 ### SPACING
 

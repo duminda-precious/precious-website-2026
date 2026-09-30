@@ -165,12 +165,12 @@ const { headline, reel, news } = Astro.props;
         flex-direction: column;
         gap: var(--space-32);
         height: auto;
-        padding: calc(var(--nav-height) + var(--space-48)) var(--gutter) 0;
+        padding: var(--nav-height) var(--gutter) 0;
       }
       .hero__center {
         position: static;
         order: 1;
-        padding: 0;
+        padding: var(--hero-title-pad-sm) 0;
       }
       .hero :global(.news) {
         order: 2;

@@ -24,10 +24,14 @@
   img,
   picture,
   video,
-  canvas,
   svg {
     display: block;
     max-width: 100%;
+  }
+
+  /* Canvases size themselves (pixel effects deliberately overhang their box). */
+  canvas {
+    display: block;
   }
 
   input,
