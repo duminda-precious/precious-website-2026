@@ -2,12 +2,11 @@
 /**
  * CtaFooter: the closing CTA + footer nav + logo (section "call").
  * Layout per brief §2.9 on the 12-column grid:
- *   top row    headline (largest type on the page) + Book a call, cols 1–4 (the
- *              headline's lines keep to one line each and run into the empty
- *              cols 5–8); cols 5–8 stay empty to separate the CTA from the links;
- *              four link columns (Studio, More, Culture, Social), one each in cols 9–12
+ *   top row    headline (largest type on the page) + Book a call, cols 1–7;
+ *              link columns (Studio, More, Social) at cols 7–8, 9–10, 11–12,
+ *              beside the headline from 90rem, under it below that
  *   bottom row legal (mono) left; logo flush right, filling ~7 columns
- * Below lg everything stacks; the link columns sit two to a row.
+ * Below lg everything stacks; the three link columns sit side by side.
  * Reveal (brief M6, decision 2026-09-29): from lg the footer is sticky at the
  * bottom behind the page (SiteShell's .page sits above it with rounded bottom
  * corners), so the page lifts off to reveal it. Below lg, or when the footer is
@@ -156,7 +155,7 @@ import { ui } from '../../config/ui';
       }
     }
     .footer__col {
-      grid-column: span 6;
+      grid-column: span 4;
       display: flex;
       flex-direction: column;
       gap: var(--space-16);
@@ -204,15 +203,14 @@ import { ui } from '../../config/ui';
         position: sticky;
         bottom: 0;
       }
-      .footer__cta {
-        grid-column: 1 / span 4;
-      }
-      /* One column each from 9; the rest follow on the same row. */
-      .footer__col {
-        grid-column: span 1;
-      }
       .footer__col--1 {
-        grid-column: 9 / span 1;
+        grid-column: 7 / span 2;
+      }
+      .footer__col--2 {
+        grid-column: 9 / span 2;
+      }
+      .footer__col--3 {
+        grid-column: 11 / span 2;
       }
       .footer__legal {
         grid-column: 1 / span 5;
@@ -221,6 +219,12 @@ import { ui } from '../../config/ui';
       .footer__wordmark {
         grid-column: 6 / -1;
         grid-row: 1;
+      }
+    }
+    /* Wide screens: the headline and the link columns share the top row. */
+    @media (min-width: 90rem) {
+      .footer__cta {
+        grid-column: 1 / span 6;
       }
     }
   }

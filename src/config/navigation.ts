@@ -174,6 +174,13 @@ export const footerNav: FooterColumn[] = [
       { label: 'Clutch', href: site.socials.clutch, external: true },
     ],
   },
+  {
+    heading: 'Social',
+    links: [
+      { label: 'LinkedIn', href: site.socials.linkedin, external: true },
+      { label: 'Dribbble', href: site.socials.dribbble, external: true },
+    ],
+  },
 ];
 
 /** Footer links with the showInFooter flag applied. */

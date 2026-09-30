@@ -15,7 +15,7 @@
 | # | Behaviour | Where | Hook | Reduced motion |
 |---|---|---|---|---|
 | M1 | **Two-step hero.** Title over the reel under a white veil (`--hero-veil`, blur = veil × `--blur-reel-max`). First scroll is held: title dissolves word by word (`--pixel-dissolve`), veil lifts, reel sharpens, sound toggle appears, news stack hides. Scrolling up inside the hero glides back and the title resolves (`--pixel-resolve`). Reel shrinks into the section padding over `--hero-inset-scroll`. Hover and idle word glitches | `heroReveal.ts`, `Hero.astro` | `data-hero*` | Same two states, instant |
-| M1b | **Hero news stack.** Frosted cards, deck of 3, autoplay `--dur-autoplay`, wheel flips (page doesn't scroll), swipe | `newsStack.ts`, `NewsStack.astro` | `data-news`, `data-rel` | No autoplay |
+| M1b | **Hero news stack.** Frosted cards (solid depth greys on phones), deck of 3, autoplay `--dur-autoplay`, wheel flips (page doesn't scroll), swipe | `newsStack.ts`, `NewsStack.astro` | `data-news`, `data-rel` | No autoplay |
 | M2 | **Theme switch.** At every width, while Work spans the viewport (`--theme-enter` / `--theme-exit`) the page takes the dark theme; colours fade together | `themeSwitch.ts`, `SiteShell`, `Section` (`stage`) | `data-theme-stage`, `data-page-theme` | Instant |
 | M3 | **Rise-in.** Cards rise and fade in row by row. Distance and duration read per element (Work 120px/1s; Journal `--rise-distance-soft`/`--dur-rise-soft`) | `riseIn.ts` | `data-motion="rise-in"` | No movement |
 | M4 | **Client ticker.** Full-bleed logo loop between hero and Work; pauses off-screen and on keyboard focus | `ClientTicker.astro`, `marquee.ts` | `data-motion="marquee"` | Static row |
