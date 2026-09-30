@@ -5,7 +5,7 @@
 | **Audience** | AI coding agents (Claude Code) and developers continuing the build |
 | **Owner / approver** | Duminda (all approvals, content sign-off and open decisions go through Duminda) |
 | **Repository** | `duminda-precious/precious-website-2026` |
-| **Baseline** | branch `p2-design-handoff` (PR #1 into `master`), homepage complete |
+| **Baseline** | `master` (the homepage from `p2-design-handoff` is merged via PRs #1–#4 and #6); homepage complete |
 | **Version** | 1.0, 2026-09-30 |
 | **Status** | Ready for phase 3. Open inputs are listed in §14 |
 
@@ -424,7 +424,7 @@ Add new questions here as they come up (with the date), and record answers in th
 
 ### 15.1 Git and PRs
 
-- **Base:** `master` once PR #1 (`p2-design-handoff`) is merged. Until then, branch from `p2-design-handoff`.
+- **Base:** branch from the latest `master`. Merge any unmerged `p2-design-handoff` commits (e.g. docs updates) first.
 - **One branch + one PR per phase:** `p3-01-links-and-facts`, `p3-03-services`, etc. Commit per step inside the phase (`p3-03: services collection and schema`).
 - **Commits and PRs** end with the attribution lines the session provides.
 - **PR description:** summary · pages/files touched · content sources used (with URLs) · **Drafted copy for approval** · placeholder search result · QA table (§13) with screenshots · open questions · deviations from the design.
