@@ -54,6 +54,10 @@
     --color-accent-rose: #a4434f;
     --color-accent-violet: #6a4fa3;
 
+    /* Glow: saturated sky and pink, only as low-alpha light on Deep Ink (AI card). */
+    --color-glow-sky: #5eb8de;
+    --color-glow-pink: #f08caa;
+
     /* Status (product UI only; always pair with an icon or label) */
     --color-success: #1e7a52;
     --color-warning: #9a5b00;
@@ -72,27 +76,59 @@
        ------------------------------------------------------------------ */
     /* Button hover: mint top-left, sky top-right, rose from below */
     --wash-button:
-      radial-gradient(82% 82% at 0% 0%, #d6f1de 0%, #eef3f600 100%),
-      radial-gradient(82% 82% at 100% 0%, #9ccfe4 0%, #eef3f600 100%),
-      radial-gradient(82% 82% at 50% 120%, #f6c6d2 0%, #eef3f600 100%), #eef3f6;
+      radial-gradient(82% 82% at 0% 0%, var(--color-wash-mint) 0%, transparent 100%),
+      radial-gradient(82% 82% at 100% 0%, var(--color-wash-sky) 0%, transparent 100%),
+      radial-gradient(82% 82% at 50% 120%, var(--color-wash-rose) 0%, transparent 100%),
+      var(--color-slate-100);
     /* Starting-point media (Approach) */
     --wash-mint-sky:
-      radial-gradient(120% 90% at 0% 0%, #d6f1de 0%, transparent 60%),
-      radial-gradient(120% 90% at 100% 0%, #9ccfe4 0%, transparent 60%), #eef3f6;
+      radial-gradient(120% 90% at 0% 0%, var(--color-wash-mint) 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, var(--color-wash-sky) 0%, transparent 60%),
+      var(--color-slate-100);
     --wash-blush-rose:
-      radial-gradient(120% 90% at 0% 0%, #f7d9d2 0%, transparent 60%),
-      radial-gradient(120% 90% at 100% 0%, #f2c3c6 0%, transparent 60%), #eef3f6;
+      radial-gradient(120% 90% at 0% 0%, var(--color-wash-peach) 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, var(--color-wash-blush) 0%, transparent 60%),
+      var(--color-slate-100);
     --wash-lavender:
-      radial-gradient(120% 90% at 0% 0%, #dcc8f1 0%, transparent 60%),
-      radial-gradient(120% 90% at 100% 0%, #ead9f3 0%, transparent 60%), #eef3f6;
+      radial-gradient(120% 90% at 0% 0%, var(--color-wash-lavender) 0%, transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, var(--color-wash-lilac) 0%, transparent 60%),
+      var(--color-slate-100);
     /* Team hub core */
     --wash-hub:
-      radial-gradient(45% 45% at 28% 30%, #d6f1de 0%, transparent 100%),
-      radial-gradient(45% 45% at 72% 30%, #9ccfe4 0%, transparent 100%),
-      radial-gradient(50% 45% at 50% 78%, #f6c6d2 0%, transparent 100%), #eef3f6;
+      radial-gradient(45% 45% at 28% 30%, var(--color-wash-mint) 0%, transparent 100%),
+      radial-gradient(45% 45% at 72% 30%, var(--color-wash-sky) 0%, transparent 100%),
+      radial-gradient(50% 45% at 50% 78%, var(--color-wash-rose) 0%, transparent 100%),
+      var(--color-slate-100);
     /* Rims and edge glows (team hub, output chips) */
-    --wash-rim: conic-gradient(#9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4);
-    --wash-edge: linear-gradient(90deg, #9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4);
+    --wash-rim: conic-gradient(
+      var(--color-wash-sky),
+      var(--color-wash-lavender),
+      var(--color-wash-rose),
+      var(--color-wash-mint),
+      var(--color-wash-sky)
+    );
+    --wash-edge: linear-gradient(
+      90deg,
+      var(--color-wash-sky),
+      var(--color-wash-lavender),
+      var(--color-wash-rose),
+      var(--color-wash-mint),
+      var(--color-wash-sky)
+    );
+    /* AI card: sky and pink light from the top corners of the dark card */
+    --glow-ai:
+      radial-gradient(
+        70% 90% at 0% 0%,
+        color-mix(in srgb, var(--color-glow-sky) 32%, transparent) 0%,
+        color-mix(in srgb, var(--color-glow-sky) 10%, transparent) 35%,
+        transparent 65%
+      ),
+      radial-gradient(
+        70% 90% at 100% 0%,
+        color-mix(in srgb, var(--color-glow-pink) 28%, transparent) 0%,
+        color-mix(in srgb, var(--color-glow-pink) 8%, transparent) 35%,
+        transparent 65%
+      );
 
     /* Grain: 4–6% monochrome noise over large gradient areas (anti-banding). */
     --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -101,7 +137,6 @@
     /* ---------------------------------------------------------------------
        TYPOGRAPHY (theme-independent), brand guideline §05.
        Funnel Display: Hero → H3 and statements. Funnel Sans: quote → label.
-       Emphasis in a headline = one word in Light 300, Sage 700 (no italic).
        Sentence case; eyebrows are the only caps. Fluid sizes interpolate from
        the guideline's mobile scale (320px) to its web scale (1920px).
        ------------------------------------------------------------------ */
@@ -110,23 +145,24 @@
     --font-code: var(--font-family-code); /* dev pages only */
 
     /* Hero keeps the prototype's large sizes (decision 2026-09-29, phase 2). */
-    --text-hero: clamp(2.5rem, 9vw, 7.5rem); /* proto 40–120px, Display Light */
+    --text-hero: clamp(2.5rem, 7.5vw, 7.5rem); /* 40–120px, two lines (Claude Design) */
     --text-problem: clamp(1.375rem, 6vw, 5rem); /* proto 22–80px, Display Light */
 
     --text-closer: clamp(2.75rem, 2.4rem + 1.75vw, 4.5rem); /* Display 44 → 72: footer headline */
     --text-h1: clamp(2.25rem, 2rem + 1.25vw, 3.5rem); /* H1 36 → 56 */
-    --text-menu: 2.25rem; /* H1 mobile 36: mobile menu links */
+    --text-menu: clamp(2rem, 1.4rem + 2vw, 3.25rem); /* 32 → 52: full-page menu links */
     --text-statement: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem); /* H2 28 → 40: section headings */
     --text-figure: clamp(2.25rem, 2.1rem + 0.75vw, 3rem); /* Statement 48 (big numbers) */
     --text-title: clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem); /* H3 22 → 30: card titles */
     --text-quote: clamp(1.5rem, 1.3rem + 1vw, 2.5rem); /* Quote 24 → 40, Sans italic */
     --text-large: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem); /* H4 18 → 24 */
-    --text-note: 1.5rem; /* Note 24, Sans 500 Sage */
+    --text-note: 1.5rem; /* 24: team hub label (desktop) */
     --text-medium: clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem); /* Body L 20: sublines, quotes */
     --text-body: 1rem; /* Body 16 (never below on mobile) */
     --text-small: 0.875rem; /* Small 14 */
     --text-label: 0.875rem; /* Label 14: buttons, nav, pills */
     --text-eyebrow: 0.75rem; /* Eyebrow 12, title case: tags, legal, section eyebrows */
+    --text-micro: 0.625rem; /* 10: placeholder labels in small thumbnails */
 
     /* Weights: the scale ... */
     --weight-light: 300;
@@ -152,11 +188,15 @@
     --tracking-label: 0.04em; /* all caps needs a little air */
     --tracking-eyebrow: 0; /* title case, no caps tracking */
 
-    --leading-hero: 1.1; /* 88 / 80 */
+    --leading-hero: 1.02; /* tight two-line hero (Claude Design) */
     --leading-none: 1; /* single-line UI, problem line */
     --leading-closer: 1.06; /* 76 / 72 */
     --leading-heading: 1.15; /* H2 46 / 40 */
     --leading-large: 1.25; /* H4 30 / 24 */
+    --leading-menu: 1.1; /* full-page menu links */
+    --leading-tight: 1.2; /* hub label */
+    --leading-snug: 1.3; /* list titles (mega menu, news) */
+    --leading-compact: 1.45; /* small descriptions */
     --leading-quote: 1.2; /* 48 / 40 */
     --leading-medium: 1.6; /* Body L 32 / 20 */
     --leading-body: 1.625; /* Body 26 / 16 */
@@ -166,6 +206,9 @@
     --measure-subline: 44ch;
     --measure-quote: 36em;
     --measure-closer: 13ch;
+    --measure-card: 34ch; /* mega menu descriptions */
+    --measure-gate: 40ch; /* Approach description */
+    --measure-point: 26ch; /* AI card points */
 
     /* ---------------------------------------------------------------------
        SPACING
@@ -213,6 +256,16 @@
     --hero-scroll: 400vh;
     --nav-height: 3.875rem; /* brief header height ~62px; also the anchor offset */
     --tap-min: 2.75rem; /* 44px touch target */
+    --icon-button: 2.5rem; /* 40: square icon buttons (menu, close, card CTA) */
+    --icon-button-sm: 2rem; /* 32: news card arrow */
+    --icon-glyph: 0.75rem; /* 12: dots / close glyph inside an icon button */
+    --button-fly-width: 0.9375rem; /* 15: hover butterfly */
+    --button-fly-height: 0.75rem; /* 12 */
+    --news-width: 20rem; /* 320: hero news stack */
+    --news-height: 5.25rem; /* 84 */
+    --news-thumb: 4rem; /* 64 */
+    --team-max: 87.5rem; /* 1400: funnel width cap */
+    --nav-mini-at: 68.75rem; /* 1100: below this the nav is always collapsed (doc only; use literal in @media) */
 
     /* Radii (guideline: soft, never sharp, never blobby) */
     --radius-none: 0;
@@ -224,9 +277,9 @@
     --radius-pill: 999px; /* tags, pills */
 
     /* Elevation: tinted with Deep Ink, never black */
-    --shadow-e1: 0 1px 2px rgb(20 28 34 / 0.08); /* cards */
-    --shadow-e2: 0 4px 12px rgb(20 28 34 / 0.08); /* dropdowns */
-    --shadow-e3: 0 16px 40px rgb(20 28 34 / 0.14); /* modals */
+    --shadow-e1: 0 1px 2px color-mix(in srgb, var(--color-slate-900) 8%, transparent); /* cards, chips */
+    --shadow-e2: 0 4px 12px color-mix(in srgb, var(--color-slate-900) 8%, transparent); /* dropdowns */
+    --shadow-e3: 0 16px 40px color-mix(in srgb, var(--color-slate-900) 14%, transparent); /* modals */
 
     /* Logo (the footer logo is sized by its grid columns, not a token) */
     --logo-height-nav: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem); /* 14 → 18 */
@@ -236,6 +289,17 @@
     --pixel-unit-lg: 0.1875rem; /* 3px: slider arrows, FAQ */
 
     --border-width: 1px;
+    --focus-width: 2px;
+    --focus-offset: 3px;
+
+    /* Blur (only these amounts) */
+    --blur-glass: 24px; /* frosted cards over video */
+    --blur-edge: 14px; /* pixel edge on card media */
+    --blur-glow: 10px; /* chip edge glow */
+    --blur-halo: 16px; /* hub halo */
+    --blur-reel-max: 57px; /* hero reel blur at veil 1 (blur = veil × this) */
+    --glass-bg: color-mix(in srgb, var(--color-white) 62%, transparent);
+    --edge-fill: color-mix(in srgb, var(--color-white) 12%, transparent);
     --stripe-size: 8px; /* placeholder stripe band */
     --stripe-size-sm: 6px;
 
@@ -248,9 +312,23 @@
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* brief signature entrance ease */
     --ease-linear: linear;
     --ease-css: ease; /* the prototype's nav colour transition */
+    --ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1); /* mega menu open, hub burst */
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1); /* chevrons, link fills, press */
+    --ease-exit: cubic-bezier(0.3, 0, 1, 1); /* accelerating exits */
+    --ease-breathe: cubic-bezier(0.37, 0, 0.63, 1); /* ambient loops */
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric reveals */
+    --dur-press: 120ms; /* button press */
     --dur-fast: 200ms; /* hovers */
     --dur-base: 300ms;
     --dur-reveal: 450ms;
+    --dur-link: 160ms; /* link hover fill */
+    --dur-chevron: 240ms;
+    --dur-nav-fade: 320ms;
+    --dur-mega-in: 380ms;
+    --dur-mega-out: 200ms;
+    --dur-stack-fade: 400ms; /* news stack card fade */
+    --dur-expand: 420ms; /* accordions, card CTA pill */
+    --dur-collapse: 560ms; /* nav collapse, news stack slide, gate text */
     --dur-theme: 800ms;
     --dur-page: 900ms;
     --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
@@ -262,29 +340,54 @@
        through these block sizes (px), one frame each. */
     --pixel-resolve: 36 28 21 15 10 6 3; /* first view: coarse → crisp */
     --pixel-glitch: 3 7 14 20 12 6 3; /* idle: break into pixels and snap back */
+    --pixel-dissolve: 3 7 14 20 28 36; /* hero title out on the first scroll */
+    --pixel-ghost: 0.18; /* LCD ghost: the previous frame lingers at this opacity */
     --dur-pixel-frame-in: 70ms;
     --dur-pixel-frame-glitch: 55ms;
     --dur-pixel-word-stagger: 70ms; /* word to word on resolve */
+    --dur-cta-stagger: 40ms; /* word to word on a CTA's idle glitch */
     --dur-glitch-min: 2.2s; /* idle glitch every min + random(range) */
     --dur-glitch-range: 2.4s;
     --pixel-glitch-double: 0.3; /* chance a glitch hits two words */
-    /* Footer butterfly: pixels pop in, shuffled, in this many batches */
-    --pixel-pop-steps: 16;
-    --dur-pixel-pop: 800ms;
+    /* Butterfly logo: wing flap frames (8fps) and the hover colour ripple */
+    --dur-wing-frame: 125ms;
+    --dur-logo-ripple: 1500ms;
+    /* Button hover bloom (canvas): cell size, frame length, frames */
+    --pixel-cell-button: 6px;
+    --dur-bloom-frame: 40ms;
+    --bloom-steps: 10;
+    --dur-fly-land: 385ms; /* hover butterfly lands (7 steps) */
+    --dur-fly-lift: 275ms; /* lifts off vertically (5 steps) */
+    --dur-fly-width: 320ms; /* label makes room for it */
+    /* Card media pixel edge */
+    --pixel-cell-edge: 16px;
+    --dur-edge-frame: 55ms;
+    /* FAQ +/× pixel swap */
+    --dur-icon-frame: 55ms;
+    /* Canvas scenes: team funnel, AI card + footer rain */
+    --pixel-cell-flow: 12px;
+    --pixel-cell-rain: 8px;
+    /* Hero: veil fade and the held first scroll */
+    --dur-veil: 900ms;
+    --dur-hero-lock: 950ms;
+    --hero-inset-scroll: 320; /* px of scroll over which the reel shrinks into the padding */
+    /* Autoplay */
+    --dur-autoplay: 4s; /* testimonials, hero news */
     /* Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
        Mark position inside the logo (from reference/brand/logo-white.svg). */
     --logo-mark-start: 52.9%; /* 401 / 758 */
     --logo-mark-end-inset: 39.3%; /* (758 − 460.1) / 758 */
     --logo-mark-scale: 1.4;
     --dur-logo-collapse: 450ms;
-    /* Pixel reveal: page transition (M10) and mobile menu (M16) */
+    /* Butterfly wing transition: page changes, anchors and the full-page menu */
     --pixel-cell-page: 2rem; /* 32px cells for the full-screen cover */
-    --pixel-cell-menu: 1.5rem; /* 24px cells for the menu */
     --pixel-reveal-steps: 6;
-    --dur-pixel-reveal: 280ms; /* menu open */
-    --dur-pixel-reveal-out: 200ms; /* menu close */
-    --dur-page-cover: 220ms; /* page transition: old page covered (exit) */
-    --dur-page-reveal: 320ms; /* page transition: new page revealed (entrance) */
+    --pixel-feather: 0.18; /* soft leading edge of the wipe */
+    --dur-page-cover: 220ms; /* old page covered (exit) */
+    --dur-page-hold: 160ms; /* fully covered */
+    --dur-page-reveal: 320ms; /* new page revealed (entrance) */
+    --dur-menu-open: 300ms;
+    --dur-menu-close: 380ms;
     --rise-distance: 120px; /* brief entrance pattern */
     /* Feel controls (the Claude Design "Tweaks"; defaults as designed).
        Read at runtime by src/motion/tokens.ts. */
@@ -306,7 +409,10 @@
 
     /* Z-index scale */
     --z-footer: 0;
+    --z-below: -1;
     --z-page: 1;
+    --z-raised: 1; /* in-component layering */
+    --z-float: 2; /* hero news stack */
     --z-nav: 5;
     --z-dropdown: 10;
     --z-menu: 50;
@@ -317,7 +423,7 @@
        are documentation. Use the literal values in media queries:
          sm 30rem (480) · md 47.5rem (760: nav switch, work 2-col, prototype collapse)
          lg 62rem (992: brief structure change: 12-col work, 3-zone headers)
-         xl 75rem (1200) · 2xl 98.75rem (1580)
+         nav 68.75rem (1100: nav collapses below) · xl 75rem (1200) · 2xl 98.75rem (1580)
        Also exported from src/styles/breakpoints.ts. */
   }
 
@@ -359,12 +465,11 @@
   }
 
   /* Dark: the whole page while the Work stage is in view (M2 sets
-     .page[data-page-theme="dark"]). Deep Ink based. From md (760px) only: on phones
-     the page stays light throughout and the stage inherits the light tokens.
+     .page[data-page-theme="dark"]). Deep Ink based. At every width (Claude Design).
      While the switch runs (html[data-theme-switch]) the stage itself follows the
      page theme, so it is never light-on-white before the flip. Without JS the stage
      keeps its own dark theme. Other dark-themed blocks always apply it. */
-  @media (min-width: 47.5rem) {
+  @media all {
     [data-theme='dark']:not([data-theme-stage]),
     html:not([data-theme-switch]) [data-theme='dark'][data-theme-stage],
     [data-page-theme='dark'] {
@@ -423,7 +528,7 @@
 
     --border-subtle: var(--color-slate-800);
     --border-default: var(--color-slate-800);
-    --border-strong: rgb(255 255 255 / 0.7);
+    --border-strong: color-mix(in srgb, var(--color-white) 70%, transparent);
 
     --link: var(--color-wash-sky);
     --cta-bg: var(--color-white);
@@ -490,11 +595,7 @@
     --team-hub-size: clamp(9.375rem, 15vw, 11.875rem); /* 150 → 190 */
     --team-hub-bg: var(--wash-hub);
     --team-hub-fg: var(--color-slate-900);
-    --team-wire: rgb(86 104 116 / 0.35); /* Slate 600 at 35% */
-
-    /* Button ▸: hidden at rest; on hover the label steps left by half the glyph's
-       footprint (3-pixel play glyph + gap) and the glyph appears in the padding. */
-    --button-glyph-shift: calc((3 * var(--pixel-unit) + var(--space-8)) / 2); /* 7px */
+    --team-wire: color-mix(in srgb, var(--color-slate-600) 35%, transparent);
 
     /* Button hover: the soft wash that pixels in over the fill (M12) */
     --cta-hover-bg: var(--wash-button);
@@ -506,7 +607,7 @@
     /* AI card (process section) */
     --process-bg: var(--color-slate-900);
     --process-fg: var(--color-slate-50);
-    --process-rule: rgb(255 255 255 / 0.7);
+    --process-rule: color-mix(in srgb, var(--color-white) 70%, transparent);
 
     /* Solid pill (showreel sound control sits on the reel, always light) */
     --pill-solid-bg: var(--color-white);

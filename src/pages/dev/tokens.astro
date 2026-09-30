@@ -12,6 +12,7 @@ import SectionHeader from '../../components/primitives/SectionHeader.astro';
 import Stack from '../../components/primitives/Stack.astro';
 import Cluster from '../../components/primitives/Cluster.astro';
 import Button from '../../components/ui/Button.astro';
+import IconButton from '../../components/ui/IconButton.astro';
 import TextLink from '../../components/ui/TextLink.astro';
 import Tag from '../../components/ui/Tag.astro';
 import Pill from '../../components/ui/Pill.astro';
@@ -465,15 +466,18 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
           </Stack>
 
           <Stack gap="12">
-            <h3 class="dev-h3">Button (Label style, 12px corners, ▸; colours follow the theme)</h3>
+            <h3 class="dev-h3">Button (Label style, 4px corners, pixel bloom + butterfly on hover)</h3>
             <Cluster gap="16">
-              <Button size="sm" href="#" track="book-call">
-                Book a call
-              </Button>
               <Button href="#" track="book-call">
                 Book a call
               </Button>
-              <Button glyph={false}>Button element</Button>
+              <Button size="md" href="#" track="book-call" cta>
+                Book a call
+              </Button>
+              <Button fly={false}>Button element</Button>
+              <IconButton icon="dots" label="Menu" />
+              <IconButton icon="close" label="Close" />
+              <IconButton icon="arrow-right" label="Read article" size="sm" />
             </Cluster>
           </Stack>
 

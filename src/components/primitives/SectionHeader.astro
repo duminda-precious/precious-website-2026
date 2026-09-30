@@ -31,7 +31,7 @@ const hasAction = Astro.slots.has('action');
     </p>
   )}
   <div class:list={['section-header__main', { 'section-header__main--indented': hasEyebrow }]}>
-    <Heading id={headingId} class="section-header__statement" data-motion="pixel-text">
+    <Heading id={headingId} class="section-header__statement">
       <slot />
     </Heading>
     {hasSub && (

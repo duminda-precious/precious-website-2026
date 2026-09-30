@@ -16,7 +16,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-white` | `#ffffff` |  | — |
+| `--color-white` | `#ffffff` |  | buttonFx |
 
 ### Slate: cool neutrals, biased blue-cyan. 25 = page, 100 = containers,
 
@@ -24,25 +24,25 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--color-slate-25` | `#f6f9fb` |  | — |
 | `--color-slate-50` | `#f4f8fa` |  | — |
-| `--color-slate-100` | `#eef3f6` |  | — |
+| `--color-slate-100` | `#eef3f6` |  | buttonFx |
 | `--color-slate-150` | `#e3ebf0` |  | — |
 | `--color-slate-200` | `#dbe4ea` |  | — |
 | `--color-slate-400` | `#9fb1bc` |  | — |
 | `--color-slate-600` | `#566874` |  | — |
 | `--color-slate-700` | `#3c4d58` |  | — |
 | `--color-slate-800` | `#26333c` |  | — |
-| `--color-slate-900` | `#141c22` |  | — |
+| `--color-slate-900` | `#141c22` |  | buttonFx |
 
 ### Wash: the soft brand hues. Pale fills, glows and pixel tints only;
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-wash-sky` | `#9ccfe4` |  | — |
-| `--color-wash-lavender` | `#dcc8f1` |  | — |
-| `--color-wash-rose` | `#f6c6d2` |  | — |
-| `--color-wash-mint` | `#d6f1de` |  | — |
-| `--color-wash-sage` | `#a7c3c3` |  | — |
-| `--color-wash-blush` | `#f2c3c6` |  | — |
+| `--color-wash-sky` | `#9ccfe4` |  | buttonFx, logoWings |
+| `--color-wash-lavender` | `#dcc8f1` |  | logoWings |
+| `--color-wash-rose` | `#f6c6d2` |  | buttonFx, logoWings |
+| `--color-wash-mint` | `#d6f1de` |  | buttonFx, logoWings |
+| `--color-wash-sage` | `#a7c3c3` |  | logoWings |
+| `--color-wash-blush` | `#f2c3c6` |  | logoWings |
 | `--color-wash-peach` | `#f7d9d2` |  | — |
 | `--color-wash-lilac` | `#ead9f3` |  | — |
 
@@ -50,9 +50,16 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-accent-teal` | `#2f6f8f` |  | — |
-| `--color-accent-rose` | `#a4434f` |  | — |
-| `--color-accent-violet` | `#6a4fa3` |  | — |
+| `--color-accent-teal` | `#2f6f8f` |  | logoWings |
+| `--color-accent-rose` | `#a4434f` |  | logoWings |
+| `--color-accent-violet` | `#6a4fa3` |  | logoWings |
+
+### Glow: saturated sky and pink, only as low-alpha light on Deep Ink (AI card).
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--color-glow-sky` | `#5eb8de` |  | — |
+| `--color-glow-pink` | `#f08caa` |  | — |
 
 ### Status (product UI only; always pair with an icon or label)
 
@@ -75,28 +82,34 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--wash-button` | `radial-gradient(82% 82% at 0% 0%, #d6f1de 0%, #eef3f600 100%), radial-gradient(82% 82% at 100% 0%, #9ccfe4 0%, #eef3f600 100%), radial-gradient(82% 82% at 50% 120%, #f6c6d2 0%, #eef3f600 100%), #eef3f6` |  | — |
+| `--wash-button` | `radial-gradient(82% 82% at 0% 0%, var(--color-wash-mint) 0%, transparent 100%), radial-gradient(82% 82% at 100% 0%, var(--color-wash-sky) 0%, transparent 100%), radial-gradient(82% 82% at 50% 120%, var(--color-wash-rose) 0%, transparent 100%), var(--color-slate-100)` |  | — |
 
 ### Starting-point media (Approach)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--wash-mint-sky` | `radial-gradient(120% 90% at 0% 0%, #d6f1de 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, #9ccfe4 0%, transparent 60%), #eef3f6` |  | — |
-| `--wash-blush-rose` | `radial-gradient(120% 90% at 0% 0%, #f7d9d2 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, #f2c3c6 0%, transparent 60%), #eef3f6` |  | — |
-| `--wash-lavender` | `radial-gradient(120% 90% at 0% 0%, #dcc8f1 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, #ead9f3 0%, transparent 60%), #eef3f6` |  | — |
+| `--wash-mint-sky` | `radial-gradient(120% 90% at 0% 0%, var(--color-wash-mint) 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, var(--color-wash-sky) 0%, transparent 60%), var(--color-slate-100)` |  | — |
+| `--wash-blush-rose` | `radial-gradient(120% 90% at 0% 0%, var(--color-wash-peach) 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, var(--color-wash-blush) 0%, transparent 60%), var(--color-slate-100)` |  | — |
+| `--wash-lavender` | `radial-gradient(120% 90% at 0% 0%, var(--color-wash-lavender) 0%, transparent 60%), radial-gradient(120% 90% at 100% 0%, var(--color-wash-lilac) 0%, transparent 60%), var(--color-slate-100)` |  | — |
 
 ### Team hub core
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--wash-hub` | `radial-gradient(45% 45% at 28% 30%, #d6f1de 0%, transparent 100%), radial-gradient(45% 45% at 72% 30%, #9ccfe4 0%, transparent 100%), radial-gradient(50% 45% at 50% 78%, #f6c6d2 0%, transparent 100%), #eef3f6` |  | — |
+| `--wash-hub` | `radial-gradient(45% 45% at 28% 30%, var(--color-wash-mint) 0%, transparent 100%), radial-gradient(45% 45% at 72% 30%, var(--color-wash-sky) 0%, transparent 100%), radial-gradient(50% 45% at 50% 78%, var(--color-wash-rose) 0%, transparent 100%), var(--color-slate-100)` |  | — |
 
 ### Rims and edge glows (team hub, output chips)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--wash-rim` | `conic-gradient(#9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4)` |  | — |
-| `--wash-edge` | `linear-gradient(90deg, #9ccfe4, #dcc8f1, #f6c6d2, #d6f1de, #9ccfe4)` |  | — |
+| `--wash-rim` | `conic-gradient(var(--color-wash-sky), var(--color-wash-lavender), var(--color-wash-rose), var(--color-wash-mint), var(--color-wash-sky))` |  | — |
+| `--wash-edge` | `linear-gradient(90deg, var(--color-wash-sky), var(--color-wash-lavender), var(--color-wash-rose), var(--color-wash-mint), var(--color-wash-sky))` |  | — |
+
+### AI card: sky and pink light from the top corners of the dark card
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--glow-ai` | `radial-gradient(70% 90% at 0% 0%, color-mix(in srgb, var(--color-glow-sky) 32%, transparent) 0%, color-mix(in srgb, var(--color-glow-sky) 10%, transparent) 35%, transparent 65%), radial-gradient(70% 90% at 100% 0%, color-mix(in srgb, var(--color-glow-pink) 28%, transparent) 0%, color-mix(in srgb, var(--color-glow-pink) 8%, transparent) 35%, transparent 65%)` |  | — |
 
 ### Grain: 4–6% monochrome noise over large gradient areas (anti-banding).
 
@@ -117,22 +130,23 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--text-hero` | `clamp(2.5rem, 9vw, 7.5rem)` | proto 40–120px, Display Light | Hero |
+| `--text-hero` | `clamp(2.5rem, 7.5vw, 7.5rem)` | 40–120px, two lines (Claude Design) | Hero |
 | `--text-problem` | `clamp(1.375rem, 6vw, 5rem)` | proto 22–80px, Display Light | Hero |
 | `--text-closer` | `clamp(2.75rem, 2.4rem + 1.75vw, 4.5rem)` | Display 44 → 72: footer headline | CtaFooter |
 | `--text-h1` | `clamp(2.25rem, 2rem + 1.25vw, 3.5rem)` | H1 36 → 56 | — |
-| `--text-menu` | `2.25rem` | H1 mobile 36: mobile menu links | MobileMenu |
+| `--text-menu` | `clamp(2rem, 1.4rem + 2vw, 3.25rem)` | 32 → 52: full-page menu links | MobileMenu |
 | `--text-statement` | `clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem)` | H2 28 → 40: section headings | ApproachSection, FaqSection, ProcessSection, SectionHeader, StubLayout, TeamSection |
 | `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
 | `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | RevealCard, WorkCard |
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
 | `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, MobileMenu, TeamSection |
-| `--text-note` | `1.5rem` | Note 24, Sans 500 Sage | — |
+| `--text-note` | `1.5rem` | 24: team hub label (desktop) | — |
 | `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
 | `--text-small` | `0.875rem` | Small 14 | — |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
 | `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
+| `--text-micro` | `0.625rem` | 10: placeholder labels in small thumbnails | — |
 
 ### Weights: the scale ...
 
@@ -155,11 +169,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--tracking-body` | `0` |  | base |
 | `--tracking-label` | `0.04em` | all caps needs a little air | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
 | `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
-| `--leading-hero` | `1.1` | 88 / 80 | Hero |
+| `--leading-hero` | `1.02` | tight two-line hero (Claude Design) | Hero |
 | `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
 | `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
 | `--leading-large` | `1.25` | H4 30 / 24 | TeamSection |
+| `--leading-menu` | `1.1` | full-page menu links | — |
+| `--leading-tight` | `1.2` | hub label | — |
+| `--leading-snug` | `1.3` | list titles (mega menu, news) | — |
+| `--leading-compact` | `1.45` | small descriptions | — |
 | `--leading-quote` | `1.2` | 48 / 40 | — |
 | `--leading-medium` | `1.6` | Body L 32 / 20 | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--leading-body` | `1.625` | Body 26 / 16 | Disclosure, WorkCard, base |
@@ -172,6 +190,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--measure-subline` | `44ch` |  | SectionHeader, TeamSection |
 | `--measure-quote` | `36em` |  | TestimonialCard |
 | `--measure-closer` | `13ch` |  | CtaFooter |
+| `--measure-card` | `34ch` | mega menu descriptions | — |
+| `--measure-gate` | `40ch` | Approach description | — |
+| `--measure-point` | `26ch` | AI card points | — |
 
 ### SPACING
 
@@ -182,7 +203,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-4` | `0.25rem` |  | MobileMenu, Nav, RevealCard, TestimonialCard |
 | `--space-6` | `0.375rem` |  | MobileMenu, Nav, Pill, Tag, WorkCard |
 | `--space-8` | `0.5rem` |  | ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
-| `--space-10` | `0.625rem` |  | Button, Pill, Tag, TeamSection |
+| `--space-10` | `0.625rem` |  | Button, Pill, Tag, TeamSection, buttonFx |
 | `--space-12` | `0.75rem` |  | MobileMenu, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
 | `--space-14` | `0.875rem` |  | Button, Pill, ProcessSection |
 | `--space-16` | `1rem` |  | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, SiteShell |
@@ -223,13 +244,23 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--hero-scroll` | `400vh` |  | Hero |
 | `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | Hero, Nav, base |
 | `--tap-min` | `2.75rem` | 44px touch target | Button, ClientsSection, Disclosure, MobileMenu, Nav, Pill |
+| `--icon-button` | `2.5rem` | 40: square icon buttons (menu, close, card CTA) | IconButton |
+| `--icon-button-sm` | `2rem` | 32: news card arrow | IconButton |
+| `--icon-glyph` | `0.75rem` | 12: dots / close glyph inside an icon button | PixelIcon |
+| `--button-fly-width` | `0.9375rem` | 15: hover butterfly | buttonFx |
+| `--button-fly-height` | `0.75rem` | 12 | buttonFx |
+| `--news-width` | `20rem` | 320: hero news stack | — |
+| `--news-height` | `5.25rem` | 84 | — |
+| `--news-thumb` | `4rem` | 64 | — |
+| `--team-max` | `87.5rem` | 1400: funnel width cap | — |
+| `--nav-mini-at` | `68.75rem` | 1100: below this the nav is always collapsed (doc only; use literal in @media) | — |
 
 ### Radii (guideline: soft, never sharp, never blobby)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--radius-none` | `0` |  | — |
-| `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, Nav, SiteShell, TeamSection |
+| `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, IconButton, Nav, SiteShell, TeamSection |
 | `--radius-sm` | `0.5rem` | 8 | — |
 | `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
 | `--radius-lg` | `1.25rem` | 20 | — |
@@ -240,9 +271,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--shadow-e1` | `0 1px 2px rgb(20 28 34 / 0.08)` | cards | — |
-| `--shadow-e2` | `0 4px 12px rgb(20 28 34 / 0.08)` | dropdowns | — |
-| `--shadow-e3` | `0 16px 40px rgb(20 28 34 / 0.14)` | modals | — |
+| `--shadow-e1` | `0 1px 2px color-mix(in srgb, var(--color-slate-900) 8%, transparent)` | cards, chips | — |
+| `--shadow-e2` | `0 4px 12px color-mix(in srgb, var(--color-slate-900) 8%, transparent)` | dropdowns | — |
+| `--shadow-e3` | `0 16px 40px color-mix(in srgb, var(--color-slate-900) 14%, transparent)` | modals | — |
 
 ### Logo (the footer logo is sized by its grid columns, not a token)
 
@@ -257,6 +288,20 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
 | `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
+| `--focus-width` | `2px` |  | — |
+| `--focus-offset` | `3px` |  | — |
+
+### Blur (only these amounts)
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--blur-glass` | `24px` | frosted cards over video | — |
+| `--blur-edge` | `14px` | pixel edge on card media | — |
+| `--blur-glow` | `10px` | chip edge glow | — |
+| `--blur-halo` | `16px` | hub halo | — |
+| `--blur-reel-max` | `57px` | hero reel blur at veil 1 (blur = veil × this) | — |
+| `--glass-bg` | `color-mix(in srgb, var(--color-white) 62%, transparent)` |  | — |
+| `--edge-fill` | `color-mix(in srgb, var(--color-white) 12%, transparent)` |  | — |
 | `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
 
@@ -264,45 +309,107 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | Button, MobileMenu, Nav, SiteShell, gsap, tokens |
-| `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap, tokens |
-| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | Nav, gsap, tokens |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | MobileMenu, Nav, SiteShell, gsap |
+| `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap |
+| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | Nav, buttonFx, gsap |
 | `--ease-linear` | `linear` |  | ClientsSection |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
-| `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, tokens |
-| `--dur-base` | `300ms` |  | RevealCard, disclosure, gsap, tokens |
-| `--dur-reveal` | `450ms` |  | RevealCard, tokens |
-| `--dur-theme` | `800ms` |  | Nav, tokens |
-| `--dur-page` | `900ms` |  | SiteShell, themeSwitch, tokens |
-| `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn, tokens |
-| `--dur-marquee` | `60s` |  | ClientsSection, tokens |
+| `--ease-emphasized` | `cubic-bezier(0.05, 0.7, 0.1, 1)` | mega menu open, hub burst | — |
+| `--ease-snappy` | `cubic-bezier(0.2, 0, 0, 1)` | chevrons, link fills, press | buttonFx |
+| `--ease-exit` | `cubic-bezier(0.3, 0, 1, 1)` | accelerating exits | buttonFx |
+| `--ease-breathe` | `cubic-bezier(0.37, 0, 0.63, 1)` | ambient loops | — |
+| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | symmetric reveals | — |
+| `--dur-press` | `120ms` | button press | buttonFx |
+| `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, buttonFx |
+| `--dur-base` | `300ms` |  | RevealCard, disclosure, gsap |
+| `--dur-reveal` | `450ms` |  | RevealCard |
+| `--dur-link` | `160ms` | link hover fill | — |
+| `--dur-chevron` | `240ms` |  | buttonFx |
+| `--dur-nav-fade` | `320ms` |  | — |
+| `--dur-mega-in` | `380ms` |  | — |
+| `--dur-mega-out` | `200ms` |  | — |
+| `--dur-stack-fade` | `400ms` | news stack card fade | — |
+| `--dur-expand` | `420ms` | accordions, card CTA pill | — |
+| `--dur-collapse` | `560ms` | nav collapse, news stack slide, gate text | — |
+| `--dur-theme` | `800ms` |  | Nav |
+| `--dur-page` | `900ms` |  | SiteShell, themeSwitch |
+| `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn |
+| `--dur-marquee` | `60s` |  | ClientsSection |
 
 ### Button hover: the gradient fades over the fill (exits faster)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--dur-fill-in` | `240ms` |  | Button |
-| `--dur-fill-out` | `160ms` |  | Button |
+| `--dur-fill-in` | `240ms` |  | — |
+| `--dur-fill-out` | `160ms` |  | — |
 
 ### Pixel text (M13, ported from the parallel prototype): words pixelate
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | pixelText, tokens |
-| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | buttonGlitch, pixelText, tokens |
-| `--dur-pixel-frame-in` | `70ms` |  | pixelText, tokens |
-| `--dur-pixel-frame-glitch` | `55ms` |  | buttonGlitch, pixelText, tokens |
-| `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | pixelText, tokens |
-| `--dur-glitch-min` | `2.2s` | idle glitch every min + random(range) | pixelText, tokens |
-| `--dur-glitch-range` | `2.4s` |  | pixelText, tokens |
-| `--pixel-glitch-double` | `0.3` | chance a glitch hits two words | pixelText, tokens |
+| `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | — |
+| `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | buttonGlitch |
+| `--pixel-dissolve` | `3 7 14 20 28 36` | hero title out on the first scroll | — |
+| `--pixel-ghost` | `0.18` | LCD ghost: the previous frame lingers at this opacity | logoWings |
+| `--dur-pixel-frame-in` | `70ms` |  | — |
+| `--dur-pixel-frame-glitch` | `55ms` |  | buttonGlitch |
+| `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | — |
+| `--dur-cta-stagger` | `40ms` | word to word on a CTA's idle glitch | buttonGlitch |
+| `--dur-glitch-min` | `2.2s` | idle glitch every min + random(range) | buttonGlitch |
+| `--dur-glitch-range` | `2.4s` |  | buttonGlitch |
+| `--pixel-glitch-double` | `0.3` | chance a glitch hits two words | — |
 
-### Footer butterfly: pixels pop in, shuffled, in this many batches
+### Butterfly logo: wing flap frames (8fps) and the hover colour ripple
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-pop-steps` | `16` |  | logoPop, tokens |
-| `--dur-pixel-pop` | `800ms` |  | logoPop, tokens |
+| `--dur-wing-frame` | `125ms` |  | buttonFx, logoWings |
+| `--dur-logo-ripple` | `1500ms` |  | logoWings |
+
+### Button hover bloom (canvas): cell size, frame length, frames
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-cell-button` | `6px` |  | buttonFx |
+| `--dur-bloom-frame` | `40ms` |  | buttonFx |
+| `--bloom-steps` | `10` |  | buttonFx |
+| `--dur-fly-land` | `385ms` | hover butterfly lands (7 steps) | buttonFx |
+| `--dur-fly-lift` | `275ms` | lifts off vertically (5 steps) | buttonFx |
+| `--dur-fly-width` | `320ms` | label makes room for it | buttonFx |
+
+### Card media pixel edge
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-cell-edge` | `16px` |  | — |
+| `--dur-edge-frame` | `55ms` |  | — |
+
+### FAQ +/× pixel swap
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--dur-icon-frame` | `55ms` |  | — |
+
+### Canvas scenes: team funnel, AI card + footer rain
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--pixel-cell-flow` | `12px` |  | — |
+| `--pixel-cell-rain` | `8px` |  | — |
+
+### Hero: veil fade and the held first scroll
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--dur-veil` | `900ms` |  | — |
+| `--dur-hero-lock` | `950ms` |  | — |
+| `--hero-inset-scroll` | `320` | px of scroll over which the reel shrinks into the padding | — |
+
+### Autoplay
+
+| Token | Value | Note | Used in |
+|---|---|---|---|
+| `--dur-autoplay` | `4s` | testimonials, hero news | — |
 
 ### Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
 
@@ -313,17 +420,18 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--logo-mark-scale` | `1.4` |  | Nav |
 | `--dur-logo-collapse` | `450ms` |  | Nav |
 
-### Pixel reveal: page transition (M10) and mobile menu (M16)
+### Butterfly wing transition: page changes, anchors and the full-page menu
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | pageTransition, pixelClip, tokens |
-| `--pixel-cell-menu` | `1.5rem` | 24px cells for the menu | MobileMenu, pixelClip, tokens |
-| `--pixel-reveal-steps` | `6` |  | pixelClip, tokens |
-| `--dur-pixel-reveal` | `280ms` | menu open | MobileMenu, pixelClip, tokens |
-| `--dur-pixel-reveal-out` | `200ms` | menu close | MobileMenu, pixelClip, tokens |
-| `--dur-page-cover` | `220ms` | page transition: old page covered (exit) | pageTransition, pixelClip, tokens |
-| `--dur-page-reveal` | `320ms` | page transition: new page revealed (entrance) | pageTransition, pixelClip, tokens |
+| `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | pageTransition, pixelClip |
+| `--pixel-reveal-steps` | `6` |  | pixelClip |
+| `--pixel-feather` | `0.18` | soft leading edge of the wipe | — |
+| `--dur-page-cover` | `220ms` | old page covered (exit) | pageTransition, pixelClip |
+| `--dur-page-hold` | `160ms` | fully covered | — |
+| `--dur-page-reveal` | `320ms` | new page revealed (entrance) | pageTransition, pixelClip |
+| `--dur-menu-open` | `300ms` |  | — |
+| `--dur-menu-close` | `380ms` |  | — |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 
 ### Feel controls (the Claude Design "Tweaks"; defaults as designed).
@@ -331,9 +439,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--motion-tempo` | `1` | multiplies every pixel-motion duration: Calm 1.5 · Standard 1 · Lively 0.65 | tokens |
-| `--hero-veil` | `0.75` | white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px | tokens |
-| `--pixel-tint` | `0.3` | share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 | tokens |
-| `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn, tokens |
+| `--hero-veil` | `0.75` | white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px | — |
+| `--pixel-tint` | `0.3` | share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 | — |
+| `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn |
 | `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |
 | `--disabled-opacity` | `0.3` |  | ClientsSection |
 
@@ -359,7 +467,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--z-footer` | `0` |  | CtaFooter |
+| `--z-below` | `-1` |  | — |
 | `--z-page` | `1` |  | SiteShell |
+| `--z-raised` | `1` | in-component layering | — |
+| `--z-float` | `2` | hero news stack | — |
 | `--z-nav` | `5` |  | Nav |
 | `--z-dropdown` | `10` |  | Nav |
 | `--z-menu` | `50` |  | — |
@@ -386,8 +497,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--border-default` | `var(--color-slate-200)` |  | Disclosure |
 | `--border-strong` | `var(--color-slate-400)` |  | ClientsSection, Pill |
 | `--link` | `var(--color-accent-teal)` |  | — |
-| `--cta-bg` | `var(--color-slate-900)` | Deep Ink button | Button, SiteShell |
-| `--cta-fg` | `var(--color-white)` |  | Button, SiteShell |
+| `--cta-bg` | `var(--color-slate-900)` | Deep Ink button | Button, IconButton, SiteShell |
+| `--cta-fg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
 | `--focus-ring` | `var(--color-accent-teal)` |  | RevealCard, WorkCard, base |
 | `--tag-border` | `var(--border-strong)` |  | Tag |
 | `--placeholder-stripe-a` | `var(--color-slate-100)` |  | MediaFrame |
@@ -411,10 +522,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-strong` | `var(--color-white)` |  | — |
 | `--border-subtle` | `var(--color-slate-800)` |  | CtaFooter, Section |
 | `--border-default` | `var(--color-slate-800)` |  | Disclosure |
-| `--border-strong` | `rgb(255 255 255 / 0.7)` |  | ClientsSection, Pill |
+| `--border-strong` | `color-mix(in srgb, var(--color-white) 70%, transparent)` |  | ClientsSection, Pill |
 | `--link` | `var(--color-wash-sky)` |  | — |
-| `--cta-bg` | `var(--color-white)` |  | Button, SiteShell |
-| `--cta-fg` | `var(--color-slate-900)` |  | Button, SiteShell |
+| `--cta-bg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
+| `--cta-fg` | `var(--color-slate-900)` |  | Button, IconButton, SiteShell |
 | `--focus-ring` | `var(--color-wash-sky)` |  | RevealCard, WorkCard, base |
 | `--tag-border` | `var(--color-slate-700)` |  | Tag |
 | `--placeholder-stripe-a` | `var(--color-slate-800)` |  | MediaFrame |
@@ -479,20 +590,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--team-hub-size` | `clamp(9.375rem, 15vw, 11.875rem)` | 150 → 190 | TeamSection |
 | `--team-hub-bg` | `var(--wash-hub)` |  | TeamSection |
 | `--team-hub-fg` | `var(--color-slate-900)` |  | TeamSection |
-| `--team-wire` | `rgb(86 104 116 / 0.35)` | Slate 600 at 35% | TeamSection |
-
-### Button ▸: hidden at rest; on hover the label steps left by half the glyph's
-
-| Token | Value | Note | Used in |
-|---|---|---|---|
-| `--button-glyph-shift` | `calc((3 * var(--pixel-unit) + var(--space-8)) / 2)` | 7px | Button |
+| `--team-wire` | `color-mix(in srgb, var(--color-slate-600) 35%, transparent)` |  | TeamSection |
 
 ### Button hover: the soft wash that pixels in over the fill (M12)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--cta-hover-bg` | `var(--wash-button)` |  | Button |
-| `--cta-hover-fg` | `var(--color-slate-900)` |  | Button |
+| `--cta-hover-bg` | `var(--wash-button)` |  | Button, IconButton |
+| `--cta-hover-fg` | `var(--color-slate-900)` |  | Button, IconButton, buttonFx |
 
 ### Page-transition cover
 
@@ -506,7 +611,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--process-bg` | `var(--color-slate-900)` |  | ProcessSection |
 | `--process-fg` | `var(--color-slate-50)` |  | ProcessSection |
-| `--process-rule` | `rgb(255 255 255 / 0.7)` |  | ProcessSection |
+| `--process-rule` | `color-mix(in srgb, var(--color-white) 70%, transparent)` |  | ProcessSection |
 
 ### Solid pill (showreel sound control sits on the reel, always light)
 

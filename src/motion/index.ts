@@ -15,9 +15,9 @@ import { videoInView } from './videoInView';
 import { riseIn } from './riseIn';
 import { slider } from './slider';
 import { disclosure } from './disclosure';
+import { buttonFx } from './buttonFx';
 import { buttonGlitch } from './buttonGlitch';
-import { pixelText } from './pixelText';
-import { logoPop } from './logoPop';
+import { logoWings } from './logoWings';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -37,9 +37,9 @@ const modules: MotionModule[] = [
   riseIn,
   slider,
   disclosure,
+  buttonFx,
   buttonGlitch,
-  pixelText,
-  logoPop,
+  logoWings,
 ];
 
 let cleanups: (() => void)[] = [];
