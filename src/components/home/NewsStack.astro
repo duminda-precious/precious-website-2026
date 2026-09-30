@@ -1,14 +1,15 @@
 ---
 /**
  * NewsStack (Claude Design): mini news / trust cards, bottom-left of the hero.
- * Solid cards (thumbnail, title, two-line description, square arrow link)
+ * Frosted-glass cards (thumbnail, title, two-line description, square arrow link)
  * stacked like a deck: the front card, and two more peeking below it with only their
- * fill showing (each a step darker, for depth). Every --dur-autoplay the front card lifts up and fades out while the
+ * glass showing. Every --dur-autoplay the front card lifts up and fades out while the
  * others slide forward. Pauses on hover and keyboard focus; the wheel over the stack
  * flips cards (down = next, up = previous; the page doesn't scroll from there);
  * swipe on touch. Hides with the title when the hero reveals.
  * Props: items ({ title, body, cta, href, tint }).
- * Tokens: --news-width/-height/-pad/-thumb/-peek/-scale-step/-bg-*, --news-thumb-*, --icon-button,
+ * Tokens: --news-width/-height/-pad/-thumb/-peek/-scale-step/-fade-*, --news-bg-* (phones), --news-thumb-*, --glass-bg,
+ *         --glass-saturate, --blur-glass, --icon-button,
  *         --radius-md, --radius-sm, --text-body, --text-small, --text-micro,
  *         --leading-snug, --text-secondary, --placeholder-fg, --gutter, --z-float,
  *         --dur-collapse, --dur-stack-fade, --dur-base, --ease-out-expo, --ease-standard.
@@ -81,28 +82,49 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
       gap: var(--space-12);
       padding: var(--news-pad);
       border-radius: var(--radius-md);
-      background: var(--news-bg-2);
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
+      backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
       transform-origin: 50% 100%;
       z-index: var(--news-z);
       transition:
         transform var(--dur-collapse) var(--ease-out-expo),
-        background-color var(--dur-collapse) var(--ease-out-expo),
         opacity var(--dur-stack-fade) var(--ease-standard);
     }
     /* Deck positions (set by newsStack.ts; the markup starts on card 1). */
     .news__card[data-rel='0'] {
       transform: none;
       opacity: 1;
-      background: var(--news-bg-0);
     }
     .news__card[data-rel='1'] {
       transform: translateY(var(--news-peek)) scale(calc(1 - var(--news-scale-step)));
-      opacity: 1;
-      background: var(--news-bg-1);
+      opacity: var(--news-fade-1);
     }
     .news__card[data-rel='2'] {
       transform: translateY(calc(var(--news-peek) * 2)) scale(calc(1 - var(--news-scale-step) * 2));
-      opacity: 1;
+      opacity: var(--news-fade-2);
+    }
+    /* Phones: solid fills, a grey step darker per depth, no fade. */
+    @media (max-width: 47.49rem) {
+      .news__card {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        background: var(--news-bg-2);
+        transition:
+          transform var(--dur-collapse) var(--ease-out-expo),
+          background-color var(--dur-collapse) var(--ease-out-expo),
+          opacity var(--dur-stack-fade) var(--ease-standard);
+      }
+      .news__card[data-rel='0'] {
+        background: var(--news-bg-0);
+      }
+      .news__card[data-rel='1'] {
+        opacity: 1;
+        background: var(--news-bg-1);
+      }
+      .news__card[data-rel='2'] {
+        opacity: 1;
+      }
     }
     /* The card that just left lifts up and fades. */
     .news__card[data-rel='last'] {
@@ -116,7 +138,7 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
     .news__card:not([data-rel='0']) {
       pointer-events: none;
     }
-    /* Cards behind show only their fill. */
+    /* Cards behind show only their glass. */
     .news__thumb,
     .news__text,
     .news__card :global(.news__link) {

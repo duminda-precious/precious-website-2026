@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<a href="{{ href }}" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onFocus="{{ enter }}" onBlur="{{ leave }}" style-hover="opacity:1" style="display:flex;flex-direction:column;gap:12px;color:var(--fg, #141c22);text-decoration:none;cursor:pointer">
+<div style="position:relative;display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:{{ aspect }};overflow:hidden;border-radius:12px;background:repeating-linear-gradient(45deg,var(--sa, #eef3f6) 0 8px,var(--sb, #f4f8fa) 8px 16px)">
+<sc-if value="{{ video }}" hint-placeholder-val="{{ false }}"><video src="{{ video }}" poster="{{ poster }}" muted="{{ true }}" playsInline="{{ true }}" loop="{{ true }}" autoPlay="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video></sc-if>
+<sc-if value="{{ img }}" hint-placeholder-val="{{ false }}"><img src="{{ img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if>
+<sc-if value="{{ noMedia }}" hint-placeholder-val="{{ true }}"><span style="font-size:0.75rem;color:var(--fg2, #566874)">{{ placeholder }}</span></sc-if>
+<div ref="{{ edgeRef }}" style="position:absolute;inset:0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgb(255 255 255 / 0.12);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;opacity:0;pointer-events:none"></div>
+<span style="position:absolute;right:16px;bottom:16px;z-index:1;display:inline-flex;align-items:center;justify-content:flex-end;height:40px;padding:0 13px;border-radius:4px;background:#ffffff;color:#141c22;pointer-events:none;clip-path:{{ clip }};transition:clip-path 420ms cubic-bezier(0.16,1,0.3,1)"><span style="display:inline-flex;align-items:center;font-weight:500;letter-spacing:0.04em;font-size:0.875rem;text-transform:uppercase;line-height:1;white-space:nowrap;opacity:{{ labelOp }};transition:opacity 240ms cubic-bezier(0.4,0,0.2,1)">{{ cta }}</span><svg viewBox="0 0 7 5" width="14" height="10" style="fill:currentColor;flex:none;margin-left:8px"><path d="M4 0h1v1h-1zM5 1h1v1h-1zM0 2h7v1h-7zM5 3h1v1h-1zM4 4h1v1h-1z"></path></svg></span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><span style="display:inline-block;padding:6px 10px;border:1px solid var(--bstrong, #9fb1bc);border-radius:999px;font-size:0.75rem;line-height:1;white-space:nowrap;flex:none">{{ tag }}</span></div>
+<h3 style="font-family:'Funnel Display','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem);letter-spacing:-0.01em;line-height:1.15;text-wrap:pretty">{{ title }}</h3>
+<sc-if value="{{ summary }}" hint-placeholder-val="{{ false }}"><p style="color:var(--fg2, #566874)">{{ summary }}</p></sc-if>
+</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:520},&quot;href&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;tag&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Journal&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Post title&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;summary&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cta&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Read article&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;video&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;poster&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;img&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;placeholder&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Image&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;aspect&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1 / 1&quot;,&quot;5 / 6&quot;,&quot;4 / 3&quot;,&quot;16 / 9&quot;],&quot;default&quot;:&quot;1 / 1&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;seed&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;tempo&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state={on:false};edgeRef=React.createRef();
+  componentWillUnmount(){clearTimeout(this.eT);clearInterval(this.eN);}
+  // Pixel edge: a ragged band of blurred cells steps in around the media, then breathes while hovered.
+  edge(on){const el=this.edgeRef.current;if(!el)return;clearTimeout(this.eT);clearInterval(this.eN);const i=this.props.seed??0,tp=this.props.tempo??1;
+    const W=el.offsetWidth,H=el.offsetHeight,S=16,cols=Math.ceil(W/S),rows=Math.ceil(H/S);if(!cols||!rows)return;
+    const c=document.createElement('canvas');c.width=cols*S;c.height=rows*S;const x=c.getContext('2d');
+    const rnd=(a,b)=>{const s=Math.sin(a*127.1+b*311.7+i*17.3)*43758.5453;return s-Math.floor(s);};
+    const BAND=4,cells=[];for(let r=0;r<rows;r++)for(let q=0;q<cols;q++){const d=Math.min(q,r,cols-1-q,rows-1-r);if(d>=BAND)continue;if(rnd(q+53,r+71)>[0.85,0.55,0.3,0.12][d])continue;cells.push({q,r,t:d+rnd(q,r)*1.4,a:1,ph:rnd(q+7,r+3)*6.28,sp:0.6+rnd(q+11,r+5)*1.2});}
+    const STEPS=4,MAX=BAND+1.4;let s=this.eS??0;
+    const draw=th=>{x.clearRect(0,0,c.width,c.height);x.fillStyle='#000';for(const e of cells)if(e.t<th&&e.a>0.02){x.globalAlpha=e.a;x.fillRect(e.q*S,e.r*S,S,S);}x.globalAlpha=1;
+      const url='url('+c.toDataURL()+')';el.style.webkitMaskImage=url;el.style.maskImage=url;el.style.webkitMaskSize=el.style.maskSize=cols*S+'px '+rows*S+'px';};
+    const noise=()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const t0=performance.now();this.eN=setInterval(()=>{const t=(performance.now()-t0)/1000;for(const e of cells)e.a=Math.min(1,(0.5+0.5*Math.sin(e.ph+t*e.sp*2))*1.4);draw(MAX);},40);};
+    const tick=()=>{s+=on?1:-1;this.eS=s;draw(MAX*s/STEPS);el.style.opacity=s>0?'1':'0';if(on?s<STEPS:s>0)this.eT=setTimeout(tick,55*tp);else if(on)noise();};
+    if(on?s<STEPS:s>0)tick();else if(on)noise();}
+  renderVals(){const p=this.props,on=this.state.on;
+    return {href:p.href??'#',tag:p.tag??'Tag',title:p.title??'Post title',summary:p.summary??'',cta:p.cta??'Read article',video:p.video||null,poster:p.poster||null,img:p.img||null,noMedia:!p.video&&!p.img,placeholder:p.placeholder??'Image',aspect:p.aspect??'1 / 1',
+      edgeRef:this.edgeRef,labelOp:on?1:0,clip:on?'inset(0 0 0 0 round 4px)':'inset(0 0 0 calc(100% - 40px) round 4px)',
+      enter:()=>{if(!this.state.on){this.setState({on:true});this.edge(true);}},leave:()=>{if(this.state.on){this.setState({on:false});this.edge(false);}}};}
+}
+</script>
+</body>
+</html>
