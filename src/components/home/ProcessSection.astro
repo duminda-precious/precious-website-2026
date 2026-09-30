@@ -13,11 +13,12 @@
  * below md the points stack.
  * Props: heading, subline, stat, points, agentLink.
  * Tokens: ink theme, --process-*, --glow-ai, --section-py, --section-py-tight, --gutter,
- *         --grid-*, --text-statement, --text-closer, --text-medium, --text-eyebrow, --space-*.
+ *         --grid-*, --text-closer, --text-medium, --text-eyebrow, --space-*. Header: SectionHeader.
  * Motion hooks: data-ai, data-ai-window, data-ai-rise, data-ai-stat, data-rain,
  *               data-rain-scope, data-rain-cta.
  */
 import Button from '../ui/Button.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
 
 interface Props {
   heading: string;
@@ -38,16 +39,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
       </div>
     </div>
 
-    <div class="ai__head">
-      <div class="ai__intro" data-ai-rise>
-        <h2 id="process-title" class="ai__heading">{heading}</h2>
-        <p class="ai__sub">{subline}</p>
-      </div>
-      <div class="ai__stat" data-ai-rise>
+    <SectionHeader headingId="process-title" class="ai__head" data-ai-rise>
+      {heading}
+      <Fragment slot="sub">{subline}</Fragment>
+      <div slot="action" class="ai__stat">
         <span class="ai__figure"><span data-ai-stat data-value={stat.value}>{stat.value}</span>{stat.suffix}</span>
         <span class="ai__caption">{stat.caption}</span>
       </div>
-    </div>
+    </SectionHeader>
 
     <div class="ai__row">
       <ol class="ai__points">
@@ -100,39 +99,22 @@ const pad = (n: number) => String(n).padStart(2, '0');
       opacity: var(--process-rain-opacity);
       mask-image: linear-gradient(90deg, transparent, #000 70%);
     }
-    .ai__head,
     .ai__row {
       position: relative;
       display: grid;
       grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
       column-gap: var(--grid-gap-col);
     }
-    .ai__head {
-      row-gap: var(--space-24);
-      margin-bottom: var(--header-gap);
+    .ai__card :global(.ai__head) {
+      position: relative;
     }
     .ai__row {
       row-gap: var(--space-32);
       align-items: end;
     }
-    .ai__intro,
-    .ai__stat,
     .ai__points,
     .ai__cta {
       grid-column: 1 / -1;
-    }
-    .ai__heading {
-      max-width: var(--measure-statement);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
-    }
-    .ai__sub {
-      max-width: var(--measure-subline);
-      margin-top: var(--space-12);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
     }
     .ai__stat {
       display: flex;
@@ -182,12 +164,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       }
     }
     @media (min-width: 62rem) {
-      .ai__intro {
-        grid-column: 1 / span 9;
-      }
       .ai__stat {
-        grid-column: 10 / -1;
-        justify-self: end;
         align-items: flex-end;
         text-align: right;
       }

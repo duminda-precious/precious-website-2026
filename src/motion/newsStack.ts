@@ -57,7 +57,7 @@ export const newsStack: MotionModule = {
         if (Math.abs(acc) > length('--gesture-wheel')) {
           flip(acc > 0 ? 1 : -1);
           acc = 0;
-          lockUntil = now + ms('--dur-news-lock', true);
+          lockUntil = now + ms('--dur-news-lock');
         }
       },
       { passive: false, signal },
@@ -105,7 +105,7 @@ export const newsStack: MotionModule = {
       ? 0
       : window.setInterval(() => {
           if (hover || document.hidden || hero?.hasAttribute('data-revealed')) return;
-          if (performance.now() - last >= ms('--dur-autoplay', true)) flip(1);
+          if (performance.now() - last >= ms('--dur-autoplay')) flip(1);
         }, 250);
     render();
 

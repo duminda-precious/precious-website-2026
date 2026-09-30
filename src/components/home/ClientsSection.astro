@@ -5,18 +5,16 @@
  * Slider (M9): a full-bleed horizontal scroll-snap row of testimonial cards that loops
  * endlessly (three copies; it re-centres on the middle copy when scrolling settles)
  * and advances one card every --dur-autoplay, pausing on hover, focus, a hidden tab,
- * and under reduced motion. Round ← → buttons move one card; on hover they turn
- * solid and their arrow glitches.
+ * and under reduced motion. ← → IconButtons move one card; on hover their arrow glitches.
  * Props: heading, testimonials.
- * Tokens: --gutter, --slide-gap, --tap-min, --border-strong, --radius-pill, --space-*,
- *         --dur-press, --text-primary, --surface-page.
+ * Tokens: --gutter, --slide-gap, --space-*.
  * Motion hooks: data-motion="slider", data-slider-track, data-slider-prev/-next, data-slide-copy.
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
-import PixelIcon from '../ui/PixelIcon.astro';
+import IconButton from '../ui/IconButton.astro';
 import Button from '../ui/Button.astro';
 import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
@@ -43,7 +41,7 @@ const copies = [0, 1, 2];
         {ui.rating.srLabel(site.clutchRating, site.clutchRatingMax)}
       </span>
     </Pill>
-    <Button slot="action" size="md" href={bookCall.href} track={bookCall.track} cta>
+    <Button slot="action" href={bookCall.href} track={bookCall.track} cta>
       {bookCall.label}
     </Button>
   </SectionHeader>
@@ -64,12 +62,8 @@ const copies = [0, 1, 2];
       )}
     </ul>
     <div class="slider__controls">
-      <button class="slider__arrow" type="button" aria-label={ui.slider.prev} data-slider-prev>
-        <PixelIcon name="arrow-left" size="lg" />
-      </button>
-      <button class="slider__arrow" type="button" aria-label={ui.slider.next} data-slider-next>
-        <PixelIcon name="arrow-right" size="lg" />
-      </button>
+      <IconButton icon="arrow-left" label={ui.slider.prev} data-slider-prev />
+      <IconButton icon="arrow-right" label={ui.slider.next} data-slider-next />
     </div>
   </div>
 </Section>
@@ -105,31 +99,9 @@ const copies = [0, 1, 2];
       margin-top: var(--space-16);
       padding-inline: var(--gutter);
     }
-    /* Outlined round arrows; on hover they fill solid in two LCD steps. */
-    .slider__arrow {
-      display: inline-grid;
-      place-items: center;
-      width: var(--tap-min);
-      height: var(--tap-min);
-      border: var(--border-width) solid var(--border-strong);
-      border-radius: var(--radius-pill);
-      transition:
-        background-color var(--dur-press) steps(2),
-        color var(--dur-press) steps(2),
-        border-color var(--dur-press) steps(2);
-    }
-    .slider__arrow:hover,
-    .slider__arrow:focus-visible {
-      background: var(--text-primary);
-      color: var(--surface-page);
-      border-color: var(--text-primary);
-    }
     @media (prefers-reduced-motion: reduce) {
       .slider__track {
         scroll-behavior: auto;
-      }
-      .slider__arrow {
-        transition: none;
       }
     }
   }

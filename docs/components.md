@@ -6,7 +6,9 @@ Every component lives in `src/components/` and has a header comment listing its 
 - Styles use tokens only (see [tokens.md](tokens.md)). No hex codes, no raw pixel values for colour, type, spacing, duration or easing.
 - Copy comes from content or config (see [content.md](content.md)). Components never contain display text.
 - Styles are wrapped in `@layer components` so the layer order (reset → tokens → base → components → utilities) holds.
-- Motion is attached with `data-motion="…"` attributes, never styling classes (see [motion.md](motion.md)).
+- Motion is attached with `data-*` attributes, never styling classes (see [motion.md](motion.md)).
+- Type roles are shared classes in `base.css`: `.type-statement` (section headings), `.type-subline`, `.type-title` (card titles), `.type-label` (buttons, nav, pills), `.type-overline` (small caps). Components add layout only.
+- One button size: every button and icon button is 40px (`--button-height`), 4px corners.
 
 ## Primitives (`src/components/primitives/`)
 
@@ -15,7 +17,7 @@ Every component lives in `src/components/` and has a header comment listing its 
 | `Section` | A page band: side gutter, vertical padding, optional theme | `id`, `theme` (`light` \| `dark` \| `ink`), `padding` (`default` \| `tight` \| `none`), `surface` (paint the theme background), `stage` (dark-section trigger for the theme switch), `divider`, `as`, `labelledby`, `class` |
 | `Grid12` | The one layout grid: 12 columns, full width, no max-width | `rowGap` (`none` \| `grid` \| `header`), `as`, `class` |
 | `GridItem` | A cell in `Grid12`; full width below its breakpoint | `span`, `start`, `from` (`md` \| `lg` \| `always`), `justify` (`start` \| `end`), `measure` (`statement` \| `subline` \| `quote`), `as`, `class` |
-| `SectionHeader` | Three-zone header: optional eyebrow · statement (+ sub, + meta) · action on the right. Stacks below 992px | `headingId`, `headingLevel` (2 \| 3), `class`. Slots: `eyebrow`, default (statement), `sub`, `meta`, `action` |
+| `SectionHeader` | Three-zone header: optional eyebrow · statement (+ sub, + meta) · action on the right. Stacks below 992px | `headingId`, `headingLevel` (2 \| 3), `align` (`start` \| `center`), `class`, any attribute. Slots: `eyebrow`, default (statement), `sub`, `meta`, `action` |
 | `Stack` | Vertical flow with a token gap | `gap` (space token, e.g. `"16"`), `align`, `as`, `class` |
 | `Cluster` | Wrapping horizontal row with a token gap | `gap`, `rowGap`, `justify`, `align`, `wrap`, `as`, `class` |
 
@@ -25,10 +27,10 @@ Layout principle (from the Afternow brief): place things with grid spans, and co
 
 | Component | What it does | Props / variants |
 |---|---|---|
-| `Button` | Label-style text, 4px corners, theme colours (`--cta-bg/-fg`). Hover: pixel wash bloom + cursor noise + landing butterfly (buttonFx), label glitch; `cta` adds the idle glitch in view | `size` (`sm` \| `md`), `cta`, `fly`, `href`, `type`, `track`, `external`, `class` |
-| `IconButton` | Square icon-only button in the Button style (the universal 4-dot style): menu, close, arrows | `icon`, `label`, `size` (`md` \| `sm`), `href`, `type` |
+| `Button` | The one button: 40px (`--button-height`), 4px corners, `.type-label`, theme colours (`--cta-bg/-fg`; override them locally for a light button on video). Hover: pixel wash bloom + cursor noise + landing butterfly (buttonFx), label glitch; `cta` adds the idle glitch in view | `cta`, `fly`, `href`, `type`, `track`, `external`, `class` |
+| `IconButton` | Square 40px icon-only button in the Button style: menu, close, slider and news arrows | `icon`, `label`, `href`, `type` |
 | `ContentCard` | The one card for Work, Journal and the menu: media (video/image/placeholder), Tag, title, summary; pixel-edge hover and expanding CTA | `href`, `tag`, `title`, `summary`, `cta`, `video`, `poster`, `image`, `alt`, `placeholder`, `aspect`, `seed`, `headingLevel` |
-| `TextLink` | Exploration link with a decorative → | `href`, `variant` (`underline` \| `label`), `arrow`, `track`, `external`, `class` |
+| `TextLink` | Exploration link with a pixel arrow | `href`, `variant` (`underline` \| `label` \| `plain`: body text, arrow first), `arrow`, `track`, `external`, `class` |
 | `Tag` | Outlined Eyebrow-style label for metadata (case study situation) | `as`, `class` |
 | `Pill` | Rounded Label-style badge or small control | `variant` (`outline` \| `solid`), `as` (`span` \| `a` \| `button`), `href`, `class`, any attribute |
 | `MediaFrame` | Video, image, or striped placeholder at a locked aspect ratio | `aspect` (`3/2`, `5/4`, `1/1`, `4/3`, `16/9`, `16/10`, `4/5`, `3/4`, `fill`), `tone` (`auto` \| `gradient` \| `logo`; `gradient` reads `--mf-gradient` from the parent), `label`, `video`, `poster`, `image`, `alt`, `rounded`. Slot: overlays |

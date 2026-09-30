@@ -13,7 +13,7 @@
  * Tokens: --nav-height, --gutter, --logo-height-nav, --logo-mark-*, --nav-dropdown-*,
  *         --nav-badge-*, --surface-hover, --grid-*, --radius-*, --text-*, --space-*,
  *         --dur-collapse, --dur-nav-fade, --dur-logo-collapse, --dur-theme, --dur-link,
- *         --dur-chevron, --ease-out-expo, --ease-standard, --ease-snappy, --ease-css, --z-nav.
+ *         --dur-chevron, --ease-out-expo, --ease-standard, --ease-snappy, --z-nav.
  * Motion hooks: data-nav, data-mini, data-scrolled (motion/nav.ts), data-mega*,
  *               data-menu-open (motion/fullMenu.ts), data-logo-hover (logoWings.ts).
  */
@@ -38,7 +38,7 @@ import { ui } from '../../config/ui';
           isDropdown(item) ? (
             <li data-mega-host>
               <button
-                class="nav__link"
+                class="nav__link type-label"
                 type="button"
                 aria-expanded="false"
                 aria-controls="nav-mega"
@@ -53,7 +53,7 @@ import { ui } from '../../config/ui';
             </li>
           ) : (
             <li>
-              <a class="nav__link" href={item.href}>
+              <a class="nav__link type-label" href={item.href}>
                 {item.label}
                 {item.badge && <span class="nav__badge">{item.badge}</span>}
               </a>
@@ -81,7 +81,7 @@ import { ui } from '../../config/ui';
     <div class="mega__grid">
       {megaMenu.columns.map((col) => (
         <div class:list={['mega__col', `mega__col--${col.kind}`]} data-mega-col>
-          <p class="mega__heading">{col.heading}</p>
+          <p class="mega__heading type-overline">{col.heading}</p>
           <ul class="mega__list">
             {col.items.map((it) => (
               <li data-mega-item>
@@ -117,7 +117,7 @@ import { ui } from '../../config/ui';
       min-height: var(--nav-height);
       padding: var(--space-8) var(--gutter);
       color: var(--text-primary);
-      transition: color var(--dur-theme) var(--ease-css);
+      transition: color var(--dur-theme) var(--ease-standard);
     }
 
     /* Logo: fills the bar; collapses to the butterfly once scrolled (M15). */
@@ -170,12 +170,6 @@ import { ui } from '../../config/ui';
       align-items: center;
       gap: var(--space-8);
       min-height: var(--tap-min);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
     }
     button.nav__link:hover {
       opacity: var(--hover-opacity);
@@ -290,11 +284,6 @@ import { ui } from '../../config/ui';
       }
     }
     .mega__heading {
-      font-size: var(--text-eyebrow);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
       color: var(--text-secondary);
     }
     .mega__list {

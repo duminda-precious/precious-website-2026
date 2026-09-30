@@ -85,12 +85,12 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
     )}
     <div class="card__edge" data-card-edge aria-hidden="true"></div>
     <span class="card__cta">
-      <span class="card__cta-label">{cta}</span>
+      <span class="card__cta-label type-label">{cta}</span>
       <PixelIcon name="arrow-right" />
     </span>
   </div>
   <div class="card__tags"><Tag>{tag}</Tag></div>
-  <Heading class="card__title">{title}</Heading>
+  <Heading class="card__title type-title">{title}</Heading>
   {summary && <p class="card__summary">{summary}</p>}
 </a>
 
@@ -153,7 +153,7 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
       align-items: center;
       justify-content: flex-end;
       gap: var(--space-8);
-      height: var(--icon-button);
+      height: var(--button-height);
       padding: 0 var(--space-12);
       border-radius: var(--radius-xs);
       background: var(--card-cta-bg);
@@ -162,12 +162,6 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
       transition: clip-path var(--dur-expand) var(--ease-out-expo);
     }
     .card__cta-label {
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
       opacity: 0;
       transition: opacity var(--dur-fast) var(--ease-standard);
     }
@@ -181,14 +175,6 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-6);
-    }
-    .card__title {
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-title);
-      letter-spacing: var(--tracking-title);
-      line-height: var(--leading-heading);
-      text-wrap: pretty;
     }
     .card__summary {
       color: var(--text-secondary);

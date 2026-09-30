@@ -130,7 +130,7 @@ export const buttonFx: MotionModule = {
       // Light noise radiating from the cursor: rings of lighter pixels, fading out ~75px away.
       const shimmer = () => {
         if (RM()) return;
-        const frame = ms('--dur-bloom-frame', true);
+        const frame = ms('--dur-bloom-frame');
         loopT = window.setInterval(() => {
           const t = (performance.now() - t0) / 1000;
           for (const e of cells) {
@@ -150,7 +150,7 @@ export const buttonFx: MotionModule = {
         const D = Math.hypot(W, H) || 1;
         cells.forEach((e) => (e.d = Math.hypot(e.q * S - px, e.r * S - py) / D + e.j * 0.25));
         const F = 0.4;
-        const frame = ms('--dur-bloom-frame', true);
+        const frame = ms('--dur-bloom-frame');
         let s = 0;
         const tick = () => {
           s++;
@@ -199,8 +199,8 @@ export const buttonFx: MotionModule = {
         [mx, my] = pt(e);
         if (fly) {
           const out = ease('--ease-out-expo');
-          const dw = ms('--dur-fly-width', true);
-          svg.style.transition = `width ${dw}ms ${out},margin ${dw}ms ${out},opacity ${ms('--dur-fast', true)}ms`;
+          const dw = ms('--dur-fly-width');
+          svg.style.transition = `width ${dw}ms ${out},margin ${dw}ms ${out},opacity ${ms('--dur-fast')}ms`;
           svg.style.width = 'var(--button-fly-width)';
           svg.style.marginRight = 'var(--space-10)';
           svg.style.opacity = '1';
@@ -217,13 +217,13 @@ export const buttonFx: MotionModule = {
               { transform: 'translateY(2px)', opacity: 1, offset: 0.7 },
               { transform: 'none' },
             ],
-            { duration: ms('--dur-fly-land', true), easing: 'steps(7,end)' },
+            { duration: ms('--dur-fly-land'), easing: 'steps(7,end)' },
           );
           window.clearInterval(flap);
           flap = window.setInterval(() => {
             f = 1 - f;
             path.setAttribute('d', flyPath(f));
-          }, ms('--dur-wing-frame', true));
+          }, ms('--dur-wing-frame'));
         }
         run(mx, my, 1);
       };
@@ -238,7 +238,7 @@ export const buttonFx: MotionModule = {
                 { transform: 'translateY(-6px)', opacity: 1, offset: 0.4 },
                 { transform: 'translateY(-18px)', opacity: 0 },
               ],
-              { duration: ms('--dur-fly-lift', true), easing: 'steps(5,end)', fill: 'forwards' },
+              { duration: ms('--dur-fly-lift'), easing: 'steps(5,end)', fill: 'forwards' },
             );
             an.onfinish = () => {
               an.cancel();
@@ -246,8 +246,8 @@ export const buttonFx: MotionModule = {
             };
           }
           const ex = ease('--ease-exit');
-          const d = ms('--dur-chevron', true);
-          svg.style.transition = `width ${d}ms ${ex} ${ms('--dur-press', true)}ms,margin ${d}ms ${ex} ${ms('--dur-press', true)}ms,opacity ${ms('--dur-press', true)}ms`;
+          const d = ms('--dur-chevron');
+          svg.style.transition = `width ${d}ms ${ex} ${ms('--dur-press')}ms,margin ${d}ms ${ex} ${ms('--dur-press')}ms,opacity ${ms('--dur-press')}ms`;
           svg.style.width = '0';
           svg.style.marginRight = '0';
           svg.style.opacity = '0';
@@ -268,7 +268,7 @@ export const buttonFx: MotionModule = {
       const press = () => {
         if (RM()) return;
         b.animate([{ transform: 'scale(1)' }, { transform: 'scale(0.97)' }], {
-          duration: ms('--dur-press', true),
+          duration: ms('--dur-press'),
           easing: ease('--ease-snappy'),
           fill: 'forwards',
         });
@@ -277,7 +277,7 @@ export const buttonFx: MotionModule = {
         if (RM()) return;
         b.animate(
           [{ transform: 'scale(0.97)' }, { transform: 'scale(1.01)', offset: 0.6 }, { transform: 'scale(1)' }],
-          { duration: ms('--dur-chevron', true), easing: ease('--ease-snappy'), fill: 'forwards' },
+          { duration: ms('--dur-chevron'), easing: ease('--ease-snappy'), fill: 'forwards' },
         );
       };
       const focusIn = (e: FocusEvent) => {

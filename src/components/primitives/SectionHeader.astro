@@ -5,7 +5,8 @@
  *   statement            cols 4–9 with an eyebrow, 1–9 without; capped by measure
  *   action (optional)   cols 10–12, flush right, top-aligned
  * Below lg (992px) everything stacks full width, left-aligned (brief §7).
- * Props: headingId (for aria-labelledby on the Section), headingLevel (2 default), class.
+ * Props: headingId (for aria-labelledby on the Section), headingLevel (2 default),
+ *        align ('start' default | 'center': one centred column, e.g. Team), class, any attribute.
  * Slots: eyebrow, default (statement text), sub (optional line under the statement),
  *        meta (optional element under that, e.g. a rating pill), action.
  * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
@@ -16,9 +17,11 @@ import Grid12 from './Grid12.astro';
 interface Props {
   headingId?: string;
   headingLevel?: 2 | 3;
+  align?: 'start' | 'center';
   class?: string;
+  [key: string]: unknown;
 }
-const { headingId, headingLevel = 2, class: className } = Astro.props;
+const { headingId, headingLevel = 2, align = 'start', class: className, ...rest } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const hasEyebrow = Astro.slots.has('eyebrow');
 const hasSub = Astro.slots.has('sub');
@@ -26,18 +29,18 @@ const hasMeta = Astro.slots.has('meta');
 const hasAction = Astro.slots.has('action');
 ---
 
-<Grid12 class:list={['section-header', className]}>
+<Grid12 class:list={['section-header', `section-header--${align}`, className]} {...rest}>
   {hasEyebrow && (
     <p class="section-header__eyebrow">
       <slot name="eyebrow" />
     </p>
   )}
   <div class:list={['section-header__main', { 'section-header__main--indented': hasEyebrow }]}>
-    <Heading id={headingId} class="section-header__statement">
+    <Heading id={headingId} class="section-header__statement type-statement">
       <slot />
     </Heading>
     {hasSub && (
-      <p class="section-header__sub">
+      <p class="section-header__sub type-subline">
         <slot name="sub" />
       </p>
     )}
@@ -73,18 +76,15 @@ const hasAction = Astro.slots.has('action');
     }
     .section-header__statement {
       max-width: var(--measure-statement);
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
     }
     .section-header__sub {
-      max-width: var(--measure-subline);
       margin-top: var(--space-12);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
+    }
+    .section-header--center .section-header__main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .section-header__meta {
@@ -96,6 +96,9 @@ const hasAction = Astro.slots.has('action');
       }
       .section-header__main {
         grid-column: 1 / span 9;
+      }
+      .section-header--center .section-header__main {
+        grid-column: 1 / -1;
       }
       .section-header__main--indented {
         grid-column: 4 / span 6;

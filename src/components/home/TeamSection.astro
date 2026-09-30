@@ -11,12 +11,13 @@
  * Two stages share the markup: horizontal from md, vertical (roles on top) below.
  * Props: heading, subline, roles, engine, outputs.
  * Tokens: --team-*, --wash-rim, --wash-edge, --wash-hub, --blur-halo, --blur-glow,
- *         --text-statement, --text-medium, --text-note, --text-medium, --leading-tight,
- *         --measure-statement, --measure-subline, --header-gap, --radius-xs, --space-*.
+ *         --text-note, --text-medium, --leading-tight, --radius-xs, --space-*.
+ * Header: SectionHeader (centred).
  * Motion hooks: data-flow (layout h|v), data-role, data-out, data-chip, data-cc,
  *               data-engine, data-core, data-wash, data-ring (motion/teamFlow.ts).
  */
 import Section from '../primitives/Section.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
 import { ui } from '../../config/ui';
 
 interface Props {
@@ -31,10 +32,10 @@ const stages = ['h', 'v'] as const;
 ---
 
 <Section id="team" labelledby="team-title">
-  <div class="team__header">
-    <h2 id="team-title" class="team__heading">{heading}</h2>
-    <p class="team__sub">{subline}</p>
-  </div>
+  <SectionHeader headingId="team-title" align="center">
+    {heading}
+    <Fragment slot="sub">{subline}</Fragment>
+  </SectionHeader>
 
   <div class="team__wrap">
     {stages.map((layout) => (
@@ -66,28 +67,6 @@ const stages = ['h', 'v'] as const;
 
 <style>
   @layer components {
-    .team__header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-12);
-      margin-bottom: var(--header-gap);
-      text-align: center;
-    }
-    .team__heading {
-      max-width: var(--measure-statement);
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
-    }
-    .team__sub {
-      max-width: var(--measure-subline);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
-    }
     .team__wrap {
       max-width: var(--team-max);
       margin: 0 auto;

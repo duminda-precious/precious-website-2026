@@ -7,9 +7,9 @@
  * Props:
  *   icon  a PixelIcon name (dots, close, arrow-right …)
  *   label accessible name (required)
- *   size  'md' (40px) | 'sm' (32px)
  *   href, type, class, any attribute
- * Tokens: --icon-button, --icon-button-sm, --icon-glyph, --cta-bg, --cta-fg, --cta-hover-bg,
+ * One size: --button-height (40px), square.
+ * Tokens: --icon-button, --icon-glyph, --cta-bg, --cta-fg, --cta-hover-bg,
  *         --cta-hover-fg, --radius-xs.
  * Motion hooks: data-grad + data-grad-nofly (buttonFx.ts).
  */
@@ -19,19 +19,18 @@ import type { PixelIconName } from './pixelIcons';
 interface Props {
   icon: PixelIconName;
   label: string;
-  size?: 'md' | 'sm';
   href?: string;
   type?: 'button' | 'submit' | 'reset';
   class?: string;
   [key: string]: unknown;
 }
-const { icon, label, size = 'md', href, type = 'button', class: className, ...rest } = Astro.props;
+const { icon, label, href, type = 'button', class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const square = icon === 'dots' || icon === 'close';
 ---
 
 <Tag
-  class:list={['icon-button', `icon-button--${size}`, className]}
+  class:list={['icon-button', className]}
   aria-label={label}
   data-grad
   data-grad-nofly
@@ -56,10 +55,6 @@ const square = icon === 'dots' || icon === 'close';
       border-radius: var(--radius-xs);
       background: var(--cta-bg);
       color: var(--cta-fg);
-    }
-    .icon-button--sm {
-      width: var(--icon-button-sm);
-      height: var(--icon-button-sm);
     }
     .icon-button:hover {
       opacity: 1;

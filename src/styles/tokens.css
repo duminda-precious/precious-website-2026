@@ -255,8 +255,8 @@
     --tap-min: 2.75rem; /* 44px touch target */
     --gesture-swipe: 36px; /* minimum swipe that flips a card */
     --gesture-wheel: 24px; /* wheel travel that flips a card */
-    --icon-button: 2.5rem; /* 40: square icon buttons (menu, close, card CTA) */
-    --icon-button-sm: 2rem; /* 32: news card arrow */
+    --button-height: 2.5rem; /* 40: the one button size (text, icon, card CTA) */
+    --icon-button: var(--button-height); /* icon buttons are square */
     --icon-glyph: 0.75rem; /* 12: dots / close glyph inside an icon button */
     --button-fly-width: 0.9375rem; /* 15: hover butterfly */
     --button-fly-height: 0.75rem; /* 12 */
@@ -307,128 +307,144 @@
     --stripe-size-sm: 6px;
 
     /* ---------------------------------------------------------------------
-       MOTION (mirrored for GSAP in src/motion/tokens.ts; read at runtime)
+       MOTION (read at runtime by src/motion/tokens.ts)
+       One duration palette (--t-*). Every animation token below is a palette
+       step × --motion-tempo, so CSS transitions and scripts follow the tempo
+       alike. Interaction waits (autoplay, hover intent, wheel lock, scroll
+       settle, scroll-back) use the palette unscaled.
        Personality: Premium. Calm, decelerating, no overshoot.
        ------------------------------------------------------------------ */
+    --t-frame-fast: 40ms; /* pixel frames and micro staggers */
+    --t-frame: 55ms;
+    --t-frame-slow: 70ms;
+    --t-wing: 125ms; /* 8fps wing flap */
+    --t-instant: 120ms; /* press */
+    --t-quick: 160ms; /* link fills, holds */
+    --t-short: 200ms; /* hovers, exits */
+    --t-base: 300ms; /* standard */
+    --t-medium: 420ms; /* panels, accordions, entrances */
+    --t-slow: 560ms; /* large moves, rises */
+    --t-slower: 900ms; /* page-wide changes, choreography */
+    --t-long: 1500ms; /* glows, ripples */
+
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* brief signature entrance ease */
     --ease-linear: linear;
-    --ease-css: ease; /* the prototype's nav colour transition */
     --ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1); /* mega menu open, hub burst */
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1); /* chevrons, link fills, press */
     --ease-exit: cubic-bezier(0.3, 0, 1, 1); /* accelerating exits */
     --ease-breathe: cubic-bezier(0.37, 0, 0.63, 1); /* ambient loops */
-    --dur-press: 120ms; /* button press */
-    --dur-fast: 200ms; /* hovers */
-    --dur-base: 300ms;
-    --dur-reveal: 450ms;
-    --dur-link: 160ms; /* link hover fill */
-    --dur-chevron: 240ms;
-    --dur-nav-fade: 320ms;
-    --dur-mega-in: 380ms;
-    --dur-mega-out: 200ms;
-    --dur-cascade-start: 80ms; /* mega menu: first item delay */
-    --dur-cascade-column: 50ms; /* … added per column */
-    --dur-cascade-item: 25ms; /* … and per item */
-    --dur-stack-fade: 400ms; /* news stack card fade */
-    --dur-expand: 420ms; /* accordions, card CTA pill */
-    --dur-accordion-fade: 280ms; /* accordion content fade */
-    --dur-hover-intent: 160ms; /* mega menu stays open this long after the pointer leaves */
-    --dur-collapse: 560ms; /* nav collapse, news stack slide, gate text */
-    --dur-theme: 800ms;
+    --dur-press: calc(var(--t-instant) * var(--motion-tempo)); /* button press */
+    --dur-fast: calc(var(--t-short) * var(--motion-tempo)); /* hovers */
+    --dur-base: calc(var(--t-base) * var(--motion-tempo));
+    --dur-reveal: calc(var(--t-medium) * var(--motion-tempo));
+    --dur-link: calc(var(--t-quick) * var(--motion-tempo)); /* link hover fill */
+    --dur-chevron: calc(var(--t-short) * var(--motion-tempo));
+    --dur-nav-fade: calc(var(--t-base) * var(--motion-tempo));
+    --dur-mega-in: calc(var(--t-medium) * var(--motion-tempo));
+    --dur-mega-out: calc(var(--t-short) * var(--motion-tempo));
+    --dur-cascade-start: calc(var(--t-frame-slow) * var(--motion-tempo)); /* mega menu: first item delay */
+    --dur-cascade-column: calc(var(--t-frame) * var(--motion-tempo)); /* … added per column */
+    --dur-cascade-item: calc(var(--t-frame-fast) * var(--motion-tempo)); /* … and per item */
+    --dur-stack-fade: calc(var(--t-medium) * var(--motion-tempo)); /* news stack card fade */
+    --dur-expand: calc(var(--t-medium) * var(--motion-tempo)); /* accordions, card CTA pill */
+    --dur-accordion-fade: calc(var(--t-base) * var(--motion-tempo)); /* accordion content fade */
+    --dur-hover-intent: var(--t-quick); /* mega menu stays open this long after the pointer leaves */
+    --dur-collapse: calc(var(--t-slow) * var(--motion-tempo)); /* nav collapse, news stack slide, gate text */
+    --dur-theme: calc(var(--t-slower) * var(--motion-tempo));
     --theme-enter: 75%; /* page turns dark once Work's top passes this viewport height … */
     --theme-exit: 45%; /* … until its bottom rises above this */
-    --dur-page: 900ms;
-    --dur-rise: 1s; /* brief row rise-in, 0.8–1.2s */
-    --dur-marquee: 60s;
+    --dur-page: calc(var(--t-slower) * var(--motion-tempo));
+    --dur-rise: calc(var(--t-slower) * var(--motion-tempo)); /* brief row rise-in, 0.8–1.2s */
+    --dur-marquee: calc(60s * var(--motion-tempo));
     /* Pixel text (M13, ported from the parallel prototype): words pixelate
        through these block sizes (px), one frame each. */
     --pixel-resolve: 36 28 21 15 10 6 3; /* first view: coarse → crisp */
     --pixel-glitch: 3 7 14 20 12 6 3; /* idle: break into pixels and snap back */
     --pixel-dissolve: 3 7 14 20 28 36; /* hero title out on the first scroll */
     --pixel-ghost: 0.18; /* LCD ghost: the previous frame lingers at this opacity */
-    --dur-pixel-frame-in: 70ms;
-    --dur-pixel-frame-glitch: 55ms;
-    --dur-pixel-word-stagger: 70ms; /* word to word on resolve */
-    --dur-cta-stagger: 40ms; /* word to word on a CTA's idle glitch */
-    --dur-glitch-min: 2.2s; /* idle glitch every min + random(range) */
-    --dur-glitch-range: 2.4s;
+    --dur-pixel-frame-in: calc(var(--t-frame-slow) * var(--motion-tempo));
+    --dur-pixel-frame-glitch: calc(var(--t-frame) * var(--motion-tempo));
+    --dur-pixel-word-stagger: calc(var(--t-frame-slow) * var(--motion-tempo)); /* word to word on resolve */
+    --dur-cta-stagger: calc(var(--t-frame-fast) * var(--motion-tempo)); /* word to word on a CTA's idle glitch */
+    --dur-glitch-min: calc(2.2s * var(--motion-tempo)); /* idle glitch every min + random(range) */
+    --dur-glitch-range: calc(2.4s * var(--motion-tempo));
     /* Butterfly logo: wing flap frames (8fps) and the hover colour ripple */
-    --dur-wing-frame: 125ms;
-    --dur-logo-ripple: 1500ms;
+    --dur-wing-frame: calc(var(--t-wing) * var(--motion-tempo));
+    --dur-logo-ripple: calc(var(--t-long) * var(--motion-tempo));
     /* Button hover bloom (canvas): cell size, frame length, frames */
     --pixel-cell-button: 6px;
-    --dur-bloom-frame: 40ms;
+    --dur-bloom-frame: calc(var(--t-frame-fast) * var(--motion-tempo));
     --bloom-steps: 10;
-    --dur-fly-land: 385ms; /* hover butterfly lands (7 steps) */
-    --dur-fly-lift: 275ms; /* lifts off vertically (5 steps) */
-    --dur-fly-width: 320ms; /* label makes room for it */
+    --dur-fly-land: calc(var(--t-medium) * var(--motion-tempo)); /* hover butterfly lands (7 steps) */
+    --dur-fly-lift: calc(var(--t-base) * var(--motion-tempo)); /* lifts off vertically (5 steps) */
+    --dur-fly-width: calc(var(--t-base) * var(--motion-tempo)); /* label makes room for it */
     /* Card media pixel edge */
     --pixel-cell-edge: 16px;
-    --dur-edge-frame: 55ms;
+    --dur-edge-frame: calc(var(--t-frame) * var(--motion-tempo));
     /* FAQ +/× pixel swap */
-    --dur-icon-frame: 55ms;
+    --dur-icon-frame: calc(var(--t-frame) * var(--motion-tempo));
     /* Canvas scenes: team funnel, AI card + footer rain */
     --pixel-cell-flow: 12px;
     --pixel-cell-rain: 8px;
     /* Team funnel choreography */
-    --dur-flow-engine: 600ms; /* engine appears */
-    --dur-flow-chip: 950ms; /* chips pop out of it and slide into place … */
-    --dur-flow-chip-delay: 180ms; /* … starting this long after it … */
-    --dur-flow-chip-stagger: 50ms; /* … one after another */
-    --dur-flow-light: 520ms; /* an output lights up */
-    --dur-flow-glow: 1600ms; /* its glow swells and settles */
-    --dur-flow-shimmer: 6s; /* the glow's colours drift round */
-    --dur-hub-wash: 800ms; /* the engine core fills with colour */
-    --dur-hub-breathe: 8s; /* engine halo breathes */
-    --dur-hub-spin: 16s; /* engine rim turns */
-    --dur-hub-drift: 14s; /* wash blobs drift inside the core, each 14s … */
-    --dur-hub-drift-range: 10s; /* … plus up to this */
+    --dur-flow-engine: calc(var(--t-slow) * var(--motion-tempo)); /* engine appears */
+    --dur-flow-chip: calc(var(--t-slower) * var(--motion-tempo)); /* chips pop out of it and slide into place … */
+    --dur-flow-chip-delay: calc(var(--t-quick) * var(--motion-tempo)); /* … starting this long after it … */
+    --dur-flow-chip-stagger: calc(var(--t-frame) * var(--motion-tempo)); /* … one after another */
+    --dur-flow-light: calc(var(--t-slow) * var(--motion-tempo)); /* an output lights up */
+    --dur-flow-glow: calc(var(--t-long) * var(--motion-tempo)); /* its glow swells and settles */
+    --dur-flow-shimmer: calc(6s * var(--motion-tempo)); /* the glow's colours drift round */
+    --dur-hub-wash: calc(var(--t-slower) * var(--motion-tempo)); /* the engine core fills with colour */
+    --dur-hub-breathe: calc(8s * var(--motion-tempo)); /* engine halo breathes */
+    --dur-hub-spin: calc(16s * var(--motion-tempo)); /* engine rim turns */
+    --dur-hub-drift: calc(14s * var(--motion-tempo)); /* wash blobs drift inside the core, each 14s … */
+    --dur-hub-drift-range: calc(10s * var(--motion-tempo)); /* … plus up to this */
     /* Hero: veil fade and the held first scroll */
-    --dur-veil: 900ms;
-    --dur-hero-lock: 950ms;
-    --dur-hero-word-stagger: 60ms; /* word to word as the title dissolves */
-    --dur-hero-return: 420ms; /* smooth scroll back to the top before the title resolves */
-    --dur-news-lock: 480ms; /* news stack: minimum time between wheel flips */
+    --dur-veil: calc(var(--t-slower) * var(--motion-tempo));
+    --dur-hero-lock: calc(var(--t-slower) * var(--motion-tempo));
+    --dur-hero-word-stagger: calc(var(--t-frame) * var(--motion-tempo)); /* word to word as the title dissolves */
+    --dur-hero-return: var(--t-medium); /* smooth scroll back to the top before the title resolves */
+    --dur-news-lock: var(--t-medium); /* news stack: minimum time between wheel flips */
     --hero-inset-scroll: 320; /* px of scroll over which the reel shrinks into the padding */
     /* Autoplay */
     --dur-autoplay: 4s; /* testimonials, hero news */
-    --dur-scroll-settle: 140ms; /* slider re-centres after scrolling stops this long */
-    --dur-icon-glitch: 330ms; /* slider arrow glitch on hover */
+    --dur-scroll-settle: var(--t-quick); /* slider re-centres after scrolling stops this long */
+    --dur-icon-glitch: calc(var(--t-base) * var(--motion-tempo)); /* slider arrow glitch on hover */
     --icon-swap-steps: 5; /* FAQ + → × pixel frames */
     /* Nav logo collapse: the wordmark clips down to the butterfly once scrolled.
        Mark position inside the logo (from reference/brand/logo-white.svg). */
     --logo-mark-start: 52.9%; /* 401 / 758 */
     --logo-mark-end-inset: 39.3%; /* (758 − 460.1) / 758 */
     --logo-mark-scale: 1.4;
-    --dur-logo-collapse: 450ms;
+    --dur-logo-collapse: calc(var(--t-medium) * var(--motion-tempo));
     /* Butterfly wing transition: page changes, anchors and the full-page menu */
     --pixel-cell-page: 2rem; /* 32px cells for the full-screen cover */
     --pixel-reveal-steps: 6;
     --pixel-feather: 0.18; /* soft leading edge of the wipe */
-    --dur-page-cover: 220ms; /* old page covered (exit) */
-    --dur-page-hold: 160ms; /* fully covered */
-    --dur-page-reveal: 320ms; /* new page revealed (entrance) */
-    --dur-menu-open: 300ms;
-    --dur-menu-close: 380ms;
-    --dur-menu-item: 460ms; /* full-page menu links rise in */
-    --dur-menu-card: 520ms; /* full-page menu cards rise in */
-    --dur-menu-item-delay: 120ms;
-    --dur-menu-item-stagger: 40ms;
-    --dur-menu-card-delay: 220ms;
-    --dur-menu-card-stagger: 80ms;
-    --menu-rise: 24px; /* rise distance for menu links */
+    --dur-page-cover: calc(var(--t-short) * var(--motion-tempo)); /* old page covered (exit) */
+    --dur-page-hold: calc(var(--t-quick) * var(--motion-tempo)); /* fully covered */
+    --dur-page-reveal: calc(var(--t-base) * var(--motion-tempo)); /* new page revealed (entrance) */
+    --dur-menu-open: calc(var(--t-base) * var(--motion-tempo));
+    --dur-menu-close: calc(var(--t-medium) * var(--motion-tempo));
+    --dur-menu-item: calc(var(--t-medium) * var(--motion-tempo)); /* full-page menu links rise in */
+    --dur-menu-card: calc(var(--t-slow) * var(--motion-tempo)); /* full-page menu cards rise in */
+    --dur-menu-item-delay: calc(var(--t-instant) * var(--motion-tempo));
+    --dur-menu-item-stagger: calc(var(--t-frame-fast) * var(--motion-tempo));
+    --dur-menu-card-delay: calc(var(--t-short) * var(--motion-tempo));
+    --dur-menu-card-stagger: calc(var(--t-frame-slow) * var(--motion-tempo));
+    --motion-shift: 24px; /* one short travel distance: menu links, gate text, AI card content */
+    --menu-rise: var(--motion-shift);
     --menu-card-rise: 32px; /* … and cards */
     --rise-distance: 120px; /* brief entrance pattern (Work cards) */
     --rise-distance-soft: 40px; /* journal cards */
-    --dur-rise-soft: 700ms;
+    --dur-rise-soft: calc(var(--t-slow) * var(--motion-tempo));
     /* Feel controls (the Claude Design "Tweaks"; defaults as designed).
        Read at runtime by src/motion/tokens.ts. */
     --motion-tempo: 1; /* multiplies every pixel-motion duration: Calm 1.5 · Standard 1 · Lively 0.65 */
     --hero-veil: 0.75; /* white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px */
     --pixel-tint: 0.3; /* share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 */
-    --dur-stagger: 80ms; /* left-to-right delay within a rising row (brief: 'small') */
+    --dur-stagger: calc(var(--t-frame-slow) * var(--motion-tempo)); /* left-to-right delay within a rising row (brief: 'small') */
     --hover-opacity: 0.7;
     --disabled-opacity: 0.3;
     /* Testimonial slider (one card per "page", next card peeks) */
@@ -599,7 +615,7 @@
        descriptions (not colourised). The media shows the wash until the
        videos arrive. */
     --gate-media-fg: var(--color-slate-900);
-    --gate-shift: 24px; /* sticky text slides this far as it swaps */
+    --gate-shift: var(--motion-shift); /* sticky text slides this far as it swaps */
     --gate-1-media: var(--wash-mint-sky);
     --gate-2-media: var(--wash-blush-rose);
     --gate-3-media: var(--wash-lavender);
@@ -646,11 +662,11 @@
     --process-cta-bg: var(--color-slate-50);
     --process-rain-width: min(40%, 30rem);
     --process-rain-opacity: 0.7;
-    --process-rise: 24px; /* content rises in … */
-    --dur-process-rise: 560ms; /* … over this … */
-    --dur-process-stagger: 70ms; /* … one after another */
-    --dur-count-step: 55ms; /* stat counts up in 10 steps of this … */
-    --dur-count-delay: 300ms; /* … after this */
+    --process-rise: var(--motion-shift); /* content rises in … */
+    --dur-process-rise: calc(var(--t-slow) * var(--motion-tempo)); /* … over this … */
+    --dur-process-stagger: calc(var(--t-frame-slow) * var(--motion-tempo)); /* … one after another */
+    --dur-count-step: calc(var(--t-frame) * var(--motion-tempo)); /* stat counts up in 10 steps of this … */
+    --dur-count-delay: calc(var(--t-base) * var(--motion-tempo)); /* … after this */
 
     /* Hero (two-step): title and news cards sit on the veiled reel */
     --hero-fg: var(--color-slate-900);

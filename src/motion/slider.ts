@@ -56,7 +56,7 @@ export const slider: MotionModule = {
               const w = setW();
               if (track.scrollLeft < w * 0.5) jump(track.scrollLeft + w);
               else if (track.scrollLeft > w * 1.5) jump(track.scrollLeft - w);
-            }, ms('--dur-scroll-settle', true));
+            }, ms('--dur-scroll-settle'));
           },
           { passive: true, signal },
         );
@@ -95,7 +95,7 @@ export const slider: MotionModule = {
         timers.push(
           window.setInterval(() => {
             if (!paused && !document.hidden) go(1);
-          }, ms('--dur-autoplay', true)),
+          }, ms('--dur-autoplay')),
         );
       }
     });

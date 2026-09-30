@@ -1,6 +1,6 @@
 # Motion
 
-**Personality: Premium, 8-bit.** Calm, decelerating, no overshoot. Pixels are sharp squares that fade (never blur), with an LCD ghost of the previous frame. The source of truth is the Claude Design file `Precious Home.dc.html` (decision 2026-09-30). Every timing, easing and pixel size is a token (see [tokens.md](tokens.md)), read at runtime through `src/motion/tokens.ts`. `--motion-tempo` scales all pixel motion (Calm 1.5 · Standard 1 · Lively 0.65).
+**Personality: Premium, 8-bit.** Calm, decelerating, no overshoot. Pixels are sharp squares that fade (never blur), with an LCD ghost of the previous frame. The source of truth is the Claude Design file `Precious Home.dc.html` (decision 2026-09-30). Every timing, easing and pixel size is a token (see [tokens.md](tokens.md)), read at runtime through `src/motion/tokens.ts`. Durations come from one palette (`--t-frame-fast` 40 · `--t-frame` 55 · `--t-frame-slow` 70 · `--t-wing` 125 · `--t-instant` 120 · `--t-quick` 160 · `--t-short` 200 · `--t-base` 300 · `--t-medium` 420 · `--t-slow` 560 · `--t-slower` 900 · `--t-long` 1500ms, plus ambient loops). Every animation token is a palette step × `--motion-tempo` (Calm 1.5 · Standard 1 · Lively 0.65), so CSS transitions and scripts follow the tempo alike; interaction waits (autoplay, hover intent, wheel lock, scroll settle) stay unscaled.
 
 ## Architecture
 

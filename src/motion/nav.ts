@@ -128,7 +128,7 @@ export const nav: MotionModule = {
         if (!to || (!host.contains(to) && !panel.contains(to))) suppress = false;
         if (!hoverable.matches) return;
         window.clearTimeout(leaveT);
-        leaveT = window.setTimeout(() => setMega(false), ms('--dur-hover-intent', true));
+        leaveT = window.setTimeout(() => setMega(false), ms('--dur-hover-intent'));
       };
       [host, panel].forEach((n) => {
         n.addEventListener('mouseenter', enter, { signal });

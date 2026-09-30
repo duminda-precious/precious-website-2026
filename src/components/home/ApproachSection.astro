@@ -16,7 +16,8 @@
  *               data-active (motion/approach.ts).
  */
 import Section from '../primitives/Section.astro';
-import PixelIcon from '../ui/PixelIcon.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+import TextLink from '../ui/TextLink.astro';
 import { situationLabels, type Situation } from '../../config/taxonomy';
 import { bookCall } from '../../config/navigation';
 
@@ -38,20 +39,21 @@ const { heading, subline, gates } = Astro.props;
 ---
 
 <Section id="approach" labelledby="approach-title">
-  <h2 id="approach-title" class="approach__heading">{heading}</h2>
-  <p class="approach__sub">{subline}</p>
+  <SectionHeader headingId="approach-title">
+    {heading}
+    <Fragment slot="sub">{subline}</Fragment>
+  </SectionHeader>
 
   <div class="approach__grid" data-gates>
     <div class="approach__side" data-gate-side>
       <div class="approach__panels" data-gate-text>
         {gates.map((g, i) => (
           <div class="approach__panel" data-gate-panel data-active={i === 0 ? '' : undefined}>
-            <h3 class="approach__title">{situationLabels[g.situation]}</h3>
-            <p class="approach__pain">{g.pain}</p>
-            <a class="approach__result" href={bookCall.href} tabindex="-1">
-              <PixelIcon name="arrow-right" />
+            <h3 class="approach__title type-title">{situationLabels[g.situation]}</h3>
+            <p class="approach__pain type-subline">{g.pain}</p>
+            <TextLink variant="plain" href={bookCall.href} tabindex="-1">
               {g.result}
-            </a>
+            </TextLink>
           </div>
         ))}
       </div>
@@ -64,12 +66,11 @@ const { heading, subline, gates } = Astro.props;
             {g.media ? <img src={g.media} alt={g.mediaAlt} loading="lazy" /> : g.mediaLabel}
           </div>
           <div class="approach__inline">
-            <h3 class="approach__title">{situationLabels[g.situation]}</h3>
-            <p class="approach__pain">{g.pain}</p>
-            <a class="approach__result" href={bookCall.href}>
-              <PixelIcon name="arrow-right" />
+            <h3 class="approach__title type-title">{situationLabels[g.situation]}</h3>
+            <p class="approach__pain type-subline">{g.pain}</p>
+            <TextLink variant="plain" href={bookCall.href}>
               {g.result}
-            </a>
+            </TextLink>
           </div>
         </article>
       ))}
@@ -79,22 +80,6 @@ const { heading, subline, gates } = Astro.props;
 
 <style>
   @layer components {
-    .approach__heading {
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
-    }
-    .approach__sub {
-      max-width: var(--measure-subline);
-      margin-top: var(--space-12);
-      margin-bottom: var(--header-gap);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
-      text-wrap: pretty;
-    }
     .approach__grid {
       display: grid;
       grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
@@ -141,24 +126,8 @@ const { heading, subline, gates } = Astro.props;
       gap: var(--space-12);
       padding-bottom: var(--space-24);
     }
-    .approach__title {
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-title);
-      letter-spacing: var(--tracking-title);
-      line-height: var(--leading-heading);
-    }
     .approach__pain {
       max-width: var(--measure-gate);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
-      text-wrap: pretty;
-    }
-    .approach__result {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-8);
     }
 
     /* From md: sticky text panel on the left, cards on the right. */

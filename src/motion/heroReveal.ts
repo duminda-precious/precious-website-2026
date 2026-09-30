@@ -109,7 +109,7 @@ export const heroReveal: MotionModule = {
         });
       }
       if (quick) lock = false;
-      else later(() => (lock = false), ms('--dur-hero-lock', true));
+      else later(() => (lock = false), ms('--dur-hero-lock'));
     };
 
     const interactive = (t: EventTarget | null) =>
@@ -126,7 +126,7 @@ export const heroReveal: MotionModule = {
         lock = true;
         const away = window.scrollY > 0;
         window.scrollTo({ top: 0, behavior: RM ? 'instant' : 'smooth' });
-        later(() => setState(false), away && !RM ? ms('--dur-hero-return', true) : 0);
+        later(() => setState(false), away && !RM ? ms('--dur-hero-return') : 0);
       }
     };
     let ty = 0;

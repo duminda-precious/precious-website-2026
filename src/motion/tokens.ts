@@ -17,16 +17,22 @@ export function cssVar(name: Token): string {
   return style()?.getPropertyValue(name).trim() ?? '';
 }
 
-/** Duration in seconds (GSAP's unit). Accepts "300ms" or "0.3s". */
-export function duration(name: Token): number {
-  const raw = cssVar(name);
-  const n = parseFloat(raw) || 0;
-  return raw.endsWith('ms') ? n / 1000 : n;
+/** Seconds from a time string: "300ms", "0.3s", or the palette form "calc(300ms * 1.5)". */
+function seconds(raw: string): number {
+  const m = raw.match(/([\d.]+)(ms|s)\b(?:\s*\*\s*([\d.]+))?/);
+  if (!m) return 0;
+  const n = parseFloat(m[1]!) * (m[2] === 'ms' ? 0.001 : 1);
+  return n * (m[3] ? parseFloat(m[3]) : 1);
 }
 
-/** Duration in milliseconds, scaled by --motion-tempo unless `raw` is set. */
-export function ms(name: Token, raw = false): number {
-  return duration(name) * 1000 * (raw ? 1 : tempo());
+/** Duration in seconds (GSAP's unit). Tempo is already applied in tokens.css. */
+export function duration(name: Token): number {
+  return seconds(cssVar(name));
+}
+
+/** Duration in milliseconds (tempo already applied in tokens.css where it belongs). */
+export function ms(name: Token): number {
+  return duration(name) * 1000;
 }
 
 /** A unitless number token. */

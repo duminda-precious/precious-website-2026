@@ -43,7 +43,7 @@ const seo = Astro.props;
     <ClientRouter />
   </head>
   <body>
-    <a class="skip-link" href="#main">
+    <a class="skip-link type-label" href="#main">
       {ui.skipLink}
     </a>
 
@@ -78,11 +78,6 @@ const seo = Astro.props;
       background: var(--cta-bg);
       color: var(--cta-fg);
       border-radius: var(--radius-xs);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
       transform: translateY(-200%);
     }
     .skip-link:focus-visible {

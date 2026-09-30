@@ -10,17 +10,16 @@
  *   - a small press on pointer down.
  * Without JS the wash simply shows on hover (CSS fallback below).
  * Renders <a> when href is set, otherwise <button>.
+ * One size everywhere: --button-height (40px), 4px corners.
  * Props:
- *   size  'sm' (nav, section CTAs) | 'md' (44px tall)
  *   cta   section CTA: its label also glitches every few seconds while in view
  *   fly   show the landing butterfly (default true)
  *   href, type, track (→ data-track), external, class
- * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --radius-xs, --font-sans,
- *         --text-label, --tracking-label, --weight-label, --leading-none, --space-*, --tap-min.
+ * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --button-height, --radius-xs,
+ *         --space-16; label type from .type-label.
  * Motion hooks: data-button, data-grad (bloom), data-grad-nofly, data-cta, data-pixel-label.
  */
 interface Props {
-  size?: 'sm' | 'md';
   cta?: boolean;
   fly?: boolean;
   href?: string;
@@ -31,7 +30,6 @@ interface Props {
   [key: string]: unknown;
 }
 const {
-  size = 'sm',
   cta = false,
   fly = true,
   href,
@@ -43,7 +41,7 @@ const {
 } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const attrs = {
-  class: ['button', `button--${size}`, className].filter(Boolean).join(' '),
+  class: ['button', 'type-label', className].filter(Boolean).join(' '),
   'data-track': track,
   'data-button': '',
   'data-grad': '',
@@ -68,16 +66,11 @@ const attrs = {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      height: var(--button-height);
+      padding: 0 var(--space-16);
       border-radius: var(--radius-xs);
       background: var(--cta-bg);
       color: var(--cta-fg);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
     }
     .button:hover {
       opacity: 1;
@@ -104,20 +97,5 @@ const attrs = {
       }
     }
 
-    .button--sm {
-      padding: var(--space-10) var(--space-16);
-    }
-    /* Visual size stays compact; touch still gets a 44px hit area. */
-    .button--sm::after {
-      content: '';
-      position: absolute;
-      inset: 50% 0 auto;
-      min-height: var(--tap-min);
-      transform: translateY(-50%);
-    }
-    .button--md {
-      min-height: var(--tap-min);
-      padding: var(--space-14) var(--space-22);
-    }
   }
 </style>

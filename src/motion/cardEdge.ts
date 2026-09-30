@@ -102,7 +102,7 @@ export const cardEdge: MotionModule = {
           const t = (performance.now() - t0) / 1000;
           for (const e of cells) e.a = Math.min(1, (0.5 + 0.5 * Math.sin(e.ph + t * e.sp * 2)) * 1.4);
           draw(MAX);
-        }, ms('--dur-bloom-frame', true));
+        }, ms('--dur-bloom-frame'));
       };
       const go = (want: boolean) => {
         if (want === on) return;

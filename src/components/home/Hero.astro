@@ -17,6 +17,7 @@
  *               data-hero-title, data-hero-sound (motion/heroReveal.ts), NewsStack.
  */
 import NewsStack from './NewsStack.astro';
+import Button from '../ui/Button.astro';
 import { ui } from '../../config/ui';
 
 interface NewsItem {
@@ -51,9 +52,9 @@ const { headline, reel, news } = Astro.props;
     )}
     <div class="hero__veil" data-hero-veil></div>
     {reel.video && (
-      <button
+      <Button
         class="hero__sound"
-        type="button"
+        fly={false}
         aria-pressed="false"
         data-label-on={ui.reel.soundOn}
         data-label-off={ui.reel.soundOff}
@@ -62,7 +63,7 @@ const { headline, reel, news } = Astro.props;
         tabindex="-1"
       >
         {ui.reel.soundOn}
-      </button>
+      </Button>
     )}
   </div>
 
@@ -114,27 +115,19 @@ const { headline, reel, news } = Astro.props;
     .hero[data-revealed] .hero__veil {
       opacity: 0;
     }
-    .hero__sound {
+    /* Sound toggle: the standard Button, light on the video; shown once revealed. */
+    .hero__reel :global(.hero__sound) {
+      --cta-bg: var(--pill-solid-bg);
+      --cta-fg: var(--pill-solid-fg);
       position: absolute;
       right: var(--space-16);
       bottom: var(--space-16);
       z-index: var(--z-raised);
-      display: inline-flex;
-      align-items: center;
-      padding: var(--space-10) var(--space-14);
-      border-radius: var(--radius-pill);
-      background: var(--pill-solid-bg);
-      color: var(--pill-solid-fg);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
       opacity: 0;
       pointer-events: none;
       transition: opacity var(--dur-base) var(--ease-standard);
     }
-    .hero[data-revealed] .hero__sound {
+    .hero[data-revealed] :global(.hero__sound) {
       opacity: 1;
       pointer-events: auto;
     }
@@ -165,7 +158,7 @@ const { headline, reel, news } = Astro.props;
     @media (prefers-reduced-motion: reduce) {
       .hero__video,
       .hero__veil,
-      .hero__sound {
+      .hero__reel :global(.hero__sound) {
         transition: none;
       }
     }
