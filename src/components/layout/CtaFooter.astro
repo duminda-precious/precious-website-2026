@@ -11,7 +11,7 @@
  * corners), so the page lifts off to reveal it. Below lg, or when the footer is
  * taller than the viewport, it stays in normal flow (data-footer-static).
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
- * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
+ * Tokens: ink theme (--surface-page, --text-*), --section-py, --gutter,
  *         --text-closer, --tracking-closer, --leading-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
@@ -179,8 +179,6 @@ import { ui } from '../../config/ui';
       row-gap: var(--space-24);
       align-items: end;
       margin-top: var(--space-80);
-      padding-top: var(--space-24);
-      border-top: var(--border-width) solid var(--border-subtle);
     }
     .footer__legal {
       grid-column: 1 / -1;
