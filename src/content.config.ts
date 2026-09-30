@@ -206,6 +206,23 @@ const home = defineCollection({
     faq: z.object({
       heading: z.string().min(1),
     }),
+    /** Journal teasers (Claude Design): homepage section + the two cards in the full-page menu. Placeholders. */
+    journal: z.object({
+      heading: z.string().min(1),
+      cta: linkSchema,
+      cardCta: z.string().min(1),
+      items: z
+        .array(
+          z.object({
+            tag: z.string().min(1),
+            title: z.string().min(1),
+            /** Hosted image URL; placeholder stock photos until real posts exist. */
+            image: z.string().optional(),
+            href: z.string().min(1),
+          }),
+        )
+        .min(1),
+    }),
   }),
 });
 

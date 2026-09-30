@@ -10,9 +10,11 @@ export const ui = {
   clientsListLabel: 'Clients',
   menu: {
     open: 'Menu',
-    close: 'Close',
-    label: 'Main menu',
+    close: 'Close menu',
+    label: 'Menu',
+    linkedin: 'LinkedIn',
   },
+  megaLabel: 'Services',
   viewCaseStudy: 'View case study',
   stub: {
     message: 'This page is being rebuilt.',

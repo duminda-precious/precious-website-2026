@@ -4,8 +4,15 @@
     "description": "A senior product design studio in Austin. We join startups as one team for product design, motion and front-end code."
   },
   "hero": {
-    "headline": ["We Design", "How Your", "Product Feels."],
-    "problem": ["Most Products Look Fine.", "Few Feel Good."],
+    "headline": [
+      "We Design",
+      "How Your",
+      "Product Feels."
+    ],
+    "problem": [
+      "Most Products Look Fine.",
+      "Few Feel Good."
+    ],
     "reel": {
       "video": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-full.mp4",
       "alt": "Precious Studio showreel",
@@ -27,10 +34,21 @@
   "team": {
     "heading": "One Team Instead of Five Hires.",
     "subline": "You get all of them, senior, working as one, for the cost of a single hire.",
-    "coreRoles": ["Researcher", "Product designer", "System designer"],
-    "extendedRoles": ["Motion designer", "Frontend engineer"],
+    "coreRoles": [
+      "Researcher",
+      "Product designer",
+      "System designer"
+    ],
+    "extendedRoles": [
+      "Motion designer",
+      "Frontend engineer"
+    ],
     "engine": "Personalised AI Engine",
-    "benefits": ["Full transparency", "Weekly deliveries", "Month-to-month"],
+    "benefits": [
+      "Full transparency",
+      "Weekly deliveries",
+      "Month-to-month"
+    ],
     "engineLabel": "Powered by"
   },
   "approach": {
@@ -84,5 +102,39 @@
   },
   "faq": {
     "heading": "Asked, Answered."
+  },
+  "journal": {
+    "heading": "What's Happening?",
+    "cta": {
+      "label": "Read our journal",
+      "href": "/journal"
+    },
+    "cardCta": "Read article",
+    "items": [
+      {
+        "tag": "[News]",
+        "title": "[Studio news headline]",
+        "image": "https://picsum.photos/seed/precious-j1/800/800",
+        "href": "#"
+      },
+      {
+        "tag": "[Strategy]",
+        "title": "When a redesign is the wrong answer",
+        "image": "https://picsum.photos/seed/precious-j2/800/960",
+        "href": "#"
+      },
+      {
+        "tag": "[Journal]",
+        "title": "What two weeks of design sprints taught us about scope",
+        "image": "https://picsum.photos/seed/precious-j3/800/800",
+        "href": "#"
+      },
+      {
+        "tag": "[AI]",
+        "title": "Where an AI design agent helps, and where it gets in the way",
+        "image": "https://picsum.photos/seed/precious-j4/800/960",
+        "href": "#"
+      }
+    ]
   }
 }

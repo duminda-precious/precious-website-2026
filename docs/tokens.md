@@ -16,7 +16,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--color-white` | `#ffffff` |  | buttonFx |
+| `--color-white` | `#ffffff` |  | buttonFx, fullMenu |
 
 ### Slate: cool neutrals, biased blue-cyan. 25 = page, 100 = containers,
 
@@ -31,7 +31,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--color-slate-600` | `#566874` |  | — |
 | `--color-slate-700` | `#3c4d58` |  | — |
 | `--color-slate-800` | `#26333c` |  | — |
-| `--color-slate-900` | `#141c22` |  | buttonFx |
+| `--color-slate-900` | `#141c22` |  | buttonFx, pageTransition |
 
 ### Wash: the soft brand hues. Pale fills, glows and pixel tints only;
 
@@ -122,8 +122,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--font-display` | `var(--font-family-display)` |  | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
-| `--font-sans` | `var(--font-family-sans)` |  | Button, CtaFooter, MediaFrame, MobileMenu, Nav, Pill, SectionHeader, SiteShell, Tag, TeamSection, TextLink, base |
+| `--font-display` | `var(--font-family-display)` |  | ApproachSection, ContentCard, CtaFooter, FaqSection, FullMenu, Hero, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--font-sans` | `var(--font-family-sans)` |  | Button, CtaFooter, MediaFrame, Pill, SectionHeader, SiteShell, Tag, TeamSection, TextLink, base |
 | `--font-code` | `var(--font-family-code)` | dev pages only | — |
 
 ### Hero keeps the prototype's large sizes (decision 2026-09-29, phase 2).
@@ -134,18 +134,18 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-problem` | `clamp(1.375rem, 6vw, 5rem)` | proto 22–80px, Display Light | Hero |
 | `--text-closer` | `clamp(2.75rem, 2.4rem + 1.75vw, 4.5rem)` | Display 44 → 72: footer headline | CtaFooter |
 | `--text-h1` | `clamp(2.25rem, 2rem + 1.25vw, 3.5rem)` | H1 36 → 56 | — |
-| `--text-menu` | `clamp(2rem, 1.4rem + 2vw, 3.25rem)` | 32 → 52: full-page menu links | MobileMenu |
+| `--text-menu` | `clamp(2rem, 1.4rem + 2vw, 3.25rem)` | 32 → 52: full-page menu links | FullMenu |
 | `--text-statement` | `clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem)` | H2 28 → 40: section headings | ApproachSection, FaqSection, ProcessSection, SectionHeader, StubLayout, TeamSection |
 | `--text-figure` | `clamp(2.25rem, 2.1rem + 0.75vw, 3rem)` | Statement 48 (big numbers) | — |
-| `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | RevealCard, WorkCard |
+| `--text-title` | `clamp(1.375rem, 1.275rem + 0.5vw, 1.875rem)` | H3 22 → 30: card titles | ContentCard, RevealCard, WorkCard |
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
-| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, MobileMenu, TeamSection |
+| `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | ClientsSection, TeamSection |
 | `--text-note` | `1.5rem` | 24: team hub label (desktop) | — |
-| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
-| `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, RevealCard, TextLink, WorkCard, base, contact |
-| `--text-small` | `0.875rem` | Small 14 | — |
-| `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
+| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | FullMenu, ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
+| `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, Nav, RevealCard, TextLink, WorkCard, base, contact |
+| `--text-small` | `0.875rem` | Small 14 | Nav |
+| `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | Button, ContentCard, Nav, Pill, SiteShell, TextLink |
+| `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | ContentCard, CtaFooter, MediaFrame, Nav, SectionHeader, Tag, TeamSection |
 | `--text-micro` | `0.625rem` | 10: placeholder labels in small thumbnails | — |
 
 ### Weights: the scale ...
@@ -156,28 +156,28 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--weight-regular` | `400` |  | — |
 | `--weight-medium` | `500` |  | — |
 | `--weight-semibold` | `600` |  | — |
-| `--weight-display` | `var(--weight-regular)` | every Funnel Display style ... | ApproachSection, CtaFooter, FaqSection, Hero, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--weight-display` | `var(--weight-regular)` | every Funnel Display style ... | ApproachSection, ContentCard, CtaFooter, FaqSection, FullMenu, Hero, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
 | `--weight-figure` | `var(--weight-semibold)` | ... except Statement (big numbers) | — |
-| `--weight-body` | `var(--weight-regular)` | every Funnel Sans style ... | ProcessSection, TestimonialCard |
-| `--weight-label` | `var(--weight-medium)` | ... except labels (all caps) | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
+| `--weight-body` | `var(--weight-regular)` | every Funnel Sans style ... | Nav, ProcessSection, TestimonialCard |
+| `--weight-label` | `var(--weight-medium)` | ... except labels (all caps) | Button, ContentCard, Nav, Pill, SiteShell, TextLink |
+| `--weight-eyebrow` | `var(--weight-regular)` |  | CtaFooter, MediaFrame, SectionHeader, Tag, TeamSection |
 | `--tracking-hero` | `-0.03em` |  | Hero |
 | `--tracking-problem` | `-0.03em` |  | Hero |
 | `--tracking-closer` | `-0.03em` |  | CtaFooter |
-| `--tracking-heading` | `-0.015em` | H2, menu | ApproachSection, FaqSection, MobileMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
-| `--tracking-title` | `-0.01em` | H3, H4 | MobileMenu, RevealCard, WorkCard |
+| `--tracking-heading` | `-0.015em` | H2, menu | ApproachSection, FaqSection, FullMenu, ProcessSection, SectionHeader, StubLayout, TeamSection |
+| `--tracking-title` | `-0.01em` | H3, H4 | ContentCard, RevealCard, WorkCard |
 | `--tracking-body` | `0` |  | base |
-| `--tracking-label` | `0.04em` | all caps needs a little air | Button, MobileMenu, Nav, Pill, SiteShell, TextLink |
-| `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, MobileMenu, Nav, SectionHeader, Tag, TeamSection |
+| `--tracking-label` | `0.04em` | all caps needs a little air | Button, ContentCard, Nav, Pill, SiteShell, TextLink |
+| `--tracking-eyebrow` | `0` | title case, no caps tracking | CtaFooter, MediaFrame, SectionHeader, Tag, TeamSection |
 | `--leading-hero` | `1.02` | tight two-line hero (Claude Design) | Hero |
-| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
+| `--leading-none` | `1` | single-line UI, problem line | Button, ClientsSection, ContentCard, CtaFooter, Hero, Nav, Pill, SectionHeader, Tag, TeamSection, TextLink |
 | `--leading-closer` | `1.06` | 76 / 72 | CtaFooter |
-| `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, FaqSection, MobileMenu, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
+| `--leading-heading` | `1.15` | H2 46 / 40 | ApproachSection, ContentCard, FaqSection, ProcessSection, RevealCard, SectionHeader, StubLayout, TeamSection, WorkCard, base |
 | `--leading-large` | `1.25` | H4 30 / 24 | TeamSection |
-| `--leading-menu` | `1.1` | full-page menu links | — |
+| `--leading-menu` | `1.1` | full-page menu links | FullMenu |
 | `--leading-tight` | `1.2` | hub label | — |
-| `--leading-snug` | `1.3` | list titles (mega menu, news) | — |
-| `--leading-compact` | `1.45` | small descriptions | — |
+| `--leading-snug` | `1.3` | list titles (mega menu, news) | FullMenu, Nav |
+| `--leading-compact` | `1.45` | small descriptions | Nav |
 | `--leading-quote` | `1.2` | 48 / 40 | — |
 | `--leading-medium` | `1.6` | Body L 32 / 20 | ProcessSection, SectionHeader, StubLayout, TeamSection, TestimonialCard |
 | `--leading-body` | `1.625` | Body 26 / 16 | Disclosure, WorkCard, base |
@@ -190,7 +190,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--measure-subline` | `44ch` |  | SectionHeader, TeamSection |
 | `--measure-quote` | `36em` |  | TestimonialCard |
 | `--measure-closer` | `13ch` |  | CtaFooter |
-| `--measure-card` | `34ch` | mega menu descriptions | — |
+| `--measure-card` | `34ch` | mega menu descriptions | Nav |
 | `--measure-gate` | `40ch` | Approach description | — |
 | `--measure-point` | `26ch` | AI card points | — |
 
@@ -199,24 +199,24 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--space-0` | `0` |  | — |
-| `--space-2` | `0.125rem` |  | — |
-| `--space-4` | `0.25rem` |  | MobileMenu, Nav, RevealCard, TestimonialCard |
-| `--space-6` | `0.375rem` |  | MobileMenu, Nav, Pill, Tag, WorkCard |
-| `--space-8` | `0.5rem` |  | ClientsSection, CtaFooter, MobileMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
-| `--space-10` | `0.625rem` |  | Button, Pill, Tag, TeamSection, buttonFx |
-| `--space-12` | `0.75rem` |  | MobileMenu, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
-| `--space-14` | `0.875rem` |  | Button, Pill, ProcessSection |
-| `--space-16` | `1rem` |  | Button, ClientsSection, CtaFooter, Disclosure, Hero, MobileMenu, Nav, SiteShell |
+| `--space-2` | `0.125rem` |  | Nav |
+| `--space-4` | `0.25rem` |  | FullMenu, Nav, RevealCard, TestimonialCard |
+| `--space-6` | `0.375rem` |  | ContentCard, Nav, Pill, Tag, WorkCard |
+| `--space-8` | `0.5rem` |  | ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, RevealCard, SiteShell, TeamSection, TextLink, contact |
+| `--space-10` | `0.625rem` |  | Button, ContentCard, FullMenu, Nav, Pill, Tag, TeamSection, buttonFx |
+| `--space-12` | `0.75rem` |  | ContentCard, Nav, ProcessSection, RevealCard, SectionHeader, SiteShell, TeamSection, WorkCard |
+| `--space-14` | `0.875rem` |  | Button, Nav, Pill, ProcessSection |
+| `--space-16` | `1rem` |  | Button, ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Hero, Nav, SiteShell |
 | `--space-18` | `1.125rem` |  | Disclosure, ProcessSection, TeamSection |
-| `--space-20` | `1.25rem` |  | — |
+| `--space-20` | `1.25rem` |  | FullMenu, Nav |
 | `--space-22` | `1.375rem` |  | Button, RevealCard |
-| `--space-24` | `1.5rem` |  | ClientsSection, CtaFooter, FaqSection, MobileMenu, Nav, SectionHeader, TeamSection, contact |
+| `--space-24` | `1.5rem` |  | ClientsSection, CtaFooter, FaqSection, FullMenu, Nav, SectionHeader, TeamSection, contact |
 | `--space-26` | `1.625rem` |  | — |
 | `--space-28` | `1.75rem` |  | TestimonialCard |
-| `--space-32` | `2rem` |  | CtaFooter, ProcessSection |
+| `--space-32` | `2rem` |  | CtaFooter, Nav, ProcessSection |
 | `--space-34` | `2.125rem` |  | — |
-| `--space-40` | `2.5rem` |  | Hero, MobileMenu, ProcessSection |
-| `--space-48` | `3rem` |  | CtaFooter, TestimonialCard |
+| `--space-40` | `2.5rem` |  | Hero, ProcessSection |
+| `--space-48` | `3rem` |  | CtaFooter, FullMenu, TestimonialCard |
 | `--space-56` | `3.5rem` |  | ClientsSection |
 | `--space-64` | `4rem` |  | — |
 | `--space-80` | `5rem` |  | CtaFooter |
@@ -226,8 +226,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--gutter` | `clamp(1rem, 0.8rem + 1vw, 2rem)` | side padding 16 → 32 | ClientsSection, CtaFooter, Hero, MobileMenu, Nav, Section |
-| `--grid-gap-col` | `clamp(1rem, 0.9rem + 0.5vw, 1.5rem)` | 16 → 24 | ApproachSection, Grid12, ProcessSection, WorkSection |
+| `--gutter` | `clamp(1rem, 0.8rem + 1vw, 2rem)` | side padding 16 → 32 | ClientsSection, CtaFooter, FullMenu, Hero, Nav, Section, fullMenu |
+| `--grid-gap-col` | `clamp(1rem, 0.9rem + 0.5vw, 1.5rem)` | 16 → 24 | ApproachSection, FullMenu, Grid12, Nav, ProcessSection, WorkSection |
 | `--grid-gap-row` | `clamp(3.375rem, 2.85rem + 2.625vw, 6rem)` | work rows 54 → 96 | Grid12, WorkSection |
 | `--header-gap` | `clamp(2.625rem, 2.35rem + 1.375vw, 4rem)` | section header → content 42 → 64 | ApproachSection, Grid12, SectionHeader, TeamSection |
 | `--section-gap` | `clamp(7.75rem, 6.9rem + 4.25vw, 12rem)` | between sections 124 → 192 | — |
@@ -236,15 +236,15 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--grid-columns` | `12` |  | Grid12, WorkSection |
+| `--grid-columns` | `12` |  | FullMenu, Grid12, Nav, WorkSection |
 | `--section-py` | `calc(var(--section-gap) / 2)` | each side; two sections meet at one gap | CtaFooter, Hero, Section |
 | `--section-py-tight` | `clamp(1.25rem, 3vw, 2.5rem)` | process card wrapper (prototype) | Section |
-| `--inset-card` | `clamp(1.5rem, 3vw, 2.5rem)` | testimonial (prototype) | TestimonialCard |
+| `--inset-card` | `clamp(1.5rem, 3vw, 2.5rem)` | testimonial (prototype) | Nav, TestimonialCard |
 | `--inset-panel` | `clamp(2rem, 6vw, 4.5rem)` | process card (prototype) | ProcessSection |
 | `--hero-scroll` | `400vh` |  | Hero |
-| `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | Hero, Nav, base |
-| `--tap-min` | `2.75rem` | 44px touch target | Button, ClientsSection, Disclosure, MobileMenu, Nav, Pill |
-| `--icon-button` | `2.5rem` | 40: square icon buttons (menu, close, card CTA) | IconButton |
+| `--nav-height` | `3.875rem` | brief header height ~62px; also the anchor offset | FullMenu, Hero, Nav, base, fullMenu, pageTransition |
+| `--tap-min` | `2.75rem` | 44px touch target | Button, ClientsSection, Disclosure, Nav, Pill |
+| `--icon-button` | `2.5rem` | 40: square icon buttons (menu, close, card CTA) | ContentCard, IconButton, Nav, fullMenu |
 | `--icon-button-sm` | `2rem` | 32: news card arrow | IconButton |
 | `--icon-glyph` | `0.75rem` | 12: dots / close glyph inside an icon button | PixelIcon |
 | `--button-fly-width` | `0.9375rem` | 15: hover butterfly | buttonFx |
@@ -260,12 +260,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--radius-none` | `0` |  | — |
-| `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, IconButton, Nav, SiteShell, TeamSection |
-| `--radius-sm` | `0.5rem` | 8 | — |
-| `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | Hero, MediaFrame, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero |
+| `--radius-xs` | `0.25rem` | 4: buttons, dropdowns, chips, skip link | Button, ContentCard, IconButton, SiteShell, TeamSection |
+| `--radius-sm` | `0.5rem` | 8 | Nav |
+| `--radius-md` | `0.75rem` | 12: cards, media, the page sheet | ContentCard, Hero, MediaFrame, Nav, ProcessSection, RevealCard, SiteShell, TestimonialCard, hero, nav |
 | `--radius-lg` | `1.25rem` | 20 | — |
 | `--radius-xl` | `1.375rem` | 22: team diagram bracket (prototype shape) | — |
-| `--radius-pill` | `999px` | tags, pills | ClientsSection, MobileMenu, Nav, Pill, Tag |
+| `--radius-pill` | `999px` | tags, pills | ClientsSection, ContentCard, Nav, Pill, Tag |
 
 ### Elevation: tinted with Deep Ink, never black
 
@@ -279,7 +279,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--logo-height-nav` | `clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem)` | 14 → 18 | MobileMenu, Nav |
+| `--logo-height-nav` | `clamp(0.875rem, calc((100vw - 52rem) * 0.0443), 1.65rem)` | 14 → 26: fills the nav, shrinks so the links fit | FullMenu, Nav |
 
 ### Pixel icons: one grid cell = one unit, so icons stay on whole pixels
 
@@ -287,7 +287,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--pixel-unit` | `0.125rem` | 2px: inline UI glyphs | PixelIcon |
 | `--pixel-unit-lg` | `0.1875rem` | 3px: slider arrows, FAQ | PixelIcon |
-| `--border-width` | `1px` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, Nav, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
+| `--border-width` | `1px` |  | ClientsSection, ContentCard, CtaFooter, Disclosure, Pill, ProcessSection, Section, Tag, TeamSection, TextLink, WorkCard |
 | `--focus-width` | `2px` |  | — |
 | `--focus-offset` | `3px` |  | — |
 
@@ -296,41 +296,46 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--blur-glass` | `24px` | frosted cards over video | — |
-| `--blur-edge` | `14px` | pixel edge on card media | — |
+| `--blur-edge` | `14px` | pixel edge on card media | ContentCard |
 | `--blur-glow` | `10px` | chip edge glow | — |
 | `--blur-halo` | `16px` | hub halo | — |
 | `--blur-reel-max` | `57px` | hero reel blur at veil 1 (blur = veil × this) | — |
 | `--glass-bg` | `color-mix(in srgb, var(--color-white) 62%, transparent)` |  | — |
-| `--edge-fill` | `color-mix(in srgb, var(--color-white) 12%, transparent)` |  | — |
-| `--stripe-size` | `8px` | placeholder stripe band | MediaFrame |
+| `--edge-fill` | `color-mix(in srgb, var(--color-white) 12%, transparent)` |  | ContentCard |
+| `--stripe-size` | `8px` | placeholder stripe band | ContentCard, MediaFrame |
 | `--stripe-size-sm` | `6px` |  | MediaFrame |
 
 ### MOTION (mirrored for GSAP in src/motion/tokens.ts; read at runtime)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | MobileMenu, Nav, SiteShell, gsap |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |  | ContentCard, FullMenu, Nav, SiteShell, gsap |
 | `--ease-out-soft` | `cubic-bezier(0.2, 0.8, 0.2, 1)` |  | RevealCard, gsap |
-| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | Nav, buttonFx, gsap |
+| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | brief signature entrance ease | ContentCard, Nav, buttonFx, fullMenu, gsap |
 | `--ease-linear` | `linear` |  | ClientsSection |
 | `--ease-css` | `ease` | the prototype's nav colour transition | Nav |
-| `--ease-emphasized` | `cubic-bezier(0.05, 0.7, 0.1, 1)` | mega menu open, hub burst | — |
-| `--ease-snappy` | `cubic-bezier(0.2, 0, 0, 1)` | chevrons, link fills, press | buttonFx |
-| `--ease-exit` | `cubic-bezier(0.3, 0, 1, 1)` | accelerating exits | buttonFx |
+| `--ease-emphasized` | `cubic-bezier(0.05, 0.7, 0.1, 1)` | mega menu open, hub burst | nav |
+| `--ease-snappy` | `cubic-bezier(0.2, 0, 0, 1)` | chevrons, link fills, press | FullMenu, Nav, buttonFx, nav |
+| `--ease-exit` | `cubic-bezier(0.3, 0, 1, 1)` | accelerating exits | buttonFx, nav |
 | `--ease-breathe` | `cubic-bezier(0.37, 0, 0.63, 1)` | ambient loops | — |
 | `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | symmetric reveals | — |
 | `--dur-press` | `120ms` | button press | buttonFx |
-| `--dur-fast` | `200ms` | hovers | MobileMenu, Nav, buttonFx |
+| `--dur-fast` | `200ms` | hovers | ContentCard, buttonFx |
 | `--dur-base` | `300ms` |  | RevealCard, disclosure, gsap |
 | `--dur-reveal` | `450ms` |  | RevealCard |
-| `--dur-link` | `160ms` | link hover fill | — |
-| `--dur-chevron` | `240ms` |  | buttonFx |
-| `--dur-nav-fade` | `320ms` |  | — |
-| `--dur-mega-in` | `380ms` |  | — |
-| `--dur-mega-out` | `200ms` |  | — |
+| `--dur-link` | `160ms` | link hover fill | FullMenu, Nav |
+| `--dur-chevron` | `240ms` |  | FullMenu, Nav, buttonFx |
+| `--dur-nav-fade` | `320ms` |  | Nav, nav |
+| `--dur-mega-in` | `380ms` |  | nav |
+| `--dur-mega-out` | `200ms` |  | nav |
+| `--dur-cascade-start` | `80ms` | mega menu: first item delay | nav |
+| `--dur-cascade-column` | `50ms` | … added per column | nav |
+| `--dur-cascade-item` | `25ms` | … and per item | nav |
 | `--dur-stack-fade` | `400ms` | news stack card fade | — |
-| `--dur-expand` | `420ms` | accordions, card CTA pill | — |
-| `--dur-collapse` | `560ms` | nav collapse, news stack slide, gate text | — |
+| `--dur-expand` | `420ms` | accordions, card CTA pill | ContentCard, FullMenu |
+| `--dur-accordion-fade` | `280ms` | accordion content fade | FullMenu |
+| `--dur-hover-intent` | `160ms` | mega menu stays open this long after the pointer leaves | nav |
+| `--dur-collapse` | `560ms` | nav collapse, news stack slide, gate text | Nav |
 | `--dur-theme` | `800ms` |  | Nav |
 | `--dur-page` | `900ms` |  | SiteShell, themeSwitch |
 | `--dur-rise` | `1s` | brief row rise-in, 0.8–1.2s | riseIn |
@@ -350,7 +355,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--pixel-resolve` | `36 28 21 15 10 6 3` | first view: coarse → crisp | — |
 | `--pixel-glitch` | `3 7 14 20 12 6 3` | idle: break into pixels and snap back | buttonGlitch |
 | `--pixel-dissolve` | `3 7 14 20 28 36` | hero title out on the first scroll | — |
-| `--pixel-ghost` | `0.18` | LCD ghost: the previous frame lingers at this opacity | logoWings |
+| `--pixel-ghost` | `0.18` | LCD ghost: the previous frame lingers at this opacity | logoWings, wing |
 | `--dur-pixel-frame-in` | `70ms` |  | — |
 | `--dur-pixel-frame-glitch` | `55ms` |  | buttonGlitch |
 | `--dur-pixel-word-stagger` | `70ms` | word to word on resolve | — |
@@ -371,7 +376,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | Token | Value | Note | Used in |
 |---|---|---|---|
 | `--pixel-cell-button` | `6px` |  | buttonFx |
-| `--dur-bloom-frame` | `40ms` |  | buttonFx |
+| `--dur-bloom-frame` | `40ms` |  | buttonFx, cardEdge |
 | `--bloom-steps` | `10` |  | buttonFx |
 | `--dur-fly-land` | `385ms` | hover butterfly lands (7 steps) | buttonFx |
 | `--dur-fly-lift` | `275ms` | lifts off vertically (5 steps) | buttonFx |
@@ -381,8 +386,8 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-cell-edge` | `16px` |  | — |
-| `--dur-edge-frame` | `55ms` |  | — |
+| `--pixel-cell-edge` | `16px` |  | cardEdge |
+| `--dur-edge-frame` | `55ms` |  | cardEdge |
 
 ### FAQ +/× pixel swap
 
@@ -424,14 +429,22 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | pageTransition, pixelClip |
-| `--pixel-reveal-steps` | `6` |  | pixelClip |
-| `--pixel-feather` | `0.18` | soft leading edge of the wipe | — |
-| `--dur-page-cover` | `220ms` | old page covered (exit) | pageTransition, pixelClip |
-| `--dur-page-hold` | `160ms` | fully covered | — |
-| `--dur-page-reveal` | `320ms` | new page revealed (entrance) | pageTransition, pixelClip |
-| `--dur-menu-open` | `300ms` |  | — |
-| `--dur-menu-close` | `380ms` |  | — |
+| `--pixel-cell-page` | `2rem` | 32px cells for the full-screen cover | wing |
+| `--pixel-reveal-steps` | `6` |  | wing |
+| `--pixel-feather` | `0.18` | soft leading edge of the wipe | wing |
+| `--dur-page-cover` | `220ms` | old page covered (exit) | pageTransition |
+| `--dur-page-hold` | `160ms` | fully covered | pageTransition |
+| `--dur-page-reveal` | `320ms` | new page revealed (entrance) | pageTransition |
+| `--dur-menu-open` | `300ms` |  | fullMenu |
+| `--dur-menu-close` | `380ms` |  | fullMenu |
+| `--dur-menu-item` | `460ms` | full-page menu links rise in | fullMenu |
+| `--dur-menu-card` | `520ms` | full-page menu cards rise in | fullMenu |
+| `--dur-menu-item-delay` | `120ms` |  | fullMenu |
+| `--dur-menu-item-stagger` | `40ms` |  | fullMenu |
+| `--dur-menu-card-delay` | `220ms` |  | fullMenu |
+| `--dur-menu-card-stagger` | `80ms` |  | fullMenu |
+| `--menu-rise` | `24px` | rise distance for menu links | fullMenu |
+| `--menu-card-rise` | `32px` | … and cards | fullMenu |
 | `--rise-distance` | `120px` | brief entrance pattern | riseIn |
 
 ### Feel controls (the Claude Design "Tweaks"; defaults as designed).
@@ -440,9 +453,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 |---|---|---|---|
 | `--motion-tempo` | `1` | multiplies every pixel-motion duration: Calm 1.5 · Standard 1 · Lively 0.65 | tokens |
 | `--hero-veil` | `0.75` | white veil over the hero reel at rest (0.4–0.95); reel blur = veil × 57px | — |
-| `--pixel-tint` | `0.3` | share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 | — |
+| `--pixel-tint` | `0.3` | share of transition edge pixels tinted with washes: Ink 0 · Subtle 0.3 · Full 0.8 | wing |
 | `--dur-stagger` | `80ms` | left-to-right delay within a rising row (brief: 'small') | riseIn |
-| `--hover-opacity` | `0.7` |  | ClientsSection, MobileMenu, Nav, Pill, WorkCard, base |
+| `--hover-opacity` | `0.7` |  | ClientsSection, Nav, Pill, WorkCard, base |
 | `--disabled-opacity` | `0.3` |  | ClientsSection |
 
 ### Testimonial slider (one card per "page", next card peeks)
@@ -469,11 +482,11 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--z-footer` | `0` |  | CtaFooter |
 | `--z-below` | `-1` |  | — |
 | `--z-page` | `1` |  | SiteShell |
-| `--z-raised` | `1` | in-component layering | — |
+| `--z-raised` | `1` | in-component layering | ContentCard |
 | `--z-float` | `2` | hero news stack | — |
 | `--z-nav` | `5` |  | Nav |
-| `--z-dropdown` | `10` |  | Nav |
-| `--z-menu` | `50` |  | — |
+| `--z-dropdown` | `10` |  | — |
+| `--z-menu` | `50` |  | FullMenu |
 | `--z-skip` | `100` |  | SiteShell |
 | `--z-cover` | `200` | page-transition pixel cover | SiteShell |
 
@@ -481,14 +494,14 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-slate-25)` | cool near-white | CtaFooter, MobileMenu, Section, base |
+| `--surface-page` | `var(--color-slate-25)` | cool near-white | CtaFooter, Section, base |
 | `--surface-raised` | `var(--color-slate-100)` | testimonial card, containers | TestimonialCard |
 | `--surface-muted` | `var(--color-slate-100)` | sunken surfaces | — |
-| `--surface-hover` | `var(--color-slate-150)` | link hover fill (mega menu) | — |
-| `--surface-overlay` | `var(--color-white)` | full-page menu | — |
+| `--surface-hover` | `var(--color-slate-150)` | link hover fill (mega menu) | Nav |
+| `--surface-overlay` | `var(--color-white)` | full-page menu | FullMenu |
 | `--surface-inverse` | `var(--color-slate-900)` |  | base |
-| `--text-primary` | `var(--color-slate-900)` | Deep Ink, never #000 | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-slate-600)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
+| `--text-primary` | `var(--color-slate-900)` | Deep Ink, never #000 | ContentCard, CtaFooter, FullMenu, Nav, base |
+| `--text-secondary` | `var(--color-slate-600)` |  | ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, SectionHeader, StubLayout, WorkCard, contact, utilities |
 | `--text-tertiary` | `var(--color-slate-600)` |  | TeamSection |
 | `--text-muted` | `var(--color-slate-600)` | lightest text that passes AA on the page | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-white)` |  | base |
@@ -500,22 +513,22 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--cta-bg` | `var(--color-slate-900)` | Deep Ink button | Button, IconButton, SiteShell |
 | `--cta-fg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
 | `--focus-ring` | `var(--color-accent-teal)` |  | RevealCard, WorkCard, base |
-| `--tag-border` | `var(--border-strong)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-slate-100)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-slate-50)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-slate-600)` |  | MediaFrame |
+| `--tag-border` | `var(--border-strong)` |  | ContentCard, Tag |
+| `--placeholder-stripe-a` | `var(--color-slate-100)` |  | ContentCard, MediaFrame |
+| `--placeholder-stripe-b` | `var(--color-slate-50)` |  | ContentCard, MediaFrame |
+| `--placeholder-fg` | `var(--color-slate-600)` |  | ContentCard, MediaFrame |
 
 ## Semantic colours: ink (footer, process card)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--surface-page` | `var(--color-slate-900)` |  | CtaFooter, MobileMenu, Section, base |
+| `--surface-page` | `var(--color-slate-900)` |  | CtaFooter, Section, base |
 | `--surface-raised` | `var(--color-slate-800)` |  | TestimonialCard |
 | `--surface-muted` | `var(--color-slate-800)` |  | — |
-| `--surface-hover` | `var(--color-slate-800)` |  | — |
+| `--surface-hover` | `var(--color-slate-800)` |  | Nav |
 | `--surface-inverse` | `var(--color-white)` |  | base |
-| `--text-primary` | `var(--color-slate-50)` |  | CtaFooter, MobileMenu, base |
-| `--text-secondary` | `var(--color-slate-400)` |  | ClientsSection, CtaFooter, Disclosure, MobileMenu, SectionHeader, StubLayout, WorkCard, contact, utilities |
+| `--text-primary` | `var(--color-slate-50)` |  | ContentCard, CtaFooter, FullMenu, Nav, base |
+| `--text-secondary` | `var(--color-slate-400)` |  | ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Nav, SectionHeader, StubLayout, WorkCard, contact, utilities |
 | `--text-tertiary` | `var(--color-slate-400)` |  | TeamSection |
 | `--text-muted` | `var(--color-slate-400)` |  | CtaFooter, TestimonialCard |
 | `--text-on-inverse` | `var(--color-slate-900)` |  | base |
@@ -527,34 +540,31 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--cta-bg` | `var(--color-white)` |  | Button, IconButton, SiteShell |
 | `--cta-fg` | `var(--color-slate-900)` |  | Button, IconButton, SiteShell |
 | `--focus-ring` | `var(--color-wash-sky)` |  | RevealCard, WorkCard, base |
-| `--tag-border` | `var(--color-slate-700)` |  | Tag |
-| `--placeholder-stripe-a` | `var(--color-slate-800)` |  | MediaFrame |
-| `--placeholder-stripe-b` | `var(--color-slate-900)` |  | MediaFrame |
-| `--placeholder-fg` | `var(--color-slate-400)` |  | MediaFrame |
+| `--tag-border` | `var(--color-slate-700)` |  | ContentCard, Tag |
+| `--placeholder-stripe-a` | `var(--color-slate-800)` |  | ContentCard, MediaFrame |
+| `--placeholder-stripe-b` | `var(--color-slate-900)` |  | ContentCard, MediaFrame |
+| `--placeholder-fg` | `var(--color-slate-400)` |  | ContentCard, MediaFrame |
 
 ## Component tokens
 
-### Nav (brief M7): no bar background; the link cluster gets a rounded
+### Nav (Claude Design): text and buttons follow the page theme. The Services
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--nav-fg` | `var(--color-slate-900)` |  | Nav |
-| `--nav-cluster-bg` | `var(--color-slate-100)` |  | Nav |
-| `--nav-fg-dark` | `var(--color-slate-50)` |  | Nav |
-| `--nav-cluster-bg-dark` | `var(--color-slate-800)` |  | Nav |
 | `--nav-dropdown-bg` | `var(--color-slate-25)` |  | Nav |
 | `--nav-dropdown-fg` | `var(--color-slate-900)` |  | Nav |
-| `--nav-dropdown-border` | `var(--color-slate-200)` |  | Nav |
-| `--nav-dropdown-shadow` | `var(--shadow-e2)` |  | Nav |
-| `--nav-badge-bg` | `var(--color-slate-900)` |  | MobileMenu, Nav |
-| `--nav-badge-fg` | `var(--color-white)` |  | MobileMenu, Nav |
+| `--nav-dropdown-note-bg` | `var(--color-slate-100)` |  | Nav |
+| `--nav-badge-bg` | `var(--color-slate-900)` |  | Nav |
+| `--nav-links-max` | `60rem` | collapse animates max-width from this to 0 | Nav |
+| `--nav-cta-max` | `12rem` |  | Nav |
+| `--nav-badge-fg` | `var(--color-white)` |  | Nav |
 
 ### Page wrapper (animated by the theme switch)
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--page-bg` | `var(--color-slate-25)` |  | SiteShell |
-| `--page-bg-dark` | `var(--color-slate-900)` |  | SiteShell |
+| `--page-bg` | `var(--color-slate-25)` |  | SiteShell, pageTransition |
+| `--page-bg-dark` | `var(--color-slate-900)` |  | SiteShell, pageTransition |
 
 ### Gate cards (Approach): one soft wash per card, Deep Ink titles, grey
 
@@ -599,11 +609,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--cta-hover-bg` | `var(--wash-button)` |  | Button, IconButton |
 | `--cta-hover-fg` | `var(--color-slate-900)` |  | Button, IconButton, buttonFx |
 
-### Page-transition cover
+### ContentCard: the CTA pill in the media corner stays light on any theme
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--pixel-cover-bg` | `var(--color-slate-900)` |  | SiteShell |
+| `--card-cta-bg` | `var(--color-white)` |  | ContentCard |
+| `--card-cta-fg` | `var(--color-slate-900)` |  | ContentCard |
 
 ### AI card (process section)
 

@@ -282,7 +282,7 @@
     --shadow-e3: 0 16px 40px color-mix(in srgb, var(--color-slate-900) 14%, transparent); /* modals */
 
     /* Logo (the footer logo is sized by its grid columns, not a token) */
-    --logo-height-nav: clamp(0.875rem, 0.825rem + 0.25vw, 1.125rem); /* 14 → 18 */
+    --logo-height-nav: clamp(0.875rem, calc((100vw - 52rem) * 0.0443), 1.65rem); /* 14 → 26: fills the nav, shrinks so the links fit */
 
     /* Pixel icons: one grid cell = one unit, so icons stay on whole pixels */
     --pixel-unit: 0.125rem; /* 2px: inline UI glyphs */
@@ -326,8 +326,13 @@
     --dur-nav-fade: 320ms;
     --dur-mega-in: 380ms;
     --dur-mega-out: 200ms;
+    --dur-cascade-start: 80ms; /* mega menu: first item delay */
+    --dur-cascade-column: 50ms; /* … added per column */
+    --dur-cascade-item: 25ms; /* … and per item */
     --dur-stack-fade: 400ms; /* news stack card fade */
     --dur-expand: 420ms; /* accordions, card CTA pill */
+    --dur-accordion-fade: 280ms; /* accordion content fade */
+    --dur-hover-intent: 160ms; /* mega menu stays open this long after the pointer leaves */
     --dur-collapse: 560ms; /* nav collapse, news stack slide, gate text */
     --dur-theme: 800ms;
     --dur-page: 900ms;
@@ -388,6 +393,14 @@
     --dur-page-reveal: 320ms; /* new page revealed (entrance) */
     --dur-menu-open: 300ms;
     --dur-menu-close: 380ms;
+    --dur-menu-item: 460ms; /* full-page menu links rise in */
+    --dur-menu-card: 520ms; /* full-page menu cards rise in */
+    --dur-menu-item-delay: 120ms;
+    --dur-menu-item-stagger: 40ms;
+    --dur-menu-card-delay: 220ms;
+    --dur-menu-card-stagger: 80ms;
+    --menu-rise: 24px; /* rise distance for menu links */
+    --menu-card-rise: 32px; /* … and cards */
     --rise-distance: 120px; /* brief entrance pattern */
     /* Feel controls (the Claude Design "Tweaks"; defaults as designed).
        Read at runtime by src/motion/tokens.ts. */
@@ -549,15 +562,15 @@
   :root {
     /* Nav (brief M7): no bar background; the link cluster gets a rounded
        backdrop once scrolled. -dark variants apply over the dark Work stage. */
-    --nav-fg: var(--color-slate-900);
-    --nav-cluster-bg: var(--color-slate-100);
-    --nav-fg-dark: var(--color-slate-50);
-    --nav-cluster-bg-dark: var(--color-slate-800);
+    /* Nav (Claude Design): text and buttons follow the page theme. The Services
+       mega menu is a light panel: page colour, tinted note container, tinted
+       link hover; no borders, dividers or shadow. */
     --nav-dropdown-bg: var(--color-slate-25);
     --nav-dropdown-fg: var(--color-slate-900);
-    --nav-dropdown-border: var(--color-slate-200);
-    --nav-dropdown-shadow: var(--shadow-e2);
+    --nav-dropdown-note-bg: var(--color-slate-100);
     --nav-badge-bg: var(--color-slate-900);
+    --nav-links-max: 60rem; /* collapse animates max-width from this to 0 */
+    --nav-cta-max: 12rem;
     --nav-badge-fg: var(--color-white);
 
     /* Page wrapper (animated by the theme switch) */
@@ -601,8 +614,9 @@
     --cta-hover-bg: var(--wash-button);
     --cta-hover-fg: var(--color-slate-900);
 
-    /* Page-transition cover */
-    --pixel-cover-bg: var(--color-slate-900);
+    /* ContentCard: the CTA pill in the media corner stays light on any theme */
+    --card-cta-bg: var(--color-white);
+    --card-cta-fg: var(--color-slate-900);
 
     /* AI card (process section) */
     --process-bg: var(--color-slate-900);

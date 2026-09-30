@@ -18,6 +18,9 @@ import { disclosure } from './disclosure';
 import { buttonFx } from './buttonFx';
 import { buttonGlitch } from './buttonGlitch';
 import { logoWings } from './logoWings';
+import { nav } from './nav';
+import { fullMenu } from './fullMenu';
+import { cardEdge } from './cardEdge';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -40,6 +43,9 @@ const modules: MotionModule[] = [
   buttonFx,
   buttonGlitch,
   logoWings,
+  nav,
+  fullMenu,
+  cardEdge,
 ];
 
 let cleanups: (() => void)[] = [];

@@ -60,6 +60,13 @@
     overflow-wrap: break-word;
   }
 
+  /* Lists are unstyled everywhere (Claude Design); semantics stay. */
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
   summary {
     list-style: none;
     cursor: pointer;
