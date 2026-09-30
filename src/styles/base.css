@@ -104,6 +104,19 @@
     pointer-events: none;
   }
 
+  /* Smooth wheel scroll (smoothScroll.ts): Lenis's required rules. Its stopped
+     state has no rule here; the page lock below already handles that. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
   /* Set by the full-page menu while open. */
   html.is-scroll-locked {
     overflow: hidden;

@@ -25,6 +25,7 @@ import { approach } from './approach';
 import { teamFlow } from './teamFlow';
 import { pixelRain } from './pixelRain';
 import { aiCard } from './aiCard';
+import { smoothScroll } from './smoothScroll';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -35,6 +36,7 @@ export interface MotionModule {
 
 /** Registry order = init order. */
 const modules: MotionModule[] = [
+  smoothScroll,
   heroReveal,
   newsStack,
   soundToggle,

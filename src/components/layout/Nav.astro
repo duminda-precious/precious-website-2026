@@ -77,7 +77,7 @@ import { ui } from '../../config/ui';
     </Button>
   </div>
 
-  <div id="nav-mega" class="mega" data-theme="light" role="region" aria-label={ui.megaLabel} data-mega>
+  <div id="nav-mega" class="mega" data-theme="light" role="region" aria-label={ui.megaLabel} data-mega data-lenis-prevent>
     <div class="mega__grid">
       {megaMenu.columns.map((col) => (
         <div class:list={['mega__col', `mega__col--${col.kind}`]} data-mega-col>

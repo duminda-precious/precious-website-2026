@@ -4,7 +4,7 @@
 
 ## Architecture
 
-- **Stack:** GSAP + ScrollTrigger + CustomEase (theme switch, rise-in, FAQ height), the Web Animations API and canvas for pixel work, Astro's page router for transitions. No smooth-scroll library (the two-step hero holds the first scroll natively).
+- **Stack:** GSAP + ScrollTrigger + CustomEase (theme switch, rise-in, FAQ height), the Web Animations API and canvas for pixel work, Astro's page router for transitions. Lenis for smooth wheel scroll only (M19); it defers to the two-step hero, which holds the first scroll natively.
 - **Registry** (`src/motion/index.ts`): each behaviour is a module with `init(root) → cleanup`. It boots on `astro:page-load`, tears everything down on `astro:before-swap`, and re-initialises when the reduced-motion setting changes.
 - **Hooks:** elements opt in with `data-*` attributes, never styling classes.
 - **Shared engines:** `pixelWords.ts` (per-word canvas pixelation), `wing.ts` (butterfly wing cover), `pixelRain.ts` (wash band + falling clusters).
@@ -33,6 +33,7 @@
 | M16 | **Team funnel.** Pixel flow from roles through the engine to the outputs; entrance, then a pulse loop | `teamFlow.ts`, `TeamSection.astro` | `data-flow` | Still frame, lit |
 | M17 | **AI card.** Fixed window of glow + pixel rain; content rises, stat counts up | `aiCard.ts`, `pixelRain.ts`, `ProcessSection.astro` | `data-ai*`, `data-rain` | Still frame |
 | M18 | **Footer pixel rain.** Wash band + falling clusters; Book a call brightens it | `pixelRain.ts`, `CtaFooter.astro` | `data-rain`, `data-rain-cta` | Still frame |
+| M19 | **Smooth wheel scroll.** Lenis eases mouse wheel and trackpad (`--scroll-lerp`, `--scroll-wheel-multiplier`) on GSAP's ticker, updating ScrollTrigger. Touch, keys and anchors stay native. Hands the wheel to the hero while it owns the scroll (`claimWheel`); skips `[data-lenis-prevent]` panels and sideways slider swipes; stops under the full menu's lock | `smoothScroll.ts` | `data-lenis-prevent`, `data-lenis-prevent-horizontal` | Off (native scroll) |
 | — | **Footer reveal.** From 992px the footer is sticky behind the page | `CtaFooter.astro` | `data-motion="footer-reveal"` | Same |
 
 ## Adding a behaviour

@@ -47,7 +47,7 @@ const copies = [0, 1, 2];
   </SectionHeader>
 
   <div class="slider" data-motion="slider">
-    <ul class="slider__track" aria-label={ui.slider.label} tabindex="0" data-slider-track>
+    <ul class="slider__track" aria-label={ui.slider.label} tabindex="0" data-slider-track data-lenis-prevent-horizontal>
       {copies.map((copy) =>
         testimonials.map(({ data }) => (
           <li

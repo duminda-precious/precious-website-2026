@@ -12,6 +12,8 @@
  *   Title: hovering a word plays the pixel glitch in the text colour; a random word
  *   glitches every --dur-glitch-min + random(--dur-glitch-range) while at rest.
  * Anchor jumps (precious:jump from pageTransition.ts) switch state instantly.
+ * Smooth scroll (smoothScroll.ts) hands the wheel to the hero whenever it owns the
+ * scroll (claimWheel), so the hold and the glide back stay native.
  * The h1 keeps an aria-label, so screen readers get the title in both states.
  * Tokens: --pixel-dissolve, --pixel-resolve, --pixel-glitch, --dur-pixel-frame-in/-glitch,
  *         --dur-hero-word-stagger, --dur-pixel-word-stagger, --dur-hero-lock,
@@ -25,6 +27,7 @@ import type { MotionModule } from './index';
 import { prefersReducedMotion } from './reducedMotion';
 import { length, list, ms, num, smoothstep } from './tokens';
 import { pixelRunner, wrapWords, type PxWord } from './pixelWords';
+import { claimWheel } from './smoothScroll';
 
 export const heroReveal: MotionModule = {
   name: 'heroReveal',
@@ -125,14 +128,23 @@ export const heroReveal: MotionModule = {
 
     const interactive = (t: EventTarget | null) =>
       t instanceof Element && !!t.closest('a, button, input, textarea, select, [contenteditable]');
+    // The hero owns a scroll while it is locked, holding the first scroll at the top,
+    // or taking an upward scroll inside it back to rest. Smooth scroll defers to this.
+    const holdsFirst = (dir: number) => !revealed && dir > 0 && window.scrollY <= 2;
+    const takesBack = (dir: number) => revealed && dir < 0 && window.scrollY < hero.offsetHeight;
+    const owns = (dir: number) =>
+      !phone.matches &&
+      !html.classList.contains('is-scroll-locked') &&
+      (lock || holdsFirst(dir) || takesBack(dir));
+    const releaseWheel = claimWheel(owns);
     const intent = (dir: number, ev?: Event) => {
-      if (phone.matches || html.classList.contains('is-scroll-locked')) return;
+      if (!owns(dir)) return;
       const stop = () => ev?.cancelable && ev.preventDefault();
       if (lock) return stop();
-      if (!revealed && dir > 0 && window.scrollY <= 2) {
+      if (holdsFirst(dir)) {
         stop();
         setState(true);
-      } else if (revealed && dir < 0 && window.scrollY < hero.offsetHeight) {
+      } else {
         stop();
         lock = true;
         const away = window.scrollY > 0;
@@ -205,6 +217,7 @@ export const heroReveal: MotionModule = {
 
     return () => {
       alive = false;
+      releaseWheel();
       controller.abort();
       cancelAnimationFrame(raf);
       window.clearTimeout(idleT);
