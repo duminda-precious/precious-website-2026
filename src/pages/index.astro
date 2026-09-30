@@ -30,9 +30,8 @@ const [home, work, testimonials, clients, faq] = await Promise.all([
     heading={home.team.heading}
     subline={home.team.subline}
     roles={[...home.team.coreRoles, ...home.team.extendedRoles]}
-    engineLabel={home.team.engineLabel}
     engine={home.team.engine}
-    benefits={home.team.benefits}
+    outputs={home.team.outputs}
   />
   <ApproachSection {...home.approach} />
   <ProcessSection {...home.process} />

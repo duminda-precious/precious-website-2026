@@ -170,18 +170,28 @@ const isPlaceholder = (s: string) => /\[[^\]]+\]/.test(s);
             </tbody>
           </table>
 
-          <h3 class="dev-h3">6 · Process</h3>
+          <h3 class="dev-h3">6 · AI card (process)</h3>
           <dl class="kv">
             <dt>Heading</dt>
             <dd>{home.process.heading}</dd>
             <dt>Subline</dt>
             <dd>{home.process.subline}</dd>
+            <dt>Stat</dt>
+            <dd>
+              {home.process.stat.value}
+              {home.process.stat.suffix} · {home.process.stat.caption}
+            </dd>
+            <dt>Points</dt>
+            <dd>
+              {home.process.points.map((p) => (
+                <div>{p}</div>
+              ))}
+            </dd>
             <dt>Agent link</dt>
             <dd>
-              {home.process.agentPrompt} {home.process.agentLink.label} →{' '}
-              {home.process.agentLink.href}
+              {home.process.agentLink.label} → {home.process.agentLink.href}
             </dd>
-            <dt>Steps</dt>
+            <dt>Steps (not shown)</dt>
             <dd>
               {home.process.steps.map((s) => (
                 <div>
@@ -196,7 +206,7 @@ const isPlaceholder = (s: string) => /\[[^\]]+\]/.test(s);
             <dt>FAQ heading</dt>
             <dd>{home.faq.heading}</dd>
             <dt>Footer headline</dt>
-            <dd>{ui.footer.headline}</dd>
+            <dd>{ui.footer.headline.join(' / ')}</dd>
             <dt>Copyright</dt>
             <dd>
               © {new Date().getFullYear()} {site.legalName} · {site.address}

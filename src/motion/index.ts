@@ -22,6 +22,9 @@ import { nav } from './nav';
 import { fullMenu } from './fullMenu';
 import { cardEdge } from './cardEdge';
 import { approach } from './approach';
+import { teamFlow } from './teamFlow';
+import { pixelRain } from './pixelRain';
+import { aiCard } from './aiCard';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -48,6 +51,9 @@ const modules: MotionModule[] = [
   fullMenu,
   cardEdge,
   approach,
+  teamFlow,
+  pixelRain,
+  aiCard,
 ];
 
 let cleanups: (() => void)[] = [];

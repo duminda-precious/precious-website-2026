@@ -378,6 +378,17 @@
     /* Canvas scenes: team funnel, AI card + footer rain */
     --pixel-cell-flow: 12px;
     --pixel-cell-rain: 8px;
+    /* Team funnel choreography */
+    --dur-flow-engine: 600ms; /* engine appears */
+    --dur-flow-chip: 950ms; /* chips pop out of it and slide into place … */
+    --dur-flow-chip-delay: 180ms; /* … starting this long after it … */
+    --dur-flow-chip-stagger: 50ms; /* … one after another */
+    --dur-flow-light: 520ms; /* an output lights up */
+    --dur-flow-glow: 1600ms; /* its glow swells and settles */
+    --dur-flow-shimmer: 6s; /* the glow's colours drift round */
+    --dur-hub-wash: 800ms; /* the engine core fills with colour */
+    --dur-hub-breathe: 8s; /* engine halo breathes */
+    --dur-hub-spin: 16s; /* engine rim turns */
     /* Hero: veil fade and the held first scroll */
     --dur-veil: 900ms;
     --dur-hero-lock: 950ms;
@@ -528,12 +539,9 @@
       --placeholder-stripe-b: var(--color-slate-900);
       --placeholder-fg: var(--color-slate-400);
       --client-logo-filter: invert(1); /* dark monochrome logos → light */
-      /* Team diagram chips follow the theme (the hub keeps its wash) */
+      /* Team funnel chips follow the theme (the hub keeps its wash) */
       --team-chip-bg: var(--color-slate-800);
       --team-chip-fg: var(--color-slate-50);
-      --team-chip-number: var(--color-slate-400);
-      --team-benefit-border: var(--color-slate-700);
-      --team-benefit-marker: var(--color-slate-50);
 
       color-scheme: dark;
     }
@@ -610,21 +618,32 @@
     --gate-3-fg: var(--color-slate-900);
     --gate-3-pain: var(--color-slate-600);
 
-    /* Team diagram (layout from the parallel prototype): numbered role chips →
-       wash hub → outlined benefit chips. Chips are white (Claude Design). */
-    --team-col-max: 22.5rem; /* 360: each chip column */
-    --team-gap: clamp(1.25rem, 3vw, 3rem); /* 20 → 48: columns ↔ hub (wire length) */
+    /* Team funnel (Claude Design 2a): white chips either side of a round engine,
+       a pixel flow between them. Two stages: horizontal (md up) and vertical. */
+    --team-col-max: 22.5rem; /* 360: each chip column … */
+    --team-col-share: 30%; /* … or this share of the stage, whichever is smaller */
+    --team-col-min: 14.375rem; /* 230 */
+    --team-inset: clamp(0.5rem, 4vw, 3.5rem); /* columns ↔ stage edge */
+    --team-height: 26.25rem; /* 420: horizontal stage */
+    --team-height-v: 56.25rem; /* 900: vertical stage */
+    --team-v-roles-top: 1.5rem; /* vertical: roles block top … */
+    --team-v-engine-top: 23.4375rem; /* 375: … engine … */
+    --team-v-outs-top: 42.25rem; /* 676: … outputs */
+    --team-v-block: 12.5rem; /* 200: height of each chip block */
     --team-chip-height: 3.25rem; /* 52 */
     --team-chip-bg: var(--color-white);
     --team-chip-fg: var(--color-slate-900);
     --team-chip-shadow: var(--shadow-e1);
-    --team-chip-number: var(--color-slate-600);
-    --team-benefit-border: var(--color-slate-200);
-    --team-benefit-marker: var(--color-slate-900);
-    --team-hub-size: clamp(9.375rem, 15vw, 11.875rem); /* 150 → 190 */
-    --team-hub-bg: var(--wash-hub);
+    --team-chip-dim: 0.45; /* output labels before the flow reaches them … */
+    --team-chip-rest-scale: 0.985; /* … and their chips, slightly small */
+    --team-label-share: 0.74; /* hub label width as a share of the hub */
+    --team-hub-size: 11.875rem; /* 190 */
+    --team-hub-size-sm: 9.375rem; /* 150: vertical stage */
+    --team-hub-bg: var(--color-slate-100);
     --team-hub-fg: var(--color-slate-900);
-    --team-wire: color-mix(in srgb, var(--color-slate-600) 35%, transparent);
+    --team-hub-wash: 0.55; /* wash blobs inside the core at rest (→ 1 once lit) */
+    --team-hub-glow: 0.5; /* blurred rim halo */
+    --team-flow-bleed: 7.5rem; /* 120: the flow canvas reaches past the stage */
 
     /* Button hover: the soft wash that pixels in over the fill (M12) */
     --cta-hover-bg: var(--wash-button);
@@ -634,10 +653,18 @@
     --card-cta-bg: var(--color-white);
     --card-cta-fg: var(--color-slate-900);
 
-    /* AI card (process section) */
+    /* AI card (process section): full-bleed Deep Ink band with a fixed "window"
+       of glow and pixel rain on the right that fades out toward the text. */
     --process-bg: var(--color-slate-900);
     --process-fg: var(--color-slate-50);
-    --process-rule: color-mix(in srgb, var(--color-white) 70%, transparent);
+    --process-cta-bg: var(--color-slate-50);
+    --process-rain-width: min(40%, 30rem);
+    --process-rain-opacity: 0.7;
+    --process-rise: 24px; /* content rises in … */
+    --dur-process-rise: 560ms; /* … over this … */
+    --dur-process-stagger: 70ms; /* … one after another */
+    --dur-count-step: 55ms; /* stat counts up in 10 steps of this … */
+    --dur-count-delay: 300ms; /* … after this */
 
     /* Hero (two-step): title and news cards sit on the veiled reel */
     --hero-fg: var(--color-slate-900);

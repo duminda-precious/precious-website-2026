@@ -85,7 +85,14 @@
       "Weekly deliveries",
       "Month-to-month"
     ],
-    "engineLabel": "Powered by"
+    "engineLabel": "Powered by",
+    "outputs": [
+      "Department-level execution",
+      "Code alignment",
+      "Lean scaling",
+      "Fast growth",
+      "Rapid exploration"
+    ]
   },
   "approach": {
     "heading": "Where Are You Starting From?",
@@ -115,9 +122,18 @@
     "subline": "Every team comes to us at a different point. Find the one that sounds like yours."
   },
   "process": {
-    "heading": "Different Starting Points. One Transformation.",
-    "subline": "One senior team. AI handles the volume. People handle the feel.",
-    "agentPrompt": "Have your own designers?",
+    "heading": "AI, Wired into Your Design Team.",
+    "subline": "Same people, twice the output. Have your own designers? Agents run inside your system, reviewed by your people.",
+    "stat": {
+      "value": 50,
+      "suffix": "%",
+      "caption": "Of design hours back to your team"
+    },
+    "points": [
+      "Agents take the routine. Your seniors get their time back for the work that needs taste.",
+      "Every screen ships with options, so you compare directions instead of guessing.",
+      "Senior-level output at the same headcount. Nobody gets replaced."
+    ],
     "agentLink": {
       "label": "Meet the AI Design Agent",
       "href": "/ai"

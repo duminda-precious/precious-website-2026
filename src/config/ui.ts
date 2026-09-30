@@ -33,6 +33,10 @@ export const ui = {
     prev: 'Previous testimonial',
     next: 'Next testimonial',
   },
+  team: {
+    roles: 'The team',
+    outputs: 'What the team delivers',
+  },
   news: {
     label: 'News',
     /** Placeholder label in the thumbnail until images exist. */
@@ -43,7 +47,8 @@ export const ui = {
     soundOff: 'Sound off',
   },
   footer: {
-    headline: 'Make Your Product Feel Worth Paying For.',
+    /** Two lines; each stays on one line. */
+    headline: ['Make Your Product Feel', 'Worth Paying For.'],
   },
   rating: {
     /** e.g. "Clutch ★★★★★ 4.9"; the stars are decorative. */

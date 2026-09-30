@@ -1,92 +1,205 @@
 ---
 /**
- * ProcessSection: the black card. Heading, subline and the AI Design Agent link
- * on the left half; the three steps with top rules on the right. Stacks below lg.
- * Props: heading, subline, agentPrompt, agentLink, steps.
- * Tokens: --process-bg/-fg/-rule, --radius-md, --inset-panel, --section-py-tight,
- *         --text-statement, --tracking-heading, --leading-heading, --text-medium,
- *         --leading-medium, --text-body, --grid-gap-col, --space-*.
+ * ProcessSection → the AI card (Claude Design): "AI, Wired into Your Design Team."
+ * A full-bleed Deep Ink band (edge to edge), content on the site grid:
+ *   header   statement + grey line (cols 1–9) · the 50% stat + caption (cols 10–12, right)
+ *   row      three numbered points (cols 1–9, three columns) · "Meet the AI Design Agent"
+ *            (cols 10–12, bottom-right)
+ * Behind it, a fixed "window": sky and pink glows from the top corners and the pixel
+ * rain on the right (fading out toward the text) stay still while the card scrolls
+ * past (motion/aiCard.ts). Hovering the button brightens the rain.
+ * When it scrolls in, the content rises in and the stat counts up.
+ * Below 1100px the points take the full width and the button drops under them;
+ * below md the points stack.
+ * Props: heading, subline, stat, points, agentLink.
+ * Tokens: ink theme, --process-*, --glow-ai, --section-py, --section-py-tight, --gutter,
+ *         --grid-*, --text-statement, --text-closer, --text-medium, --text-eyebrow, --space-*.
+ * Motion hooks: data-ai, data-ai-window, data-ai-rise, data-ai-stat, data-rain,
+ *               data-rain-scope, data-rain-cta.
  */
-import Section from '../primitives/Section.astro';
-import TextLink from '../ui/TextLink.astro';
+import Button from '../ui/Button.astro';
 
 interface Props {
   heading: string;
   subline: string;
-  agentPrompt: string;
+  stat: { value: number; suffix: string; caption: string };
+  points: string[];
   agentLink: { label: string; href: string };
-  steps: { title: string; body: string }[];
 }
-const { heading, subline, agentPrompt, agentLink, steps } = Astro.props;
+const { heading, subline, stat, points, agentLink } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<Section id="process" padding="tight" labelledby="process-title">
-  <div class="process">
-    <div class="process__intro">
-      <h2 id="process-title" class="process__heading">
-        {heading}
-      </h2>
-      <p class="process__sub">{subline}</p>
-      <p class="process__agent">
-        {agentPrompt} <TextLink href={agentLink.href}>{agentLink.label}</TextLink>
-      </p>
+<section id="process" class="ai" aria-labelledby="process-title" data-ai>
+  <div class="ai__card" data-theme="ink" data-rain-scope>
+    <div class="ai__window" aria-hidden="true">
+      <div class="ai__glow" data-ai-window>
+        <canvas class="ai__rain" data-rain></canvas>
+      </div>
     </div>
-    <ol class="process__steps">
-      {steps.map((s) => (
-        <li class="process__step">
-          <strong class="process__step-title">{s.title}</strong> {s.body}
-        </li>
-      ))}
-    </ol>
+
+    <div class="ai__head">
+      <div class="ai__intro" data-ai-rise>
+        <h2 id="process-title" class="ai__heading">{heading}</h2>
+        <p class="ai__sub">{subline}</p>
+      </div>
+      <div class="ai__stat" data-ai-rise>
+        <span class="ai__figure"><span data-ai-stat data-value={stat.value}>{stat.value}</span>{stat.suffix}</span>
+        <span class="ai__caption">{stat.caption}</span>
+      </div>
+    </div>
+
+    <div class="ai__row">
+      <ol class="ai__points">
+        {points.map((p, i) => (
+          <li class="ai__point" data-ai-rise>
+            <span class="ai__num">{pad(i + 1)}</span>
+            <span class="ai__text">{p}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="ai__cta" data-ai-rise>
+        <Button href={agentLink.href} cta data-rain-cta>{agentLink.label}</Button>
+      </div>
+    </div>
   </div>
-</Section>
+</section>
 
 <style>
   @layer components {
-    .process {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-40) var(--grid-gap-col);
-      padding: var(--inset-panel);
+    .ai {
+      padding-block: var(--section-py-tight);
+    }
+    .ai__card {
+      --cta-bg: var(--process-cta-bg);
+      position: relative;
+      overflow: hidden;
+      padding: var(--section-py) var(--gutter);
       background: var(--process-bg);
       color: var(--process-fg);
-      border-radius: var(--radius-md);
     }
-    @media (min-width: 62rem) {
-      .process {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .ai__window {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
     }
-    .process__heading {
+    .ai__glow {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 100vh;
+      will-change: transform;
+      background: var(--glow-ai);
+    }
+    .ai__rain {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: var(--process-rain-width);
+      height: 100%;
+      opacity: var(--process-rain-opacity);
+      mask-image: linear-gradient(90deg, transparent, #000 70%);
+    }
+    .ai__head,
+    .ai__row {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      column-gap: var(--grid-gap-col);
+    }
+    .ai__head {
+      row-gap: var(--space-24);
+      margin-bottom: var(--header-gap);
+    }
+    .ai__row {
+      row-gap: var(--space-32);
+      align-items: end;
+    }
+    .ai__intro,
+    .ai__stat,
+    .ai__points,
+    .ai__cta {
+      grid-column: 1 / -1;
+    }
+    .ai__heading {
       max-width: var(--measure-statement);
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
       font-size: var(--text-statement);
       letter-spacing: var(--tracking-heading);
       line-height: var(--leading-heading);
     }
-    .process__sub {
-      margin-top: var(--space-14);
+    .ai__sub {
+      max-width: var(--measure-subline);
+      margin-top: var(--space-12);
       font-size: var(--text-medium);
       line-height: var(--leading-medium);
+      color: var(--text-secondary);
     }
-    .process__agent {
-      margin-top: var(--space-32);
-    }
-    .process__steps {
+    .ai__stat {
       display: flex;
       flex-direction: column;
-      gap: var(--space-18);
-      list-style: none;
+      gap: var(--space-8);
     }
-    .process__step {
-      padding-top: var(--space-12);
-      border-top: var(--border-width) solid var(--process-rule);
+    .ai__figure {
+      font-family: var(--font-display);
+      font-weight: var(--weight-display);
+      font-size: var(--text-closer);
+      letter-spacing: var(--tracking-closer);
+      line-height: var(--leading-none);
+      font-variant-numeric: tabular-nums;
+    }
+    .ai__caption {
+      font-size: var(--text-eyebrow);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .ai__points {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--grid-gap-col) var(--space-24);
+    }
+    .ai__point {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+    .ai__num {
+      font-size: var(--text-eyebrow);
+      line-height: var(--leading-none);
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .ai__text {
+      max-width: var(--measure-point);
       font-size: var(--text-medium);
       line-height: var(--leading-medium);
+      text-wrap: balance;
     }
-    .process__step-title {
-      font-weight: var(--weight-body);
+    @media (min-width: 47.5rem) {
+      .ai__points {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 62rem) {
+      .ai__intro {
+        grid-column: 1 / span 9;
+      }
+      .ai__stat {
+        grid-column: 10 / -1;
+        justify-self: end;
+        align-items: flex-end;
+        text-align: right;
+      }
+    }
+    @media (min-width: 68.75rem) {
+      .ai__points {
+        grid-column: 1 / span 9;
+      }
+      .ai__cta {
+        grid-column: 10 / -1;
+        justify-self: end;
+      }
     }
   }
 </style>
