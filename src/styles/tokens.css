@@ -205,7 +205,7 @@
     --measure-statement: 34ch;
     --measure-subline: 44ch;
     --measure-quote: 36em;
-    --measure-card: 34ch; /* mega menu descriptions */
+    --measure-card: 50ch; /* mega menu descriptions: about the 6-column Services span */
     --measure-gate: 40ch; /* Approach description */
     --measure-subline-wide: 60ch; /* AI card description (two lines) */
 
@@ -286,7 +286,9 @@
 
     /* Elevation: tinted with Deep Ink, never black */
     --shadow-e1: 0 1px 2px color-mix(in srgb, var(--color-slate-900) 8%, transparent); /* cards, chips */
-    --shadow-e2: 0 4px 12px color-mix(in srgb, var(--color-slate-900) 8%, transparent); /* dropdowns */
+    --shadow-e2:
+      0 1px 2px color-mix(in srgb, var(--color-slate-900) 4%, transparent),
+      0 8px 24px color-mix(in srgb, var(--color-slate-900) 8%, transparent); /* dropdowns, menus: a tight contact edge + soft lift */
     --shadow-e3: 0 16px 40px color-mix(in srgb, var(--color-slate-900) 14%, transparent); /* modals */
 
     /* Logo (the footer logo is sized by its grid columns, not a token) */
@@ -608,15 +610,20 @@
     /* Nav (brief M7): no bar background; the link cluster gets a rounded
        backdrop once scrolled. -dark variants apply over the dark Work stage. */
     /* Nav (Claude Design): text and buttons follow the page theme. The Services
-       mega menu is a light panel: page colour, tinted note container, tinted
-       link hover; no borders, dividers or shadow. */
+       mega menu is a light panel: page colour, tinted note band, tinted
+       link hover; no borders or dividers, lifted by the dropdown elevation. */
     --nav-dropdown-bg: var(--color-slate-25);
     --nav-dropdown-fg: var(--color-slate-900);
     --nav-dropdown-note-bg: var(--color-slate-100);
+    --nav-dropdown-shadow: var(--shadow-e2);
     --nav-badge-bg: var(--color-slate-900);
     --nav-links-max: 60rem; /* collapse animates max-width from this to 0 */
     --nav-cta-max: 12rem;
     --nav-badge-fg: var(--color-white);
+    --mega-width: 60rem; /* 960: Services panel, right-aligned on the gutter */
+    --mega-drop: 8px; /* panel unfolds down this far … */
+    --mega-rise: 6px; /* … columns and the note band rise this far */
+    --mega-shadow-reach: var(--space-32); /* the unfold clip extends this far so --shadow-e2 shows */
 
     /* Page wrapper (animated by the theme switch) */
     --page-bg: var(--color-slate-25);
