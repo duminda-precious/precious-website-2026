@@ -15,7 +15,8 @@ export const site = {
   bookingUrl: '#',
   socials: {
     clutch: '#',
-    linkedin: '#',
+    /** TODO: confirm. Guessed in Claude Design. */
+    linkedin: 'https://www.linkedin.com/company/precious-design',
     dribbble: '#',
   },
   clutchRating: 4.9,

@@ -12,6 +12,7 @@ import SectionHeader from '../../components/primitives/SectionHeader.astro';
 import Stack from '../../components/primitives/Stack.astro';
 import Cluster from '../../components/primitives/Cluster.astro';
 import Button from '../../components/ui/Button.astro';
+import IconButton from '../../components/ui/IconButton.astro';
 import TextLink from '../../components/ui/TextLink.astro';
 import Tag from '../../components/ui/Tag.astro';
 import Pill from '../../components/ui/Pill.astro';
@@ -23,29 +24,26 @@ import Disclosure from '../../components/ui/Disclosure.astro';
 import { mediaAspects } from '../../components/ui/media';
 import { workGridPositions } from '../../config/layout';
 
-const scale = (n: string) =>
-  ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'].map((k) => `${n}-${k}`);
 const primitives = {
-  'Stone (100 Chrysalis · 200 Cocoon · 300 Mist · 600 Stone · 800 Bark · 900 Deep Ink)': [
+  'Slate (25 page · 100 containers · 150 hover · 200 borders · 600 secondary · 900 Deep Ink)': [
     'white',
-    ...scale('stone'),
+    ...['25', '50', '100', '150', '200', '400', '600', '700', '800', '900'].map((k) => `slate-${k}`),
   ],
-  'Apricot (primary)': scale('apricot'),
-  'Morpho (secondary)': scale('morpho'),
-  'Swallowtail (accent)': scale('swallowtail'),
-  'Sunset Moth (accent, rare)': scale('sunset'),
+  'Wash (fills, glows, pixel tints; never text)': [
+    'sky',
+    'lavender',
+    'rose',
+    'mint',
+    'sage',
+    'blush',
+    'peach',
+    'lilac',
+  ].map((k) => `wash-${k}`),
+  'Accents (links, focus, small highlights)': ['teal', 'rose', 'violet'].map((k) => `accent-${k}`),
   Status: ['success', 'warning', 'error', 'info'],
 };
 
-const gradients = ['glasswing-sky', 'morpho-shimmer', 'swallowtail', 'sunset-moth'];
-const meshes = [
-  'apricot-dawn',
-  'morpho-iridescence',
-  'swallowtail-canopy',
-  'sunset-moth',
-  'pearl-haze',
-  'metamorphosis',
-];
+const washes = ['button', 'mint-sky', 'blush-rose', 'lavender', 'hub', 'rim', 'edge'];
 
 const semantic = [
   'surface-page',
@@ -81,12 +79,9 @@ const contrastPairs: [string, string, string, 'normal' | 'large'][] = [
   ['cta-fg', 'cta-bg', 'Button', 'normal'],
   ['link', 'surface-page', 'Link', 'normal'],
   ['placeholder-fg', 'placeholder-stripe-a', 'Placeholder label', 'normal'],
-  ['gate-1-fg', 'gate-1-bg', 'Gate 1 title', 'large'],
-  ['gate-1-pain', 'gate-1-bg', 'Gate 1 pain line', 'normal'],
-  ['gate-2-fg', 'gate-2-bg', 'Gate 2 title', 'large'],
-  ['gate-2-pain', 'gate-2-bg', 'Gate 2 pain line', 'normal'],
-  ['gate-3-fg', 'gate-3-bg', 'Gate 3 title', 'large'],
-  ['gate-3-pain', 'gate-3-bg', 'Gate 3 pain line', 'normal'],
+  ['text-secondary', 'surface-raised', 'Secondary text on a container', 'normal'],
+  ['text-secondary', 'surface-hover', 'Secondary text on a hover fill', 'normal'],
+  ['cta-hover-fg', 'surface-raised', 'Button label on the wash (base)', 'normal'],
   ['team-chip-fg', 'team-chip-bg', 'Team chip', 'normal'],
 ];
 
@@ -312,32 +307,17 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
       <!-- GRADIENTS -->
       <Section padding="tight" surface>
         <Stack gap="24">
-          <h2 class="dev-h">4 · Gradients and meshes</h2>
+          <h2 class="dev-h">4 · Soft washes</h2>
           <p class="dev-muted">
-            Use subtly. One mesh per view, big surfaces only, never on UI components, never body
-            copy on a mesh. Grain (<code>--grain-image</code>) goes on large areas.
+            Radial glows of wash hues on Slate 100. Button hover fills, the team hub, starting-point
+            media, rims and edge glows. Never behind body copy.
           </p>
-          <h3 class="dev-h3">Linear (180°)</h3>
           <div class="swatches swatches--wide">
-            {gradients.map((g) => (
+            {washes.map((w) => (
               <figure class="swatch">
-                <div
-                  class="swatch__chip swatch__chip--tall grain"
-                  style={`background: var(--gradient-${g})`}
-                />
+                <div class="swatch__chip swatch__chip--tall" style={`background: var(--wash-${w})`} />
                 <figcaption>
-                  <code>--gradient-{g}</code>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <h3 class="dev-h3">Meshes</h3>
-          <div class="swatches swatches--wide">
-            {meshes.map((m) => (
-              <figure class="swatch">
-                <div class="swatch__chip grain" style={`background: var(--mesh-${m})`} />
-                <figcaption>
-                  <code>--mesh-{m}</code>
+                  <code>--wash-{w}</code>
                 </figcaption>
               </figure>
             ))}
@@ -483,15 +463,18 @@ const eases = ['standard', 'out-soft', 'out-expo', 'linear'];
           </Stack>
 
           <Stack gap="12">
-            <h3 class="dev-h3">Button (Label style, 12px corners, ▸; colours follow the theme)</h3>
+            <h3 class="dev-h3">Button (one size: 40px, 4px corners, pixel bloom + butterfly on hover)</h3>
             <Cluster gap="16">
-              <Button size="sm" href="#" track="book-call">
-                Book a call
-              </Button>
               <Button href="#" track="book-call">
                 Book a call
               </Button>
-              <Button glyph={false}>Button element</Button>
+              <Button href="#" track="book-call" cta>
+                Book a call
+              </Button>
+              <Button fly={false}>Button element</Button>
+              <IconButton icon="dots" label="Menu" />
+              <IconButton icon="close" label="Close" />
+              <IconButton icon="arrow-right" label="Read article" />
             </Cluster>
           </Stack>
 

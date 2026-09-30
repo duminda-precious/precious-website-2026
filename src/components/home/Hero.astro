@@ -1,88 +1,145 @@
 ---
 /**
- * Hero (M1, decisions 2026-09-29). From md: a --hero-scroll tall track with a
- * sticky one-screen stage holding three layers, driven by src/motion/hero.ts:
- *   L1 headline zooms/blurs out → L2 problem line in/out (prototype)
- *   L3 showreel: clip reveal from the centre into a small 16:9 tile, then grows
- *      to fill the stage with rounded corners (brief). Sound toggle in the corner.
- * Below md: no pinning; headline, problem line and a 16:9 reel stack in flow.
- * Without JS (or before it runs) L1 is shown and L2/L3 are hidden on desktop.
- * Props: headline, problem (lines; each stays on one line), reel.
- * Tokens: --hero-scroll, --text-hero/-problem, --tracking-hero/-problem, --leading-hero,
- *         --nav-height, --gutter, --radius-md, --space-*, --section-py.
- * Motion hooks: data-motion="hero", data-hero-layer="1|2|3", data-hero-reel,
- *               data-motion="sound-toggle" (M8).
+ * Hero (Claude Design): two states.
+ *   Rest    the two-line title over the showreel, which is blurred and covered by a
+ *           white veil (--hero-veil), so it reads as a soft moving gradient. Words
+ *           glitch on hover and at random; the news stack sits bottom-left.
+ *   Reveal  the first scroll is held while the title glitches out word by word, the
+ *           veil lifts and the reel comes into focus; then the page scrolls normally
+ *           and the reel shrinks into the section padding with rounded corners.
+ *           Scrolling back up inside the hero returns to rest.
+ * The real title text stays in the DOM (the pixels are a canvas overlay).
+ * Props: headline (lines), reel, news.
+ * Tokens: --text-hero, --tracking-hero, --leading-hero, --hero-fg, --hero-veil-bg,
+ *         --hero-veil, --blur-reel-max, --nav-height, --gutter, --z-raised, --z-float,
+ *         --dur-veil, --ease-standard, --pill-solid-bg/-fg, --text-label, --space-*.
+ * Motion hooks: data-hero, data-hero-reel, data-hero-video, data-hero-veil,
+ *               data-hero-title, data-hero-sound (motion/heroReveal.ts), NewsStack.
  */
-import MediaFrame from '../ui/MediaFrame.astro';
-import Pill from '../ui/Pill.astro';
+import NewsStack from './NewsStack.astro';
+import Button from '../ui/Button.astro';
 import { ui } from '../../config/ui';
 
+interface NewsItem {
+  title: string;
+  body: string;
+  cta: string;
+  href: string;
+  tint: 'sky' | 'lavender' | 'rose' | 'mint' | 'neutral';
+}
 interface Props {
   headline: string[];
-  problem: string[];
   reel: { video?: string; poster?: string; alt: string; placeholderLabel: string };
+  news: NewsItem[];
 }
-const { headline, problem, reel } = Astro.props;
+const { headline, reel, news } = Astro.props;
 ---
 
-<header id="hero" class="hero" data-motion="hero" aria-labelledby="hero-title">
-  <div class="hero__stage">
-    <div class="hero__layer hero__layer--1" data-hero-layer="1">
-      <h1 id="hero-title" class="hero__title" data-hero-text>
-        {headline.map((line) => (
-          <span class="hero__line">{line}</span>
-        ))}
-      </h1>
-    </div>
-
-    <div class="hero__layer hero__layer--2" data-hero-layer="2">
-      <p class="hero__problem" data-hero-text>
-        {problem.map((line) => (
-          <span class="hero__line">{line}</span>
-        ))}
-      </p>
-    </div>
-
-    <div class="hero__layer hero__layer--3" data-hero-layer="3">
-      <div class="hero__reel" data-hero-reel>
-        <MediaFrame
-          aspect="fill"
-          video={reel.video}
-          poster={reel.poster}
-          alt={reel.alt}
-          label={reel.placeholderLabel}
-          rounded={false}
-        />
-        {reel.video && (
-          <Pill
-            variant="solid"
-            as="button"
-            class="hero__sound"
-            aria-pressed="false"
-            data-motion="sound-toggle"
-            data-label-on={ui.reel.soundOn}
-            data-label-off={ui.reel.soundOff}
-          >
-            {ui.reel.soundOn}
-          </Pill>
-        )}
-      </div>
-    </div>
+<header id="hero" class="hero" data-hero aria-labelledby="hero-title">
+  <div class="hero__reel" data-hero-reel>
+    {reel.video && (
+      <video
+        class="hero__video"
+        src={reel.video}
+        poster={reel.poster}
+        muted
+        playsinline
+        loop
+        autoplay
+        aria-label={reel.alt}
+        data-hero-video
+      />
+    )}
+    <div class="hero__veil" data-hero-veil></div>
+    {reel.video && (
+      <Button
+        class="hero__sound"
+        fly={false}
+        aria-pressed="false"
+        data-label-on={ui.reel.soundOn}
+        data-label-off={ui.reel.soundOff}
+        data-hero-sound
+        data-motion="sound-toggle"
+        tabindex="-1"
+      >
+        {ui.reel.soundOn}
+      </Button>
+    )}
   </div>
+
+  <div class="hero__center">
+    <h1 id="hero-title" class="hero__title" data-hero-title>
+      {headline.map((line) => (
+        <span class="hero__line">{line}</span>
+      ))}
+    </h1>
+  </div>
+
+  <NewsStack items={news} />
 </header>
 
 <style>
   @layer components {
-    /* Phones: everything in flow, no pinning. */
     .hero {
-      padding: var(--section-py) var(--gutter) 0;
+      position: relative;
+      height: 100vh;
+      margin-top: calc(var(--nav-height) * -1);
+      color: var(--hero-fg);
     }
-    .hero__stage {
+    .hero__reel {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    /* Oversized so the blur has no soft edges. */
+    .hero__video {
+      position: absolute;
+      inset: calc(var(--blur-reel-max) * -1);
+      width: calc(100% + var(--blur-reel-max) * 2);
+      height: calc(100% + var(--blur-reel-max) * 2);
+      max-width: none; /* the reset caps media at 100%, which left a strip on the right */
+      object-fit: cover;
+      filter: blur(calc(var(--hero-veil) * var(--blur-reel-max)));
+      transition: filter var(--dur-veil) var(--ease-standard);
+    }
+    .hero__veil {
+      position: absolute;
+      inset: 0;
+      background: var(--hero-veil-bg);
+      opacity: var(--hero-veil);
+      transition: opacity var(--dur-veil) var(--ease-standard);
+    }
+    .hero[data-revealed] .hero__video {
+      filter: none;
+    }
+    .hero[data-revealed] .hero__veil {
+      opacity: 0;
+    }
+    /* Sound toggle: the standard Button, light on the video; shown once revealed. */
+    .hero__reel :global(.hero__sound) {
+      --cta-bg: var(--pill-solid-bg);
+      --cta-fg: var(--pill-solid-fg);
+      position: absolute;
+      right: var(--space-16);
+      bottom: var(--space-16);
+      z-index: var(--z-raised);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-base) var(--ease-standard);
+    }
+    .hero[data-revealed] :global(.hero__sound) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .hero__center {
+      position: absolute;
+      inset: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: var(--space-40);
+      justify-content: center;
+      padding: 0 var(--gutter);
       text-align: center;
+      pointer-events: none;
     }
     .hero__title {
       font-family: var(--font-display);
@@ -91,68 +148,18 @@ const { headline, problem, reel } = Astro.props;
       letter-spacing: var(--tracking-hero);
       line-height: var(--leading-hero);
     }
-    .hero__problem {
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-problem);
-      letter-spacing: var(--tracking-problem);
-      line-height: var(--leading-none);
-    }
     .hero__line {
       display: block;
       white-space: nowrap;
     }
-    .hero__layer--3 {
-      width: 100%;
+    .hero__title :global(.px) {
+      pointer-events: auto;
     }
-    .hero__reel {
-      position: relative;
-      display: flex;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: var(--radius-md);
-    }
-    .hero__sound {
-      position: absolute;
-      right: var(--space-16);
-      bottom: var(--space-16);
-      z-index: 1;
-    }
-
-    /* From md: tall track + sticky stage with stacked layers. */
-    @media (min-width: 47.5rem) {
-      .hero {
-        height: var(--hero-scroll);
-        padding: 0;
-      }
-      .hero__stage {
-        position: sticky;
-        top: 0;
-        display: block;
-        height: 100svh;
-        overflow: hidden;
-      }
-      .hero__layer {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 var(--gutter);
-      }
-      .hero__layer--2 {
-        opacity: 0;
-      }
-      /* The reel fills the stage below the nav, inside the gutters. */
-      .hero__layer--3 {
-        padding: var(--nav-height) var(--gutter) var(--gutter);
-      }
-      .hero__reel {
-        height: 100%;
-        aspect-ratio: auto;
-        border-radius: 0;
-        clip-path: inset(50% 50% round var(--radius-md));
+    @media (prefers-reduced-motion: reduce) {
+      .hero__video,
+      .hero__veil,
+      .hero__reel :global(.hero__sound) {
+        transition: none;
       }
     }
   }

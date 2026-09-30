@@ -1,70 +1,59 @@
 ---
 /**
- * Nav: sticky header (brief §3 item 1, M7; decisions 2026-09-29).
- * Logo alone at the left. On the right, a cluster of page links (mono uppercase),
- * the Services dropdown (hover on mouse devices, click/keyboard everywhere), and the
- * Book a call button. At the top of the page the
- * cluster floats with no background; once scrolled, a rounded backdrop fades in
- * behind it. The logo never gets a backdrop. No hide-on-scroll.
- * Below md (760px) the links and button move into MobileMenu.
- * Props: none (links from src/config/navigation.ts, dropdown items from the services collection).
- * Tokens: --nav-fg, --nav-cluster-bg (+ -dark), --nav-dropdown-*, --nav-badge-*, --nav-height,
- *         --gutter, --space-*, --font-sans, --text-label, --tracking-label, --radius-pill,
- *         --radius-xs, --z-nav, --z-dropdown, --dur-fast, --dur-theme, --ease-css, --ease-standard.
- * Motion hooks: data-nav (theme switch sets data-nav-theme="dark", M2); data-scrolled (M7;
- *               also collapses the logo to the butterfly, M15).
+ * Nav (Claude Design): sticky header with two states.
+ *   Rest  (top of the page, ≥1100px): the full wordmark; page links, the Services
+ *         trigger (opens the mega menu), AI Design Agent + New, About; Book a call.
+ *   Mini  (scrolled, or always below 1100px): the wordmark clips down to the
+ *         butterfly; the links and Book a call slide right and fade into the 4-dot
+ *         menu button, which opens the full-page menu (FullMenu).
+ * Text and buttons follow the page theme, so the nav turns light over Work.
+ * The mega menu opens on hover (mouse) or click, closes on pointer leave (after
+ * --dur-hover-intent), Escape, or when the nav goes mini.
+ * Props: none (links from src/config/navigation.ts).
+ * Tokens: --nav-height, --gutter, --logo-height-nav, --logo-mark-*, --nav-dropdown-*,
+ *         --nav-badge-*, --surface-hover, --grid-*, --radius-*, --text-*, --space-*,
+ *         --dur-collapse, --dur-nav-fade, --dur-logo-collapse, --dur-theme, --dur-link,
+ *         --dur-chevron, --ease-out-expo, --ease-standard, --ease-snappy, --z-nav.
+ * Motion hooks: data-nav, data-mini, data-scrolled (motion/nav.ts), data-mega*,
+ *               data-menu-open (motion/fullMenu.ts), data-logo-hover (logoWings.ts).
  */
 import Button from '../ui/Button.astro';
+import IconButton from '../ui/IconButton.astro';
 import Logo from '../ui/Logo.astro';
 import PixelIcon from '../ui/PixelIcon.astro';
-import MobileMenu from './MobileMenu.astro';
-import { primaryNav, bookCall, isDropdown } from '../../config/navigation';
+import FullMenu from './FullMenu.astro';
+import { primaryNav, bookCall, isDropdown, megaMenu } from '../../config/navigation';
 import { ui } from '../../config/ui';
-import { getServices } from '../../lib/content';
-
-const services = await getServices();
-const dropdownItems = (overview: { label: string; href: string }) => [
-  overview,
-  ...services.map((s) => ({ label: s.data.title, href: `/services/${s.id}` })),
-];
 ---
 
 <header class="nav" data-nav transition:name="site-nav" transition:animate="none">
-  <a class="nav__brand" href="/" aria-label={ui.brandHomeLabel}>
+  <a class="nav__brand" href="/" aria-label={ui.brandHomeLabel} data-logo-hover>
     <Logo class="nav__logo" />
   </a>
 
   <div class="nav__cluster">
     <nav class="nav__links" aria-label={ui.primaryNavLabel}>
       <ul class="nav__list">
-        {primaryNav.map((item, i) =>
+        {primaryNav.map((item) =>
           isDropdown(item) ? (
-            <li class="nav__dropdown" data-dropdown>
+            <li data-mega-host>
               <button
-                class="nav__link nav__trigger"
+                class="nav__link type-label"
                 type="button"
                 aria-expanded="false"
-                aria-controls={`nav-dropdown-${i}`}
-                data-dropdown-trigger
+                aria-controls="nav-mega"
+                data-mega-trigger
+                data-no-glitch
               >
                 {item.label}
-                <span class="nav__caret" aria-hidden="true">
+                <span class="nav__chevron" aria-hidden="true">
                   <PixelIcon name="caret-down" />
                 </span>
               </button>
-              <ul id={`nav-dropdown-${i}`} class="nav__panel" data-dropdown-panel hidden>
-                {dropdownItems(item.overview).map((link) => (
-                  <li>
-                    <a class="nav__panel-link" href={link.href}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </li>
           ) : (
             <li>
-              <a class="nav__link" href={item.href}>
+              <a class="nav__link type-label" href={item.href}>
                 {item.label}
                 {item.badge && <span class="nav__badge">{item.badge}</span>}
               </a>
@@ -74,120 +63,46 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       </ul>
     </nav>
 
-    <Button size="sm" href={bookCall.href} track={bookCall.track} class="nav__cta">
+    <IconButton
+      icon="dots"
+      label={ui.menu.open}
+      class="nav__menu"
+      aria-haspopup="dialog"
+      aria-controls="site-menu"
+      aria-expanded="false"
+      data-menu-open
+    />
+    <Button href={bookCall.href} track={bookCall.track} class="nav__cta">
       {bookCall.label}
     </Button>
+  </div>
 
-    <MobileMenu
-      services={services.map((s) => ({ label: s.data.title, href: `/services/${s.id}` }))}
-    />
+  <div id="nav-mega" class="mega" data-theme="light" role="region" aria-label={ui.megaLabel} data-mega>
+    <div class="mega__grid">
+      {megaMenu.columns.map((col) => (
+        <div class:list={['mega__col', `mega__col--${col.kind}`]} data-mega-col>
+          <p class="mega__heading type-overline">{col.heading}</p>
+          <ul class="mega__list">
+            {col.items.map((it) => (
+              <li data-mega-item>
+                <a class="mega__link" href={it.href}>
+                  <span class="mega__label">{it.label}</span>
+                  {it.description && <span class="mega__desc">{it.description}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="mega__note" data-mega-col>
+      <p>{megaMenu.note}</p>
+      <Button href={megaMenu.all.href} cta>{megaMenu.all.label}</Button>
+    </div>
   </div>
 </header>
 
-<script>
-  function initNav() {
-    document.querySelectorAll<HTMLElement>('[data-nav]:not([data-nav-ready])').forEach((nav) => {
-      nav.dataset.navReady = '';
-      const controller = new AbortController();
-      const { signal } = controller;
-
-      // M7: backdrop behind the link cluster once the page has scrolled.
-      let ticking = false;
-      const updateScrolled = () => {
-        ticking = false;
-        nav.toggleAttribute('data-scrolled', window.scrollY > 0);
-      };
-      window.addEventListener(
-        'scroll',
-        () => {
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(updateScrolled);
-          }
-        },
-        { passive: true, signal },
-      );
-      updateScrolled();
-
-      // Dropdowns: the label only opens the panel (it is not a link). On mouse
-      // devices it also opens on hover. Esc, outside click, pointer leaving and
-      // focus leaving the dropdown close it.
-      nav.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((dropdown) => {
-        const trigger = dropdown.querySelector<HTMLButtonElement>('[data-dropdown-trigger]')!;
-        const panel = dropdown.querySelector<HTMLElement>('[data-dropdown-panel]')!;
-        const isOpen = () => trigger.getAttribute('aria-expanded') === 'true';
-        const setOpen = (open: boolean) => {
-          trigger.setAttribute('aria-expanded', String(open));
-          panel.hidden = !open;
-        };
-        const canHover = matchMedia('(hover: hover) and (pointer: fine)');
-        // A click right after a hover-open keeps the panel open instead of toggling it shut.
-        let openedByHover = false;
-        trigger.addEventListener(
-          'click',
-          () => {
-            if (openedByHover) {
-              openedByHover = false;
-              return;
-            }
-            setOpen(!isOpen());
-          },
-          { signal },
-        );
-        dropdown.addEventListener(
-          'pointerenter',
-          (e) => {
-            if (e.pointerType === 'mouse' && canHover.matches && !isOpen()) {
-              openedByHover = true;
-              setOpen(true);
-            }
-          },
-          { signal },
-        );
-        dropdown.addEventListener(
-          'pointerleave',
-          (e) => {
-            if (e.pointerType === 'mouse' && canHover.matches) {
-              openedByHover = false;
-              setOpen(false);
-            }
-          },
-          { signal },
-        );
-        dropdown.addEventListener(
-          'keydown',
-          (e) => {
-            if (e.key === 'Escape' && isOpen()) {
-              setOpen(false);
-              trigger.focus();
-            }
-          },
-          { signal },
-        );
-        dropdown.addEventListener(
-          'focusout',
-          (e) => {
-            if (!dropdown.contains(e.relatedTarget as Node | null)) setOpen(false);
-          },
-          { signal },
-        );
-        document.addEventListener(
-          'click',
-          (e) => {
-            if (!dropdown.contains(e.target as Node)) setOpen(false);
-          },
-          { signal },
-        );
-      });
-
-      // Tear down before a View Transitions swap (plan §2 lifecycle rule).
-      document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
-    });
-  }
-
-  initNav();
-  document.addEventListener('astro:page-load', initNav);
-</script>
+<FullMenu />
 
 <style>
   @layer components {
@@ -201,136 +116,231 @@ const dropdownItems = (overview: { label: string; href: string }) => [
       gap: var(--space-16);
       min-height: var(--nav-height);
       padding: var(--space-8) var(--gutter);
-      color: var(--nav-fg);
-      transition: color var(--dur-theme) var(--ease-css);
-    }
-    .nav[data-nav-theme='dark'] {
-      --nav-fg: var(--nav-fg-dark);
-      --nav-cluster-bg: var(--nav-cluster-bg-dark);
+      color: var(--text-primary);
+      transition: color var(--dur-theme) var(--ease-standard);
     }
 
+    /* Logo: fills the bar; collapses to the butterfly once scrolled (M15). */
     .nav__brand {
       display: inline-flex;
       align-items: center;
-      min-height: var(--tap-min);
-    }
-    .nav__brand :global(.nav__logo) {
       height: var(--logo-height-nav);
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+    .nav__brand:hover {
+      opacity: 1;
+    }
+    .nav :global(.nav__logo) {
+      height: 100%;
       width: auto;
       transform-origin: var(--logo-mark-start) 50%;
       transition:
         clip-path var(--dur-logo-collapse) var(--ease-out-expo),
         transform var(--dur-logo-collapse) var(--ease-out-expo);
     }
-    /* M15: once scrolled, the wordmark clips down to the pixel butterfly, which
-       slides to the left edge and grows a little. Back at the top it expands. */
-    .nav[data-scrolled] .nav__brand :global(.nav__logo) {
+    .nav[data-scrolled] :global(.nav__logo) {
       clip-path: inset(-30% var(--logo-mark-end-inset) -30% var(--logo-mark-start));
       transform: translateX(calc(var(--logo-mark-start) * -1)) scale(var(--logo-mark-scale));
     }
 
     .nav__cluster {
+      flex: none;
       display: flex;
       align-items: center;
       gap: var(--space-24);
-      padding: var(--space-4);
-      border-radius: var(--radius-pill);
-      background-color: transparent;
-      transition: background-color var(--dur-fast) var(--ease-standard);
     }
-    .nav[data-scrolled] .nav__cluster {
-      background-color: var(--nav-cluster-bg);
-    }
-
-    .nav__links,
-    .nav__cluster > :global(.nav__cta) {
-      display: none;
+    .nav__links {
+      padding-left: var(--space-16);
+      overflow: hidden;
+      max-width: var(--nav-links-max);
+      transition:
+        max-width var(--dur-collapse) var(--ease-out-expo),
+        opacity var(--dur-nav-fade) var(--ease-standard),
+        transform var(--dur-collapse) var(--ease-out-expo),
+        padding var(--dur-collapse) var(--ease-out-expo);
     }
     .nav__list {
       display: flex;
       align-items: center;
       gap: var(--space-24);
-      list-style: none;
     }
     .nav__link {
       display: inline-flex;
       align-items: center;
       gap: var(--space-8);
       min-height: var(--tap-min);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
     }
-    .nav__trigger:hover {
+    button.nav__link:hover {
       opacity: var(--hover-opacity);
     }
-    .nav__caret {
+    .nav__chevron {
       display: inline-flex;
+      transition: transform var(--dur-chevron) var(--ease-snappy);
+    }
+    [aria-expanded='true'] > .nav__chevron {
+      transform: rotate(180deg);
     }
     .nav__badge {
       padding: var(--space-4) var(--space-6);
       border-radius: var(--radius-pill);
       background: var(--nav-badge-bg);
       color: var(--nav-badge-fg);
-      font-weight: var(--weight-eyebrow);
-      letter-spacing: var(--tracking-eyebrow);
+      font-weight: var(--weight-body);
       font-size: var(--text-eyebrow);
-      text-transform: none; /* eyebrow: title case, not the link caps */
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .nav :global(.nav__menu) {
+      width: 0;
+      opacity: 0;
+      transform: scale(0.6);
+      pointer-events: none;
+      transition:
+        width var(--dur-collapse) var(--ease-out-expo),
+        opacity var(--dur-nav-fade) var(--ease-standard),
+        transform var(--dur-collapse) var(--ease-out-expo);
+    }
+    .nav :global(.nav__cta) {
+      max-width: var(--nav-cta-max);
+      transition:
+        max-width var(--dur-collapse) var(--ease-out-expo),
+        opacity var(--dur-nav-fade) var(--ease-standard),
+        padding var(--dur-collapse) var(--ease-out-expo);
     }
 
-    .nav__dropdown {
-      position: relative;
+    /* Mini: links and Book a call tuck into the menu button. */
+    .nav[data-mini] .nav__cluster {
+      gap: var(--space-4);
     }
-    .nav__panel {
+    .nav[data-mini] .nav__links {
+      max-width: 0;
+      opacity: 0;
+      transform: translateX(40%);
+      padding-left: 0;
+      pointer-events: none;
+    }
+    .nav[data-mini] :global(.nav__menu) {
+      width: var(--icon-button);
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .nav[data-mini] :global(.nav__cta) {
+      max-width: 0;
+      opacity: 0;
+      padding-inline: 0;
+      pointer-events: none;
+    }
+    /* Without JS, narrow screens still get the mini layout. */
+    @media (max-width: 68.74rem) {
+      .nav:not([data-nav-ready]) .nav__links,
+      .nav:not([data-nav-ready]) :global(.nav__cta) {
+        display: none;
+      }
+    }
+
+    /* Services mega menu */
+    .mega {
       position: absolute;
-      top: 100%;
-      left: calc(var(--space-16) * -1);
-      z-index: var(--z-dropdown);
-      display: flex;
-      flex-direction: column;
-      min-width: 16rem;
-      padding: var(--space-8);
-      list-style: none;
+      top: calc(100% + var(--space-8));
+      left: var(--gutter);
+      right: var(--gutter);
+      max-height: calc(100vh - var(--nav-height) - var(--space-16));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      visibility: hidden;
+      opacity: 0;
+      padding: var(--inset-card);
       background: var(--nav-dropdown-bg);
       color: var(--nav-dropdown-fg);
-      border: var(--border-width) solid var(--nav-dropdown-border);
-      border-radius: var(--radius-xs);
-      box-shadow: var(--nav-dropdown-shadow);
+      border-radius: var(--radius-md);
     }
-    .nav__panel[hidden] {
-      display: none;
+    .mega[data-open] {
+      visibility: visible;
+      opacity: 1;
     }
-    .nav__panel-link {
+    .mega__grid {
+      display: grid;
+      grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+      column-gap: var(--grid-gap-col);
+      row-gap: var(--space-32);
+    }
+    .mega__col {
+      grid-column: 1 / -1;
       display: flex;
-      align-items: center;
-      min-height: var(--tap-min);
-      padding: 0 var(--space-8);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
+      flex-direction: column;
+      gap: var(--space-14);
     }
-
-    @media (min-width: 47.5rem) {
-      .nav__links {
-        display: block;
-        padding-left: var(--space-16);
+    @media (min-width: 62rem) {
+      .mega__col--rich {
+        grid-column: 1 / span 5;
       }
-      .nav__cluster > :global(.nav__cta) {
-        display: inline-flex;
+      .mega__col--plain {
+        grid-column: span 3;
       }
+      .mega__col--plain:last-child {
+        grid-column: 9 / -1;
+      }
+    }
+    .mega__heading {
+      color: var(--text-secondary);
+    }
+    .mega__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .mega__col--rich .mega__list {
+      gap: var(--space-4);
+    }
+    .mega__link {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      margin: 0 calc(var(--space-12) * -1);
+      padding: var(--space-8) var(--space-12);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-body);
+      line-height: var(--leading-snug);
+      transition: background-color var(--dur-link) var(--ease-snappy);
+    }
+    .mega__col--rich .mega__link {
+      padding-block: var(--space-10);
+    }
+    .mega__link:hover,
+    .mega__link:focus-visible {
+      opacity: 1;
+      background: var(--surface-hover);
+    }
+    .mega__desc {
+      max-width: var(--measure-card);
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
+    }
+    .mega__note {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-16);
+      margin-top: var(--inset-card);
+      padding: var(--space-20) var(--space-24);
+      border-radius: var(--radius-sm);
+      background: var(--nav-dropdown-note-bg);
+      font-size: var(--text-small);
+      line-height: var(--leading-compact);
+      color: var(--text-secondary);
     }
 
     @media (prefers-reduced-motion: reduce) {
       .nav,
-      .nav__cluster,
-      .nav__brand :global(.nav__logo) {
+      .nav :global(.nav__logo),
+      .nav__links,
+      .nav :global(.nav__menu),
+      .nav :global(.nav__cta),
+      .nav__chevron {
         transition: none;
       }
     }

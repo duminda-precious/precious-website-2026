@@ -149,8 +149,22 @@ const home = defineCollection({
     hero: z.object({
       /** H1, one entry per line (lines never wrap). */
       headline: z.array(z.string().min(1)).min(1),
-      /** The second layer: "Most products look fine. / Few feel good." */
+      /** Former second layer; not shown since the two-step hero (Claude Design). Kept for reuse. */
       problem: z.array(z.string().min(1)).min(1),
+      /** Hero news stack (bottom-left): mini news / trust cards. Placeholders. */
+      news: z
+        .array(
+          z.object({
+            title: z.string().min(1),
+            body: z.string().min(1),
+            /** Accessible name of the arrow link. */
+            cta: z.string().min(1),
+            href: z.string().min(1),
+            /** Thumbnail placeholder wash. */
+            tint: z.enum(['sky', 'lavender', 'rose', 'mint', 'neutral']),
+          }),
+        )
+        .min(1),
       reel: z.object({
         video: z.string().optional(),
         poster: z.string().optional(),
@@ -172,13 +186,17 @@ const home = defineCollection({
       coreRoles: z.array(z.string().min(1)).min(1),
       extendedRoles: z.array(z.string().min(1)).min(1),
       engine: z.string().min(1),
+      /** What the one team produces: the chips on the funnel's output side (Claude Design). */
+      outputs: z.array(z.string().min(1)).min(1),
+      /** Not shown since the funnel redesign; kept for reuse. */
       benefits: z.array(z.string().min(1)).min(1),
-      /** Placeholder shown instead of the diagram until the phase-2 design. */
-      /** Small line above the engine in the hub, e.g. "Powered by". */
+      /** Not shown since the funnel redesign (no "Powered by"); kept for reuse. */
       engineLabel: z.string().min(1),
     }),
     approach: z.object({
       heading: z.string().min(1),
+      /** Line under the heading (Claude Design). */
+      subline: z.string().min(1),
       gates: z
         .array(
           z.object({
@@ -196,15 +214,37 @@ const home = defineCollection({
         )
         .min(1),
     }),
+    /** The AI card (Claude Design). */
     process: z.object({
       heading: z.string().min(1),
       subline: z.string().min(1),
-      agentPrompt: z.string().min(1),
+      /** Big number top-right; counts up from 0 when the card enters. */
+      stat: z.object({ value: z.number(), suffix: z.string(), caption: z.string().min(1) }),
+      /** Three numbered points. */
+      points: z.array(z.string().min(1)).min(1),
       agentLink: linkSchema,
+      /** Not shown since the AI card redesign; kept for reuse. */
       steps: z.array(z.object({ title: z.string().min(1), body: z.string().min(1) })).min(1),
     }),
     faq: z.object({
       heading: z.string().min(1),
+    }),
+    /** Journal teasers (Claude Design): homepage section + the two cards in the full-page menu. Placeholders. */
+    journal: z.object({
+      heading: z.string().min(1),
+      cta: linkSchema,
+      cardCta: z.string().min(1),
+      items: z
+        .array(
+          z.object({
+            tag: z.string().min(1),
+            title: z.string().min(1),
+            /** Hosted image URL; placeholder stock photos until real posts exist. */
+            image: z.string().optional(),
+            href: z.string().min(1),
+          }),
+        )
+        .min(1),
     }),
   }),
 });

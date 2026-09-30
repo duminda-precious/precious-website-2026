@@ -6,8 +6,8 @@
  */
 import { setupGsap, ScrollTrigger } from './gsap';
 import { onReducedMotionChange } from './reducedMotion';
-import { lenis } from './lenis';
-import { hero } from './hero';
+import { heroReveal } from './heroReveal';
+import { newsStack } from './newsStack';
 import { soundToggle } from './soundToggle';
 import { themeSwitch } from './themeSwitch';
 import { marquee } from './marquee';
@@ -15,9 +15,16 @@ import { videoInView } from './videoInView';
 import { riseIn } from './riseIn';
 import { slider } from './slider';
 import { disclosure } from './disclosure';
+import { buttonFx } from './buttonFx';
 import { buttonGlitch } from './buttonGlitch';
-import { pixelText } from './pixelText';
-import { logoPop } from './logoPop';
+import { logoWings } from './logoWings';
+import { nav } from './nav';
+import { fullMenu } from './fullMenu';
+import { cardEdge } from './cardEdge';
+import { approach } from './approach';
+import { teamFlow } from './teamFlow';
+import { pixelRain } from './pixelRain';
+import { aiCard } from './aiCard';
 import { setupPageTransition } from './pageTransition';
 
 export interface MotionModule {
@@ -26,10 +33,10 @@ export interface MotionModule {
   init(root: Document): (() => void) | void;
 }
 
-/** Order matters: Lenis first so ScrollTriggers see the smooth-scroll proxy. */
+/** Registry order = init order. */
 const modules: MotionModule[] = [
-  lenis,
-  hero,
+  heroReveal,
+  newsStack,
   soundToggle,
   themeSwitch,
   marquee,
@@ -37,9 +44,16 @@ const modules: MotionModule[] = [
   riseIn,
   slider,
   disclosure,
+  buttonFx,
   buttonGlitch,
-  pixelText,
-  logoPop,
+  logoWings,
+  nav,
+  fullMenu,
+  cardEdge,
+  approach,
+  teamFlow,
+  pixelRain,
+  aiCard,
 ];
 
 let cleanups: (() => void)[] = [];

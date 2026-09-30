@@ -12,7 +12,7 @@
  * taller than the viewport, it stays in normal flow (data-footer-static).
  * Props: none (copy from src/config/ui.ts, links from src/config/navigation.ts).
  * Tokens: ink theme (--surface-page, --text-*, --border-subtle), --section-py, --gutter,
- *         --text-closer, --tracking-closer, --leading-closer, --measure-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
+ *         --text-closer, --tracking-closer, --leading-closer, --font-sans, --text-eyebrow, --tracking-eyebrow, --z-footer, --space-*.
  * Motion hooks: data-motion="footer-reveal" (M3).
  */
 import Button from '../ui/Button.astro';
@@ -27,16 +27,18 @@ import { ui } from '../../config/ui';
   id="call"
   class="footer"
   data-theme="ink"
+  data-rain-scope
   data-motion="footer-reveal"
   transition:name="site-footer"
   transition:animate="none"
 >
+  <canvas class="footer__rain" data-rain aria-hidden="true"></canvas>
   <Grid12 class="footer__top">
     <div class="footer__cta">
-      <h2 class="footer__heading" data-motion="pixel-text">
-        {ui.footer.headline}
+      <h2 class="footer__heading">
+        {ui.footer.headline.map((line) => <span class="footer__line">{line}</span>)}
       </h2>
-      <Button href={bookCall.href} track={bookCall.track}>
+      <Button href={bookCall.href} track={bookCall.track} cta data-rain-cta>
         {bookCall.label}
       </Button>
     </div>
@@ -67,7 +69,7 @@ import { ui } from '../../config/ui';
 
   <Grid12 class="footer__bottom">
     <!-- Wordmark first so it sits on top when stacked (below lg); from lg both share row 1. -->
-    <div class="footer__wordmark" data-motion="logo-pop">
+    <div class="footer__wordmark" data-logo-hover>
       <Logo class="footer__logo" />
     </div>
     <p class="footer__legal">
@@ -110,6 +112,7 @@ import { ui } from '../../config/ui';
   @layer components {
     .footer {
       position: relative;
+      isolation: isolate;
       z-index: var(--z-footer);
       padding: var(--section-py) var(--gutter) var(--space-32);
       background: var(--surface-page);
@@ -126,13 +129,29 @@ import { ui } from '../../config/ui';
       align-items: flex-start;
       gap: var(--space-32);
     }
+    .footer__rain {
+      position: absolute;
+      inset: 0;
+      z-index: var(--z-below);
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
     .footer__heading {
-      max-width: var(--measure-closer);
       font-family: var(--font-display);
       font-weight: var(--weight-display);
       font-size: var(--text-closer);
       letter-spacing: var(--tracking-closer);
       line-height: var(--leading-closer);
+    }
+    .footer__line {
+      display: block;
+    }
+    /* Each line stays on one line where it fits; phones let it wrap. */
+    @media (min-width: 47.5rem) {
+      .footer__line {
+        white-space: nowrap;
+      }
     }
     .footer__col {
       grid-column: span 6;

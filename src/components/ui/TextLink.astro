@@ -3,6 +3,7 @@
  * TextLink: exploration links, not CTAs.
  *   variant 'underline' → sans, underlined, with → ("View case study →", "Meet the AI Design Agent →")
  *   variant 'label'     → UI link in the Label style ("See our work →")
+ *   variant 'plain'     → body text, no underline, arrow first ("→ Senior people join…")
  * The arrow is decorative (aria-hidden) so screen readers hear the label only.
  * Props: href, variant, arrow (default true), track (→ data-track, e.g. "case-study"), external, class.
  * Tokens: --text-body, --text-label, --font-sans, --tracking-label, --border-width.
@@ -11,7 +12,7 @@
 import PixelIcon from './PixelIcon.astro';
 interface Props {
   href: string;
-  variant?: 'underline' | 'label';
+  variant?: 'underline' | 'label' | 'plain';
   arrow?: boolean;
   track?: string;
   external?: boolean;
@@ -32,13 +33,14 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
 
 <a
   href={href}
-  class:list={['text-link', `text-link--${variant}`, className]}
+  class:list={['text-link', `text-link--${variant}`, { 'type-label': variant === 'label' }, className]}
   data-track={track}
   {...externalAttrs}
   {...rest}
 >
+  {arrow && variant === 'plain' && <PixelIcon name="arrow-right" class="text-link__lead" />}
   <slot />
-  {arrow && <PixelIcon name="arrow-right" class="text-link__arrow" />}
+  {arrow && variant !== 'plain' && <PixelIcon name="arrow-right" class="text-link__arrow" />}
 </a>
 
 <style>
@@ -54,13 +56,10 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
       font-size: var(--text-body);
       border-bottom: var(--border-width) solid currentColor;
     }
-    .text-link--label {
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
+    .text-link--plain {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-8);
     }
   }
 </style>

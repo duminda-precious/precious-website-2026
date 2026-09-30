@@ -1,23 +1,20 @@
 ---
 /**
- * ClientsSection: three-zone header (statement + Clutch rating), the testimonial
- * slider, the client logo ticker, and a centred Book a call.
- * Slider (M9): a horizontal scroll-snap row, one card per "page" with the next
- * peeking; swipe/trackpad natively, or the ← → buttons (src/motion/slider.ts).
- * Ticker (M4/M8): client names loop continuously, full bleed. The list renders
- * twice for a seamless loop (the copy is aria-hidden + inert). Pauses on hover,
- * focus and off-screen; stops under reduced motion (then wraps as a static row).
- * Props: heading, testimonials, clients.
- * Tokens: --gutter, --slide-gap, --ticker-gap, --dur-marquee, --ease-linear, --space-*,
- *         --border-strong, --radius-pill, --tap-min, --text-large, --text-secondary.
- * Motion hooks: data-motion="slider", data-motion="marquee".
+ * ClientsSection (Claude Design): "What Working with Us Feels Like."
+ * Header: statement with the Clutch rating directly under it; Book a call top-right.
+ * Slider (M9): a full-bleed horizontal scroll-snap row of testimonial cards that loops
+ * endlessly (three copies; it re-centres on the middle copy when scrolling settles)
+ * and advances one card every --dur-autoplay, pausing on hover, focus, a hidden tab,
+ * and under reduced motion. ← → IconButtons move one card; on hover their arrow glitches.
+ * Props: heading, testimonials.
+ * Tokens: --gutter, --slide-gap, --space-*.
+ * Motion hooks: data-motion="slider", data-slider-track, data-slider-prev/-next, data-slide-copy.
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
 import Pill from '../ui/Pill.astro';
-import PixelIcon from '../ui/PixelIcon.astro';
-import ClientLogo from '../ui/ClientLogo.astro';
+import IconButton from '../ui/IconButton.astro';
 import Button from '../ui/Button.astro';
 import TestimonialCard from './TestimonialCard.astro';
 import { bookCall } from '../../config/navigation';
@@ -27,16 +24,16 @@ import { ui } from '../../config/ui';
 interface Props {
   heading: string;
   testimonials: CollectionEntry<'testimonials'>[];
-  clients: CollectionEntry<'clients'>[];
 }
-const { heading, testimonials, clients } = Astro.props;
+const { heading, testimonials } = Astro.props;
 const stars = '★'.repeat(Math.round(site.clutchRating));
+const copies = [0, 1, 2];
 ---
 
 <Section id="clients" labelledby="clients-title">
   <SectionHeader headingId="clients-title">
     {heading}
-    <Pill slot="action">
+    <Pill slot="meta">
       <span aria-hidden="true">
         {ui.rating.source} {stars} {site.clutchRating}
       </span>
@@ -44,57 +41,36 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
         {ui.rating.srLabel(site.clutchRating, site.clutchRatingMax)}
       </span>
     </Pill>
+    <Button slot="action" href={bookCall.href} track={bookCall.track} cta>
+      {bookCall.label}
+    </Button>
   </SectionHeader>
 
   <div class="slider" data-motion="slider">
-    <ul
-      class="slider__track"
-      aria-label={ui.slider.label}
-      tabindex="0"
-      data-slider-track
-      data-lenis-prevent-wheel
-    >
-      {testimonials.map(({ data }) => (
-        <li class="slider__slide">
-          <TestimonialCard testimonial={data} />
-        </li>
-      ))}
+    <ul class="slider__track" aria-label={ui.slider.label} tabindex="0" data-slider-track>
+      {copies.map((copy) =>
+        testimonials.map(({ data }) => (
+          <li
+            class="slider__slide"
+            aria-hidden={copy === 1 ? undefined : 'true'}
+            inert={copy === 1 ? undefined : true}
+            data-slide-copy={copy}
+          >
+            <TestimonialCard testimonial={data} />
+          </li>
+        )),
+      )}
     </ul>
     <div class="slider__controls">
-      <button class="slider__arrow" type="button" aria-label={ui.slider.prev} data-slider-prev>
-        <PixelIcon name="arrow-left" size="lg" />
-      </button>
-      <button class="slider__arrow" type="button" aria-label={ui.slider.next} data-slider-next>
-        <PixelIcon name="arrow-right" size="lg" />
-      </button>
+      <IconButton icon="arrow-left" label={ui.slider.prev} data-slider-prev />
+      <IconButton icon="arrow-right" label={ui.slider.next} data-slider-next />
     </div>
-  </div>
-
-  <div class="ticker" data-motion="marquee">
-    <div class="ticker__track">
-      <ul class="ticker__set" aria-label={ui.clientsListLabel}>
-        {clients.map(({ data: c }) => (
-          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt={c.name} /> : c.name}</li>
-        ))}
-      </ul>
-      <ul class="ticker__set ticker__set--copy" aria-hidden="true" inert>
-        {clients.map(({ data: c }) => (
-          <li class="ticker__item">{c.logo ? <ClientLogo src={c.logo} alt="" /> : c.name}</li>
-        ))}
-      </ul>
-    </div>
-  </div>
-
-  <div class="clients__cta">
-    <Button href={bookCall.href} track={bookCall.track}>
-      {bookCall.label}
-    </Button>
   </div>
 </Section>
 
 <style>
   @layer components {
-    /* ---- Slider: full bleed, one card per page ---- */
+    /* Full bleed, one card per page, next card peeks. */
     .slider {
       margin-inline: calc(var(--gutter) * -1);
     }
@@ -106,8 +82,8 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
       scroll-padding-inline: var(--gutter);
+      scroll-behavior: smooth;
       scrollbar-width: none;
-      list-style: none;
     }
     .slider__track::-webkit-scrollbar {
       display: none;
@@ -123,81 +99,10 @@ const stars = '★'.repeat(Math.round(site.clutchRating));
       margin-top: var(--space-16);
       padding-inline: var(--gutter);
     }
-    .slider__arrow {
-      display: inline-grid;
-      place-items: center;
-      width: var(--tap-min);
-      height: var(--tap-min);
-      border: var(--border-width) solid var(--border-strong);
-      border-radius: var(--radius-pill);
-      font-size: var(--text-large);
-      line-height: var(--leading-none);
-    }
-    .slider__arrow:hover:not(:disabled) {
-      opacity: var(--hover-opacity);
-    }
-    .slider__arrow:disabled {
-      opacity: var(--disabled-opacity);
-      cursor: default;
-    }
-
-    /* ---- Ticker: continuous logo loop, full bleed ---- */
-    .ticker {
-      margin: var(--space-56) calc(var(--gutter) * -1);
-      overflow: hidden;
-    }
-    .ticker__track {
-      display: flex;
-      gap: var(--ticker-gap);
-      width: max-content;
-      animation: ticker var(--dur-marquee) var(--ease-linear) infinite;
-    }
-    .ticker__set {
-      display: flex;
-      align-items: center;
-      gap: var(--ticker-gap);
-      list-style: none;
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-    .ticker__item {
-      --client-logo-height: var(--ticker-logo-height);
-      display: flex;
-      align-items: center;
-      height: var(--ticker-logo-height);
-    }
-    @keyframes ticker {
-      to {
-        transform: translateX(calc(-50% - var(--ticker-gap) / 2));
-      }
-    }
-    .ticker:hover .ticker__track,
-    .ticker:focus-within .ticker__track,
-    .ticker[data-offscreen] .ticker__track {
-      animation-play-state: paused;
-    }
     @media (prefers-reduced-motion: reduce) {
-      .ticker {
-        margin-inline: 0;
+      .slider__track {
+        scroll-behavior: auto;
       }
-      .ticker__track {
-        width: auto;
-        animation: none;
-      }
-      .ticker__set {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: var(--space-24);
-        width: 100%;
-      }
-      .ticker__set--copy {
-        display: none;
-      }
-    }
-
-    .clients__cta {
-      display: flex;
-      justify-content: center;
     }
   }
 </style>

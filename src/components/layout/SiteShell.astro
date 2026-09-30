@@ -9,7 +9,7 @@
  * Slots: default (main content), "head" (extra head tags), "jsonld".
  * Tokens: --page-bg, --z-page, --z-skip, --dur-page, --ease-standard.
  * Motion hooks: data-page (theme switch target, M2), data-motion="footer-reveal" on the footer (M3),
- *               data-pixel-cover (page transition, M10).
+ *               data-wing-cover (butterfly wing transition: pages, anchors, full-page menu).
  */
 import '../../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
@@ -43,7 +43,7 @@ const seo = Astro.props;
     <ClientRouter />
   </head>
   <body>
-    <a class="skip-link" href="#main">
+    <a class="skip-link type-label" href="#main">
       {ui.skipLink}
     </a>
 
@@ -56,14 +56,9 @@ const seo = Astro.props;
 
     <CtaFooter />
 
-    <!-- M10: pixel page-transition cover (motion/pageTransition.ts). Persists across swaps. -->
-    <div
-      class="pixel-cover"
-      data-pixel-cover
-      aria-hidden="true"
-      hidden
-      transition:persist="pixel-cover"
-    ></div>
+    <!-- Butterfly wing transition cover (motion/wing.ts). Persists across swaps. -->
+    <canvas class="wing-cover" data-wing-cover aria-hidden="true" hidden transition:persist="wing-cover"
+    ></canvas>
 
     <script>
       import { bootMotion } from '../../motion';
@@ -83,11 +78,6 @@ const seo = Astro.props;
       background: var(--cta-bg);
       color: var(--cta-fg);
       border-radius: var(--radius-xs);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
       transform: translateY(-200%);
     }
     .skip-link:focus-visible {
@@ -135,14 +125,15 @@ const seo = Astro.props;
     :global(::view-transition-new(root)) {
       animation: none;
     }
-    .pixel-cover {
+    .wing-cover {
       position: fixed;
       inset: 0;
       z-index: var(--z-cover);
-      background: var(--pixel-cover-bg);
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
     }
-    .pixel-cover[hidden] {
+    .wing-cover[hidden] {
       display: none;
     }
     @media (prefers-reduced-motion: reduce) {

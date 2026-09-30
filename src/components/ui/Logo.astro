@@ -1,20 +1,21 @@
 ---
 /**
  * Logo: the Precious Studio logo (reference/brand/logo-white.svg), coloured with
- * currentColor so the theme decides: Deep Ink on light and gradients, white on dark.
- * Never a brand colour, a gradient fill or an effect (brand guideline).
- * The butterfly is drawn pixel by pixel (one <rect> per cell, data-logo-pixel) so
- * motion can bring the pixels in one at a time (P2-5).
+ * currentColor so the theme decides: Deep Ink on light, white on dark.
+ * The butterfly is drawn as one merged path on its 13 × 11 pixel grid, so no seams
+ * show between pixels. motion/logoWings.ts animates it (Claude Design): the wings
+ * flap at 8fps with an LCD ghost of the previous frame, and hovering the nearest
+ * [data-logo-hover] ancestor sends a brand-colour ripple through the pixels.
  * Props:
  *   variant 'wordmark' (letters + butterfly) | 'mark' (butterfly only)
  *   label   accessible name; omit when the parent already has one (then aria-hidden)
  *   class
  * Size it from the parent: set a height (width follows) or a width (height follows).
  * Tokens: none (colour is inherited).
- * Motion hooks: data-logo, data-logo-mark, data-logo-pixel.
+ * Motion hooks: data-logo, data-logo-mark.
  */
 import { LOGO_LETTERS, LOGO_VIEWBOX, MARK_ORIGIN, MARK_UNIT } from './logo';
-import { pixelCells, pixelSize } from './pixelIcons';
+import { pixelPath, pixelSize } from './pixelIcons';
 
 interface Props {
   variant?: 'wordmark' | 'mark';
@@ -23,7 +24,6 @@ interface Props {
 }
 const { variant = 'wordmark', label, class: className } = Astro.props;
 
-const cells = pixelCells('butterfly');
 const mark = pixelSize('butterfly');
 const isMark = variant === 'mark';
 const viewBox = isMark
@@ -44,10 +44,8 @@ const markTransform = isMark
   data-logo={variant}
 >
   {!isMark && LOGO_LETTERS.map((d) => <path d={d} fill="currentColor" />)}
-  <g transform={markTransform} fill="currentColor" data-logo-mark>
-    {cells.map(([x, y]) => (
-      <rect x={x} y={y} width="1.02" height="1.02" data-logo-pixel />
-    ))}
+  <g transform={markTransform} fill="currentColor" shape-rendering="crispEdges" data-logo-mark>
+    <path d={pixelPath('butterfly')}></path>
   </g>
 </svg>
 

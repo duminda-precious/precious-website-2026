@@ -3,15 +3,15 @@
  * PixelIcon: an 8-bit icon from the registry in ./pixelIcons.ts. Hard edges
  * (crispEdges), colour from currentColor, sized in whole pixel units so it stays
  * sharp. Decorative by default (aria-hidden); pass `label` to make it an image.
- * Props: name, size ('md' | 'lg'), label, class.
- * Tokens: --pixel-unit, --pixel-unit-lg.
+ * Props: name, size ('md' | 'lg' | 'glyph': fits a square --icon-glyph box), label, class.
+ * Tokens: --pixel-unit, --pixel-unit-lg, --icon-glyph.
  * Motion hooks: none.
  */
 import { pixelPath, pixelSize, type PixelIconName } from './pixelIcons';
 
 interface Props {
   name: PixelIconName;
-  size?: 'md' | 'lg';
+  size?: 'md' | 'lg' | 'glyph';
   label?: string;
   class?: string;
 }
@@ -44,6 +44,10 @@ const { cols, rows } = pixelSize(name);
     }
     .pixel-icon--lg {
       --px-unit: var(--pixel-unit-lg);
+    }
+    .pixel-icon--glyph {
+      width: var(--icon-glyph);
+      height: var(--icon-glyph);
     }
   }
 </style>

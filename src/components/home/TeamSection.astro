@@ -1,195 +1,206 @@
 ---
 /**
- * TeamSection: centred heading + subline, then the team diagram (layout from the
- * parallel prototype, decision 2026-09-29): five numbered role chips → a round hub
- * (the section's gradient, with the pixel butterfly: "Powered by <engine>") →
- * outlined benefit chips. Thin wires join the hub to both columns from lg.
- * Below lg it stacks: roles, hub, benefits.
- * Props: heading, subline, roles (in order), engineLabel, engine, benefits.
- * Tokens: --text-statement, --tracking-heading, --leading-heading, --measure-statement,
- *         --text-medium, --leading-medium, --text-tertiary, --header-gap, --team-*,
- *         --text-eyebrow, --text-large, --radius-xs, --space-*.
- * Motion hooks: none.
+ * TeamSection (Claude Design, funnel option 2a): "One Team Instead of Five Hires."
+ * Centred heading + subline, then the funnel, capped at --team-max and centred:
+ *   five role chips → the Personalised AI Engine → the five outputs.
+ * A pixel flow (canvas, motion/teamFlow.ts) streams in from the roles, narrows into
+ * the engine and fans out to the outputs, with brighter accent cells stepping along
+ * it. Entrance: the engine appears, the chips pop out of it and slide into place,
+ * then the flow draws in; afterwards a gentle pulse loops every few seconds and each
+ * output chip lights up (gradient edge glow) as the flow reaches it.
+ * Two stages share the markup: horizontal from md, vertical (roles on top) below.
+ * Props: heading, subline, roles, engine, outputs.
+ * Tokens: --team-*, --wash-rim, --wash-edge, --wash-hub, --blur-halo, --blur-glow,
+ *         --text-note, --text-medium, --leading-tight, --radius-xs, --space-*.
+ * Header: SectionHeader (centred).
+ * Motion hooks: data-flow (layout h|v), data-role, data-out, data-chip, data-cc,
+ *               data-engine, data-core, data-wash, data-ring (motion/teamFlow.ts).
  */
 import Section from '../primitives/Section.astro';
-import PixelIcon from '../ui/PixelIcon.astro';
+import SectionHeader from '../primitives/SectionHeader.astro';
+import { ui } from '../../config/ui';
 
 interface Props {
   heading: string;
   subline: string;
   roles: string[];
-  engineLabel: string;
   engine: string;
-  benefits: string[];
+  outputs: string[];
 }
-const { heading, subline, roles, engineLabel, engine, benefits } = Astro.props;
-const pad = (n: number) => String(n).padStart(2, '0');
+const { heading, subline, roles, engine, outputs } = Astro.props;
+const stages = ['h', 'v'] as const;
 ---
 
 <Section id="team" labelledby="team-title">
-  <div class="team__header">
-    <h2 id="team-title" class="team__heading" data-motion="pixel-text">
-      {heading}
-    </h2>
-    <p class="team__sub">{subline}</p>
-  </div>
+  <SectionHeader headingId="team-title" align="center">
+    {heading}
+    <Fragment slot="sub">{subline}</Fragment>
+  </SectionHeader>
 
-  <div class="team">
-    <ol class="team__col" role="list">
-      {roles.map((role, i) => (
-        <li class="team__chip">
-          <span class="team__num" aria-hidden="true">
-            {pad(i + 1)}
+  <div class="team__wrap">
+    {stages.map((layout) => (
+      <div class:list={['flow', `flow--${layout}`]} data-flow data-layout={layout} aria-hidden={layout === 'v' ? 'true' : undefined}>
+        <canvas class="flow__canvas" aria-hidden="true"></canvas>
+        <ul class="flow__col flow__col--roles" aria-label={layout === 'h' ? ui.team.roles : undefined}>
+          {roles.map((r) => (
+            <li class="flow__chip" data-role>{r}</li>
+          ))}
+        </ul>
+        <div class="flow__engine" data-engine>
+          <span class="flow__ring" data-ring></span>
+          <span class="flow__core" data-core>
+            <span class="flow__wash" data-wash></span>
           </span>
-          {role}
-        </li>
-      ))}
-    </ol>
-
-    <div class="team__hub">
-      <span class="team__wire team__wire--l" aria-hidden="true"></span>
-      <p class="team__hub-text">
-        <PixelIcon name="butterfly" class="team__hub-mark" />
-        <span class="team__hub-label">{engineLabel}</span>
-        <span class="team__hub-engine">{engine}</span>
-      </p>
-      <span class="team__wire team__wire--r" aria-hidden="true"></span>
-    </div>
-
-    <ul class="team__col" role="list">
-      {benefits.map((b) => (
-        <li class="team__chip team__chip--benefit">{b}</li>
-      ))}
-    </ul>
+          <p class="flow__label">{engine}</p>
+        </div>
+        <ul class="flow__col flow__col--outs" aria-label={layout === 'h' ? ui.team.outputs : undefined}>
+          {outputs.map((o) => (
+            <li class="flow__out" data-out>
+              <span class="flow__chip" data-chip><span class="flow__cc" data-cc>{o}</span></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </div>
 </Section>
 
 <style>
   @layer components {
-    .team__header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-12);
-      margin-bottom: var(--header-gap);
-      text-align: center;
-    }
-    .team__heading {
-      max-width: var(--measure-statement);
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
-    }
-    .team__sub {
-      max-width: var(--measure-subline);
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-tertiary);
+    .team__wrap {
+      max-width: var(--team-max);
+      margin: 0 auto;
     }
 
-    /* ---- Diagram: stacked below lg ---- */
-    .team {
-      display: grid;
-      grid-template-columns: minmax(0, var(--team-col-max));
-      justify-content: center;
-      justify-items: center;
-      align-items: center;
-      gap: var(--team-gap);
+    .flow {
+      position: relative;
+      height: var(--team-height);
+      overflow: visible;
     }
-    .team__col {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-10);
+    .flow--v {
+      display: none;
+      height: var(--team-height-v);
+    }
+    @media (max-width: 47.49rem) {
+      .flow--h {
+        display: none;
+      }
+      .flow--v {
+        display: block;
+      }
+    }
+    .flow__canvas {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      list-style: none;
+      height: 100%;
+      pointer-events: none;
     }
-    .team__chip {
+    .flow__col {
+      position: absolute;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      gap: var(--space-10);
+    }
+    .flow--h .flow__col {
+      top: 0;
+      bottom: 0;
+      width: min(var(--team-col-max), var(--team-col-share));
+      min-width: var(--team-col-min);
+    }
+    .flow--h .flow__col--roles {
+      left: var(--team-inset);
+    }
+    .flow--h .flow__col--outs {
+      right: var(--team-inset);
+      justify-content: flex-end;
+    }
+    .flow--v .flow__col {
+      left: var(--space-16);
+      right: var(--space-16);
+      height: var(--team-v-block);
+      justify-content: center;
+    }
+    .flow--v .flow__col--roles {
+      top: var(--team-v-roles-top);
+    }
+    .flow--v .flow__col--outs {
+      top: var(--team-v-outs-top);
+    }
+    .flow__chip {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: var(--space-12);
       min-height: var(--team-chip-height);
       padding: var(--space-8) var(--space-18);
       border-radius: var(--radius-xs);
       background: var(--team-chip-bg);
       box-shadow: var(--team-chip-shadow);
       color: var(--team-chip-fg);
+      white-space: nowrap;
     }
-    .team__num {
-      font-size: var(--text-eyebrow);
-      font-variant-numeric: tabular-nums;
-      color: var(--team-chip-number);
+    .flow__out {
+      position: relative;
+      isolation: isolate;
     }
-    .team__chip--benefit {
-      border: var(--border-width) solid var(--team-benefit-border);
-      background: transparent;
-      box-shadow: none;
+    .flow__out .flow__chip {
+      transform: scale(var(--team-chip-rest-scale));
     }
-    /* Pixel marker (brand: 8-bit) */
-    .team__chip--benefit::before {
-      content: '';
-      flex: none;
-      width: var(--space-8);
-      height: var(--space-8);
-      background: var(--team-benefit-marker);
+    .flow__cc {
+      opacity: var(--team-chip-dim);
     }
 
-    .team__hub {
-      position: relative;
+    .flow__engine {
+      --hub: var(--team-hub-size);
+      position: absolute;
+      left: calc(50% - var(--hub) / 2);
+      top: calc(50% - var(--hub) / 2);
       display: grid;
       place-items: center;
-      width: var(--team-hub-size);
-      aspect-ratio: 1;
-      padding: var(--space-24);
+      width: var(--hub);
+      height: var(--hub);
       border-radius: 50%;
-      background: var(--team-hub-bg);
       color: var(--team-hub-fg);
       text-align: center;
+      isolation: isolate;
     }
-    .team__hub-text {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .flow--v .flow__engine {
+      --hub: var(--team-hub-size-sm);
+      top: var(--team-v-engine-top);
+    }
+    .flow__ring {
+      position: absolute;
+      inset: calc(var(--space-8) * -1);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--wash-rim);
+      mask: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    }
+    .flow__core {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 50%;
+      background: var(--team-hub-bg);
+    }
+    .flow__wash {
+      position: absolute;
+      inset: -30%;
+      opacity: var(--team-hub-wash);
+      background: var(--wash-hub);
+    }
+    .flow__label {
+      position: relative;
+      max-width: calc(var(--hub) * var(--team-label-share));
       font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-large);
-      line-height: var(--leading-large);
+      font-size: var(--text-note);
+      line-height: var(--leading-tight);
+      text-wrap: balance;
     }
-    .team__hub-text :global(.team__hub-mark) {
-      margin-bottom: var(--space-10);
-    }
-    .team__hub-label {
-      margin-bottom: var(--space-8);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-eyebrow);
-      font-size: var(--text-eyebrow);
-      letter-spacing: var(--tracking-eyebrow);
-      line-height: var(--leading-none);
-    }
-    .team__wire {
-      display: none;
-    }
-
-    /* ---- From lg: roles · hub · benefits, joined by wires ---- */
-    @media (min-width: 62rem) {
-      .team {
-        grid-template-columns: minmax(0, var(--team-col-max)) auto minmax(0, var(--team-col-max));
-      }
-      .team__wire {
-        position: absolute;
-        top: 50%;
-        display: block;
-        width: var(--team-gap);
-        height: var(--border-width);
-        background: var(--team-wire);
-      }
-      .team__wire--l {
-        right: 100%;
-      }
-      .team__wire--r {
-        left: 100%;
-      }
+    .flow--v .flow__label {
+      font-size: var(--text-medium);
     }
   }
 </style>

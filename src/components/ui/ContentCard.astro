@@ -1,0 +1,189 @@
+---
+/**
+ * ContentCard (Claude Design): the one card for Work, Journal and the full-page menu.
+ * The whole card is a link. Media (video, image or striped placeholder) at a locked
+ * aspect, then a tag chip, a title and an optional summary.
+ * Hover / keyboard focus (motion/cardEdge.ts):
+ *   - a ragged band of pixels steps in around the media's outer edges and blurs what's
+ *     behind it; the centre stays clear; the pixels then breathe (fade in and out);
+ *   - the CTA in the media's corner expands from a square arrow into a labelled pill.
+ * No fade on hover (overrides the global link hover). The chip is the Tag component.
+ * Props:
+ *   href, tag, title, summary?, cta (label, e.g. "View case study"),
+ *   video?, poster?, image?, alt?, placeholder (label when there's no media),
+ *   aspect (CSS aspect-ratio, e.g. "3 / 2"), seed (varies the pixel pattern),
+ *   headingLevel (2 | 3), class
+ * Tokens: --card-cta-bg/-fg, --icon-button, --radius-md, --radius-xs, --radius-pill,
+ *         --placeholder-stripe-a/-b, --placeholder-fg, --stripe-size, --edge-fill, --blur-edge,
+ *         --text-title, --tracking-title, --leading-heading, --text-eyebrow,
+ *         --text-label, --tracking-label, --weight-label, --text-secondary,
+ *         --dur-expand, --dur-fast, --ease-out-expo, --ease-standard, --space-*.
+ * Motion hooks: data-card, data-card-edge, data-motion="video-in-view".
+ */
+import PixelIcon from './PixelIcon.astro';
+import Tag from './Tag.astro';
+
+interface Props {
+  href: string;
+  tag: string;
+  title: string;
+  summary?: string;
+  cta: string;
+  video?: string;
+  poster?: string;
+  image?: string;
+  alt?: string;
+  placeholder?: string;
+  aspect?: string;
+  seed?: number;
+  headingLevel?: 2 | 3;
+  class?: string;
+}
+const {
+  href,
+  tag,
+  title,
+  summary,
+  cta,
+  video,
+  poster,
+  image,
+  alt = '',
+  placeholder = 'Image',
+  aspect = '1 / 1',
+  seed = 0,
+  headingLevel = 3,
+  class: className,
+} = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<a
+  href={href}
+  class:list={['card', className]}
+  data-card
+  data-seed={seed}
+  style={`--card-aspect: ${aspect}`}
+>
+  <div class="card__media">
+    {video ? (
+      <video
+        class="card__fill"
+        src={video}
+        poster={poster}
+        muted
+        playsinline
+        loop
+        preload="none"
+        aria-label={alt || undefined}
+        data-motion="video-in-view"
+      />
+    ) : image ? (
+      <img class="card__fill" src={image} alt={alt} loading="lazy" decoding="async" />
+    ) : (
+      <span class="card__placeholder">{placeholder}</span>
+    )}
+    <div class="card__edge" data-card-edge aria-hidden="true"></div>
+    <span class="card__cta">
+      <span class="card__cta-label type-label">{cta}</span>
+      <PixelIcon name="arrow-right" />
+    </span>
+  </div>
+  <div class="card__tags"><Tag>{tag}</Tag></div>
+  <Heading class="card__title type-title">{title}</Heading>
+  {summary && <p class="card__summary">{summary}</p>}
+</a>
+
+<style>
+  @layer components {
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      color: var(--text-primary);
+    }
+    .card:hover {
+      opacity: 1;
+    }
+    .card__media {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: var(--card-aspect);
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: repeating-linear-gradient(
+        45deg,
+        var(--placeholder-stripe-a) 0 var(--stripe-size),
+        var(--placeholder-stripe-b) var(--stripe-size) calc(var(--stripe-size) * 2)
+      );
+    }
+    .card__fill {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card__placeholder {
+      font-size: var(--text-eyebrow);
+      color: var(--placeholder-fg);
+    }
+    /* Pixel edge: blurred cells masked into a ragged band (mask drawn by cardEdge.ts). */
+    .card__edge {
+      position: absolute;
+      inset: 0;
+      background: var(--edge-fill);
+      backdrop-filter: blur(var(--blur-edge));
+      -webkit-backdrop-filter: blur(var(--blur-edge));
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* CTA: a square arrow at rest; expands into a labelled pill on hover/focus. */
+    .card__cta {
+      position: absolute;
+      right: var(--space-16);
+      bottom: var(--space-16);
+      z-index: var(--z-raised);
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-8);
+      height: var(--button-height);
+      padding: 0 var(--space-12);
+      border-radius: var(--radius-xs);
+      background: var(--card-cta-bg);
+      color: var(--card-cta-fg);
+      clip-path: inset(0 0 0 calc(100% - var(--icon-button)) round var(--radius-xs));
+      transition: clip-path var(--dur-expand) var(--ease-out-expo);
+    }
+    .card__cta-label {
+      opacity: 0;
+      transition: opacity var(--dur-fast) var(--ease-standard);
+    }
+    .card[data-on] .card__cta {
+      clip-path: inset(0 0 0 0 round var(--radius-xs));
+    }
+    .card[data-on] .card__cta-label {
+      opacity: 1;
+    }
+    .card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+    .card__summary {
+      color: var(--text-secondary);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card__cta,
+      .card__cta-label {
+        transition: none;
+      }
+    }
+  }
+</style>

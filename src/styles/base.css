@@ -27,6 +27,50 @@
     line-height: var(--leading-heading);
   }
 
+  /* Type roles (one definition each; components use these classes instead of
+     re-declaring the styles). Layout (spans, measure overrides) stays in components. */
+  .type-statement {
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: var(--text-statement);
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-heading);
+  }
+  .type-subline {
+    max-width: var(--measure-subline);
+    font-size: var(--text-medium);
+    line-height: var(--leading-medium);
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+  .type-title {
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    font-size: var(--text-title);
+    letter-spacing: var(--tracking-title);
+    line-height: var(--leading-heading);
+    text-wrap: pretty;
+  }
+  .type-label {
+    font-family: var(--font-sans);
+    font-weight: var(--weight-label);
+    letter-spacing: var(--tracking-label);
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    line-height: var(--leading-none);
+    white-space: nowrap;
+  }
+
+  /* Small caps for headings inside panels and placeholder labels. */
+  .type-overline {
+    font-family: var(--font-sans);
+    font-weight: var(--weight-label);
+    letter-spacing: var(--tracking-label);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    line-height: var(--leading-none);
+  }
+
   /* Anchor targets land just below the sticky nav. */
   [id] {
     scroll-margin-top: var(--nav-height);
@@ -42,20 +86,6 @@
     opacity: var(--hover-opacity);
   }
 
-  /* Lenis smooth scroll (from lenis.css). */
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-  .lenis.lenis-stopped {
-    overflow: clip;
-  }
 
   /* M13 pixel text: words are wrapped in .px at runtime (motion/pixelText.ts).
      While a word animates, its text goes transparent under a canvas overlay. */
@@ -74,14 +104,14 @@
     pointer-events: none;
   }
 
-  /* Set by the mobile menu while open. */
+  /* Set by the full-page menu while open. */
   html.is-scroll-locked {
     overflow: hidden;
   }
 
   :focus-visible {
-    outline: 2px solid var(--focus-ring);
-    outline-offset: 3px;
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
   }
 
   ::selection {

@@ -1,28 +1,40 @@
 ---
 /**
- * Disclosure: one FAQ item on native <details>/<summary> (M6). The pixel "+" swaps
- * to a pixel "×" when open. src/motion/disclosure.ts animates the height open and closed in
- * every browser; without JS (or with reduced motion) it opens instantly.
- * Props: question, answer.
+ * Disclosure: one FAQ item on native <details>/<summary> (M6). The pixel "+" turns
+ * into a pixel "×" when open: motion/disclosure.ts trades their pixels over
+ * --icon-swap-steps LCD frames with the previous frame ghosting, and animates the
+ * height. Opening one item closes the others in the same group (data-group).
+ * Without JS (or with reduced motion) it switches instantly.
+ * Props: question, answer, group (items sharing it open one at a time).
  * Tokens: --border-default, --space-*, --tap-min, --text-body, --leading-body,
- *         --text-secondary, --pixel-unit-lg.
- * Motion hooks: data-motion="disclosure", data-disclosure-content, data-closing.
+ *         --text-secondary, --pixel-unit-lg, --pixel-ghost.
+ * Motion hooks: data-motion="disclosure", data-disclosure-content, data-closing,
+ *               data-group, data-icon-plus/-close/-ghost, data-icon-live.
  */
-import PixelIcon from './PixelIcon.astro';
+import { pixelPath, pixelSize } from './pixelIcons';
 interface Props {
   question: string;
   answer: string;
+  group?: string;
 }
-const { question, answer } = Astro.props;
+const { question, answer, group } = Astro.props;
+const { cols, rows } = pixelSize('plus');
 ---
 
-<details class="disclosure" data-motion="disclosure">
+<details class="disclosure" data-motion="disclosure" data-group={group}>
   <summary class="disclosure__summary">
     <span>{question}</span>
-    <span class="disclosure__icon" aria-hidden="true">
-      <PixelIcon name="plus" size="lg" class="disclosure__plus" />
-      <PixelIcon name="close" size="lg" class="disclosure__close" />
-    </span>
+    <svg
+      class="disclosure__icon"
+      viewBox={`0 0 ${cols} ${rows}`}
+      shape-rendering="crispEdges"
+      aria-hidden="true"
+      style={`--px-cols: ${cols}; --px-rows: ${rows}`}
+    >
+      <path class="disclosure__ghost" d="" data-icon-ghost></path>
+      <path class="disclosure__plus" d={pixelPath('plus')} data-icon-plus></path>
+      <path class="disclosure__close" d={pixelPath('close')} data-icon-close></path>
+    </svg>
   </summary>
   <div class="disclosure__content" data-disclosure-content>
     <p class="disclosure__answer">{answer}</p>
@@ -44,17 +56,27 @@ const { question, answer } = Astro.props;
       font-size: var(--text-body);
     }
     .disclosure__icon {
-      display: inline-flex;
       flex: none;
+      width: calc(var(--px-cols) * var(--pixel-unit-lg));
+      height: calc(var(--px-rows) * var(--pixel-unit-lg));
+      fill: currentColor;
     }
-    /* Pixel icons don't rotate cleanly, so + swaps to × while open (a hard,
-       8-bit switch). During an animated close it turns back straight away. */
-    .disclosure__icon :global(.disclosure__close),
-    .disclosure[open]:not([data-closing]) .disclosure__icon :global(.disclosure__plus) {
+    .disclosure__ghost {
+      opacity: var(--pixel-ghost);
+    }
+    /* Static state (no JS): + closed, × open. disclosure.ts drives both paths itself. */
+    .disclosure__close,
+    .disclosure[open] .disclosure__plus {
       display: none;
     }
-    .disclosure[open]:not([data-closing]) .disclosure__icon :global(.disclosure__close) {
-      display: inline-block;
+    .disclosure[open] .disclosure__close {
+      display: inline;
+    }
+    :global([data-icon-live]) .disclosure__plus {
+      display: inline;
+    }
+    :global([data-icon-live]) .disclosure__close {
+      display: none;
     }
     .disclosure__content {
       overflow: hidden;
@@ -63,11 +85,6 @@ const { question, answer } = Astro.props;
       padding-bottom: var(--space-18);
       line-height: var(--leading-body);
       color: var(--text-secondary);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .disclosure__icon {
-        transition: none;
-      }
     }
   }
 </style>

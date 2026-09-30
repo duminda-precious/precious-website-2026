@@ -1,29 +1,27 @@
 ---
 /**
- * Button: Label-style text (Funnel Sans 500, all caps) and a pixel ▸ glyph, 12px corners.
- * One solid style site-wide; its colours come from the theme (--cta-bg/--cta-fg),
- * so it is Deep Ink on light sections and inverse on dark ones.
- * Hover (mouse) / keyboard focus (M12):
- *   - the brand gradient fades in over the fill (--dur-fill-in; out --dur-fill-out),
- *   - the label turns Deep Ink and glitches into pixels and back (motion/buttonGlitch.ts),
- *   - the ▸, hidden at rest, appears in the right padding while the label steps left
- *     by half its footprint, so the button never changes size (no tween, 8-bit).
- * All of that except the glitch is CSS, so it works without JS. Reduced motion: no
- * fade (instant), no glitch.
+ * Button: Label-style text (Funnel Sans 500, all caps), 4px corners (Claude Design).
+ * Colours come from the theme (--cta-bg/--cta-fg): Deep Ink on light, inverse on dark.
+ * Hover (mouse) / keyboard focus (M12, motion/buttonFx.ts + buttonGlitch.ts):
+ *   - the soft wash blooms in as pixels from where the pointer entered, and a light
+ *     noise radiates from the cursor while hovering; it dissolves back out on leave,
+ *   - a small pixel butterfly lands beside the label, flaps, and lifts off on leave,
+ *   - the label turns Deep Ink and glitches into pixels and back,
+ *   - a small press on pointer down.
+ * Without JS the wash simply shows on hover (CSS fallback below).
  * Renders <a> when href is set, otherwise <button>.
+ * One size everywhere: --button-height (40px), 4px corners.
  * Props:
- *   size  'sm' (nav) | 'md'
- *   glyph show the ▸ on hover (default true)
- *   href, type, track (→ data-track, e.g. "book-call"), external, class
- * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --dur-fill-in, --dur-fill-out,
- *         --ease-standard, --button-glyph-shift, --radius-xs, --font-sans, --text-label,
- *         --tracking-label, --weight-label, --space-*, --tap-min.
- * Motion hooks: data-button (buttonGlitch.ts), data-pixel-label (the label it glitches).
+ *   cta   section CTA: its label also glitches every few seconds while in view
+ *   fly   show the landing butterfly (default true)
+ *   href, type, track (→ data-track), external, class
+ * Tokens: --cta-bg, --cta-fg, --cta-hover-bg, --cta-hover-fg, --button-height, --radius-xs,
+ *         --space-16; label type from .type-label.
+ * Motion hooks: data-button, data-grad (bloom), data-grad-nofly, data-cta, data-pixel-label.
  */
-import PixelIcon from './PixelIcon.astro';
 interface Props {
-  size?: 'sm' | 'md';
-  glyph?: boolean;
+  cta?: boolean;
+  fly?: boolean;
   href?: string;
   type?: 'button' | 'submit' | 'reset';
   track?: string;
@@ -32,8 +30,8 @@ interface Props {
   [key: string]: unknown;
 }
 const {
-  size = 'md',
-  glyph = true,
+  cta = false,
+  fly = true,
   href,
   type = 'button',
   track,
@@ -41,138 +39,63 @@ const {
   class: className,
   ...rest
 } = Astro.props;
-const classes = ['button', `button--${size}`, { 'button--glyph': glyph }, className];
-const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+const Tag = href ? 'a' : 'button';
+const attrs = {
+  class: ['button', 'type-label', className].filter(Boolean).join(' '),
+  'data-track': track,
+  'data-button': '',
+  'data-grad': '',
+  'data-grad-nofly': fly ? undefined : '',
+  'data-cta': cta ? '' : undefined,
+  ...(href ? { href } : { type }),
+  ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+  ...rest,
+};
 ---
 
-{href ? (
-  <a href={href} class:list={classes} data-track={track} data-button {...externalAttrs} {...rest}>
-    <span class="button__fill" aria-hidden="true" />
-    <span class="button__label" data-pixel-label>
-      <slot />
-    </span>
-    {glyph && (
-      <span class="button__glyph" aria-hidden="true">
-        <PixelIcon name="play" />
-      </span>
-    )}
-  </a>
-) : (
-  <button type={type} class:list={classes} data-track={track} data-button {...rest}>
-    <span class="button__fill" aria-hidden="true" />
-    <span class="button__label" data-pixel-label>
-      <slot />
-    </span>
-    {glyph && (
-      <span class="button__glyph" aria-hidden="true">
-        <PixelIcon name="play" />
-      </span>
-    )}
-  </button>
-)}
+<Tag {...attrs}>
+  <span class="button__label" data-pixel-label><slot /></span>
+</Tag>
 
 <style>
   @layer components {
     .button {
       position: relative;
+      isolation: isolate;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      height: var(--button-height);
+      padding: 0 var(--space-16);
       border-radius: var(--radius-xs);
       background: var(--cta-bg);
       color: var(--cta-fg);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
-      transition: color var(--dur-fill-out) var(--ease-standard);
     }
-    /* No opacity fade (the global link hover): the gradient fill is the hover. */
     .button:hover {
       opacity: 1;
-    }
-
-    /* The gradient sits over the solid fill and fades in; label and ▸ paint above. */
-    .button__fill {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: var(--cta-hover-bg);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--dur-fill-out) var(--ease-standard);
     }
     .button__label {
       position: relative;
     }
-    /* The ▸ sits in the right padding, hidden until hover. */
-    .button__glyph {
-      position: absolute;
-      top: 50%;
-      right: calc(var(--button-pad-x) - var(--button-glyph-shift));
-      display: flex;
-      visibility: hidden;
-      transform: translateY(-50%);
-    }
-
-    /* ---- Hover (mouse only, so taps don't stick) and keyboard focus ---- */
+    /* Hover and focus: the label turns Deep Ink over the wash. */
     .button:focus-visible {
       color: var(--cta-hover-fg);
-      transition-duration: var(--dur-fill-in);
-    }
-    .button:focus-visible .button__fill {
-      opacity: 1;
-      transition-duration: var(--dur-fill-in);
-    }
-    .button--glyph:focus-visible .button__label {
-      transform: translateX(calc(var(--button-glyph-shift) * -1));
-    }
-    .button:focus-visible .button__glyph {
-      visibility: visible;
     }
     @media (hover: hover) {
       .button:hover {
         color: var(--cta-hover-fg);
-        transition-duration: var(--dur-fill-in);
-      }
-      .button:hover .button__fill {
-        opacity: 1;
-        transition-duration: var(--dur-fill-in);
-      }
-      .button--glyph:hover .button__label {
-        transform: translateX(calc(var(--button-glyph-shift) * -1));
-      }
-      .button:hover .button__glyph {
-        visibility: visible;
       }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .button,
-      .button__fill {
-        transition: none;
+    /* No-JS fallback: the wash shows directly (buttonFx sets data-fx when it runs). */
+    .button:not([data-fx]):focus-visible {
+      background: var(--cta-hover-bg);
+    }
+    @media (hover: hover) {
+      .button:not([data-fx]):hover {
+        background: var(--cta-hover-bg);
       }
     }
 
-    .button--sm {
-      --button-pad-x: var(--space-16);
-      padding: var(--space-10) var(--button-pad-x);
-    }
-    /* Visual size stays compact; touch still gets a 44px hit area. */
-    .button--sm::after {
-      content: '';
-      position: absolute;
-      inset: 50% 0 auto;
-      min-height: var(--tap-min);
-      transform: translateY(-50%);
-    }
-
-    .button--md {
-      --button-pad-x: var(--space-22);
-      min-height: var(--tap-min);
-      padding: var(--space-14) var(--button-pad-x);
-    }
   }
 </style>

@@ -21,7 +21,7 @@ const typeAttr = Tag === 'button' ? { type: 'button' as const } : {};
 ---
 
 <Tag
-  class:list={['pill', `pill--${variant}`, { 'pill--interactive': Tag !== 'span' }, className]}
+  class:list={['pill', 'type-label', `pill--${variant}`, { 'pill--interactive': Tag !== 'span' }, className]}
   href={Tag === 'a' ? href : undefined}
   {...typeAttr}
   {...rest}
@@ -36,13 +36,6 @@ const typeAttr = Tag === 'button' ? { type: 'button' as const } : {};
       align-items: center;
       gap: var(--space-6);
       border-radius: var(--radius-pill);
-      font-family: var(--font-sans);
-      font-weight: var(--weight-label);
-      letter-spacing: var(--tracking-label);
-      font-size: var(--text-label);
-      text-transform: uppercase;
-      line-height: var(--leading-none);
-      white-space: nowrap;
     }
     .pill--outline {
       padding: var(--space-10) var(--space-14);

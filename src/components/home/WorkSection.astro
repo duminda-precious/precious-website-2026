@@ -1,18 +1,22 @@
 ---
 /**
- * WorkSection: the dark stage. Three-zone header, then the position-based grid
- * (src/config/layout.ts): 1 column on phones, 2 from md, 12 from lg with spans by position.
+ * WorkSection: the dark stage. Three-zone header with "See our work" as a regular
+ * button (Claude Design), then the position-based grid (src/config/layout.ts) of
+ * ContentCards: 1 column on phones, 2 from md, 12 from lg with spans by position.
+ * The case video plays in the card; "View case study" expands from the corner on hover.
+ * Cards rise in row by row (M3).
  * Props: heading, subline, seeAll (label, href), items (home work entries in order).
  * Tokens: --grid-gap-row, --grid-gap-col, --grid-columns.
- * Motion hooks: data-theme-stage="dark" via Section (M2).
+ * Motion hooks: data-theme-stage="dark" via Section (M2), data-motion="rise-in" (M3).
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../primitives/Section.astro';
 import SectionHeader from '../primitives/SectionHeader.astro';
-import TextLink from '../ui/TextLink.astro';
-import WorkCard from './WorkCard.astro';
+import Button from '../ui/Button.astro';
+import ContentCard from '../ui/ContentCard.astro';
 import { workGridPositions } from '../../config/layout';
 import { situationLabels } from '../../config/taxonomy';
+import { ui } from '../../config/ui';
 
 interface Props {
   heading: string;
@@ -27,23 +31,26 @@ const { heading, subline, seeAll, items } = Astro.props;
   <SectionHeader headingId="work-title">
     {heading}
     <Fragment slot="sub">{subline}</Fragment>
-    <TextLink slot="action" href={seeAll.href} variant="label">
-      {seeAll.label}
-    </TextLink>
+    <Button slot="action" href={seeAll.href} cta>{seeAll.label}</Button>
   </SectionHeader>
 
   <ul class="work-grid">
     {items.map((entry, i) => {
       const pos = workGridPositions[i] ?? workGridPositions[workGridPositions.length - 1]!;
       return (
-        <li class="work-grid__item" style={`--work-span: ${pos.span}`}>
-          <WorkCard
+        <li class="work-grid__item" style={`--work-span: ${pos.span}`} data-motion="rise-in">
+          <ContentCard
             href={`/work/${entry.id}`}
-            title={entry.data.title}
             tag={situationLabels[entry.data.tag]}
+            title={entry.data.title}
             summary={entry.data.summary}
-            aspect={pos.aspect}
-            media={entry.data.media}
+            cta={ui.viewCaseStudy}
+            video={entry.data.media.video}
+            poster={entry.data.media.poster}
+            alt={entry.data.media.alt}
+            placeholder={entry.data.media.placeholderLabel}
+            aspect={pos.aspect.replace('/', ' / ')}
+            seed={i}
           />
         </li>
       );
@@ -58,7 +65,6 @@ const { heading, subline, seeAll, items } = Astro.props;
       grid-template-columns: minmax(0, 1fr);
       gap: var(--grid-gap-row) var(--grid-gap-col);
       align-items: start;
-      list-style: none;
     }
     @media (min-width: 47.5rem) {
       .work-grid {

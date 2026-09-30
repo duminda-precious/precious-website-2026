@@ -17,7 +17,6 @@ export function setupGsap() {
   const curve = (b: [number, number, number, number]) =>
     `M0,0 C${b[0]},${b[1]} ${b[2]},${b[3]} 1,1`;
   CustomEase.create('standard', curve(bezier('--ease-standard')));
-  CustomEase.create('outSoft', curve(bezier('--ease-out-soft')));
   CustomEase.create('outExpo', curve(bezier('--ease-out-expo')));
 
   gsap.defaults({ ease: 'standard', duration: duration('--dur-base') });

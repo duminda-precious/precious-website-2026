@@ -40,6 +40,96 @@ export const primaryNav: NavItem[] = [
   { label: 'About', href: '/about' },
 ];
 
+/**
+ * Services mega menu (Claude Design; content from the live site). Every link is a
+ * placeholder ("#") until the service pages exist.
+ */
+export interface MegaItem {
+  label: string;
+  href: string;
+  /** One line under the label (Services column only). */
+  description?: string;
+}
+export interface MegaColumn {
+  heading: string;
+  /** 'rich' = label + description (wide column); 'plain' = label only. */
+  kind: 'rich' | 'plain';
+  items: MegaItem[];
+}
+export const megaMenu: { columns: MegaColumn[]; note: string; all: NavLink } = {
+  columns: [
+    {
+      heading: 'Services',
+      kind: 'rich',
+      items: [
+        {
+          label: 'Product redesign',
+          href: '#',
+          description:
+            'Untangle a product that grew feature by feature, so people reach the value you built.',
+        },
+        {
+          label: 'Design from scratch (MVP)',
+          href: '#',
+          description: 'Zero to one. Brand, product and system together, so version one feels finished.',
+        },
+        {
+          label: 'Team extension',
+          href: '#',
+          description: 'Drop a senior pod into your team. In your tools and shipping by the end of week one.',
+        },
+        {
+          label: 'Hire UI/UX designer',
+          href: '#',
+          description: 'One senior product designer, matched to your product, without the three month search.',
+        },
+        {
+          label: 'Design as a service',
+          href: '#',
+          description: 'Ongoing product design without building a design team in-house.',
+        },
+        {
+          label: 'UX design subscription',
+          href: '#',
+          description: 'A pod on a flat monthly fee. Scale it up, pause it, keep the same people.',
+        },
+      ],
+    },
+    {
+      heading: 'Approach',
+      kind: 'plain',
+      items: [
+        'SaaS design',
+        'UI/UX design',
+        'Web design',
+        'UX audit',
+        'Mobile design',
+        'Design system',
+        'Consulting',
+      ].map((label) => ({ label, href: '#' })),
+    },
+    {
+      heading: 'Industries',
+      kind: 'plain',
+      items: ['Sales', 'Healthcare', 'Marketing', 'Data', 'Developer-focused', 'AI'].map((label) => ({
+        label,
+        href: '#',
+      })),
+    },
+  ],
+  note: "Not sure which one? Send us one screen and we'll redesign it in five working days, free.",
+  all: { label: 'All services', href: '/services' },
+};
+
+/** Full-page menu: large links; Services opens an accordion of the mega menu's services. */
+export const fullMenu: NavLink[] = [
+  { label: 'Work', href: '/work' },
+  { label: 'Services', href: '/services' },
+  { label: 'Approach', href: '/approach' },
+  { label: 'AI Design Agent', href: '/ai' },
+  { label: 'About', href: '/about' },
+];
+
 /** The single conversion action. Every Book a call goes to the Contact page. */
 export const bookCall: NavLink = { label: 'Book a call', href: '/contact', track: 'book-call' };
 
@@ -63,9 +153,8 @@ export const footerNav: FooterColumn[] = [
     heading: 'More',
     links: [
       { label: 'Careers', href: '/careers' },
+      { label: 'Journal', href: '/journal' },
       { label: 'Contact', href: '/contact' },
-      // Journal exists as a route; it appears here only once it has posts.
-      { label: 'Journal', href: '/journal', showInFooter: false },
       { label: 'Clutch', href: site.socials.clutch, external: true },
     ],
   },

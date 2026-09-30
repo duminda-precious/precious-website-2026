@@ -1,0 +1,77 @@
+---
+/**
+ * IconButton: a square, icon-only button in the Button style (Claude Design: the
+ * 4-dot menu button is the universal icon-button style). 4px corners, --cta-bg fill,
+ * the same pixel bloom on hover (without the butterfly), icon turns Deep Ink.
+ * Renders <a> when href is set, otherwise <button>. Always needs a `label`.
+ * Props:
+ *   icon  a PixelIcon name (dots, close, arrow-right …)
+ *   label accessible name (required)
+ *   href, type, class, any attribute
+ * One size: --button-height (40px), square.
+ * Tokens: --icon-button, --icon-glyph, --cta-bg, --cta-fg, --cta-hover-bg,
+ *         --cta-hover-fg, --radius-xs.
+ * Motion hooks: data-grad + data-grad-nofly (buttonFx.ts).
+ */
+import PixelIcon from './PixelIcon.astro';
+import type { PixelIconName } from './pixelIcons';
+
+interface Props {
+  icon: PixelIconName;
+  label: string;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+const { icon, label, href, type = 'button', class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+const square = icon === 'dots' || icon === 'close';
+---
+
+<Tag
+  class:list={['icon-button', className]}
+  aria-label={label}
+  data-grad
+  data-grad-nofly
+  {...href ? { href } : { type }}
+  {...rest}
+>
+  <PixelIcon name={icon} size={square ? 'glyph' : 'md'} />
+</Tag>
+
+<style>
+  @layer components {
+    .icon-button {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: inline-flex;
+      flex: none;
+      align-items: center;
+      justify-content: center;
+      width: var(--icon-button);
+      height: var(--icon-button);
+      border-radius: var(--radius-xs);
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+    }
+    .icon-button:hover {
+      opacity: 1;
+    }
+    .icon-button:focus-visible {
+      color: var(--cta-hover-fg);
+    }
+    @media (hover: hover) {
+      .icon-button:hover {
+        color: var(--cta-hover-fg);
+      }
+      .icon-button:not([data-fx]):hover {
+        background: var(--cta-hover-bg);
+      }
+    }
+    .icon-button:not([data-fx]):focus-visible {
+      background: var(--cta-hover-bg);
+    }
+  }
+</style>

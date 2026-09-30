@@ -6,7 +6,7 @@
  * Props: seo (title, description, noindex), heading, message (defaults to ui.stub.message),
  *        showBookCall (adds the Book a call button, used by 404).
  * Slot: default (extra content under the message, e.g. contact details).
- * Tokens: --text-statement, --tracking-heading, --leading-heading, --text-medium,
+ * Type: .type-statement, .type-subline. Tokens:
  *         --leading-medium, --text-secondary, --space-*.
  */
 import SiteShell from './SiteShell.astro';
@@ -35,10 +35,10 @@ const { seo, heading, message = ui.stub.message, showBookCall = false } = Astro.
     <Grid12 class="stub">
       <GridItem span={9} measure="statement">
         <Stack gap="24">
-          <h1 id="page-title" class="stub__title">
+          <h1 id="page-title" class="stub__title type-statement">
             {heading}
           </h1>
-          <p class="stub__message">{message}</p>
+          <p class="stub__message type-subline">{message}</p>
           <slot />
           <Cluster gap="24">
             {showBookCall && (
@@ -61,18 +61,6 @@ const { seo, heading, message = ui.stub.message, showBookCall = false } = Astro.
     .stub {
       min-height: 50svh;
       align-content: center;
-    }
-    .stub__title {
-      font-family: var(--font-display);
-      font-weight: var(--weight-display);
-      font-size: var(--text-statement);
-      letter-spacing: var(--tracking-heading);
-      line-height: var(--leading-heading);
-    }
-    .stub__message {
-      font-size: var(--text-medium);
-      line-height: var(--leading-medium);
-      color: var(--text-secondary);
     }
   }
 </style>

@@ -4,14 +4,57 @@
     "description": "A senior product design studio in Austin. We join startups as one team for product design, motion and front-end code."
   },
   "hero": {
-    "headline": ["We Design", "How Your", "Product Feels."],
-    "problem": ["Most Products Look Fine.", "Few Feel Good."],
+    "headline": [
+      "We Design How",
+      "Your Product Feels."
+    ],
+    "problem": [
+      "Most Products Look Fine.",
+      "Few Feel Good."
+    ],
     "reel": {
       "video": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-full.mp4",
       "alt": "Precious Studio showreel",
       "placeholderLabel": "Showreel · Autoplay, Muted",
       "poster": "https://precious-homepage-preview-dk3n41d0v.vercel.app/assets/reel-poster.jpg"
-    }
+    },
+    "news": [
+      {
+        "title": "[Journal article title]",
+        "body": "[Placeholder summary of the article, up to two lines long.]",
+        "cta": "Read article",
+        "href": "#",
+        "tint": "sky"
+      },
+      {
+        "title": "[Award or press mention]",
+        "body": "[Placeholder line naming the award or publication.]",
+        "cta": "See mention",
+        "href": "#",
+        "tint": "lavender"
+      },
+      {
+        "title": "[Clutch review highlight]",
+        "body": "[Placeholder quote from a recent client review.]",
+        "cta": "Read review",
+        "href": "#",
+        "tint": "rose"
+      },
+      {
+        "title": "[Case study highlight]",
+        "body": "[Placeholder result from a recent project.]",
+        "cta": "View case study",
+        "href": "#",
+        "tint": "mint"
+      },
+      {
+        "title": "[Studio announcement]",
+        "body": "[Placeholder note about studio news or a launch.]",
+        "cta": "Read more",
+        "href": "#",
+        "tint": "neutral"
+      }
+    ]
   },
   "work": {
     "heading": "The Proof Is in How It Moves.",
@@ -27,42 +70,70 @@
   "team": {
     "heading": "One Team Instead of Five Hires.",
     "subline": "You get all of them, senior, working as one, for the cost of a single hire.",
-    "coreRoles": ["Researcher", "Product designer", "System designer"],
-    "extendedRoles": ["Motion designer", "Frontend engineer"],
+    "coreRoles": [
+      "Researcher",
+      "Product designer",
+      "System designer"
+    ],
+    "extendedRoles": [
+      "Motion designer",
+      "Frontend engineer"
+    ],
     "engine": "Personalised AI Engine",
-    "benefits": ["Full transparency", "Weekly deliveries", "Month-to-month"],
-    "engineLabel": "Powered by"
+    "benefits": [
+      "Full transparency",
+      "Weekly deliveries",
+      "Month-to-month"
+    ],
+    "engineLabel": "Powered by",
+    "outputs": [
+      "Department-level execution",
+      "Code alignment",
+      "Lean scaling",
+      "Fast growth",
+      "Rapid exploration"
+    ]
   },
   "approach": {
     "heading": "Where Are You Starting From?",
     "gates": [
       {
         "situation": "extend-my-team",
-        "pain": "Your product is ready to take off. Your designers are stretched thin.",
+        "pain": "Your roadmap is growing faster than your design team can keep up.",
         "result": "Senior people join mid-flight and ship with you.",
         "tone": "gate-1",
         "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "redesign",
-        "pain": "It works, but it feels clunky.",
+        "pain": "Your product works, but it feels clunky and people notice every day.",
         "result": "Same product, transformed. People enjoy using it.",
         "tone": "gate-2",
         "mediaLabel": "Photo / Loop"
       },
       {
         "situation": "build-from-zero",
-        "pain": "You have an idea and a deadline.",
+        "pain": "You have an idea, a deadline, and no design team to build it yet.",
         "result": "It hatches as a first version that feels finished.",
         "tone": "gate-3",
         "mediaLabel": "Photo / Loop"
       }
-    ]
+    ],
+    "subline": "Every team comes to us at a different point. Find the one that sounds like yours."
   },
   "process": {
-    "heading": "Different Starting Points. One Transformation.",
-    "subline": "One senior team. AI handles the volume. People handle the feel.",
-    "agentPrompt": "Have your own designers?",
+    "heading": "AI, Wired into Your Design Team.",
+    "subline": "Same people, twice the output. Have your own designers? Agents run inside your system, reviewed by your people.",
+    "stat": {
+      "value": 50,
+      "suffix": "%",
+      "caption": "Of design hours back to your team"
+    },
+    "points": [
+      "Agents take the routine. Your seniors get their time back for the work that needs taste.",
+      "Every screen ships with options, so you compare directions instead of guessing.",
+      "Senior-level output at the same headcount. Nobody gets replaced."
+    ],
     "agentLink": {
       "label": "Meet the AI Design Agent",
       "href": "/ai"
@@ -84,5 +155,39 @@
   },
   "faq": {
     "heading": "Asked, Answered."
+  },
+  "journal": {
+    "heading": "What's Happening?",
+    "cta": {
+      "label": "Read our journal",
+      "href": "/journal"
+    },
+    "cardCta": "Read article",
+    "items": [
+      {
+        "tag": "[News]",
+        "title": "[Studio news headline]",
+        "image": "https://picsum.photos/seed/precious-j1/800/800",
+        "href": "#"
+      },
+      {
+        "tag": "[Strategy]",
+        "title": "When a redesign is the wrong answer",
+        "image": "https://picsum.photos/seed/precious-j2/800/960",
+        "href": "#"
+      },
+      {
+        "tag": "[Journal]",
+        "title": "What two weeks of design sprints taught us about scope",
+        "image": "https://picsum.photos/seed/precious-j3/800/800",
+        "href": "#"
+      },
+      {
+        "tag": "[AI]",
+        "title": "Where an AI design agent helps, and where it gets in the way",
+        "image": "https://picsum.photos/seed/precious-j4/800/960",
+        "href": "#"
+      }
+    ]
   }
 }

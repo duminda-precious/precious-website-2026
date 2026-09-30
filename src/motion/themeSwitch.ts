@@ -8,14 +8,13 @@
  * card keep their own fixed Deep Ink themes.
  * Without JS the stage section paints its own dark surface; once this module
  * runs, html[data-theme-switch] makes the stage transparent so the page colour shows.
- * From md (760px) only: on phones the page stays white (the dark theme tokens are
- * also scoped to md+ in tokens.css). gsap.matchMedia sets up / tears down on resize.
+ * At every width (Claude Design). Trigger points: --theme-enter / --theme-exit.
  */
 import { gsap, ScrollTrigger } from './gsap';
-import { duration } from './tokens';
+import { cssVar, duration } from './tokens';
 import type { MotionModule } from './index';
 
-const MD_UP = '(min-width: 47.5rem)';
+const ALL = 'all';
 
 export const themeSwitch: MotionModule = {
   name: 'themeSwitch',
@@ -28,7 +27,7 @@ export const themeSwitch: MotionModule = {
     const html = root.documentElement;
     const mm = gsap.matchMedia();
 
-    mm.add(MD_UP, () => {
+    mm.add(ALL, () => {
       html.setAttribute('data-theme-switch', '');
       const active = new Set<HTMLElement>();
       let fadeTimer = 0;
@@ -57,8 +56,8 @@ export const themeSwitch: MotionModule = {
       const triggers = Array.from(stages).map((stage) =>
         ScrollTrigger.create({
           trigger: stage,
-          start: 'top 75%',
-          end: 'bottom 45%',
+          start: `top ${cssVar('--theme-enter')}`,
+          end: `bottom ${cssVar('--theme-exit')}`,
           onToggle: (self) => {
             if (self.isActive) active.add(stage);
             else active.delete(stage);

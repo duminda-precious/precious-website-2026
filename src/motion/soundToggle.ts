@@ -14,7 +14,8 @@ export const soundToggle: MotionModule = {
       const sync = () => {
         const soundOn = !video.muted;
         btn.setAttribute('aria-pressed', String(soundOn));
-        btn.textContent = (soundOn ? btn.dataset.labelOff : btn.dataset.labelOn) ?? '';
+        const label = btn.querySelector<HTMLElement>('[data-pixel-label]') ?? btn;
+        label.textContent = (soundOn ? btn.dataset.labelOff : btn.dataset.labelOn) ?? '';
       };
       btn.addEventListener(
         'click',
