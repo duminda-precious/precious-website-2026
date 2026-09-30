@@ -1,6 +1,6 @@
 ---
 /**
- * FaqSection: heading in cols 1–3, questions in cols 4–12 (from lg); stacks below.
+ * FaqSection: heading in cols 1–3, questions in cols 7–12 (from lg); stacks below.
  * Props: heading, items.
  * Tokens: --space-*. Heading: .type-statement.
  */
@@ -24,7 +24,7 @@ const { heading, items } = Astro.props;
         {heading}
       </h2>
     </GridItem>
-    <GridItem span={9} start={4}>
+    <GridItem span={6} start={7}>
       {items.map(({ data }) => (
         <Disclosure question={data.question} answer={data.answer} group="faq" />
       ))}
