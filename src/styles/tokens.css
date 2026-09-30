@@ -207,7 +207,7 @@
     --measure-quote: 36em;
     --measure-card: 34ch; /* mega menu descriptions */
     --measure-gate: 40ch; /* Approach description */
-    --measure-point: 26ch; /* AI card points */
+    --measure-subline-wide: 60ch; /* AI card description (two lines) */
 
     /* ---------------------------------------------------------------------
        SPACING

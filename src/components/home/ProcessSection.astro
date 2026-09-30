@@ -153,18 +153,18 @@ const pad = (n: number) => String(n).padStart(2, '0');
       font-variant-numeric: tabular-nums;
     }
     .ai__text {
-      max-width: var(--measure-point);
       font-size: var(--text-medium);
       line-height: var(--leading-medium);
+      text-wrap: pretty;
+    }
+    .ai__card :global(.section-header__sub) {
+      max-width: var(--measure-subline-wide);
       text-wrap: balance;
     }
     /* Phones: no stat; the points run full width. */
     @media (max-width: 47.49rem) {
       .ai__card :global(.section-header__action) {
         display: none;
-      }
-      .ai__text {
-        max-width: none;
       }
       /* The CTA stands apart from the points. */
       .ai__cta {
