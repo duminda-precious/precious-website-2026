@@ -85,9 +85,11 @@ export const nav: MotionModule = {
           ) as Element[];
           items.forEach((it, k) => riseIn(it, start + ci * perCol + Math.min(k, CASCADE_STEPS) * perItem));
         });
-        // The note band (text + button) arrives together, after the last column starts.
+        // The note's text and button arrive together, after the last column starts.
+        // They rise inside the band's padding: the band itself sits on the panel's
+        // bottom edge, and moving it would overflow the panel and flash a scrollbar.
         const note = panel.querySelector('[data-mega-note]');
-        if (note) riseIn(note, start + cols.length * perCol);
+        note?.querySelectorAll(':scope > *').forEach((el) => riseIn(el, start + cols.length * perCol));
       } else {
         if (prefersReducedMotion()) {
           anims.forEach((a) => a.cancel());
