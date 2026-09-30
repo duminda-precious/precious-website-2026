@@ -8,7 +8,7 @@
  * flips cards (down = next, up = previous; the page doesn't scroll from there);
  * swipe on touch. Hides with the title when the hero reveals.
  * Props: items ({ title, body, cta, href, tint }).
- * Tokens: --news-width/-height/-thumb/-peek/-scale-step/-fade-*, --news-thumb-*, --glass-bg,
+ * Tokens: --news-width/-height/-pad/-thumb/-peek/-scale-step/-fade-*, --news-thumb-*, --glass-bg,
  *         --glass-saturate, --blur-glass, --icon-button,
  *         --radius-md, --radius-sm, --text-body, --text-small, --text-micro,
  *         --leading-snug, --text-secondary, --placeholder-fg, --gutter, --z-float,
@@ -80,11 +80,11 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
       grid-template-columns: var(--news-thumb) minmax(0, 1fr) var(--icon-button);
       align-items: stretch;
       gap: var(--space-12);
-      padding: var(--space-10);
+      padding: var(--news-pad);
       border-radius: var(--radius-md);
       background: var(--glass-bg);
-      backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
       -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
+      backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
       transform-origin: 50% 100%;
       z-index: var(--news-z);
       transition:
@@ -145,7 +145,7 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
     }
     .news__title {
       font-family: var(--font-sans);
-      font-size: var(--text-body);
+      font-size: var(--text-medium);
       font-weight: var(--weight-label);
       line-height: var(--leading-snug);
       white-space: nowrap;
@@ -153,7 +153,7 @@ const rel = (k: number) => (k === 0 ? '0' : k === 1 ? '1' : k === 2 ? '2' : k ==
       text-overflow: ellipsis;
     }
     .news__body {
-      font-size: var(--text-small);
+      font-size: var(--text-body);
       line-height: var(--leading-compact);
       color: var(--text-secondary);
       display: -webkit-box;

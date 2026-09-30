@@ -141,9 +141,9 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--text-quote` | `clamp(1.5rem, 1.3rem + 1vw, 2.5rem)` | Quote 24 → 40, Sans italic | — |
 | `--text-large` | `clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem)` | H4 18 → 24 | — |
 | `--text-note` | `1.5rem` | 24: team hub label (desktop) | TeamSection |
-| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | FullMenu, ProcessSection, TeamSection, TestimonialCard, base |
+| `--text-medium` | `clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem)` | Body L 20: sublines, quotes | FullMenu, NewsStack, ProcessSection, TeamSection, TestimonialCard, base |
 | `--text-body` | `1rem` | Body 16 (never below on mobile) | CtaFooter, Disclosure, Nav, NewsStack, TextLink, base, contact |
-| `--text-small` | `0.875rem` | Small 14 | Nav, NewsStack |
+| `--text-small` | `0.875rem` | Small 14 | Nav |
 | `--text-label` | `0.875rem` | Label 14: buttons, nav, pills | base |
 | `--text-eyebrow` | `0.75rem` | Eyebrow 12, title case: tags, legal, section eyebrows | ApproachSection, ContentCard, CtaFooter, MediaFrame, Nav, ProcessSection, SectionHeader, Tag, base |
 | `--text-micro` | `0.625rem` | 10: placeholder labels in small thumbnails | NewsStack |
@@ -202,7 +202,7 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--space-4` | `0.25rem` |  | FullMenu, Nav, NewsStack, TestimonialCard |
 | `--space-6` | `0.375rem` |  | ContentCard, Nav, Pill, Tag |
 | `--space-8` | `0.5rem` |  | ClientsSection, ContentCard, CtaFooter, FullMenu, Nav, ProcessSection, SiteShell, TeamSection, TextLink, contact |
-| `--space-10` | `0.625rem` |  | FullMenu, Nav, NewsStack, Pill, Tag, TeamSection, buttonFx |
+| `--space-10` | `0.625rem` |  | FullMenu, Nav, Pill, Tag, TeamSection, buttonFx |
 | `--space-12` | `0.75rem` |  | ApproachSection, ContentCard, Nav, NewsStack, ProcessSection, SectionHeader, SiteShell |
 | `--space-14` | `0.875rem` |  | Nav, Pill |
 | `--space-16` | `1rem` |  | ApproachSection, Button, ClientsSection, ContentCard, CtaFooter, Disclosure, FullMenu, Hero, Nav, NewsStack, SectionHeader, SiteShell, TeamSection |
@@ -248,9 +248,10 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 | `--icon-glyph` | `0.75rem` | 12: dots / close glyph inside an icon button | PixelIcon |
 | `--button-fly-width` | `0.9375rem` | 15: hover butterfly | buttonFx |
 | `--button-fly-height` | `0.75rem` | 12 | buttonFx |
-| `--news-width` | `20rem` | 320: hero news stack | NewsStack |
-| `--news-height` | `5.25rem` | 84 | NewsStack |
-| `--news-thumb` | `4rem` | 64 | NewsStack |
+| `--news-width` | `25rem` | 400: hero news stack | NewsStack |
+| `--news-height` | `6.5rem` | 104 | NewsStack |
+| `--news-pad` | `var(--space-12)` |  | NewsStack |
+| `--news-thumb` | `6.6875rem` | 107: 4:3 at the 80px content height | NewsStack |
 | `--news-peek` | `8px` | each card behind sits this much lower … | NewsStack |
 | `--news-scale-step` | `0.06` | … and this much smaller | NewsStack |
 | `--news-fade-1` | `0.8` |  | NewsStack |
@@ -297,12 +298,12 @@ All values live in [`src/styles/tokens.css`](../src/styles/tokens.css). This fil
 
 | Token | Value | Note | Used in |
 |---|---|---|---|
-| `--blur-glass` | `24px` | frosted cards over video | NewsStack |
+| `--blur-glass` | `32px` | frosted cards over video | NewsStack |
 | `--blur-edge` | `14px` | pixel edge on card media | ContentCard |
 | `--blur-glow` | `10px` | chip edge glow | teamFlow |
 | `--blur-halo` | `16px` | hub halo | teamFlow |
 | `--blur-reel-max` | `57px` | hero reel blur at veil 1 (blur = veil × this) | Hero |
-| `--glass-bg` | `color-mix(in srgb, var(--color-white) 62%, transparent)` |  | NewsStack |
+| `--glass-bg` | `color-mix(in srgb, var(--color-white) 40%, transparent)` |  | NewsStack |
 | `--glass-saturate` | `1.3` |  | NewsStack |
 | `--edge-fill` | `color-mix(in srgb, var(--color-white) 12%, transparent)` |  | ContentCard |
 | `--stripe-size` | `8px` | placeholder stripe band | ContentCard, MediaFrame |
